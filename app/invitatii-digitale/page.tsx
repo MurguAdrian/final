@@ -146,8 +146,27 @@ const CSS = `
   font-size: 12px; font-weight: 500; color: rgba(26,18,8,.75);
   background: transparent; cursor: pointer;
   transition: border-color .2s, color .2s, background .2s; font-family: inherit;
+  text-decoration: none;
 }
 .vid-btn-demo:hover { border-color: #FF6B00; color: #FF6B00; background: #FFF4ED; }
+
+/* "coming soon" demo button variant */
+.vid-btn-demo-soon {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 17px; border-radius: 100px;
+  border: 1.5px solid rgba(26,18,8,.10);
+  font-size: 12px; font-weight: 500; color: rgba(26,18,8,.4);
+  background: transparent; cursor: default;
+  font-family: inherit; text-decoration: none;
+  position: relative;
+}
+.vid-btn-demo-soon::after {
+  content: 'soon';
+  position: absolute; top: -6px; right: -4px;
+  background: #FF6B00; color: #fff;
+  font-size: 8px; font-weight: 700; padding: 1px 5px; border-radius: 6px;
+  letter-spacing: .04em;
+}
 
 .vid-btn-choose {
   display: inline-flex; align-items: center; gap: 6px;
@@ -224,7 +243,6 @@ const CSS = `
 
 /* ══════════════════════════════════════
    QR PHOTO CARD (4th device)
-   Styled like a physical card / phone screen
 ══════════════════════════════════════ */
 .vid-qr-wrap {
   animation: vid-float4 4.6s ease-in-out infinite 2.4s;
@@ -248,7 +266,6 @@ const CSS = `
   font-size: 6px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
   color: #FF6B00; margin-bottom: 6px; display: block;
 }
-/* QR code drawn with CSS grid — pure CSS mosaic */
 .vid-qr-code {
   width: 64px; height: 64px;
   margin: 0 auto 6px;
@@ -266,8 +283,6 @@ const CSS = `
   gap: 1px;
 }
 .vid-qr-cell { border-radius: 1px; }
-
-/* scan line effect */
 .vid-qr-scan {
   position: absolute; left: 4px; right: 4px; height: 2px;
   background: linear-gradient(90deg, transparent, #FF6B00, transparent);
@@ -275,13 +290,10 @@ const CSS = `
   animation: vid-scanLine 2s ease-in-out infinite;
   z-index: 5;
 }
-
 .vid-qr-sublabel {
   font-size: 5.5px; color: rgba(26,18,8,.5); line-height: 1.4; margin-top: 2px;
 }
-
 .vid-qr-divider { height: 1px; background: rgba(255,107,0,.1); margin: 0 8px; }
-
 .vid-qr-photos {
   padding: 8px;
   display: grid;
@@ -300,14 +312,12 @@ const CSS = `
 .vid-qr-photo:nth-child(2) { animation: vid-photoIn .4s ease .3s both; }
 .vid-qr-photo:nth-child(3) { animation: vid-photoIn .4s ease .5s both; }
 .vid-qr-photo:nth-child(4) { animation: vid-photoIn .4s ease .7s both; }
-
 .vid-qr-photo-new {
   position: absolute; bottom: 2px; right: 2px;
   background: #FF6B00; color: #fff;
   font-size: 4px; font-weight: 700; padding: 1px 3px; border-radius: 3px;
   letter-spacing: .04em;
 }
-
 .vid-qr-counter {
   display: flex; align-items: center; justify-content: space-between;
   padding: 5px 9px 7px; font-size: 5.5px; color: rgba(26,18,8,.55);
@@ -319,55 +329,6 @@ const CSS = `
   font-size: 5px; font-weight: 700;
 }
 .vid-qr-live-dot { width: 4px; height: 4px; border-radius: 50%; background: #15803d; animation: vid-dot 1.2s ease-in-out infinite; }
-
-/* ══════════════════════════════════════
-   SCREEN COMPONENTS (invite + dashboard)
-══════════════════════════════════════ */
-.vsc { width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
-
-.vsc-bar { height: 3px; width: 100%; flex-shrink: 0; }
-.vsc-invite-top {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 10px 8px 6px; text-align: center; position: relative; overflow: hidden;
-}
-.vsc-deco { position: absolute; opacity: .1; font-size: 30px; transform: rotate(15deg); top: 4px; right: 6px; pointer-events: none; }
-.vsc-mono {
-  width: 30px; height: 30px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 6px; font-size: 8.5px; font-style: italic;
-  font-weight: 700; position: relative; font-family: 'Cormorant Garamond', serif;
-}
-.vsc-mono-ring { position: absolute; inset: -5px; border-radius: 50%; border: 1px dashed; opacity: .5; animation: vid-spin 18s linear infinite; }
-.vsc-pulse { position: absolute; inset: -8px; border-radius: 50%; border: 1.5px solid; animation: vid-pulse 2.6s ease-out infinite; }
-.vsc-title { font-family: 'Cormorant Garamond', serif; font-size: 9.5px; line-height: 1.35; }
-.vsc-title em { font-style: italic; }
-.vsc-divline { height: 1px; width: 30px; margin: 4px auto; opacity: .5; }
-.vsc-date { font-size: 6px; letter-spacing: .07em; text-transform: uppercase; opacity: .65; margin-bottom: 1px; }
-.vsc-invite-rows { padding: 5px 6px 4px; }
-.vsc-row { display: flex; align-items: center; gap: 4px; padding: 3px 4px; border-radius: 4px; margin-bottom: 2.5px; }
-.vsc-ico { width: 11px; height: 11px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 6px; flex-shrink: 0; }
-.vsc-txt-wrap { display: flex; flex-direction: column; }
-.vsc-lbl { font-size: 5px; opacity: .55; line-height: 1.2; }
-.vsc-val { font-size: 6px; font-weight: 600; line-height: 1.2; }
-.vsc-rsvp-btn { margin: 4px 6px 4px; border-radius: 20px; padding: 4px 0; text-align: center; font-size: 5.5px; font-weight: 700; letter-spacing: .07em; cursor: default; }
-
-/* dashboard */
-.vsc-dash { width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
-.vsc-dash-nav { height: 17px; display: flex; align-items: center; padding: 0 7px; gap: 4px; flex-shrink: 0; }
-.vsc-dash-dot { width: 5px; height: 5px; border-radius: 50%; }
-.vsc-dash-logo { font-size: 6px; font-weight: 700; opacity: .55; margin-left: 3px; letter-spacing: .03em; }
-.vsc-dash-body { flex: 1; padding: 5px 6px; display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
-.vsc-dash-section { font-size: 5.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; opacity: .4; margin-bottom: 2px; }
-.vsc-stats-row { display: flex; gap: 3px; }
-.vsc-stat { flex: 1; border-radius: 5px; padding: 4px 3px; text-align: center; }
-.vsc-stat-num { font-size: 10px; font-weight: 700; line-height: 1; }
-.vsc-stat-lbl { font-size: 4.5px; opacity: .6; margin-top: 1px; }
-.vsc-progress-bar-wrap { border-radius: 3px; overflow: hidden; height: 4px; margin-top: 2px; }
-.vsc-progress-bar { height: 100%; border-radius: 3px; }
-.vsc-guest-item { display: flex; align-items: center; justify-content: space-between; padding: 3.5px 4px; border-radius: 4px; margin-bottom: 2px; }
-.vsc-guest-name { font-size: 5.5px; font-weight: 500; }
-.vsc-guest-badge { font-size: 5px; padding: 1.5px 4px; border-radius: 8px; font-weight: 700; }
 
 /* ── toast ── */
 .vid-toast {
@@ -457,9 +418,8 @@ const CSS = `
 `
 
 /* ═══════════════════════════════════════════════════════════════
-   QR CELL PATTERN — generates a realistic QR mosaic
+   QR CELL PATTERN
 ═══════════════════════════════════════════════════════════════ */
-// 7×7 pattern: 1=filled, 0=empty
 const QR_PATTERN = [
   [1,1,1,1,1,1,1],
   [1,0,0,0,0,0,1],
@@ -470,9 +430,6 @@ const QR_PATTERN = [
   [1,1,1,1,1,1,1],
 ]
 
-/* ═══════════════════════════════════════════════════════════════
-   PHOTO MOMENTS — emoji + bg for the 4 photo slots
-═══════════════════════════════════════════════════════════════ */
 const MOMENTS = [
   { emoji: '💐', bg: 'linear-gradient(135deg,#fde8dc,#f5d0c0)', label: 'Cununie', isNew: false },
   { emoji: '🥂', bg: 'linear-gradient(135deg,#fff8e6,#fef0c0)', label: 'Cocktail', isNew: true },
@@ -493,8 +450,8 @@ type T = {
   navBg: string; statBg: string; statColor: string; guestBg: string
   badgeOk: string; badgeOkText: string; badgePend: string; badgePendText: string
   progressBg: string; progressFill: string
-  // QR card accent
-  qrBorder: string; qrAccent: string;
+  qrBorder: string; qrAccent: string
+  demoPath: string   // <-- NEW: ruta demo pentru fiecare temă
 }
 
 const THEMES: T[] = [
@@ -512,6 +469,7 @@ const THEMES: T[] = [
     badgeOk: '#DCFCE7', badgeOkText: '#15803d', badgePend: '#FEF3C7', badgePendText: '#b45309',
     progressBg: '#D8F3DC', progressFill: '#2D6A4F',
     qrBorder: 'rgba(45,106,79,.2)', qrAccent: '#2D6A4F',
+    demoPath: '/invitatii-digitale/demo/NatureDemo',
   },
   {
     id: 'lux', name: 'Lux', emoji: '✨',
@@ -527,6 +485,7 @@ const THEMES: T[] = [
     badgeOk: 'rgba(134,239,172,.18)', badgeOkText: '#86efac', badgePend: 'rgba(254,243,199,.18)', badgePendText: '#fde68a',
     progressBg: 'rgba(255,255,255,.1)', progressFill: '#C9A84C',
     qrBorder: 'rgba(201,168,76,.3)', qrAccent: '#C9A84C',
+    demoPath: '/invitatii-digitale/demo/LuxDemo',
   },
   {
     id: 'boho', name: 'Boho', emoji: '🌸',
@@ -542,6 +501,7 @@ const THEMES: T[] = [
     badgeOk: '#D1FAE5', badgeOkText: '#065f46', badgePend: '#FEF3C7', badgePendText: '#92400e',
     progressBg: '#FDE8DC', progressFill: '#C47A5A',
     qrBorder: 'rgba(196,122,90,.2)', qrAccent: '#C47A5A',
+    demoPath: '/invitatii-digitale/demo/BohoDemo',
   },
   {
     id: 'royal', name: 'Royal', emoji: '👑',
@@ -557,6 +517,7 @@ const THEMES: T[] = [
     badgeOk: 'rgba(134,239,172,.18)', badgeOkText: '#86efac', badgePend: 'rgba(254,243,199,.15)', badgePendText: '#fde68a',
     progressBg: 'rgba(255,255,255,.1)', progressFill: '#5B77D4',
     qrBorder: 'rgba(44,62,140,.22)', qrAccent: '#2C3E8C',
+    demoPath: '/invitatii-digitale/demo/RoyalDemo',
   },
   {
     id: 'minimal', name: 'Minimal', emoji: '◻️',
@@ -572,6 +533,7 @@ const THEMES: T[] = [
     badgeOk: '#DCFCE7', badgeOkText: '#15803d', badgePend: '#FEF3C7', badgePendText: '#b45309',
     progressBg: '#EEECEA', progressFill: '#1A1208',
     qrBorder: 'rgba(26,18,8,.15)', qrAccent: '#1A1208',
+    demoPath: '/invitatii-digitale/demo/MinimalDemo',
   },
   {
     id: 'romantic', name: 'Romantic', emoji: '🌹',
@@ -587,6 +549,7 @@ const THEMES: T[] = [
     badgeOk: '#DCFCE7', badgeOkText: '#15803d', badgePend: '#FEF3C7', badgePendText: '#b45309',
     progressBg: '#FDEAED', progressFill: '#9B2335',
     qrBorder: 'rgba(155,35,53,.22)', qrAccent: '#9B2335',
+    demoPath: '/invitatii-digitale/demo/RomanticDemo',
   },
 ]
 
@@ -678,57 +641,33 @@ function DashboardScreen({ t }: { t: T }) {
   )
 }
 
-/* ── QR Photo Upload Card ── */
 function QrPhotoCard({ t }: { t: T }) {
   return (
-    <div
-      className="vid-qr-card"
-      style={{ borderColor: t.qrBorder }}
-    >
-      {/* top accent bar */}
+    <div className="vid-qr-card" style={{ borderColor: t.qrBorder }}>
       <div style={{ height: 3, background: t.barGrad }} />
-
       <div className="vid-qr-top">
         <span className="vid-qr-top-label" style={{ color: t.qrAccent }}>📷 Încarcă poze</span>
-
-        {/* QR code */}
         <div className="vid-qr-code" style={{ borderColor: t.qrAccent, color: t.qrAccent }}>
           <div className="vid-qr-scan" style={{ background: `linear-gradient(90deg,transparent,${t.qrAccent},transparent)` }} />
           <div className="vid-qr-grid">
             {QR_PATTERN.flat().map((cell, i) => (
-              <div
-                key={i}
-                className="vid-qr-cell"
-                style={{ background: cell ? t.qrAccent : 'transparent' }}
-              />
+              <div key={i} className="vid-qr-cell" style={{ background: cell ? t.qrAccent : 'transparent' }} />
             ))}
           </div>
         </div>
-
         <p className="vid-qr-sublabel" style={{ color: 'rgba(26,18,8,.45)' }}>
           Scanează &amp; trimite<br />momentele tale
         </p>
       </div>
-
       <div className="vid-qr-divider" />
-
-      {/* photo grid — 4 moments */}
       <div className="vid-qr-photos">
         {MOMENTS.map((m) => (
-          <div
-            key={m.label}
-            className="vid-qr-photo"
-            style={{ background: m.bg }}
-          >
+          <div key={m.label} className="vid-qr-photo" style={{ background: m.bg }}>
             <span style={{ fontSize: 20 }}>{m.emoji}</span>
-            {m.isNew && (
-              <span className="vid-qr-photo-new">NOU</span>
-            )}
+            {m.isNew && <span className="vid-qr-photo-new">NOU</span>}
           </div>
         ))}
       </div>
-
-      {/* live counter */}
       <div className="vid-qr-counter">
         <span style={{ color: 'rgba(26,18,8,.5)' }}>247 poze</span>
         <span className="vid-qr-live">
@@ -749,6 +688,52 @@ const TICKER = [
   '🗂️ Momente Sortate', '💸 300 Lei · O Singură Dată',
 ]
 
+/* inline styles for vsc classes — kept identical to original */
+const VSC_CSS = `
+.vsc { width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+.vsc-bar { height: 3px; width: 100%; flex-shrink: 0; }
+.vsc-invite-top {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 10px 8px 6px; text-align: center; position: relative; overflow: hidden;
+}
+.vsc-deco { position: absolute; opacity: .1; font-size: 30px; transform: rotate(15deg); top: 4px; right: 6px; pointer-events: none; }
+.vsc-mono {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 6px; font-size: 8.5px; font-style: italic;
+  font-weight: 700; position: relative; font-family: 'Cormorant Garamond', serif;
+}
+.vsc-mono-ring { position: absolute; inset: -5px; border-radius: 50%; border: 1px dashed; opacity: .5; animation: vid-spin 18s linear infinite; }
+.vsc-pulse { position: absolute; inset: -8px; border-radius: 50%; border: 1.5px solid; animation: vid-pulse 2.6s ease-out infinite; }
+.vsc-title { font-family: 'Cormorant Garamond', serif; font-size: 9.5px; line-height: 1.35; }
+.vsc-title em { font-style: italic; }
+.vsc-divline { height: 1px; width: 30px; margin: 4px auto; opacity: .5; }
+.vsc-date { font-size: 6px; letter-spacing: .07em; text-transform: uppercase; opacity: .65; margin-bottom: 1px; }
+.vsc-invite-rows { padding: 5px 6px 4px; }
+.vsc-row { display: flex; align-items: center; gap: 4px; padding: 3px 4px; border-radius: 4px; margin-bottom: 2.5px; }
+.vsc-ico { width: 11px; height: 11px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 6px; flex-shrink: 0; }
+.vsc-txt-wrap { display: flex; flex-direction: column; }
+.vsc-lbl { font-size: 5px; opacity: .55; line-height: 1.2; }
+.vsc-val { font-size: 6px; font-weight: 600; line-height: 1.2; }
+.vsc-rsvp-btn { margin: 4px 6px 4px; border-radius: 20px; padding: 4px 0; text-align: center; font-size: 5.5px; font-weight: 700; letter-spacing: .07em; cursor: default; }
+.vsc-dash { width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+.vsc-dash-nav { height: 17px; display: flex; align-items: center; padding: 0 7px; gap: 4px; flex-shrink: 0; }
+.vsc-dash-dot { width: 5px; height: 5px; border-radius: 50%; }
+.vsc-dash-logo { font-size: 6px; font-weight: 700; opacity: .55; margin-left: 3px; letter-spacing: .03em; }
+.vsc-dash-body { flex: 1; padding: 5px 6px; display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+.vsc-dash-section { font-size: 5.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; opacity: .4; margin-bottom: 2px; }
+.vsc-stats-row { display: flex; gap: 3px; }
+.vsc-stat { flex: 1; border-radius: 5px; padding: 4px 3px; text-align: center; }
+.vsc-stat-num { font-size: 10px; font-weight: 700; line-height: 1; }
+.vsc-stat-lbl { font-size: 4.5px; opacity: .6; margin-top: 1px; }
+.vsc-progress-bar-wrap { border-radius: 3px; overflow: hidden; height: 4px; margin-top: 2px; }
+.vsc-progress-bar { height: 100%; border-radius: 3px; }
+.vsc-guest-item { display: flex; align-items: center; justify-content: space-between; padding: 3.5px 4px; border-radius: 4px; margin-bottom: 2px; }
+.vsc-guest-name { font-size: 5.5px; font-weight: 500; }
+.vsc-guest-badge { font-size: 5px; padding: 1.5px 4px; border-radius: 8px; font-weight: 700; }
+`
+
 export default function InvitatiiDigitalePage() {
   const [toast, setToast] = useState<{ visible: boolean; leaving: boolean; name: string }>({
     visible: false, leaving: false, name: '',
@@ -764,7 +749,7 @@ export default function InvitatiiDigitalePage() {
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: CSS }} />
+      <style dangerouslySetInnerHTML={{ __html: CSS + VSC_CSS }} />
 
       <div className="vid">
         <div className="vid-orb vid-o1" aria-hidden="true" />
@@ -824,13 +809,20 @@ export default function InvitatiiDigitalePage() {
                     </h2>
                     <p className="vid-theme-sub">{theme.desc}</p>
                     <div className="vid-btns">
-                      <button
-                        className="vid-btn-demo"
-                        onClick={() => showToast(theme.name)}
-                        aria-label={`Demo tema ${theme.name}`}
-                      >
-                        <span aria-hidden="true">👁</span> Demo
-                      </button>
+                      {/* Demo button — Nature are demo complet, restul "coming soon" */}
+                      {theme.id === 'nature' ? (
+                        <Link
+                          href={theme.demoPath}
+                          className="vid-btn-demo"
+                          aria-label={`Demo tema ${theme.name}`}
+                        >
+                          <span aria-hidden="true">👁</span> Demo
+                        </Link>
+                      ) : (
+                        <span className="vid-btn-demo-soon" aria-label={`Demo tema ${theme.name} — în curând`}>
+                          <span aria-hidden="true">👁</span> Demo
+                        </span>
+                      )}
                       <Link
                         href={`/preturi?tema=${theme.id}`}
                         className="vid-btn-choose"
@@ -917,7 +909,7 @@ export default function InvitatiiDigitalePage() {
           </div>
         </div>
 
-        {/* TOAST */}
+        {/* TOAST (kept for future use) */}
         {toast.visible && (
           <div
             className={`vid-toast ${toast.leaving ? 'out' : 'in'}`}
