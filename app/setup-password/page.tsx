@@ -1,8 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function SetupPasswordPage() {
+function SetupPasswordContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -10,19 +11,17 @@ export default function SetupPasswordPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<"loading" | "valid" | "invalid">("loading");
+  const [isTokenValid, setIsTokenValid] = useState(true);
 
-  // 1. Verificăm dacă token-ul este valid când se încarcă pagina
   useEffect(() => {
     if (!token) {
-      setStatus("invalid");
-      return;
+      setIsTokenValid(false);
     }
-    setStatus("valid"); // În mod ideal, aici am face un fetch scurt să verificăm token-ul în DB
   }, [token]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
     if (password !== confirmPassword) {
       alert("Parolele nu coincid!");
       return;
@@ -30,29 +29,39 @@ export default function SetupPasswordPage() {
 
     setLoading(true);
     
-    // Trimitem parola către un API nou pe care îl facem imediat
-    const res = await fetch("/api/auth/setup-password", {
-      method: "POST",
-      body: JSON.stringify({ token, password }),
-      headers: { "Content-Type": "application/json" },
-    });
+    try {
+      const res = await fetch("/api/auth/setup-password", {
+        method: "POST",
+        body: JSON.stringify({ token, password }),
+        headers: { "Content-Type": "application/json" },
+      });
 
-    if (res.ok) {
-      alert("Parolă setată cu succes! Acum te poți loga.");
-      router.push("/login");
-    } else {
-      alert("Eroare la setarea parolei. Token-ul ar putea fi expirat.");
+      if (res.ok) {
+        alert("Parolă setată cu succes! Acum te poți loga.");
+        router.push("/login");
+      } else {
+        alert("Eroare: Link-ul ar putea fi expirat.");
+      }
+    } catch (err) {
+      alert("Eroare de conexiune la server.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
-  if (status === "loading") return <p style={{ textAlign: 'center', marginTop: '50px' }}>Se verifică accesul...</p>;
-  if (status === "invalid") return <p style={{ textAlign: 'center', marginTop: '50px' }}>Link invalid sau expirat.</p>;
+  if (!isTokenValid) {
+    return (
+      <div style={{ textAlign: 'center', marginTop: '100px', color: 'black' }}>
+        <h1>Link invalid</h1>
+        <p>Token-ul lipsește sau a expirat.</p>
+      </div>
+    );
+  }
 
   return (
     <div style={{ maxWidth: '400px', margin: '100px auto', padding: '20px', textAlign: 'center', fontFamily: 'sans-serif' }}>
-      <h1>Setează parola</h1>
-      <p>Alege o parolă pentru a accesa dashboard-ul invitației tale.</p>
+      <h1 style={{ color: 'black' }}>Setează parola</h1>
+      <p style={{ color: 'gray' }}>Alege o parolă pentru a accesa dashboard-ul.</p>
       
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginTop: '20px' }}>
         <input 
@@ -80,5 +89,13 @@ export default function SetupPasswordPage() {
         </button>
       </form>
     </div>
+  );
+}
+
+export default function SetupPasswordPage() {
+  return (
+    <Suspense fallback={<div style={{ textAlign: 'center', marginTop: '100px', color: 'black' }}>Se încarcă...</div>}>
+      <SetupPasswordContent />
+    </Suspense>
   );
 }

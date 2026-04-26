@@ -1,13 +1,15 @@
 import { NextResponse } from 'next/server';
 import { neon } from '@neondatabase/serverless';
 
-const sql = neon(process.env.DATABASE_URL!);
+// MODIFICARE AICI: Nu mai pune const sql = neon(...) aici sus!
 
 export async function POST(req: Request) {
   try {
+    // Inițializăm conexiunea DOAR când primim cererea
+    const sql = neon(process.env.DATABASE_URL!);
+    
     const { token, password } = await req.json();
 
-    // 1. Găsim email-ul asociat token-ului
     const verification = await sql`
       SELECT email FROM verification_tokens 
       WHERE token = ${token} AND expires_at > NOW()
@@ -20,19 +22,17 @@ export async function POST(req: Request) {
 
     const email = verification[0].email;
 
-    // 2. Salvăm parola în tabelul orders
-    // NOTĂ: Pentru securitate maximă, aici s-ar folosi bcrypt. Pentru acum, o punem direct.
     await sql`
       UPDATE orders 
       SET password = ${password} 
       WHERE email = ${email}
     `;
 
-    // 3. Ștergem token-ul ca să nu mai fie folosit a doua oară
     await sql`DELETE FROM verification_tokens WHERE token = ${token}`;
 
     return NextResponse.json({ success: true });
   } catch (err: any) {
+    console.error("Eroare la setup-password:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
