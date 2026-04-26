@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { QUICK_LINKS } from '@/constants/footerLinks'
-import '@/styles/footer.css'
+
 
 export default function Footer() {
   return (
@@ -15,9 +15,7 @@ export default function Footer() {
             Invitații digitale moderne pentru nunți, botezuri și evenimente speciale.
           </p>
 
-          <p className="vf-text" style={{ marginTop: 12, opacity: .6 }}>
-            VibeInvite © 2026
-          </p>
+
         </div>
 
         {/* LINKS */}

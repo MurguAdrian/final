@@ -4,9 +4,10 @@ import { useState, useEffect, useRef } from 'react'
 
 function useCountdown(target: Date) {
   const [t, setT] = useState({ d: 0, h: 0, m: 0, s: 0 })
+  const targetMs = target.getTime()
   useEffect(() => {
     const tick = () => {
-      const diff = target.getTime() - Date.now()
+      const diff = targetMs - Date.now()
       if (diff <= 0) { setT({ d:0,h:0,m:0,s:0 }); return }
       setT({
         d: Math.floor(diff / 864e5),
@@ -18,7 +19,7 @@ function useCountdown(target: Date) {
     tick()
     const id = setInterval(tick, 1000)
     return () => clearInterval(id)
-  }, [target])
+  }, [targetMs])
   return t
 }
 const pad = (n: number) => String(n).padStart(2, '0')
@@ -93,6 +94,28 @@ const WazeIcon = () => (
 const MapsIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" style={{width:14,height:14}}>
     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+  </svg>
+)
+
+const WhatsAppIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" style={{width:14,height:14}}>
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.556 4.118 1.528 5.845L.057 23.487a.5.5 0 0 0 .609.61l5.718-1.493A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.504-5.234-1.385l-.376-.22-3.892 1.016 1.024-3.793-.234-.382A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+  </svg>
+)
+
+const PhoneIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width:13,height:13}}>
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+  </svg>
+)
+
+// SVG icon petrecere custom — lumânări + note muzicale
+const PartyIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{width:20,height:20}}>
+    <path d="M8 18L4 20l1-4-7-6 9-1 4-8 4 8 9 1-7 6 1 4-4-2"/>
+    <circle cx="12" cy="9" r="1" fill="currentColor" stroke="none"/>
+    <path d="M17 3v3M15.5 4.5l2.5-.5" strokeWidth="1.5"/>
   </svg>
 )
 
@@ -200,7 +223,7 @@ function EnvelopeScreen({ onOpen, phase }: { onOpen: () => void; phase: Phase })
               </p>
               <div style={{width:36,height:1,background:'rgba(154,123,63,.42)',margin:'10px auto'}}/>
               <p style={{fontFamily:"'Cinzel',serif",fontSize:'clamp(7px,.9vw,9.5px)',letterSpacing:'.2em',textTransform:'uppercase',color:'#9A7B3F',fontWeight:400}}>
-                ✦ 3 Mai 2028 · Iași ✦
+                ✦ 3 Mai 2027 · Iași ✦
               </p>
             </div>
           </div>
@@ -239,7 +262,7 @@ function EnvelopeScreen({ onOpen, phase }: { onOpen: () => void; phase: Phase })
               }}/>
             </div>
 
-            {/* Wax seal — on top of everything in closed state */}
+            {/* Wax seal — IN FRONT, seals the flap */}
             <div style={{
               position:'absolute', top:'50%', left:'50%',
               transform:'translate(-50%, -52%)',
@@ -248,11 +271,10 @@ function EnvelopeScreen({ onOpen, phase }: { onOpen: () => void; phase: Phase })
               borderRadius:'50%',
               border:'2px solid rgba(154,123,63,.55)',
               display:'flex', alignItems:'center', justifyContent:'center',
-              boxShadow:'0 0 0 5px rgba(154,123,63,.1), 0 4px 16px rgba(0,0,0,.12)',
-              zIndex:7,
-              /* hide seal when opening */
+              boxShadow:'0 0 0 5px rgba(154,123,63,.1), 0 6px 20px rgba(0,0,0,.18)',
+              zIndex:10,
               opacity: phase === 'opening' ? 0 : 1,
-              transition:'opacity .3s ease',
+              transition:'opacity .25s ease',
             }}>
               <div style={{
                 position:'absolute', inset:-7,
@@ -302,7 +324,7 @@ function EnvelopeScreen({ onOpen, phase }: { onOpen: () => void; phase: Phase })
 }
 
 function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
-  const WEDDING = new Date('2028-05-03T13:00:00')
+  const WEDDING = new Date('2027-05-03T13:00:00')
   const [modal, setModal] = useState(false)
   const [visible, setVisible] = useState(false)
   const cd = useCountdown(WEDDING)
@@ -408,7 +430,7 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
         {/* Date */}
         <div style={{...anim(.24), textAlign:'center', marginBottom:18}}>
           <p style={{fontFamily:"'Cinzel',serif", fontSize:'clamp(12px,1.7vw,16px)', letterSpacing:'.16em', color:'#1C2218', fontWeight:500, marginBottom:5}}>
-            Duminică · 3 Mai 2028
+            Duminică · 3 Mai 2027
           </p>
           <p style={{fontFamily:"'Cormorant',serif", fontSize:'clamp(14px,1.9vw,19px)', fontStyle:'italic', color:'#6B7A5E', letterSpacing:'.04em'}}>
             Iași, România
@@ -496,8 +518,8 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
           ...anim(.54),
           width:'100%',
           display:'grid',
-          gridTemplateColumns:'repeat(auto-fit, minmax(260px, 1fr))',
-          gap:'clamp(14px,2.2vw,24px)',
+          gridTemplateColumns:'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
+          gap:'clamp(12px,2vw,22px)',
           maxWidth:640,
         }}>
           {/* Church */}
@@ -509,11 +531,18 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
             boxShadow:'0 6px 28px rgba(26,38,20,.07)',
             transition:'transform .24s ease, box-shadow .24s ease',
           }}
-            onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform='translateY(-5px)'; (e.currentTarget as HTMLDivElement).style.boxShadow='0 18px 48px rgba(26,38,20,.14)'; }}
+            onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform='translateY(-4px)'; (e.currentTarget as HTMLDivElement).style.boxShadow='0 18px 48px rgba(26,38,20,.13)'; }}
             onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform=''; (e.currentTarget as HTMLDivElement).style.boxShadow='0 6px 28px rgba(26,38,20,.07)'; }}
           >
             <div style={{padding:'16px 18px 12px', background:'linear-gradient(135deg, #3A5E33 0%, #274422 100%)', display:'flex', alignItems:'center', gap:12}}>
-              <div style={{width:38, height:38, borderRadius:11, background:'rgba(255,255,255,.16)', border:'1px solid rgba(255,255,255,.22)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:19, flexShrink:0}}>⛪</div>
+              <div style={{width:38, height:38, borderRadius:11, background:'rgba(255,255,255,.16)', border:'1px solid rgba(255,255,255,.22)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" style={{width:20,height:20}}>
+                  <path d="M12 2L12 6M10 4h4"/>
+                  <rect x="4" y="9" width="16" height="12" rx="1"/>
+                  <path d="M9 21V14a3 3 0 0 1 6 0v7"/>
+                  <path d="M4 9l8-4 8 4"/>
+                </svg>
+              </div>
               <div>
                 <span style={{fontFamily:"'Cinzel',serif", fontSize:8.5, letterSpacing:'.2em', textTransform:'uppercase', color:'rgba(255,255,255,.68)', display:'block', marginBottom:2}}>Ceremonia Religioasă</span>
                 <p style={{fontFamily:"'Playfair Display',serif", fontSize:'clamp(14px,1.7vw,17px)', fontStyle:'italic', fontWeight:400, color:'#fff', lineHeight:1.2}}>Cununia</p>
@@ -523,20 +552,20 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
               <p style={{fontFamily:"'Lato',sans-serif", fontWeight:700, fontSize:'clamp(11px,1.2vw,13px)', color:'#1C2218', marginBottom:3, letterSpacing:'.02em'}}>Biserica Sfântul Prooroc Daniel</p>
               <p style={{fontSize:'clamp(10px,1.1vw,12px)', color:'#6B7A5E', lineHeight:1.5, marginBottom:10}}>Șos. Nicolina, Iași, România</p>
               <div style={{display:'inline-flex', alignItems:'center', gap:5, background:'#EBF4E7', border:'1px solid rgba(74,103,65,.18)', borderRadius:100, padding:'4px 11px', fontFamily:"'Cinzel',serif", fontSize:8.5, letterSpacing:'.13em', textTransform:'uppercase', color:'#3A5E33', marginBottom:12}}>
-                ⏰ 3 mai 2028 · ora 13:00
+                ⏰ 3 mai 2027 · ora 13:00
               </div>
               <div style={{display:'flex', gap:8}}>
-                <a href="https://waze.com/ul?q=Biserica+Sfantul+Prooroc+Daniel+Iasi" target="_blank" rel="noopener noreferrer" style={{flex:1, display:'inline-flex', alignItems:'center', justifyContent:'center', gap:6, padding:'9px 8px', borderRadius:11, background:'linear-gradient(135deg, #08A2D4 0%, #0788B0 100%)', color:'#fff', textDecoration:'none', fontFamily:"'Lato',sans-serif", fontSize:11, fontWeight:700, letterSpacing:'.04em', boxShadow:'0 4px 14px rgba(8,162,212,.28)', transition:'all .2s ease', whiteSpace:'nowrap'}}>
+                <div style={{flex:1, display:'inline-flex', alignItems:'center', justifyContent:'center', gap:6, padding:'9px 8px', borderRadius:11, background:'linear-gradient(135deg, #08A2D4 0%, #0788B0 100%)', color:'#fff', fontFamily:"'Lato',sans-serif", fontSize:11, fontWeight:700, letterSpacing:'.04em', boxShadow:'0 4px 14px rgba(8,162,212,.22)', cursor:'default', whiteSpace:'nowrap'}}>
                   <WazeIcon/> Waze
-                </a>
-                <a href="https://maps.google.com/?q=Biserica+Sfantul+Prooroc+Daniel+Iasi" target="_blank" rel="noopener noreferrer" style={{flex:1, display:'inline-flex', alignItems:'center', justifyContent:'center', gap:6, padding:'9px 8px', borderRadius:11, background:'linear-gradient(135deg, #4CAF4F 0%, #388E3C 100%)', color:'#fff', textDecoration:'none', fontFamily:"'Lato',sans-serif", fontSize:11, fontWeight:700, letterSpacing:'.04em', boxShadow:'0 4px 14px rgba(76,175,79,.28)', transition:'all .2s ease', whiteSpace:'nowrap'}}>
+                </div>
+                <div style={{flex:1, display:'inline-flex', alignItems:'center', justifyContent:'center', gap:6, padding:'9px 8px', borderRadius:11, background:'linear-gradient(135deg, #4CAF4F 0%, #388E3C 100%)', color:'#fff', fontFamily:"'Lato',sans-serif", fontSize:11, fontWeight:700, letterSpacing:'.04em', boxShadow:'0 4px 14px rgba(76,175,79,.22)', cursor:'default', whiteSpace:'nowrap'}}>
                   <MapsIcon/> Maps
-                </a>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Reception */}
+          {/* Reception — icon SVG custom petrecere */}
           <div style={{
             borderRadius:18, overflow:'hidden',
             border:'1.5px solid rgba(154,123,63,.2)',
@@ -545,11 +574,24 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
             boxShadow:'0 6px 28px rgba(26,38,20,.07)',
             transition:'transform .24s ease, box-shadow .24s ease',
           }}
-            onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform='translateY(-5px)'; (e.currentTarget as HTMLDivElement).style.boxShadow='0 18px 48px rgba(26,38,20,.14)'; }}
+            onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform='translateY(-4px)'; (e.currentTarget as HTMLDivElement).style.boxShadow='0 18px 48px rgba(26,38,20,.13)'; }}
             onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform=''; (e.currentTarget as HTMLDivElement).style.boxShadow='0 6px 28px rgba(26,38,20,.07)'; }}
           >
             <div style={{padding:'16px 18px 12px', background:'linear-gradient(135deg, #6B4E1A 0%, #503A10 100%)', display:'flex', alignItems:'center', gap:12}}>
-              <div style={{width:38, height:38, borderRadius:11, background:'rgba(255,255,255,.16)', border:'1px solid rgba(255,255,255,.22)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:19, flexShrink:0}}>🥂</div>
+              <div style={{width:38, height:38, borderRadius:11, background:'rgba(255,255,255,.16)', border:'1px solid rgba(255,255,255,.22)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}>
+                {/* Custom party SVG — lumânări + note + stele */}
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" style={{width:20,height:20}}>
+                  <path d="M9 18c0 1.66-1.34 3-3 3s-3-1.34-3-3c0-2 3-6 3-6s3 4 3 6z"/>
+                  <path d="M6 12V3"/>
+                  <path d="M18 7c0 1.1-.9 2-2 2s-2-.9-2-2c0-1.5 2-4 2-4s2 2.5 2 4z"/>
+                  <path d="M16 9V6"/>
+                  <path d="M12 14l1.5-1.5"/>
+                  <path d="M19 14l1 1"/>
+                  <path d="M20 11l-1 1"/>
+                  <circle cx="12" cy="16" r=".8" fill="white" stroke="none"/>
+                  <circle cx="20" cy="16" r=".8" fill="white" stroke="none"/>
+                </svg>
+              </div>
               <div>
                 <span style={{fontFamily:"'Cinzel',serif", fontSize:8.5, letterSpacing:'.2em', textTransform:'uppercase', color:'rgba(255,255,255,.68)', display:'block', marginBottom:2}}>Recepție și Petrecere</span>
                 <p style={{fontFamily:"'Playfair Display',serif", fontSize:'clamp(14px,1.7vw,17px)', fontStyle:'italic', fontWeight:400, color:'#fff', lineHeight:1.2}}>Banchetul</p>
@@ -559,15 +601,59 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
               <p style={{fontFamily:"'Lato',sans-serif", fontWeight:700, fontSize:'clamp(11px,1.2vw,13px)', color:'#1C2218', marginBottom:3, letterSpacing:'.02em'}}>Chalette Events Paun</p>
               <p style={{fontSize:'clamp(10px,1.1vw,12px)', color:'#6B7A5E', lineHeight:1.5, marginBottom:10}}>Iași, România</p>
               <div style={{display:'inline-flex', alignItems:'center', gap:5, background:'#EBF4E7', border:'1px solid rgba(74,103,65,.18)', borderRadius:100, padding:'4px 11px', fontFamily:"'Cinzel',serif", fontSize:8.5, letterSpacing:'.13em', textTransform:'uppercase', color:'#3A5E33', marginBottom:12}}>
-                ⏰ 3 mai 2028 · ora 17:00
+                ⏰ 3 mai 2027 · ora 17:00
               </div>
               <div style={{display:'flex', gap:8}}>
-                <a href="https://waze.com/ul?q=Chalette+Events+Paun+Iasi" target="_blank" rel="noopener noreferrer" style={{flex:1, display:'inline-flex', alignItems:'center', justifyContent:'center', gap:6, padding:'9px 8px', borderRadius:11, background:'linear-gradient(135deg, #08A2D4 0%, #0788B0 100%)', color:'#fff', textDecoration:'none', fontFamily:"'Lato',sans-serif", fontSize:11, fontWeight:700, letterSpacing:'.04em', boxShadow:'0 4px 14px rgba(8,162,212,.28)', transition:'all .2s ease', whiteSpace:'nowrap'}}>
+                <div style={{flex:1, display:'inline-flex', alignItems:'center', justifyContent:'center', gap:6, padding:'9px 8px', borderRadius:11, background:'linear-gradient(135deg, #08A2D4 0%, #0788B0 100%)', color:'#fff', fontFamily:"'Lato',sans-serif", fontSize:11, fontWeight:700, letterSpacing:'.04em', boxShadow:'0 4px 14px rgba(8,162,212,.22)', cursor:'default', whiteSpace:'nowrap'}}>
                   <WazeIcon/> Waze
-                </a>
-                <a href="https://maps.google.com/?q=Chalette+Events+Paun+Iasi" target="_blank" rel="noopener noreferrer" style={{flex:1, display:'inline-flex', alignItems:'center', justifyContent:'center', gap:6, padding:'9px 8px', borderRadius:11, background:'linear-gradient(135deg, #4CAF4F 0%, #388E3C 100%)', color:'#fff', textDecoration:'none', fontFamily:"'Lato',sans-serif", fontSize:11, fontWeight:700, letterSpacing:'.04em', boxShadow:'0 4px 14px rgba(76,175,79,.28)', transition:'all .2s ease', whiteSpace:'nowrap'}}>
+                </div>
+                <div style={{flex:1, display:'inline-flex', alignItems:'center', justifyContent:'center', gap:6, padding:'9px 8px', borderRadius:11, background:'linear-gradient(135deg, #4CAF4F 0%, #388E3C 100%)', color:'#fff', fontFamily:"'Lato',sans-serif", fontSize:11, fontWeight:700, letterSpacing:'.04em', boxShadow:'0 4px 14px rgba(76,175,79,.22)', cursor:'default', whiteSpace:'nowrap'}}>
                   <MapsIcon/> Maps
-                </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Contact Miri */}
+        <div style={{
+          ...anim(.58),
+          width:'100%', maxWidth:640,
+          background:'rgba(255,255,255,.6)',
+          border:'1px solid rgba(154,123,63,.18)',
+          borderRadius:18,
+          padding:'16px 20px',
+          backdropFilter:'blur(8px)',
+          boxShadow:'0 4px 20px rgba(26,38,20,.05)',
+        }}>
+          <p style={{fontFamily:"'Cinzel',serif", fontSize:9, letterSpacing:'.22em', textTransform:'uppercase', color:'#9A7B3F', marginBottom:12, opacity:.82}}>
+            Contact Mireasă
+          </p>
+          <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:10}}>
+            <div>
+              <p style={{fontFamily:"'Playfair Display',serif", fontSize:'clamp(15px,1.8vw,18px)', fontStyle:'italic', color:'#1C2218', marginBottom:2}}>Miri</p>
+              <p style={{fontFamily:"'Cinzel',serif", fontSize:'clamp(11px,1.3vw,13px)', color:'#3A5E33', letterSpacing:'.06em', fontWeight:600}}>0752 954 258</p>
+            </div>
+            <div style={{display:'flex', gap:8}}>
+              {/* Telefon */}
+              <div style={{
+                display:'inline-flex', alignItems:'center', gap:6,
+                padding:'9px 16px', borderRadius:100,
+                background:'linear-gradient(135deg, #3A5E33 0%, #274422 100%)',
+                color:'#fff', fontFamily:"'Lato',sans-serif", fontSize:11, fontWeight:700, letterSpacing:'.06em',
+                boxShadow:'0 4px 14px rgba(58,94,51,.28)', cursor:'default',
+              }}>
+                <PhoneIcon/> Telefon
+              </div>
+              {/* WhatsApp */}
+              <div style={{
+                display:'inline-flex', alignItems:'center', gap:6,
+                padding:'9px 16px', borderRadius:100,
+                background:'linear-gradient(135deg, #25D366 0%, #1DA851 100%)',
+                color:'#fff', fontFamily:"'Lato',sans-serif", fontSize:11, fontWeight:700, letterSpacing:'.06em',
+                boxShadow:'0 4px 14px rgba(37,211,102,.28)', cursor:'default',
+              }}>
+                <WhatsAppIcon/> WhatsApp
               </div>
             </div>
           </div>
@@ -583,7 +669,7 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
         {/* RSVP */}
         <div style={{...anim(.66), textAlign:'center', width:'100%', maxWidth:380}}>
           <p style={{fontFamily:"'Cormorant',serif", fontSize:'clamp(14px,1.7vw,17px)', fontStyle:'italic', color:'#6B7A5E', marginBottom:14, lineHeight:1.6, letterSpacing:'.03em'}}>
-            Vă rugăm să ne anunțați prezența<br/>până pe <strong style={{color:'#3A5E33', fontStyle:'normal'}}>1 Aprilie 2028</strong>
+            Vă rugăm să ne anunțați prezența<br/>până pe <strong style={{color:'#3A5E33', fontStyle:'normal'}}>1 Aprilie 2027</strong>
           </p>
           <button
             onClick={() => setModal(true)}
@@ -609,23 +695,21 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
           </button>
         </div>
 
-        {/* Footer */}
-        <div style={{...anim(.72), textAlign:'center', marginTop:14}}>
-          <p style={{fontFamily:"'Cinzel',serif", fontSize:9, letterSpacing:'.22em', textTransform:'uppercase', color:'rgba(107,122,94,.5)'}}>
-            ✦ VibeInvite · Tema Nature ✦
-          </p>
-        </div>
+        {/* spacer bottom */}
+        <div style={{height:8}}/>
 
-        {/* CHOOSE THEME BAR */}
+        {/* CHOOSE THEME BAR — static, jos de tot în scroll */}
         <div style={{
-          position:'fixed', bottom:0, left:0, right:0, zIndex:50,
-          padding:'14px 24px 20px',
-          background:'linear-gradient(0deg, rgba(253,250,242,1) 0%, rgba(253,250,242,.98) 60%, rgba(253,250,242,.88) 100%)',
-          borderTop:'1px solid rgba(154,123,63,.12)',
-          display:'flex', flexDirection:'column', alignItems:'center', gap:10,
-          backdropFilter:'blur(4px)',
+          width:'100%',
+          padding:'20px 24px 24px',
+          background:'rgba(255,255,255,.6)',
+          border:'1px solid rgba(154,123,63,.15)',
+          borderRadius:20,
+          display:'flex', flexDirection:'column', alignItems:'center', gap:12,
+          backdropFilter:'blur(8px)',
+          marginTop:8,
         }}>
-          <p style={{fontFamily:"'Cormorant',serif", fontSize:14, fontStyle:'italic', color:'#6B7A5E', letterSpacing:'.03em', margin:0}}>
+          <p style={{fontFamily:"'Cormorant',serif", fontSize:15, fontStyle:'italic', color:'#6B7A5E', letterSpacing:'.03em', margin:0, textAlign:'center'}}>
             Îți place această temă? Personalizează-o pentru evenimentul tău
           </p>
           <a href="/preturi?tema=nature" style={{
@@ -643,6 +727,7 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
           >
             Alege Această Temă
           </a>
+
         </div>
 
       </div>
@@ -720,6 +805,20 @@ export default function App() {
         @keyframes shimmer { 0%{background-position:-350px 0} 100%{background-position:350px 0} }
         @keyframes fadeIn { from{opacity:0} to{opacity:1} }
         @keyframes slideUp { from{opacity:0;transform:scale(.92) translateY(18px)} to{opacity:1;transform:scale(1) translateY(0)} }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 480px) {
+          .inv-scroll-content { padding: 36px 14px 180px !important; }
+          .inv-names-first, .inv-names-last { font-size: 54px !important; }
+          .inv-countdown { padding: 16px 12px !important; }
+          .inv-locations-grid { grid-template-columns: 1fr !important; }
+          .inv-contact-row { flex-direction: column !important; align-items: flex-start !important; }
+          .inv-contact-btns { width: 100% !important; }
+          .inv-contact-btn { flex: 1 !important; justify-content: center !important; }
+        }
+        @media (max-width: 360px) {
+          .inv-names-first, .inv-names-last { font-size: 44px !important; }
+        }
       `}</style>
 
       {/* HEADER */}
@@ -747,7 +846,7 @@ export default function App() {
         </a>
 
         <div style={{fontFamily:"'Cormorant',serif", fontSize:16, fontStyle:'italic', color:'#6B7A5E', letterSpacing:'.04em'}}>
-          {phase === 'invite' ? 'Andreea & Adrian · 3 Mai 2028' : 'Invitație de Nuntă'}
+          {phase === 'invite' ? 'Andreea & Adrian · 3 Mai 2027' : 'Invitație de Nuntă'}
         </div>
 
         <a
