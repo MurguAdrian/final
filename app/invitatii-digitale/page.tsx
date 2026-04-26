@@ -808,30 +808,25 @@ export default function InvitatiiDigitalePage() {
                       <em>{theme.name}</em>
                     </h2>
                     <p className="vid-theme-sub">{theme.desc}</p>
-                    <div className="vid-btns">
-                      {/* Demo button — Nature are demo complet, restul "coming soon" */}
-                      {theme.id === 'nature' ? (
-                        <Link
-                          href={theme.demoPath}
-                          className="vid-btn-demo"
-                          aria-label={`Demo tema ${theme.name}`}
-                        >
-                          <span aria-hidden="true">👁</span> Demo
-                        </Link>
-                      ) : (
-                        <span className="vid-btn-demo-soon" aria-label={`Demo tema ${theme.name} — în curând`}>
-                          <span aria-hidden="true">👁</span> Demo
-                        </span>
-                      )}
-                      <Link
-                        href={`/preturi?tema=${theme.id}`}
-                        className="vid-btn-choose"
-                        style={{ background: theme.accent, boxShadow: `0 4px 18px ${theme.accent}55` }}
-                        aria-label={`Alege tema ${theme.name}`}
-                      >
-                        <span aria-hidden="true">{theme.emoji}</span> Alege acum
-                      </Link>
-                    </div>
+                  <div className="vid-btns">
+  {['nature', 'lux', 'boho',].includes(theme.id) ? (
+    <Link href={theme.demoPath} className="vid-btn-demo">
+      Vezi demo
+    </Link>
+  ) : (
+    <span className="vid-btn-demo-soon">
+      Vezi demo
+    </span>
+  )}
+
+  <Link
+    href={`/invitatii-digitale/alege/${theme.id}`}
+    className="vid-btn-choose"
+    style={{ background: theme.accent }}
+  >
+    Alege această temă
+  </Link>
+</div>
                   </div>
 
                   {/* devices — 4 mockups */}
