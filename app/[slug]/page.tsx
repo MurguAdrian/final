@@ -1,46 +1,30 @@
 import { neon } from "@neondatabase/serverless";
-import { notFound } from "next/navigation";
-import RsvpForm from "./RsvpForm";
+import { notFound, redirect } from "next/navigation";
+
 export const dynamic = 'force-dynamic';
 
-export default async function PublicInvitation({ params }: { params: { slug: string } }) {
+export default async function RedirectByTheme({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const sql = neon(process.env.DATABASE_URL!);
   
-  // Căutăm nunta în DB
-  const wedding = await sql`
-    SELECT * FROM wedding_settings 
-    WHERE custom_slug = ${slug}
+  // Căutăm în orders legat cu wedding_settings ce temă are acest slug
+  const result = await sql`
+    SELECT o.theme_name 
+    FROM orders o
+    JOIN wedding_settings ws ON o.id = ws.order_id
+    WHERE ws.custom_slug = ${slug}
+    LIMIT 1
   `;
 
-  if (!wedding || wedding.length === 0) {
+  if (!result || result.length === 0) {
     notFound();
   }
 
-  const data = wedding[0];
+  const theme = result[0].theme_name.toLowerCase(); // 'lux' sau 'nature'
 
-  return (
-    <div style={{ 
-      minHeight: '100vh', 
-      background: '#121212', 
-      color: '#d4af37', 
-      textAlign: 'center', 
-      padding: '60px 20px', 
-      fontFamily: 'serif' 
-    }}>
-      <h1 style={{ fontSize: '3rem', marginBottom: '10px' }}>
-        {data.bride_name} & {data.groom_name}
-      </h1>
-      <p style={{ letterSpacing: '3px', textTransform: 'uppercase', opacity: 0.8 }}>
-        Vă invită să le fiți alături
-      </p>
-      
-      <div style={{ margin: '40px auto', padding: '20px', borderTop: '1px solid #d4af3733', borderBottom: '1px solid #d4af3733', display: 'inline-block' }}>
-        <p style={{ margin: 0, fontSize: '1.2rem' }}>Locația: <strong>{data.location_name}</strong></p>
-      </div>
+  // Incrementăm vizualizările aici, la poarta de intrare
+  await sql`UPDATE wedding_settings SET view_count = view_count + 1 WHERE custom_slug = ${slug}`;
 
-      {/* Injectăm formularul de client și îi trimitem order_id-ul */}
-      <RsvpForm orderId={data.order_id} />
-    </div>
-  );
+  // Îl trimitem la pagina cu design-ul specific, dar el în browser vede tot URL-ul scurt!
+  redirect(`/invitatie/${theme}/${slug}`);
 }
