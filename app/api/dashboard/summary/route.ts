@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { neon } from "@neondatabase/serverless";
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -14,14 +15,14 @@ export async function GET(request: Request) {
   const sql = neon(process.env.DATABASE_URL!);
 
   try {
-    // 1. Luăm setările nunții (view_count, slug, nume)
+    // Luăm setările proaspete
     const settings = await sql`
       SELECT view_count, bride_name, groom_name, location_name, custom_slug 
       FROM wedding_settings 
       WHERE order_id = ${parseInt(orderId)}
+      LIMIT 1
     `;
 
-    // 2. Luăm statisticile RSVP
     const stats = await sql`
       SELECT 
         COUNT(*) FILTER (WHERE is_coming = true) as total_da,
@@ -32,16 +33,15 @@ export async function GET(request: Request) {
       WHERE order_id = ${parseInt(orderId)}
     `;
 
-    // 3. Luăm lista completă de invitați
     const guests = await sql`
       SELECT * FROM rsvp_responses 
       WHERE order_id = ${parseInt(orderId)} 
       ORDER BY created_at DESC
     `;
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       views: settings[0]?.view_count || 0,
-      weddingDetails: settings[0] || null, // FOARTE IMPORTANT: trimitem datele mirilor
+      weddingDetails: settings[0] || null,
       stats: {
         da: parseInt(stats[0].total_da) || 0,
         nu: parseInt(stats[0].total_nu) || 0,
@@ -50,6 +50,11 @@ export async function GET(request: Request) {
       },
       guests
     });
+
+    // Setăm headere de NO CACHE agresiv
+    response.headers.set('Cache-Control', 'no-store, max-age=0, must-revalidate');
+    return response;
+
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Database error" }, { status: 500 });
