@@ -2,27 +2,38 @@ import { NextResponse } from "next/server";
 import { neon } from "@neondatabase/serverless";
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const orderId = searchParams.get("orderId");
-
-  if (!orderId) {
-    return NextResponse.json({ error: "Missing orderId" }, { status: 400 });
-  }
+  const slug = searchParams.get("slug");
 
   const sql = neon(process.env.DATABASE_URL!);
 
   try {
-    // Luăm setările proaspete
-    const settings = await sql`
-      SELECT view_count, bride_name, groom_name, location_name, custom_slug 
-      FROM wedding_settings 
-      WHERE order_id = ${parseInt(orderId)}
-      LIMIT 1
-    `;
+    let settings;
 
+    if (orderId) {
+      // Logica pentru Dashboard
+      settings = await sql`
+        SELECT * FROM wedding_settings WHERE order_id = ${parseInt(orderId)} LIMIT 1
+      `;
+    } else if (slug) {
+      // Logica pentru Pagina Publică
+      settings = await sql`
+        SELECT * FROM wedding_settings WHERE custom_slug = ${slug} LIMIT 1
+      `;
+    } else {
+      return NextResponse.json({ error: "Lipsesc parametrii" }, { status: 400 });
+    }
+
+    if (settings.length === 0) {
+      return NextResponse.json({ weddingDetails: null }, { status: 404 });
+    }
+
+    const currentOrderId = settings[0].order_id;
+
+    // Luăm statisticile și invitații folosind order_id-ul găsit
     const stats = await sql`
       SELECT 
         COUNT(*) FILTER (WHERE is_coming = true) as total_da,
@@ -30,18 +41,18 @@ export async function GET(request: Request) {
         SUM(adults_count) FILTER (WHERE is_coming = true) as total_adulti,
         SUM(kids_count) FILTER (WHERE is_coming = true) as total_copii
       FROM rsvp_responses 
-      WHERE order_id = ${parseInt(orderId)}
+      WHERE order_id = ${currentOrderId}
     `;
 
     const guests = await sql`
       SELECT * FROM rsvp_responses 
-      WHERE order_id = ${parseInt(orderId)} 
+      WHERE order_id = ${currentOrderId} 
       ORDER BY created_at DESC
     `;
 
-    const response = NextResponse.json({
+    return NextResponse.json({
       views: settings[0]?.view_count || 0,
-      weddingDetails: settings[0] || null,
+      weddingDetails: settings[0],
       stats: {
         da: parseInt(stats[0].total_da) || 0,
         nu: parseInt(stats[0].total_nu) || 0,
@@ -50,13 +61,8 @@ export async function GET(request: Request) {
       },
       guests
     });
-
-    // Setăm headere de NO CACHE agresiv
-    response.headers.set('Cache-Control', 'no-store, max-age=0, must-revalidate');
-    return response;
-
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: "Database error" }, { status: 500 });
+    return NextResponse.json({ error: "Eroare bază de date" }, { status: 500 });
   }
 }
