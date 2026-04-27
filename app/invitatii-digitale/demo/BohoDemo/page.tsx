@@ -1,3 +1,40 @@
+// ─── SEO METADATA — Next.js App Router ───────────────────────────────────────
+// Acest bloc trebuie mutat într-un fișier separat layout.tsx sau într-un
+// page.tsx parinte dacă folosești 'use client'. Poți exporta metadata direct
+// din acest fișier doar dacă elimini 'use client' și muți logica client într-un
+// component separat. Pentru demo rapid, metadata e inclusă ca comentariu gata
+// de copiat în fișierul parinte.
+//
+// export const metadata = {
+//   title: 'Invitații Nuntă Online | Demo Stil Boho - VibeInvite',
+//   description: 'Invitație digitală de nuntă în stil Boho — caldă, naturală, artistică. Crează-ți invitația online în 3 minute. RSVP instant, link free, GPS inclus, upload poze invitați.',
+//   keywords: [
+//     'invitatii nunta online','invitatii nunta digitale','invitatie nunta boho',
+//     'invitatie nunta stil boho','invitatie online free','link invitatie nunta',
+//     'invitatii digitale nunta romania','creare invitatie nunta online',
+//     'invitatie nunta ieftina','RSVP nunta online','confirmare prezenta nunta',
+//     'invitatii nunta personalizate','invitatie digitala boho','invitatii botez online',
+//     'invitatie nunta cu QR','upload poze nunta','meniu nunta QR cod',
+//     'vibeinvite','invitatii nunta moderne','invitatie nunta naturala',
+//   ],
+//   alternates: { canonical: 'https://vibeinvite.ro/invitatii-digitale/demo/BahoDemo' },
+//   openGraph: {
+//     title: 'Invitații Nuntă Online — Stil Boho | VibeInvite Demo',
+//     description: 'Demo invitație digitală de nuntă în stil Boho. Caldă, naturală, cu elemente handcrafted. RSVP instant, GPS, upload poze invitați.',
+//     url: 'https://vibeinvite.ro/invitatii-digitale/demo/BahoDemo',
+//     siteName: 'VibeInvite',
+//     images: [{ url: '/og-baho.jpg', width: 1200, height: 630, alt: 'VibeInvite Invitație Boho' }],
+//     locale: 'ro_RO', type: 'website',
+//   },
+//   twitter: {
+//     card: 'summary_large_image',
+//     title: 'Invitații Nuntă Online Boho — VibeInvite',
+//     description: 'Invitație digitală de nuntă în stil Boho. Naturală, caldă, artistică. RSVP, GPS, upload poze.',
+//     images: ['/og-baho.jpg'],
+//   },
+//   robots: { index: true, follow: true },
+// }
+
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -415,17 +452,134 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
         </div>
       </div>
 
-      {/* RSVP Modal */}
+      {/* RSVP Modal — formular complet */}
       {modal&&(
-        <div onClick={()=>setModal(false)} style={{position:'fixed',inset:0,zIndex:300,background:'rgba(74,55,40,.55)',backdropFilter:'blur(10px)',display:'flex',alignItems:'center',justifyContent:'center',padding:20,animation:'bh-fadeIn .28s ease'}}>
-          <div onClick={e=>e.stopPropagation()} style={{background:'linear-gradient(165deg,#FEFAF0,#F5EDD8)',borderRadius:28,padding:'40px 32px',maxWidth:360,width:'100%',border:'1.5px solid rgba(193,127,62,.25)',boxShadow:'0 40px 100px rgba(74,55,40,.35)',textAlign:'center',animation:'bh-slideUp .32s cubic-bezier(.4,0,.2,1)'}}>
-            <div style={{marginBottom:12,display:'flex',justifyContent:'center'}}><SunMandala size={56}/></div>
-            <h2 style={{fontFamily:"'Dancing Script',cursive",fontSize:34,color:'#4A3728',marginBottom:10}}>Mulțumim! 🌿</h2>
-            <div style={{width:36,height:1,background:'rgba(193,127,62,.4)',margin:'0 auto 14px'}}/>
-            <p style={{fontFamily:"'EB Garamond',serif",fontSize:14,fontStyle:'italic',color:'#8B6343',marginBottom:24,lineHeight:1.8}}>
-              Aceasta este o demonstrație a temei <strong style={{color:'#6B4E2A',fontStyle:'normal'}}>Boho</strong>.<br/>Achiziționează pachetul pentru a activa confirmările.
-            </p>
-            <button onClick={()=>setModal(false)} style={{padding:'12px 36px',borderRadius:100,background:'linear-gradient(135deg,#8B6343,#6B4E2A)',color:'#F5EDD8',fontSize:13,fontFamily:"'EB Garamond',serif",fontStyle:'italic',letterSpacing:'.1em',border:'none',cursor:'pointer',boxShadow:'0 6px 24px rgba(139,99,67,.3)'}}>Închide</button>
+        <div onClick={()=>setModal(false)} style={{position:'fixed',inset:0,zIndex:300,background:'rgba(74,55,40,.6)',backdropFilter:'blur(10px)',display:'flex',alignItems:'center',justifyContent:'center',padding:'16px',animation:'bh-fadeIn .28s ease',overflowY:'auto'}}>
+          <div onClick={e=>e.stopPropagation()} style={{background:'linear-gradient(165deg,#FEFAF0,#F5EDD8)',borderRadius:28,padding:'clamp(28px,4vw,40px) clamp(20px,4vw,36px)',maxWidth:480,width:'100%',border:'1.5px solid rgba(193,127,62,.25)',boxShadow:'0 40px 100px rgba(74,55,40,.35)',animation:'bh-slideUp .32s cubic-bezier(.4,0,.2,1)',position:'relative',maxHeight:'90vh',overflowY:'auto'}}>
+            {/* Header form */}
+            <div style={{textAlign:'center',marginBottom:22}}>
+              <div style={{display:'flex',justifyContent:'center',marginBottom:10}}><SunMandala size={52}/></div>
+              <h2 style={{fontFamily:"'Dancing Script',cursive",fontSize:'clamp(24px,4vw,32px)',color:'#4A3728',marginBottom:6}}>Confirmă Prezența 🌿</h2>
+              <div style={{width:36,height:1,background:'rgba(193,127,62,.4)',margin:'0 auto 10px'}}/>
+              <p style={{fontFamily:"'EB Garamond',serif",fontSize:13,fontStyle:'italic',color:'#8B6343',lineHeight:1.7}}>
+                Toate câmpurile sunt opționale — completează ce dorești.
+              </p>
+            </div>
+
+            {/* FIELDS */}
+            <div style={{display:'flex',flexDirection:'column',gap:16}}>
+
+              {/* Nume */}
+              <div>
+                <label style={{display:'block',fontFamily:"'EB Garamond',serif",fontSize:13,fontStyle:'italic',color:'#6B4E2A',marginBottom:5,letterSpacing:'.04em'}}>
+                  Nume și Prenume
+                </label>
+                <input type="text" placeholder="ex. Maria Popescu" style={{width:'100%',padding:'10px 14px',borderRadius:12,border:'1.5px solid rgba(193,127,62,.28)',background:'rgba(255,250,240,.8)',fontFamily:"'EB Garamond',serif",fontSize:14,color:'#4A3728',outline:'none'}}
+                  onFocus={e=>(e.currentTarget as HTMLInputElement).style.borderColor='rgba(193,127,62,.7)'}
+                  onBlur={e=>(e.currentTarget as HTMLInputElement).style.borderColor='rgba(193,127,62,.28)'}/>
+                <p style={{fontFamily:"'EB Garamond',serif",fontSize:11,fontStyle:'italic',color:'rgba(139,99,67,.55)',marginTop:4}}>Numele și prenumele dumneavoastră.</p>
+              </div>
+
+              {/* Participare */}
+              <div>
+                <label style={{display:'block',fontFamily:"'EB Garamond',serif",fontSize:13,fontStyle:'italic',color:'#6B4E2A',marginBottom:8,letterSpacing:'.04em'}}>Răspuns</label>
+                <div style={{display:'flex',gap:8}}>
+                  {['Particip','Nu Particip'].map(opt=>(
+                    <label key={opt} style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',gap:8,padding:'10px 12px',borderRadius:12,border:'1.5px solid rgba(193,127,62,.28)',background:'rgba(255,250,240,.8)',cursor:'pointer',fontFamily:"'EB Garamond',serif",fontSize:13,color:'#4A3728',fontStyle:'italic',transition:'all .2s',userSelect:'none'}}
+                      onMouseEnter={e=>{(e.currentTarget as HTMLLabelElement).style.borderColor='rgba(193,127,62,.7)';(e.currentTarget as HTMLLabelElement).style.background='rgba(193,127,62,.1)'}}
+                      onMouseLeave={e=>{(e.currentTarget as HTMLLabelElement).style.borderColor='rgba(193,127,62,.28)';(e.currentTarget as HTMLLabelElement).style.background='rgba(255,250,240,.8)'}}>
+                      <input type="radio" name="raspuns" value={opt} style={{accentColor:'#C17F3E'}}/>{opt}
+                    </label>
+                  ))}
+                </div>
+                <p style={{fontFamily:"'EB Garamond',serif",fontSize:11,fontStyle:'italic',color:'rgba(139,99,67,.55)',marginTop:4}}>În cazul în care refuzați să participați, selectați "Nu Particip".</p>
+              </div>
+
+              {/* Însoțit */}
+              <div>
+                <label style={{display:'block',fontFamily:"'EB Garamond',serif",fontSize:13,fontStyle:'italic',color:'#6B4E2A',marginBottom:8,letterSpacing:'.04em'}}>Veți fi însoțit/ă la eveniment?</label>
+                <div style={{display:'flex',gap:8}}>
+                  {['Da','Nu'].map(opt=>(
+                    <label key={opt} style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',gap:8,padding:'10px 12px',borderRadius:12,border:'1.5px solid rgba(193,127,62,.28)',background:'rgba(255,250,240,.8)',cursor:'pointer',fontFamily:"'EB Garamond',serif",fontSize:13,color:'#4A3728',fontStyle:'italic',transition:'all .2s',userSelect:'none'}}
+                      onMouseEnter={e=>{(e.currentTarget as HTMLLabelElement).style.borderColor='rgba(193,127,62,.7)';(e.currentTarget as HTMLLabelElement).style.background='rgba(193,127,62,.1)'}}
+                      onMouseLeave={e=>{(e.currentTarget as HTMLLabelElement).style.borderColor='rgba(193,127,62,.28)';(e.currentTarget as HTMLLabelElement).style.background='rgba(255,250,240,.8)'}}>
+                      <input type="radio" name="insotit" value={opt} style={{accentColor:'#C17F3E'}}/>{opt}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Partener */}
+              <div>
+                <label style={{display:'block',fontFamily:"'EB Garamond',serif",fontSize:13,fontStyle:'italic',color:'#6B4E2A',marginBottom:5,letterSpacing:'.04em'}}>Nume și Prenume partener</label>
+                <input type="text" placeholder="ex. Ion Popescu" style={{width:'100%',padding:'10px 14px',borderRadius:12,border:'1.5px solid rgba(193,127,62,.28)',background:'rgba(255,250,240,.8)',fontFamily:"'EB Garamond',serif",fontSize:14,color:'#4A3728',outline:'none'}}
+                  onFocus={e=>(e.currentTarget as HTMLInputElement).style.borderColor='rgba(193,127,62,.7)'}
+                  onBlur={e=>(e.currentTarget as HTMLInputElement).style.borderColor='rgba(193,127,62,.28)'}/>
+                <p style={{fontFamily:"'EB Garamond',serif",fontSize:11,fontStyle:'italic',color:'rgba(139,99,67,.55)',marginTop:4}}>Numele și prenumele persoanei care vă va însoți.</p>
+              </div>
+
+              {/* Copii */}
+              <div>
+                <label style={{display:'block',fontFamily:"'EB Garamond',serif",fontSize:13,fontStyle:'italic',color:'#6B4E2A',marginBottom:8,letterSpacing:'.04em'}}>Veți veni însoțit/ă de copii?</label>
+                <div style={{display:'flex',gap:8}}>
+                  {['Da','Nu'].map(opt=>(
+                    <label key={opt} style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',gap:8,padding:'10px 12px',borderRadius:12,border:'1.5px solid rgba(193,127,62,.28)',background:'rgba(255,250,240,.8)',cursor:'pointer',fontFamily:"'EB Garamond',serif",fontSize:13,color:'#4A3728',fontStyle:'italic',transition:'all .2s',userSelect:'none'}}
+                      onMouseEnter={e=>{(e.currentTarget as HTMLLabelElement).style.borderColor='rgba(193,127,62,.7)';(e.currentTarget as HTMLLabelElement).style.background='rgba(193,127,62,.1)'}}
+                      onMouseLeave={e=>{(e.currentTarget as HTMLLabelElement).style.borderColor='rgba(193,127,62,.28)';(e.currentTarget as HTMLLabelElement).style.background='rgba(255,250,240,.8)'}}>
+                      <input type="radio" name="copii" value={opt} style={{accentColor:'#C17F3E'}}/>{opt}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Meniu */}
+              <div>
+                <label style={{display:'block',fontFamily:"'EB Garamond',serif",fontSize:13,fontStyle:'italic',color:'#6B4E2A',marginBottom:8,letterSpacing:'.04em'}}>Preferințe meniu</label>
+                <div style={{display:'flex',flexDirection:'column',gap:6}}>
+                  {['2x Meniu Normal','2x Meniu Vegetarian','1x Meniu Normal, 1x Meniu Vegetarian'].map(opt=>(
+                    <label key={opt} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 14px',borderRadius:12,border:'1.5px solid rgba(193,127,62,.28)',background:'rgba(255,250,240,.8)',cursor:'pointer',fontFamily:"'EB Garamond',serif",fontSize:13,color:'#4A3728',fontStyle:'italic',transition:'all .2s',userSelect:'none'}}
+                      onMouseEnter={e=>{(e.currentTarget as HTMLLabelElement).style.borderColor='rgba(193,127,62,.7)';(e.currentTarget as HTMLLabelElement).style.background='rgba(193,127,62,.1)'}}
+                      onMouseLeave={e=>{(e.currentTarget as HTMLLabelElement).style.borderColor='rgba(193,127,62,.28)';(e.currentTarget as HTMLLabelElement).style.background='rgba(255,250,240,.8)'}}>
+                      <input type="radio" name="meniu" value={opt} style={{accentColor:'#C17F3E',flexShrink:0}}/>{opt}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Cazare */}
+              <div>
+                <label style={{display:'block',fontFamily:"'EB Garamond',serif",fontSize:13,fontStyle:'italic',color:'#6B4E2A',marginBottom:8,letterSpacing:'.04em'}}>Aveți nevoie de cazare?</label>
+                <div style={{display:'flex',gap:8}}>
+                  {['Nu','Da'].map(opt=>(
+                    <label key={opt} style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',gap:8,padding:'10px 12px',borderRadius:12,border:'1.5px solid rgba(193,127,62,.28)',background:'rgba(255,250,240,.8)',cursor:'pointer',fontFamily:"'EB Garamond',serif",fontSize:13,color:'#4A3728',fontStyle:'italic',transition:'all .2s',userSelect:'none'}}
+                      onMouseEnter={e=>{(e.currentTarget as HTMLLabelElement).style.borderColor='rgba(193,127,62,.7)';(e.currentTarget as HTMLLabelElement).style.background='rgba(193,127,62,.1)'}}
+                      onMouseLeave={e=>{(e.currentTarget as HTMLLabelElement).style.borderColor='rgba(193,127,62,.28)';(e.currentTarget as HTMLLabelElement).style.background='rgba(255,250,240,.8)'}}>
+                      <input type="radio" name="cazare" value={opt} style={{accentColor:'#C17F3E'}}/>{opt}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Submit demo */}
+            <div style={{marginTop:22,textAlign:'center'}}>
+              <button onClick={()=>setModal(false)} style={{display:'inline-flex',alignItems:'center',justifyContent:'center',gap:8,padding:'13px 36px',borderRadius:100,background:'linear-gradient(135deg,#8B6343,#6B4E2A)',color:'#F5EDD8',fontSize:14,fontFamily:"'EB Garamond',serif",fontStyle:'italic',letterSpacing:'.1em',border:'none',cursor:'pointer',boxShadow:'0 8px 28px rgba(139,99,67,.32)',width:'100%',transition:'transform .2s,box-shadow .2s'}}
+                onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.transform='translateY(-2px)';(e.currentTarget as HTMLButtonElement).style.boxShadow='0 14px 40px rgba(139,99,67,.45)'}}
+                onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.transform='';(e.currentTarget as HTMLButtonElement).style.boxShadow='0 8px 28px rgba(139,99,67,.32)'}}>
+                ✦ Trimite Confirmarea ✦
+              </button>
+              <div style={{marginTop:18,padding:'14px 16px',background:'rgba(193,127,62,.06)',border:'1px solid rgba(193,127,62,.18)',borderRadius:12}}>
+                <p style={{fontFamily:"'EB Garamond',serif",fontSize:13,fontStyle:'italic',color:'#8B6343',lineHeight:1.75}}>
+                  Mulțumim! 🌿<br/>
+                  Aceasta este o demonstrație a temei <strong style={{color:'#6B4E2A',fontStyle:'normal'}}>Boho</strong>.<br/>
+                  Achiziționează pachetul pentru a activa confirmările.
+                </p>
+              </div>
+              <button onClick={()=>setModal(false)} style={{marginTop:12,background:'none',border:'none',cursor:'pointer',fontFamily:"'EB Garamond',serif",fontSize:12,fontStyle:'italic',color:'rgba(139,99,67,.55)',letterSpacing:'.06em',textDecoration:'underline'}}>
+                Închide
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -451,6 +605,106 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
 
 export default function App() {
   const [phase, setPhase] = useState<Phase>('envelope')
+
+  // ─── SEO: inject JSON-LD + meta tags în <head> ───────────────────────────
+  useEffect(() => {
+    // Title
+    document.title = 'Invitații Nuntă Online | Demo Stil Boho — VibeInvite'
+
+    // Meta description
+    let desc = document.querySelector('meta[name="description"]')
+    if (!desc) { desc = document.createElement('meta'); desc.setAttribute('name','description'); document.head.appendChild(desc) }
+    desc.setAttribute('content','Invitație digitală de nuntă în stil Boho — caldă, naturală, artistică. Crează-ți invitația online în 3 minute. RSVP instant, link free, GPS inclus, upload poze invitați nuntă.')
+
+    // Meta keywords
+    let kw = document.querySelector('meta[name="keywords"]')
+    if (!kw) { kw = document.createElement('meta'); kw.setAttribute('name','keywords'); document.head.appendChild(kw) }
+    kw.setAttribute('content','invitatii nunta online, invitatii nunta digitale, invitatie nunta boho, invitatie online free, link invitatie nunta, invitatii digitale nunta romania, creare invitatie nunta online, invitatie nunta ieftina, RSVP nunta online, confirmare prezenta nunta, invitatii nunta personalizate, invitatie digitala boho, invitatii botez online, invitatie nunta QR, upload poze nunta, meniu nunta QR, vibeinvite, invitatii nunta moderne, invitatie nunta naturala, invitatie nunta stil rustic')
+
+    // OG tags
+    const ogTags: Record<string,string> = {
+      'og:title': 'Invitații Nuntă Online — Stil Boho | VibeInvite Demo',
+      'og:description': 'Demo invitație digitală de nuntă în stil Boho. Caldă, naturală, handcrafted. RSVP instant, GPS, upload poze invitați.',
+      'og:type': 'website',
+      'og:url': 'https://vibeinvite.ro/invitatii-digitale/demo/BahoDemo',
+      'og:site_name': 'VibeInvite',
+      'og:image': 'https://vibeinvite.ro/og-baho.jpg',
+      'og:locale': 'ro_RO',
+    }
+    Object.entries(ogTags).forEach(([prop,content]) => {
+      let el = document.querySelector(`meta[property="${prop}"]`)
+      if (!el) { el = document.createElement('meta'); el.setAttribute('property',prop); document.head.appendChild(el) }
+      el.setAttribute('content',content)
+    })
+
+    // Twitter tags
+    const twTags: Record<string,string> = {
+      'twitter:card': 'summary_large_image',
+      'twitter:title': 'Invitații Nuntă Online Boho — VibeInvite',
+      'twitter:description': 'Invitație digitală de nuntă în stil Boho. Naturală, caldă, artistică. RSVP, GPS, upload poze.',
+      'twitter:image': 'https://vibeinvite.ro/og-baho.jpg',
+    }
+    Object.entries(twTags).forEach(([name,content]) => {
+      let el = document.querySelector(`meta[name="${name}"]`)
+      if (!el) { el = document.createElement('meta'); el.setAttribute('name',name); document.head.appendChild(el) }
+      el.setAttribute('content',content)
+    })
+
+    // Canonical
+    let canon = document.querySelector('link[rel="canonical"]')
+    if (!canon) { canon = document.createElement('link'); canon.setAttribute('rel','canonical'); document.head.appendChild(canon) }
+    canon.setAttribute('href','https://vibeinvite.ro/invitatii-digitale/demo/BahoDemo')
+
+    // JSON-LD structured data
+    const existingLd = document.querySelector('script[data-ld="baho"]')
+    if (!existingLd) {
+      const ld = document.createElement('script')
+      ld.setAttribute('type','application/ld+json')
+      ld.setAttribute('data-ld','baho')
+      ld.textContent = JSON.stringify([
+        {
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: 'Invitații Nuntă Online — Demo Stil Boho',
+          description: 'Demo invitație digitală de nuntă în stil Boho. Naturală, caldă, cu elemente handcrafted. RSVP instant, GPS, upload poze invitați.',
+          url: 'https://vibeinvite.ro/invitatii-digitale/demo/BahoDemo',
+          inLanguage: 'ro',
+          isPartOf: { '@type': 'WebSite', name: 'VibeInvite', url: 'https://vibeinvite.ro' },
+          breadcrumb: {
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Acasă', item: 'https://vibeinvite.ro' },
+              { '@type': 'ListItem', position: 2, name: 'Invitații Digitale', item: 'https://vibeinvite.ro/invitatii-digitale' },
+              { '@type': 'ListItem', position: 3, name: 'Demo Stil Boho', item: 'https://vibeinvite.ro/invitatii-digitale/demo/BahoDemo' },
+            ],
+          },
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'SoftwareApplication',
+          name: 'VibeInvite — Invitații Digitale',
+          applicationCategory: 'LifestyleApplication',
+          operatingSystem: 'Web, iOS, Android',
+          description: 'Platformă de creare invitații digitale pentru nuntă și botez. RSVP online, GPS, meniu QR, upload poze invitați, export Excel.',
+          url: 'https://vibeinvite.ro',
+          offers: { '@type': 'Offer', price: '0', priceCurrency: 'RON', description: 'Link invitație online gratuit' },
+          aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', ratingCount: '1240' },
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: [
+            { '@type': 'Question', name: 'Cum creez o invitație de nuntă online?', acceptedAnswer: { '@type': 'Answer', text: 'Pe VibeInvite poți crea o invitație digitală în 3 minute. Alegi stilul, completezi detaliile și primești un link personalizat gratuit.' } },
+            { '@type': 'Question', name: 'Invitațiile digitale de nuntă sunt gratuite?', acceptedAnswer: { '@type': 'Answer', text: 'Da, linkul de invitație online este gratuit. Pachetele premium includ RSVP, meniu QR, upload poze invitați și export Excel.' } },
+            { '@type': 'Question', name: 'Ce este stilul Boho pentru invitații de nuntă?', acceptedAnswer: { '@type': 'Answer', text: 'Stilul Boho este natural, cald și artistic. Folosește elemente handcrafted, culori pământii, floricele sălbatice și fonturi cursive pentru o atmosferă relaxată și autentică.' } },
+            { '@type': 'Question', name: 'Pot colecta poze de la invitați în ziua nunții?', acceptedAnswer: { '@type': 'Answer', text: 'Da! VibeInvite include o funcție de upload foto prin care invitații pot încărca poze direct din telefon în ziua evenimentului. Mirii accesează toate imaginile într-un album privat.' } },
+          ],
+        },
+      ])
+      document.head.appendChild(ld)
+    }
+  }, [])
+
   function openEnvelope() {
     if(phase!=='envelope') return
     setPhase('opening')

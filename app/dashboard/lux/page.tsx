@@ -1,18 +1,114 @@
-import React from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
+import { SummarySection } from './components/SummarySection';
+import { PersonalizeSection } from './components/PersonalizeSection';
+import { MenuSection } from './components/MenuSection';
+import { PhotosSection } from './components/PhotosSection';
 
 export default function LuxDashboard() {
+  const [activeTab, setActiveTab] = useState('summary');
+  const [isProfileComplete, setIsProfileComplete] = useState(false);
+  const [slug, setSlug] = useState("");
+
+  // Simulăm verificarea statusului (va veni din DB)
+  useEffect(() => {
+    // Aici vei face fetch la wedding_settings
+    // Dacă au bride_name și location_name, isProfileComplete devine true
+    const checkStatus = async () => {
+      // Fetch logic...
+      setIsProfileComplete(false); // Începem cu false pentru test
+      setSlug("nunta-adrian-elena");
+    };
+    checkStatus();
+  }, []);
+
   return (
-    <div style={{ background: '#1a1a1a', color: '#d4af37', minHeight: '100vh', padding: '50px', fontFamily: 'serif' }}>
-      <h1>Dashboard Premium - Tema LUX</h1>
-      <hr style={{ borderColor: '#d4af37' }} />
-      <p style={{ fontSize: '1.2rem' }}>Bună! Aici poți edita invitația ta elegantă.</p>
-      <div style={{ marginTop: '30px', border: '1px solid #d4af37', padding: '20px' }}>
-        <h3>Setări Invitație</h3>
-        <p>Nume Miri: Adrian & Partenera</p>
-        <button style={{ padding: '10px 20px', background: '#d4af37', color: 'black', border: 'none', cursor: 'pointer' }}>
-          Editează Detalii
-        </button>
-      </div>
+    <div style={{ display: 'flex', background: '#121212', color: '#d4af37', minHeight: '100vh', fontFamily: "'Playfair Display', serif" }}>
+      
+      {/* SIDEBAR INDIVIDUAL LUX */}
+      <aside style={{
+        width: '300px',
+        borderRight: '1px solid #d4af3733',
+        padding: '40px 20px',
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'fixed',
+        height: '100vh',
+        zIndex: 10
+      }}>
+        <h2 style={{ fontSize: '1.6rem', textAlign: 'center', marginBottom: '30px', letterSpacing: '2px' }}>
+          LUXURY <br/> <span style={{fontSize: '0.7rem'}}>INVITE</span>
+        </h2>
+
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <button onClick={() => setActiveTab('summary')} style={navButtonStyle(activeTab === 'summary')}>📊 SUMMARY</button>
+          <button onClick={() => setActiveTab('personalize')} style={navButtonStyle(activeTab === 'personalize')}>🎨 PERSONALIZEAZĂ</button>
+          <button onClick={() => setActiveTab('menu')} style={navButtonStyle(activeTab === 'menu')}>🍴 MENIU & QR</button>
+          <button onClick={() => setActiveTab('photos')} style={navButtonStyle(activeTab === 'photos')}>📸 POZE INSTANT</button>
+        </nav>
+
+        {/* --- NOUA SECȚIUNE: LINK INVITAȚIE (În Sidebar) --- */}
+        <div style={{ 
+          marginTop: '30px', 
+          padding: '20px 15px', 
+          border: `1px solid ${isProfileComplete ? '#d4af37' : '#ffa500'}`,
+          background: '#1a1a1a',
+          borderRadius: '4px'
+        }}>
+          <p style={{ fontSize: '0.7rem', margin: '0 0 10px 0', fontWeight: 'bold', color: isProfileComplete ? '#d4af37' : '#ffa500' }}>
+            {isProfileComplete ? '🔗 LINK INVITAȚIE' : '⚠️ STATUS: INCOMPLET'}
+          </p>
+
+          {!isProfileComplete ? (
+            <p style={{ fontSize: '0.75rem', color: '#ccc', lineHeight: '1.4' }}>
+              Primul Pas: Completează detaliile la <strong>Personalizează</strong> pentru a activa link-ul.
+            </p>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <input 
+                readOnly 
+                value={`vibeinvite.ro/i/${slug}`}
+                style={{ background: '#000', border: '1px solid #333', color: '#fff', padding: '5px', fontSize: '0.8rem' }}
+              />
+              <button 
+                onClick={() => {
+                   navigator.clipboard.writeText(`https://vibeinvite.ro/i/${slug}`);
+                   alert("Link copiat!");
+                }}
+                style={{ background: '#d4af37', color: 'black', border: 'none', padding: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.7rem' }}
+              >
+                COPIAZĂ LINK
+              </button>
+            </div>
+          )}
+        </div>
+
+        <div style={{ marginTop: 'auto', textAlign: 'center' }}>
+          <button style={{ background: 'transparent', border: '1px solid #d4af37', color: '#d4af37', padding: '10px 20px', cursor: 'pointer', fontSize: '0.8rem' }}>
+            DECONECTARE
+          </button>
+        </div>
+      </aside>
+
+      {/* CONȚINUT DINAMIC */}
+      <main style={{ marginLeft: '300px', flex: 1, padding: '60px' }}>
+        {activeTab === 'summary' && <SummarySection isComplete={isProfileComplete} />}
+        {activeTab === 'personalize' && <PersonalizeSection onSave={() => setIsProfileComplete(true)} />}
+        {activeTab === 'menu' && <MenuSection />}
+        {activeTab === 'photos' && <PhotosSection />}
+      </main>
     </div>
   );
 }
+
+const navButtonStyle = (isActive: boolean) => ({
+  background: isActive ? '#d4af37' : 'transparent',
+  color: isActive ? 'black' : '#d4af37',
+  border: '1px solid #d4af3733',
+  padding: '12px 15px',
+  textAlign: 'left' as const,
+  cursor: 'pointer',
+  fontSize: '0.85rem',
+  fontWeight: 'bold',
+  transition: '0.3s'
+});
