@@ -11,15 +11,16 @@ export default function LuxDashboard() {
   const [slug, setSlug] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // Funcția care aduce datele proaspete din baza de date
   const refreshStatus = async () => {
     try {
-      const orderId = 1; // În producție va fi din sesiune
-      const res = await fetch(`/api/dashboard/summary?orderId=${orderId}`);
+      const orderId = 1; 
+      // Cache busting cu timestamp pentru refresh instant
+      const res = await fetch(`/api/dashboard/summary?orderId=${orderId}&t=${Date.now()}`, {
+        cache: 'no-store'
+      });
       const data = await res.json();
 
       if (data.weddingDetails) {
-        // Dacă avem nume mireasă și un slug, considerăm profilul complet
         const complete = !!(data.weddingDetails.bride_name && data.weddingDetails.custom_slug);
         setIsProfileComplete(complete);
         setSlug(data.weddingDetails.custom_slug || "");
@@ -31,7 +32,6 @@ export default function LuxDashboard() {
     }
   };
 
-  // Încărcăm datele la prima intrare pe pagină
   useEffect(() => {
     refreshStatus();
   }, []);
@@ -41,16 +41,9 @@ export default function LuxDashboard() {
   return (
     <div style={{ display: 'flex', background: '#121212', color: '#d4af37', minHeight: '100vh', fontFamily: "'Playfair Display', serif" }}>
       
-      {/* SIDEBAR INDIVIDUAL LUX */}
       <aside style={{
-        width: '300px',
-        borderRight: '1px solid #d4af3733',
-        padding: '40px 20px',
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'fixed',
-        height: '100vh',
-        zIndex: 10
+        width: '300px', borderRight: '1px solid #d4af3733', padding: '40px 20px',
+        display: 'flex', flexDirection: 'column', position: 'fixed', height: '100vh', zIndex: 10
       }}>
         <h2 style={{ fontSize: '1.6rem', textAlign: 'center', marginBottom: '30px', letterSpacing: '2px' }}>
           LUXURY <br/> <span style={{fontSize: '0.7rem'}}>INVITE</span>
@@ -63,13 +56,10 @@ export default function LuxDashboard() {
           <button onClick={() => setActiveTab('photos')} style={navButtonStyle(activeTab === 'photos')}>📸 POZE INSTANT</button>
         </nav>
 
-        {/* --- LINK INVITAȚIE (Sidebar) --- */}
         <div style={{ 
-          marginTop: '30px', 
-          padding: '20px 15px', 
+          marginTop: '30px', padding: '20px 15px', 
           border: `1px solid ${isProfileComplete ? '#d4af37' : '#ffa500'}`,
-          background: '#1a1a1a',
-          borderRadius: '4px'
+          background: '#1a1a1a', borderRadius: '4px'
         }}>
           <p style={{ fontSize: '0.7rem', margin: '0 0 10px 0', fontWeight: 'bold', color: isProfileComplete ? '#d4af37' : '#ffa500' }}>
             {isProfileComplete ? '🔗 LINK INVITAȚIE' : '⚠️ STATUS: INCOMPLET'}
@@ -81,13 +71,10 @@ export default function LuxDashboard() {
             </p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <input 
-                readOnly 
-                value={`vibeinvite.ro/${slug}`}
+              <input readOnly value={`vibeinvite.ro/${slug}`}
                 style={{ background: '#000', border: '1px solid #333', color: '#fff', padding: '5px', fontSize: '0.8rem' }}
               />
-              <button 
-                onClick={() => {
+              <button onClick={() => {
                    navigator.clipboard.writeText(`https://vibeinvite.ro/${slug}`);
                    alert("Link copiat!");
                 }}
@@ -106,7 +93,6 @@ export default function LuxDashboard() {
         </div>
       </aside>
 
-      {/* CONȚINUT DINAMIC */}
       <main style={{ marginLeft: '300px', flex: 1, padding: '60px' }}>
         {activeTab === 'summary' && <SummarySection isComplete={isProfileComplete} />}
         {activeTab === 'personalize' && <PersonalizeSection onSave={refreshStatus} />}
