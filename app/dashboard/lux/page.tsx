@@ -14,64 +14,82 @@ export default function LuxDashboard() {
   const refreshStatus = useCallback(async () => {
     try {
       const orderId = 1; 
-      // Timestamp random pentru a sparge cache-ul browserului
-      const res = await fetch(`/api/dashboard/summary?orderId=${orderId}&nocache=${Date.now()}`, {
-        method: 'GET',
-        cache: 'no-store',
-        headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
+      const res = await fetch(`/api/dashboard/summary?orderId=${orderId}&v=${Date.now()}`, {
+        cache: 'no-store'
       });
-      
       const data = await res.json();
-
       if (data.weddingDetails) {
-        setSlug(data.weddingDetails.custom_slug || "");
         setIsProfileComplete(!!(data.weddingDetails.bride_name && data.weddingDetails.custom_slug));
-        console.log("Slug actualizat din DB:", data.weddingDetails.custom_slug);
+        setSlug(data.weddingDetails.custom_slug || "");
       }
     } catch (err) {
-      console.error("Eroare refresh:", err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
   }, []);
 
-  useEffect(() => {
-    refreshStatus();
-  }, [refreshStatus]);
+  useEffect(() => { refreshStatus(); }, [refreshStatus]);
 
-  if (loading) return <div style={{ background: '#121212', color: '#d4af37', height: '100vh', padding: '20px' }}>Încărcare...</div>;
+  if (loading) return <div style={{ background: '#000', color: '#d4af37', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>VIBE INVITE LUX...</div>;
 
   return (
-    <div style={{ display: 'flex', background: '#121212', color: '#d4af37', minHeight: '100vh', fontFamily: 'serif' }}>
+    // Container principal: FĂRĂ MARGINI, FĂRĂ LIMITĂRI, 100% DIN ECRAN
+    <div style={{ 
+      display: 'flex', 
+      width: '100vw', 
+      height: '100vh', 
+      overflow: 'hidden', // Nu lăsăm tot ecranul să facă scroll, doar conținutul
+      background: '#0a0a0a' 
+    }}>
       
-      {/* SIDEBAR */}
-      <aside style={{ width: '300px', borderRight: '1px solid #d4af3733', padding: '40px 20px', position: 'fixed', height: '100vh' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>LUXURY <br/> INVITE</h2>
+      {/* SIDEBAR FIXAT */}
+      <aside style={{
+        width: '280px',
+        background: '#111',
+        borderRight: '1px solid #d4af3722',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '30px 0',
+        flexShrink: 0 // Sidebar-ul nu se strânge niciodată
+      }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <h1 style={{ color: '#d4af37', letterSpacing: '4px', fontSize: '1.2rem', margin: 0 }}>VIBE INVITE</h1>
+          <span style={{ fontSize: '0.6rem', color: '#d4af37', opacity: 0.6 }}>PREMIUM LUXURY EDITION</span>
+        </div>
 
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <button onClick={() => setActiveTab('summary')} style={navButtonStyle(activeTab === 'summary')}>📊 SUMMARY</button>
-          <button onClick={() => setActiveTab('personalize')} style={navButtonStyle(activeTab === 'personalize')}>🎨 PERSONALIZEAZĂ</button>
-          <button onClick={() => setActiveTab('menu')} style={navButtonStyle(activeTab === 'menu')}>🍴 MENIU & QR</button>
-          <button onClick={() => setActiveTab('photos')} style={navButtonStyle(activeTab === 'photos')}>📸 POZE INSTANT</button>
+        <nav style={{ flex: 1, padding: '0 20px' }}>
+          <TabButton active={activeTab === 'summary'} label="📊 Dashboard" onClick={() => setActiveTab('summary')} />
+          <TabButton active={activeTab === 'personalize'} label="🎨 Personalizare" onClick={() => setActiveTab('personalize')} />
+          <TabButton active={activeTab === 'menu'} label="🍴 Meniu & QR" onClick={() => setActiveTab('menu')} />
+          <TabButton active={activeTab === 'photos'} label="📸 Poze Instant" onClick={() => setActiveTab('photos')} />
         </nav>
 
-        <div style={{ marginTop: '30px', padding: '15px', border: `1px solid ${isProfileComplete ? '#d4af37' : '#ffa500'}`, background: '#1a1a1a' }}>
-          <p style={{ fontSize: '0.7rem', color: isProfileComplete ? '#d4af37' : '#ffa500' }}>
-            {isProfileComplete ? '🔗 LINK ACTIV' : '⚠️ INCOMPLET'}
-          </p>
-          {isProfileComplete && (
-            <>
-              <p style={{ fontSize: '0.8rem', color: '#fff', wordBreak: 'break-all', margin: '10px 0' }}>vibeinvite.ro/{slug}</p>
-              <button onClick={() => { navigator.clipboard.writeText(`https://vibeinvite.ro/${slug}`); alert("Copiat!"); }}
-                style={{ width: '100%', background: '#d4af37', border: 'none', padding: '8px', cursor: 'pointer', fontWeight: 'bold' }}>
-                COPIAZĂ LINK
-              </button>
-            </>
-          )}
+        {/* STATUS LINK ÎN SIDEBAR */}
+        <div style={{ padding: '20px', borderTop: '1px solid #d4af3711' }}>
+           <div style={{ 
+             padding: '15px', 
+             background: '#000', 
+             border: `1px solid ${isProfileComplete ? '#d4af37' : '#ffa500'}`,
+             borderRadius: '8px'
+           }}>
+             <p style={{ fontSize: '0.6rem', color: isProfileComplete ? '#d4af37' : '#ffa500', margin: '0 0 10px 0' }}>
+               {isProfileComplete ? '● LINK ACTIV' : '○ INCOMPLET'}
+             </p>
+             {isProfileComplete && <p style={{ fontSize: '0.7rem', color: '#fff', wordBreak: 'break-all' }}>vibeinvite.ro/{slug}</p>}
+           </div>
         </div>
       </aside>
 
-      <main style={{ marginLeft: '300px', flex: 1, padding: '60px' }}>
+      {/* CONȚINUTUL PAGINII: FACE SCROLL INDEPENDENT */}
+      <main style={{ 
+        flex: 1, 
+        height: '100vh', 
+        overflowY: 'auto', 
+        padding: '50px 80px',
+        background: '#0a0a0a',
+        color: '#fff'
+      }}>
         {activeTab === 'summary' && <SummarySection isComplete={isProfileComplete} />}
         {activeTab === 'personalize' && <PersonalizeSection onSave={refreshStatus} />}
         {activeTab === 'menu' && <MenuSection />}
@@ -81,12 +99,22 @@ export default function LuxDashboard() {
   );
 }
 
-const navButtonStyle = (isActive: boolean) => ({
-  background: isActive ? '#d4af37' : 'transparent',
-  color: isActive ? 'black' : '#d4af37',
-  border: '1px solid #d4af3733',
-  padding: '12px 15px',
-  textAlign: 'left' as const,
-  cursor: 'pointer',
-  width: '100%'
-});
+// Componenta de buton pentru Sidebar
+const TabButton = ({ active, label, onClick }: any) => (
+  <button onClick={onClick} style={{
+    width: '100%',
+    padding: '14px 20px',
+    marginBottom: '8px',
+    background: active ? '#d4af37' : 'transparent',
+    color: active ? '#000' : '#d4af37',
+    border: 'none',
+    textAlign: 'left',
+    cursor: 'pointer',
+    borderRadius: '8px',
+    fontWeight: 'bold',
+    fontSize: '0.85rem',
+    transition: '0.3s'
+  }}>
+    {label}
+  </button>
+);
