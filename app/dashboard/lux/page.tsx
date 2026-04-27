@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { SummarySection } from './components/SummarySection';
 import { PersonalizeSection } from './components/PersonalizeSection';
 import { MenuSection } from './components/MenuSection';
@@ -11,36 +11,52 @@ export default function LuxDashboard() {
   const [slug, setSlug] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const refreshStatus = async () => {
+  // Folosim useCallback pentru a putea chema funcția și din alte componente fără erori
+  const refreshStatus = useCallback(async () => {
+    console.log("Se reîmprospătează datele...");
     try {
       const orderId = 1; 
-      // Cache busting cu timestamp pentru refresh instant
-      const res = await fetch(`/api/dashboard/summary?orderId=${orderId}&t=${Date.now()}`, {
-        cache: 'no-store'
+      // Adăugăm un query param unic (timestamp) pentru a ignora complet cache-ul
+      const response = await fetch(`/api/dashboard/summary?orderId=${orderId}&v=${Date.now()}`, {
+        cache: 'no-store',
+        headers: {
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache'
+        }
       });
-      const data = await res.json();
+      
+      const data = await response.json();
 
       if (data.weddingDetails) {
-        const complete = !!(data.weddingDetails.bride_name && data.weddingDetails.custom_slug);
-        setIsProfileComplete(complete);
+        const hasBride = !!data.weddingDetails.bride_name;
+        const hasSlug = !!data.weddingDetails.custom_slug;
+        
+        setIsProfileComplete(hasBride && hasSlug);
         setSlug(data.weddingDetails.custom_slug || "");
+        console.log("Date noi primite:", data.weddingDetails.custom_slug);
       }
     } catch (err) {
       console.error("Eroare la refresh status:", err);
     } finally {
       setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    refreshStatus();
   }, []);
 
-  if (loading) return <div style={{ background: '#121212', color: '#d4af37', height: '100vh', padding: '20px' }}>Se încarcă universul LUX...</div>;
+  // Încărcare inițială
+  useEffect(() => {
+    refreshStatus();
+  }, [refreshStatus]);
+
+  if (loading) return (
+    <div style={{ background: '#121212', color: '#d4af37', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'serif' }}>
+      Se încarcă experiența LUX...
+    </div>
+  );
 
   return (
     <div style={{ display: 'flex', background: '#121212', color: '#d4af37', minHeight: '100vh', fontFamily: "'Playfair Display', serif" }}>
       
+      {/* SIDEBAR */}
       <aside style={{
         width: '300px', borderRight: '1px solid #d4af3733', padding: '40px 20px',
         display: 'flex', flexDirection: 'column', position: 'fixed', height: '100vh', zIndex: 10
@@ -56,27 +72,29 @@ export default function LuxDashboard() {
           <button onClick={() => setActiveTab('photos')} style={navButtonStyle(activeTab === 'photos')}>📸 POZE INSTANT</button>
         </nav>
 
+        {/* STATUS LINK - Acesta se va schimba acum instant */}
         <div style={{ 
           marginTop: '30px', padding: '20px 15px', 
           border: `1px solid ${isProfileComplete ? '#d4af37' : '#ffa500'}`,
           background: '#1a1a1a', borderRadius: '4px'
         }}>
           <p style={{ fontSize: '0.7rem', margin: '0 0 10px 0', fontWeight: 'bold', color: isProfileComplete ? '#d4af37' : '#ffa500' }}>
-            {isProfileComplete ? '🔗 LINK INVITAȚIE' : '⚠️ STATUS: INCOMPLET'}
+            {isProfileComplete ? '🔗 LINK ACTIV' : '⚠️ STATUS: INCOMPLET'}
           </p>
 
           {!isProfileComplete ? (
             <p style={{ fontSize: '0.75rem', color: '#ccc', lineHeight: '1.4' }}>
-              Primul Pas: Completează detaliile la <strong>Personalizează</strong> pentru a activa link-ul.
+              Completează datele la <strong>Personalizează</strong>.
             </p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <input readOnly value={`vibeinvite.ro/${slug}`}
-                style={{ background: '#000', border: '1px solid #333', color: '#fff', padding: '5px', fontSize: '0.8rem' }}
-              />
-              <button onClick={() => {
+              <div style={{ fontSize: '0.75rem', color: '#888', wordBreak: 'break-all' }}>
+                vibeinvite.ro/{slug}
+              </div>
+              <button 
+                onClick={() => {
                    navigator.clipboard.writeText(`https://vibeinvite.ro/${slug}`);
-                   alert("Link copiat!");
+                   alert("Link copiat: " + slug);
                 }}
                 style={{ background: '#d4af37', color: 'black', border: 'none', padding: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.7rem' }}
               >
@@ -93,6 +111,7 @@ export default function LuxDashboard() {
         </div>
       </aside>
 
+      {/* CONȚINUT */}
       <main style={{ marginLeft: '300px', flex: 1, padding: '60px' }}>
         {activeTab === 'summary' && <SummarySection isComplete={isProfileComplete} />}
         {activeTab === 'personalize' && <PersonalizeSection onSave={refreshStatus} />}
