@@ -9,18 +9,34 @@ export default function LuxDashboard() {
   const [activeTab, setActiveTab] = useState('summary');
   const [isProfileComplete, setIsProfileComplete] = useState(false);
   const [slug, setSlug] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  // Simulăm verificarea statusului (va veni din DB)
+  // Funcția care aduce datele proaspete din baza de date
+  const refreshStatus = async () => {
+    try {
+      const orderId = 1; // În producție va fi din sesiune
+      const res = await fetch(`/api/dashboard/summary?orderId=${orderId}`);
+      const data = await res.json();
+
+      if (data.weddingDetails) {
+        // Dacă avem nume mireasă și un slug, considerăm profilul complet
+        const complete = !!(data.weddingDetails.bride_name && data.weddingDetails.custom_slug);
+        setIsProfileComplete(complete);
+        setSlug(data.weddingDetails.custom_slug || "");
+      }
+    } catch (err) {
+      console.error("Eroare la refresh status:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Încărcăm datele la prima intrare pe pagină
   useEffect(() => {
-    // Aici vei face fetch la wedding_settings
-    // Dacă au bride_name și location_name, isProfileComplete devine true
-    const checkStatus = async () => {
-      // Fetch logic...
-      setIsProfileComplete(false); // Începem cu false pentru test
-      setSlug("nunta-adrian-elena");
-    };
-    checkStatus();
+    refreshStatus();
   }, []);
+
+  if (loading) return <div style={{ background: '#121212', color: '#d4af37', height: '100vh', padding: '20px' }}>Se încarcă universul LUX...</div>;
 
   return (
     <div style={{ display: 'flex', background: '#121212', color: '#d4af37', minHeight: '100vh', fontFamily: "'Playfair Display', serif" }}>
@@ -47,7 +63,7 @@ export default function LuxDashboard() {
           <button onClick={() => setActiveTab('photos')} style={navButtonStyle(activeTab === 'photos')}>📸 POZE INSTANT</button>
         </nav>
 
-        {/* --- NOUA SECȚIUNE: LINK INVITAȚIE (În Sidebar) --- */}
+        {/* --- LINK INVITAȚIE (Sidebar) --- */}
         <div style={{ 
           marginTop: '30px', 
           padding: '20px 15px', 
@@ -67,12 +83,12 @@ export default function LuxDashboard() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <input 
                 readOnly 
-                value={`vibeinvite.ro/i/${slug}`}
+                value={`vibeinvite.ro/${slug}`}
                 style={{ background: '#000', border: '1px solid #333', color: '#fff', padding: '5px', fontSize: '0.8rem' }}
               />
               <button 
                 onClick={() => {
-                   navigator.clipboard.writeText(`https://vibeinvite.ro/i/${slug}`);
+                   navigator.clipboard.writeText(`https://vibeinvite.ro/${slug}`);
                    alert("Link copiat!");
                 }}
                 style={{ background: '#d4af37', color: 'black', border: 'none', padding: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.7rem' }}
@@ -93,7 +109,7 @@ export default function LuxDashboard() {
       {/* CONȚINUT DINAMIC */}
       <main style={{ marginLeft: '300px', flex: 1, padding: '60px' }}>
         {activeTab === 'summary' && <SummarySection isComplete={isProfileComplete} />}
-        {activeTab === 'personalize' && <PersonalizeSection onSave={() => setIsProfileComplete(true)} />}
+        {activeTab === 'personalize' && <PersonalizeSection onSave={refreshStatus} />}
         {activeTab === 'menu' && <MenuSection />}
         {activeTab === 'photos' && <PhotosSection />}
       </main>
