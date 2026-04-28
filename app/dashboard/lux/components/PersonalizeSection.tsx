@@ -126,22 +126,14 @@ import React, { useState, useEffect } from 'react';
 export const PersonalizeSection = ({ onSave }: { onSave: () => void }) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    customSlug: '',
-    brideName: '',
-    groomName: '',
-    nasiNames: '',
-    parentsNames: '',
-    weddingDate: '',
-    locationName: '',
-    wazeUrl: '',
-    googleMapsUrl: '',
-    ourStory: ''
+    customSlug: '', brideName: '', groomName: '', nasiNames: '',
+    parentsNames: '', weddingDate: '', locationName: '',
+    wazeUrl: '', googleMapsUrl: '', ourStory: ''
   });
 
-  // Încărcăm datele existente la deschiderea tab-ului
   useEffect(() => {
     async function load() {
-      const res = await fetch(`/api/dashboard/summary?orderId=1`);
+      const res = await fetch(`/api/dashboard/summary?orderId=1&t=${Date.now()}`);
       const data = await res.json();
       if (data.weddingDetails) {
         const d = data.weddingDetails;
@@ -150,8 +142,8 @@ export const PersonalizeSection = ({ onSave }: { onSave: () => void }) => {
           brideName: d.bride_name || '',
           groomName: d.groom_name || '',
           nasiNames: d.nasi_names || '',
-          parentsNames: d.parents_names || '',
-          weddingDate: d.wedding_date ? d.wedding_date.split('T')[0] : '',
+          parentsNames: d.parents_names || '', // Fix aici
+          weddingDate: d.wedding_date ? new Date(d.wedding_date).toISOString().split('T')[0] : '',
           locationName: d.location_name || '',
           wazeUrl: d.waze_url || '',
           googleMapsUrl: d.google_maps_url || '',
@@ -169,57 +161,42 @@ export const PersonalizeSection = ({ onSave }: { onSave: () => void }) => {
       const res = await fetch('/api/dashboard/personalize', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          orderId: 1, 
-          ...formData // Aici trimitem TOATE câmpurile de mai sus
-        }),
+        body: JSON.stringify({ orderId: 1, ...formData }),
       });
-      if (res.ok) { 
-        alert("Datele au fost salvate în baza de date!"); 
-        onSave(); 
+      if (res.ok) {
+        alert("Date salvate permanent!");
+        onSave();
       }
-    } catch (err) { 
-      alert("Eroare la salvare!"); 
-    } finally { 
-      setLoading(false); 
+    } catch (err) {
+      alert("Eroare la comunicarea cu serverul");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={{ maxWidth: '800px', color: '#fff', fontFamily: 'serif', paddingBottom: '50px' }}>
-      <h2 style={{ color: '#d4af37', marginBottom: '30px' }}>🎨 Personalizare Detalii Nuntă</h2>
+    <div style={{ maxWidth: '800px', paddingBottom: '100px' }}>
+      <h2 style={{ color: '#d4af37', marginBottom: '20px' }}>Setări Invitație</h2>
       <form onSubmit={handleSave} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-        
         <div style={{ gridColumn: '1/-1' }}>
-          <label style={labelS}>URL INVITATIE (vibeinvite.ro/nume-slug)</label>
-          <input required style={inputS} value={formData.customSlug} onChange={e => setFormData({...formData, customSlug: e.target.value})} />
+          <label style={labelS}>URL (vibeinvite.ro/test8)</label>
+          <input style={inputS} value={formData.customSlug} onChange={e => setFormData({...formData, customSlug: e.target.value})} />
         </div>
-
-        <div><label style={labelS}>NUME MIREASĂ</label><input required style={inputS} value={formData.brideName} onChange={e => setFormData({...formData, brideName: e.target.value})} /></div>
-        <div><label style={labelS}>NUME MIRE</label><input required style={inputS} value={formData.groomName} onChange={e => setFormData({...formData, groomName: e.target.value})} /></div>
-        
-        <div><label style={labelS}>NUME NAȘI</label><input style={inputS} value={formData.nasiNames} onChange={e => setFormData({...formData, nasiNames: e.target.value})} /></div>
-        <div><label style={labelS}>NUME PĂRINȚI</label><input style={inputS} value={formData.parentsNames} onChange={e => setFormData({...formData, parentsNames: e.target.value})} /></div>
-        
-        <div><label style={labelS}>DATA NUNȚII</label><input type="date" style={inputS} value={formData.weddingDate} onChange={e => setFormData({...formData, weddingDate: e.target.value})} /></div>
-        <div><label style={labelS}>NUME LOCAȚIE (Ex: Salon Alexander)</label><input required style={inputS} value={formData.locationName} onChange={e => setFormData({...formData, locationName: e.target.value})} /></div>
-
-        <div><label style={labelS}>LINK WAZE (OPȚIONAL)</label><input placeholder="Lipește link-ul de share" style={inputS} value={formData.wazeUrl} onChange={e => setFormData({...formData, wazeUrl: e.target.value})} /></div>
-        <div><label style={labelS}>LINK GOOGLE MAPS (OPȚIONAL)</label><input placeholder="Lipește link-ul de share" style={inputS} value={formData.googleMapsUrl} onChange={e => setFormData({...formData, googleMapsUrl: e.target.value})} /></div>
-
-        <div style={{ gridColumn: '1/-1' }}>
-          <label style={labelS}>POVESTEA NOASTRĂ</label>
-          <textarea style={{...inputS, height: '100px'}} value={formData.ourStory} onChange={e => setFormData({...formData, ourStory: e.target.value})} />
-        </div>
-
-        <button type="submit" disabled={loading} style={btnS}>
-          {loading ? "SE SALVEAZĂ..." : "SALVEAZĂ TOATE DATELE"}
-        </button>
+        <div><label style={labelS}>MIREASĂ</label><input style={inputS} value={formData.brideName} onChange={e => setFormData({...formData, brideName: e.target.value})} /></div>
+        <div><label style={labelS}>MIRE</label><input style={inputS} value={formData.groomName} onChange={e => setFormData({...formData, groomName: e.target.value})} /></div>
+        <div><label style={labelS}>NAȘI</label><input style={inputS} value={formData.nasiNames} onChange={e => setFormData({...formData, nasiNames: e.target.value})} /></div>
+        <div><label style={labelS}>PĂRINȚI</label><input style={inputS} value={formData.parentsNames} onChange={e => setFormData({...formData, parentsNames: e.target.value})} /></div>
+        <div><label style={labelS}>DATA</label><input type="date" style={inputS} value={formData.weddingDate} onChange={e => setFormData({...formData, weddingDate: e.target.value})} /></div>
+        <div><label style={labelS}>LOCAȚIE</label><input style={inputS} value={formData.locationName} onChange={e => setFormData({...formData, locationName: e.target.value})} /></div>
+        <div><label style={labelS}>LINK WAZE</label><input style={inputS} value={formData.wazeUrl} onChange={e => setFormData({...formData, wazeUrl: e.target.value})} /></div>
+        <div><label style={labelS}>LINK MAPS</label><input style={inputS} value={formData.googleMapsUrl} onChange={e => setFormData({...formData, googleMapsUrl: e.target.value})} /></div>
+        <div style={{ gridColumn: '1/-1' }}><label style={labelS}>POVESTE</label><textarea style={{...inputS, height: '100px'}} value={formData.ourStory} onChange={e => setFormData({...formData, ourStory: e.target.value})} /></div>
+        <button type="submit" disabled={loading} style={btnS}>{loading ? "SALVARE..." : "SALVEAZĂ MODIFICĂRILE"}</button>
       </form>
     </div>
   );
 };
 
-const labelS = { color: '#d4af37', fontSize: '0.7rem', fontWeight: 'bold' };
-const inputS = { width: '100%', background: '#111', border: '1px solid #333', color: '#fff', padding: '12px', marginTop: '5px', borderRadius: '4px' };
-const btnS = { gridColumn: '1/-1', background: '#d4af37', color: '#000', padding: '15px', border: 'none', fontWeight: 'bold', cursor: 'pointer', fontSize: '1rem', marginTop: '20px' };
+const labelS = { color: '#d4af37', fontSize: '0.7rem' };
+const inputS = { width: '100%', background: '#111', border: '1px solid #333', color: '#fff', padding: '12px', marginTop: '5px' };
+const btnS = { gridColumn: '1/-1', background: '#d4af37', color: '#000', padding: '15px', fontWeight: 'bold', cursor: 'pointer', border: 'none' };

@@ -51,10 +51,14 @@ export default async function LuxInvitationPage({ params }: { params: { slug: st
   const data = wedding[0];
 
   // Logica inteligentă pentru locație:
-  // Dacă mirele a pus link, îl folosim. Dacă a pus doar text (Salon Alexander...), generăm un link de căutare Google.
-  const googleMapsFinalUrl = data.google_maps_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.location_name)}`;
-  const wazeFinalUrl = data.waze_url || `https://waze.com/ul?q=${encodeURIComponent(data.location_name)}`;
+// În interiorul componentei, înainte de return
+const googleMapsFinalUrl = data.google_maps_url && data.google_maps_url.startsWith('http') 
+  ? data.google_maps_url 
+  : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.location_name + " " + (data.google_maps_url || ""))}`;
 
+const wazeFinalUrl = data.waze_url && data.waze_url.startsWith('http') 
+  ? data.waze_url 
+  : `https://waze.com/ul?q=${encodeURIComponent(data.location_name)}`;
   return (
     <div style={{ minHeight: '100vh', background: '#0a0a0a', color: '#d4af37', fontFamily: "'Playfair Display', serif", padding: '60px 20px', border: '12px solid #d4af37', textAlign: 'center' }}>
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
