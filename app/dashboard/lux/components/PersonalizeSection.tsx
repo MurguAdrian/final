@@ -93,17 +93,21 @@ export const PersonalizeSection = ({ onSave, orderId }: { onSave: () => void, or
     isReligiousActive: false, isAccommodationActive: false, isTransportActive: false,
   });
 
-  useEffect(() => {
-    async function load() {
-      const res = await fetch(`/api/dashboard/summary?orderId=${orderId}`);
-      const data = await res.json();
-      if (data?.weddingDetails) {
-        const d = data.weddingDetails;
-        setFormData({
-          ...d,
+useEffect(() => {
+  async function load() {
+    const res = await fetch(`/api/dashboard/summary?orderId=${orderId}`);
+    const data = await res.json();
+    if (data?.weddingDetails) {
+      const d = data.weddingDetails;
+      setFormData({
           customSlug: d.custom_slug || '',
-          brideName: d.bride_name || '',
-          groomName: d.groom_name || '',
+         
+        brideName: d.bride_name || '',
+        groomName: d.groom_name || '',
+        // ATENȚIE: Verifică dacă în baza de date e "religious_waze" și tu îl pui în "religiousWaze"
+        religiousWaze: d.religious_waze || '', 
+        isReligiousActive: d.is_religious_active || false,
+         
           nasiNames: d.nasi_names || '',
           parentsNames: d.parents_names || '',
           weddingDate: d.wedding_date ? d.wedding_date.split('T')[0] : '',
@@ -114,11 +118,11 @@ export const PersonalizeSection = ({ onSave, orderId }: { onSave: () => void, or
           wazeUrl: d.waze_url || '',
           religiousTime: d.religious_time || '',
           religiousLocation: d.religious_location || '',
-          religiousWaze: d.religious_waze || '',
+        
           ourStory: d.our_story || '',
           contactPhoneBride: d.contact_phone_bride || '',
           contactPhoneGroom: d.contact_phone_groom || '',
-          isReligiousActive: d.is_religious_active || false,
+         
           isAccommodationActive: d.is_accommodation_active || false,
           isTransportActive: d.is_transport_active || false,
         });

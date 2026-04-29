@@ -88,28 +88,30 @@ export async function POST(request: Request) {
         ${contactPhoneBride}, ${contactPhoneGroom}
       )
       ON CONFLICT (order_id) 
-      DO UPDATE SET 
-        custom_slug = EXCLUDED.custom_slug, 
-        bride_name = EXCLUDED.bride_name, 
-        groom_name = EXCLUDED.groom_name,
-        nasi_names = EXCLUDED.nasi_names, 
-        parents_names = EXCLUDED.parents_names,
-        wedding_date = EXCLUDED.wedding_date, 
-        wedding_time = EXCLUDED.wedding_time,
-        location_name = EXCLUDED.location_name,
-        waze_url = EXCLUDED.waze_url, 
-        google_maps_url = EXCLUDED.google_maps_url, 
-        our_story = EXCLUDED.our_story,
-        religious_date = EXCLUDED.religious_date, 
-        religious_time = EXCLUDED.religious_time, 
-        religious_location = EXCLUDED.religious_location, 
-        religious_waze = EXCLUDED.religious_waze, 
-        is_religious_active = EXCLUDED.is_religious_active, 
-        is_menu_active = EXCLUDED.is_menu_active, 
-        is_accommodation_active = EXCLUDED.is_accommodation_active, 
-        is_transport_active = EXCLUDED.is_transport_active,
-        contact_phone_bride = EXCLUDED.contact_phone_bride, 
-        contact_phone_groom = EXCLUDED.contact_phone_groom;
+DO UPDATE SET 
+  custom_slug = EXCLUDED.custom_slug, 
+  bride_name = EXCLUDED.bride_name, 
+  groom_name = EXCLUDED.groom_name,
+  nasi_names = EXCLUDED.nasi_names, 
+  parents_names = EXCLUDED.parents_names,
+  wedding_date = EXCLUDED.wedding_date, 
+  wedding_time = EXCLUDED.wedding_time,
+  location_name = EXCLUDED.location_name,
+  waze_url = EXCLUDED.waze_url, 
+  google_maps_url = EXCLUDED.google_maps_url, 
+  our_story = EXCLUDED.our_story,
+  religious_date = EXCLUDED.religious_date, 
+  religious_time = EXCLUDED.religious_time, 
+  religious_location = EXCLUDED.religious_location, 
+  religious_waze = EXCLUDED.religious_waze, 
+  is_religious_active = EXCLUDED.is_religious_active, 
+  is_menu_active = EXCLUDED.is_menu_active, 
+  is_accommodation_active = EXCLUDED.is_accommodation_active, 
+  is_transport_active = EXCLUDED.is_transport_active,
+  is_photos_active = EXCLUDED.is_photos_active, -- ADĂUGAT
+  menu_details = EXCLUDED.menu_details, -- ADĂUGAT (pentru meniu)
+  contact_phone_bride = EXCLUDED.contact_phone_bride, 
+  contact_phone_groom = EXCLUDED.contact_phone_groom;
     `;
 
     return NextResponse.json({ success: true });

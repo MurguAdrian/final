@@ -102,60 +102,113 @@
 // };
 
 
+// app/[slug]/page.tsx
 import { neon } from "@neondatabase/serverless";
 import { notFound } from "next/navigation";
-import LuxRsvpForm from "./LuxRsvpForm";
 
-export default async function LuxInvitationPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default async function InvitationPage({ params }: { params: { slug: string } }) {
   const sql = neon(process.env.DATABASE_URL!);
-  const wedding = await sql`SELECT * FROM wedding_settings WHERE custom_slug = ${slug}`;
-  if (!wedding.length) notFound();
-  const data = wedding[0];
+  const data = await sql`SELECT * FROM wedding_settings WHERE custom_slug = ${params.slug} LIMIT 1`;
 
-  // COUNTDOWN LOGIC
-  const weddingTime = new Date(data.wedding_date).getTime();
-  const daysLeft = Math.floor((weddingTime - Date.now()) / (1000 * 60 * 60 * 24));
+  if (!data || data.length === 0) notFound();
+  const s = data[0];
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a0a', color: '#d4af37', fontFamily: "serif", textAlign: 'center', padding: '60px 20px', border: '15px solid #d4af37' }}>
-      {daysLeft > 0 && <p style={{ letterSpacing: '3px', fontSize: '0.8rem' }}>⏳ AU MAI RĂMAS {daysLeft} ZILE</p>}
-      
-      <h1 style={{ fontSize: '4rem', margin: '20px 0' }}>{data.bride_name} & {data.groom_name}</h1>
-      <p>Nași: {data.nasi_names}</p>
-      <p>Părinți: {data.parents_names}</p>
+    <div style={publicWrapper}>
+      {/* BACKGROUND / HERO SECTION */}
+      <section style={heroSection}>
+        <h1 style={goldText}>VĂ INVITĂM</h1>
+        <h2 style={namesText}>{s.bride_name} & {s.groom_name}</h2>
+        <p>Nași: {s.nasi_names}</p>
+        <p>Părinți: {s.parents_names}</p>
+      </section>
 
-      {data.is_religious_active && (
-        <div style={{ margin: '40px 0', border: '1px solid #d4af3733', padding: '20px' }}>
-          <h3>⛪ CUNUNIA RELIGIOASĂ</h3>
-          <p>{new Date(data.religious_date).toLocaleDateString('ro-RO')} | Ora {data.religious_time}</p>
-          <p>{data.religious_location}</p>
+      {/* DETALII EVENIMENT */}
+      <section style={detailSection}>
+        <div style={infoBox}>
+          <h3>PETRECEREA</h3>
+          <p>{new Date(s.wedding_date).toLocaleDateString('ro-RO')}</p>
+          <p>Ora {s.wedding_time}</p>
+          <p>{s.location_name}</p>
+          <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+            <a href={s.waze_url} style={btnGold}>WAZE</a>
+            <a href={s.google_maps_url} style={btnGold}>MAPS</a>
+          </div>
         </div>
-      )}
 
-      <div style={{ margin: '40px 0' }}>
-        <h3>🥂 PETRECEREA</h3>
-        <p>{new Date(data.wedding_date).toLocaleDateString('ro-RO')} | Ora 19:00</p>
-        <p>{data.location_name}</p>
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-          <a href={data.google_maps_url} style={btnS}>MAPS</a>
-          <a href={data.waze_url} style={btnS}>WAZE</a>
-        </div>
+        {/* CUNUNIA RELIGIOASĂ - SE AFIȘEAZĂ DOAR DACĂ E ACTIVĂ */}
+        {s.is_religious_active && (
+          <div style={infoBox}>
+            <h3>CUNUNIA RELIGIOASĂ</h3>
+            <p>{new Date(s.religious_date).toLocaleDateString('ro-RO')}</p>
+            <p>Ora {s.religious_time}</p>
+            <p>{s.religious_location}</p>
+            {s.religious_waze && <a href={s.religious_waze} style={btnGold}>WAZE BISERICĂ</a>}
+          </div>
+        )}
+
+        {/* POVESTEA NOASTRĂ */}
+        {s.our_story && (
+          <div style={{ padding: '40px 20px', fontStyle: 'italic' }}>
+            <p>"{s.our_story}"</p>
+          </div>
+        )}
+
+        {/* MENIU - SE AFIȘEAZĂ DOAR DACĂ E ACTIV */}
+        {s.is_menu_active && s.menu_details?.items && (
+          <div style={infoBox}>
+            <h3>MENIU</h3>
+            {s.menu_details.items.map((item: any, idx: number) => (
+              <div key={idx} style={{ marginBottom: '15px' }}>
+                <strong style={{ color: '#d4af37' }}>{item.title}</strong>
+                <p style={{ fontSize: '0.9rem' }}>{item.description}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* TRANSPORT / CAZARE */}
+        {(s.is_accommodation_active || s.is_transport_active) && (
+          <div style={infoBox}>
+            <h3>DETALII SUPLIMENTARE</h3>
+            {s.is_accommodation_active && <p>🏠 Se asigură cazare pentru invitați.</p>}
+            {s.is_transport_active && <p>🚌 Se asigură transport la locație.</p>}
+          </div>
+        )}
+      </section>
+
+      {/* RSVP SECTION */}
+      <section style={rsvpSection}>
+        <h2>R.S.V.P.</h2>
+        <p>Vă rugăm să confirmați până la data de ...</p>
+        {/* Aici vine Formularul tău de RSVP existent */}
+      </section>
+
+      {/* FOOTER CONTACT */}
+      <div style={{ padding: '40px', fontSize: '0.8rem', opacity: 0.7 }}>
+        <p>Contact: {s.contact_phone_bride} (Mireasă) | {s.contact_phone_groom} (Mire)</p>
       </div>
-
-      {data.is_menu_active && <button style={btnS}>🍴 VEZI MENIUL</button>}
-
-      <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', margin: '40px 0' }}>
-        <a href={`tel:${data.contact_phone_bride}`}>📞 Mireasă</a>
-        <a href={`tel:${data.contact_phone_groom}`}>📞 Mire</a>
-      </div>
-
-      <LuxRsvpForm 
-        orderId={data.order_id} 
-        showAccommodation={data.is_accommodation_active} 
-        showTransport={data.is_transport_active} 
-      />
     </div>
   );
 }
-const btnS = { padding: '10px 20px', border: '1px solid #d4af37', color: '#d4af37', textDecoration: 'none' };
+
+// STILURI PENTRU FULLSCREEN PUBLIC (FĂRĂ MENIUL SITE-ULUI)
+const publicWrapper: React.CSSProperties = {
+  position: 'absolute', top: 0, left: 0, width: '100%', minHeight: '100vh',
+  background: '#000', color: '#fff', textAlign: 'center', zIndex: 10000,
+  fontFamily: 'serif', overflowX: 'hidden'
+};
+
+const heroSection: React.CSSProperties = { padding: '100px 20px', borderBottom: '1px solid #d4af3722' };
+const detailSection: React.CSSProperties = { padding: '50px 20px' };
+const infoBox: React.CSSProperties = { 
+  border: '1px solid #d4af3744', padding: '30px', maxWidth: '500px', 
+  margin: '0 auto 30px auto', borderRadius: '4px', background: '#050505' 
+};
+const goldText = { color: '#d4af37', letterSpacing: '4px' };
+const namesText = { fontSize: '3rem', margin: '20px 0', fontWeight: '300' };
+const btnGold = { 
+  display: 'inline-block', padding: '10px 20px', border: '1px solid #d4af37', 
+  color: '#d4af37', textDecoration: 'none', fontSize: '0.8rem' 
+};
+const rsvpSection = { padding: '80px 20px', background: '#111' };
