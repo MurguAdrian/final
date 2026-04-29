@@ -1,18 +1,26 @@
+
 // import { neon } from "@neondatabase/serverless";
 // import { notFound } from "next/navigation";
 // import LuxRsvpForm from "./LuxRsvpForm";
 // import Countdown from "./components/Countdown";
 
-// // FORȚĂM NEXT.JS SĂ NU MAI SALVEZE CACHE (REZOLVĂ ACTUALIZAREA)
+// // Forțăm randarea dinamică pentru ca baza de date să fie interogată la fiecare vizită
 // export const dynamic = 'force-dynamic';
 // export const revalidate = 0;
 
 // export default async function InvitationPage({ params }: { params: { slug: string } }) {
 //   const sql = neon(process.env.DATABASE_URL!);
+  
+//   // 1. Căutăm nunta în baza de date
 //   const data = await sql`SELECT * FROM wedding_settings WHERE custom_slug = ${params.slug} LIMIT 1`;
 
 //   if (!data || data.length === 0) notFound();
 //   const s = data[0];
+
+//   // ============================================================
+//   // 2. AICI ESTE LINIA DE COD: Incrementăm vizualizările în DB
+//   // ============================================================
+//   await sql`UPDATE wedding_settings SET view_count = view_count + 1 WHERE id = ${s.id}`;
 
 //   return (
 //     <div style={publicWrapper}>
@@ -25,7 +33,7 @@
 //             <p>Împreună cu părinții: {s.parents_names}</p>
 //         </div>
 
-//         {/* COUNTDOWN / COOLDOWN */}
+//         {/* NUMĂRĂTOARE INVERSĂ (COUNTDOWN) */}
 //         {s.wedding_date && <Countdown targetDate={s.wedding_date} />}
 //       </section>
 
@@ -39,8 +47,8 @@
 //           <p>Ora {s.wedding_time || '--:--'}</p>
 //           <p style={{ margin: '15px 0', fontWeight: 'bold' }}>{s.location_name}</p>
 //           <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-//             {s.waze_url && <a href={s.waze_url} style={btnGold}>WAZE</a>}
-//             {s.google_maps_url && <a href={s.google_maps_url} style={btnGold}>GOOGLE MAPS</a>}
+//             {s.waze_url && <a href={s.waze_url} target="_blank" style={btnGold}>WAZE</a>}
+//             {s.google_maps_url && <a href={s.google_maps_url} target="_blank" style={btnGold}>GOOGLE MAPS</a>}
 //           </div>
 //         </div>
 
@@ -51,7 +59,7 @@
 //             <p>{s.religious_date ? new Date(s.religious_date).toLocaleDateString('ro-RO') : ''}</p>
 //             <p>Ora {s.religious_time}</p>
 //             <p>{s.religious_location}</p>
-//             {s.religious_waze && <a href={s.religious_waze} style={btnGold}>WAZE BISERICĂ</a>}
+//             {s.religious_waze && <a href={s.religious_waze} target="_blank" style={btnGold}>WAZE BISERICĂ</a>}
 //           </div>
 //         )}
 
@@ -75,11 +83,11 @@
 //           </div>
 //         )}
 
-//         {/* CAZARE & TRANSPORT - DOAR ICONIȚE DACĂ SUNT ACTIVE */}
+//         {/* ICONIȚE CAZARE & TRANSPORT */}
 //         {(s.is_accommodation_active || s.is_transport_active) && (
-//           <div style={{ display: 'flex', gap: '30px', justifyContent: 'center', padding: '20px' }}>
-//             {s.is_accommodation_active && <div style={{ fontSize: '2rem' }} title="Cazare disponibilă">🏠</div>}
-//             {s.is_transport_active && <div style={{ fontSize: '2rem' }} title="Transport asigurat">🚌</div>}
+//           <div style={{ display: 'flex', gap: '30px', justifyContent: 'center', padding: '20px', marginTop: '20px' }}>
+//             {s.is_accommodation_active && <div style={{ fontSize: '2.5rem' }} title="Cazare disponibilă">🏠</div>}
+//             {s.is_transport_active && <div style={{ fontSize: '2.5rem' }} title="Transport asigurat">🚌</div>}
 //           </div>
 //         )}
 //       </section>
@@ -96,12 +104,13 @@
 //       </section>
 
 //       <footer style={{ padding: '50px', opacity: 0.4, fontSize: '0.7rem' }}>
-//         Contact Miri: {s.contact_phone_bride} / {s.contact_phone_groom}
+//         Contact: {s.contact_phone_bride} / {s.contact_phone_groom}
 //       </footer>
 //     </div>
 //   );
 // }
 
+// // STILURI PENTRU FULLSCREEN
 // const publicWrapper: React.CSSProperties = {
 //   position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
 //   background: '#000', color: '#fff', textAlign: 'center', zIndex: 99999,
@@ -126,6 +135,7 @@
 //   display: 'inline-block', padding: '12px 25px', border: '1px solid #d4af37', 
 //   color: '#d4af37', textDecoration: 'none', fontSize: '0.7rem', marginTop: '10px' 
 // };
+
 import { neon } from "@neondatabase/serverless";
 import { notFound } from "next/navigation";
 import LuxRsvpForm from "./LuxRsvpForm";
@@ -207,6 +217,24 @@ export default async function InvitationPage({ params }: { params: { slug: strin
                 <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>{item.description}</div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* ============================================================ */}
+        {/* BUTON GALERIE FOTO LIVE (ADĂUGAT AICI) */}
+        {/* ============================================================ */}
+        {s.is_photos_active && (
+          <div style={{ padding: '40px 20px', borderTop: '1px solid #d4af3711' }}>
+            <h3 style={goldText}>📸 GALERIE FOTO LIVE</h3>
+            <p style={{ fontSize: '0.8rem', opacity: 0.7, marginBottom: '20px' }}>
+              Împarte momentele surprinse de tine cu noi!
+            </p>
+            <a 
+              href={`/invitatie/lux/${params.slug}/upload`} 
+              style={{ ...btnGold, padding: '15px 40px', fontSize: '1rem', background: '#d4af37', color: '#000', borderRadius: '4px', fontWeight: 'bold' }}
+            >
+              ÎNCARCĂ POZE
+            </a>
           </div>
         )}
 
