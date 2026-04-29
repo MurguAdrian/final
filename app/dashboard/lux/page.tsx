@@ -53,7 +53,7 @@ export default function LuxDashboard() {
              <p style={{ fontSize: '0.6rem', color: isProfileComplete ? '#d4af37' : '#ffa500', margin: '0 0 5px 0' }}>
                {isProfileComplete ? '● LINK ACTIV' : '○ INCOMPLET'}
              </p>
-             {isProfileComplete && <p style={{ fontSize: '0.7rem', color: '#fff' }}>vibeinvite.ro/{weddingData.custom_slug}</p>}
+             {isProfileComplete && <p style={{ fontSize: '0.7rem', color: '#fff' }}>vibeinvite.ro/invitatie/lux/{weddingData.custom_slug}</p>}
            </div>
            <button onClick={() => window.location.href='/login'} style={signOutBtn}>IEȘIRE</button>
         </div>

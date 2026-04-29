@@ -239,8 +239,8 @@ export const SummarySection = ({ isComplete, orderId }: SummaryProps) => {
           <div>
             <h4 style={{ color: '#d4af37', margin: '0 0 10px 0' }}>🚀 Invitația ta este LIVE!</h4>
             <div style={{ display: 'flex', gap: '10px' }}>
-              <input readOnly value={`https://vibeinvite.ro/${userSlug}`} style={linkInputS} />
-              <button onClick={() => { navigator.clipboard.writeText(`https://vibeinvite.ro/${userSlug}`); alert("Copiat!"); }} style={copyBtnS}>COPIAZĂ</button>
+              <input readOnly value={`https://vibeinvite.ro/invitatie/lux/${userSlug}`} style={linkInputS} />
+              <button onClick={() => { navigator.clipboard.writeText(`https://vibeinvite.ro/invitatie/lux/${userSlug}`); alert("Copiat!"); }} style={copyBtnS}>COPIAZĂ</button>
             </div>
           </div>
         )}
