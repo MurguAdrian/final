@@ -1,13 +1,11 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 
-// Adăugăm initialData și onSave în argumente ca să nu mai dea eroare în page.tsx
 export const MenuSection = ({ initialData, orderId, onSave }: any) => {
   const [loading, setLoading] = useState(false);
   const [isActive, setIsActive] = useState(initialData?.is_menu_active ?? false);
   const [menuItems, setMenuItems] = useState<any[]>(initialData?.menu_details?.items || []);
 
-  // Sincronizăm dacă se schimbă datele în părinte
   useEffect(() => {
     setIsActive(initialData?.is_menu_active ?? false);
     setMenuItems(initialData?.menu_details?.items || []);
@@ -20,6 +18,7 @@ export const MenuSection = ({ initialData, orderId, onSave }: any) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
+          ...initialData, // Trimitem restul datelor pentru a fi siguri
           orderId, 
           isMenuActive: isActive, 
           menu_details: { items: menuItems } 
@@ -27,7 +26,7 @@ export const MenuSection = ({ initialData, orderId, onSave }: any) => {
       });
       if (res.ok) {
         alert("Meniu salvat!");
-        onSave(); // Refresh în părinte
+        onSave();
       }
     } catch (e) { alert("Eroare"); }
     setLoading(false);
