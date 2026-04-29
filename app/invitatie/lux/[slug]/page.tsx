@@ -1,6 +1,11 @@
 import { neon } from "@neondatabase/serverless";
 import { notFound } from "next/navigation";
 import LuxRsvpForm from "./LuxRsvpForm";
+import Countdown from "./components/Countdown";
+
+// FORȚĂM NEXT.JS SĂ NU MAI SALVEZE CACHE (REZOLVĂ ACTUALIZAREA)
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function InvitationPage({ params }: { params: { slug: string } }) {
   const sql = neon(process.env.DATABASE_URL!);
@@ -19,13 +24,18 @@ export default async function InvitationPage({ params }: { params: { slug: strin
             <p>Alături de nașii: {s.nasi_names}</p>
             <p>Împreună cu părinții: {s.parents_names}</p>
         </div>
+
+        {/* COUNTDOWN / COOLDOWN */}
+        {s.wedding_date && <Countdown targetDate={s.wedding_date} />}
       </section>
 
-      {/* EVENIMENT RESTAURANT */}
+      {/* DETALII EVENIMENT */}
       <section style={detailSection}>
         <div style={infoBox}>
           <h3 style={goldText}>PETRECEREA</h3>
-          <p style={{ fontSize: '1.5rem' }}>{s.wedding_date ? new Date(s.wedding_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Data nesetată'}</p>
+          <p style={{ fontSize: '1.5rem' }}>
+            {s.wedding_date ? new Date(s.wedding_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Data nesetată'}
+          </p>
           <p>Ora {s.wedding_time || '--:--'}</p>
           <p style={{ margin: '15px 0', fontWeight: 'bold' }}>{s.location_name}</p>
           <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
@@ -34,7 +44,7 @@ export default async function InvitationPage({ params }: { params: { slug: strin
           </div>
         </div>
 
-        {/* RELIGIOASĂ */}
+        {/* CUNUNIA RELIGIOASĂ */}
         {s.is_religious_active && (
           <div style={infoBox}>
             <h3 style={goldText}>CUNUNIA RELIGIOASĂ</h3>
@@ -68,8 +78,8 @@ export default async function InvitationPage({ params }: { params: { slug: strin
         {/* CAZARE & TRANSPORT - DOAR ICONIȚE DACĂ SUNT ACTIVE */}
         {(s.is_accommodation_active || s.is_transport_active) && (
           <div style={{ display: 'flex', gap: '30px', justifyContent: 'center', padding: '20px' }}>
-            {s.is_accommodation_active && <div style={{ fontSize: '1.5rem' }} title="Cazare disponibilă">🏠</div>}
-            {s.is_transport_active && <div style={{ fontSize: '1.5rem' }} title="Transport asigurat">🚌</div>}
+            {s.is_accommodation_active && <div style={{ fontSize: '2rem' }} title="Cazare disponibilă">🏠</div>}
+            {s.is_transport_active && <div style={{ fontSize: '2rem' }} title="Transport asigurat">🚌</div>}
           </div>
         )}
       </section>
