@@ -100,6 +100,8 @@
 //   letterSpacing: '1px',
 //   transition: '0.3s'
 // };
+
+
 import { neon } from "@neondatabase/serverless";
 import { notFound } from "next/navigation";
 import LuxRsvpForm from "./LuxRsvpForm";
@@ -107,80 +109,53 @@ import LuxRsvpForm from "./LuxRsvpForm";
 export default async function LuxInvitationPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const sql = neon(process.env.DATABASE_URL!);
-  
   const wedding = await sql`SELECT * FROM wedding_settings WHERE custom_slug = ${slug}`;
   if (!wedding.length) notFound();
   const data = wedding[0];
 
-  // LOGICA COUNTDOWN
-  const weddingTime = data.wedding_date ? new Date(data.wedding_date).getTime() : 0;
-  const now = new Date().getTime();
-  const timeLeft = weddingTime - now;
-  const daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-
-  const googleMapsUrl = data.google_maps_url?.startsWith('http') ? data.google_maps_url : `http://google.com/maps?q=${encodeURIComponent(data.location_name)}`;
-  const wazeUrl = data.waze_url?.startsWith('http') ? data.waze_url : `https://waze.com/ul?q=${encodeURIComponent(data.location_name)}`;
+  // COUNTDOWN LOGIC
+  const weddingTime = new Date(data.wedding_date).getTime();
+  const daysLeft = Math.floor((weddingTime - Date.now()) / (1000 * 60 * 60 * 24));
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a0a', color: '#d4af37', fontFamily: "'Playfair Display', serif", padding: '60px 20px', border: '12px solid #d4af37', boxSizing: 'border-box', textAlign: 'center' }}>
-      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-        
-        {/* COUNTDOWN */}
-        {daysLeft > 0 && (
-          <p style={{ letterSpacing: '3px', fontSize: '0.7rem', marginBottom: '40px', color: '#fff', opacity: 0.6 }}>
-            AU MAI RĂMAS {daysLeft} ZILE PÂNĂ LA MARELE EVENIMENT
-          </p>
-        )}
+    <div style={{ minHeight: '100vh', background: '#0a0a0a', color: '#d4af37', fontFamily: "serif", textAlign: 'center', padding: '60px 20px', border: '15px solid #d4af37' }}>
+      {daysLeft > 0 && <p style={{ letterSpacing: '3px', fontSize: '0.8rem' }}>⏳ AU MAI RĂMAS {daysLeft} ZILE</p>}
+      
+      <h1 style={{ fontSize: '4rem', margin: '20px 0' }}>{data.bride_name} & {data.groom_name}</h1>
+      <p>Nași: {data.nasi_names}</p>
+      <p>Părinți: {data.parents_names}</p>
 
-        <h2 style={{ letterSpacing: '8px', fontSize: '0.8rem', opacity: 0.8 }}>VĂ INVITĂM</h2>
-        <h1 style={{ fontSize: '3.5rem', margin: '20px 0', textTransform: 'uppercase' }}>{data.bride_name} & {data.groom_name}</h1>
-
-        <div style={{ height: '1px', width: '100px', background: '#d4af37', margin: '30px auto' }}></div>
-
-        {/* CUNUNIA RELIGIOASĂ (Dacă e activată) */}
-        {data.is_religious_active && (
-          <div style={{ marginBottom: '40px' }}>
-            <h3 style={{ fontSize: '1rem', letterSpacing: '3px' }}>CUNUNIA RELIGIOASĂ</h3>
-            <p style={{ color: '#fff' }}>{data.religious_date ? new Date(data.religious_date).toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' }) : ""} - {data.religious_location}</p>
-            {data.religious_waze && <a href={data.religious_waze} target="_blank" style={{ fontSize: '0.6rem', color: '#d4af37', textDecoration: 'underline' }}>LOCAȚIE BISERICĂ</a>}
-          </div>
-        )}
-
-        {/* PETRECEREA */}
-        <div style={{ marginBottom: '40px' }}>
-          <h3 style={{ fontSize: '1rem', letterSpacing: '3px' }}>PETRECEREA</h3>
-          <p style={{ fontSize: '1.5rem', color: '#fff' }}>{data.wedding_date ? new Date(data.wedding_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }) : ""}</p>
-          <p style={{ fontSize: '1.2rem' }}>{data.location_name}</p>
-          <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', margin: '20px 0' }}>
-            <a href={googleMapsUrl} target="_blank" style={btnLocatie}>MAPS</a>
-            <a href={wazeUrl} target="_blank" style={btnLocatie}>WAZE</a>
-          </div>
+      {data.is_religious_active && (
+        <div style={{ margin: '40px 0', border: '1px solid #d4af3733', padding: '20px' }}>
+          <h3>⛪ CUNUNIA RELIGIOASĂ</h3>
+          <p>{new Date(data.religious_date).toLocaleDateString('ro-RO')} | Ora {data.religious_time}</p>
+          <p>{data.religious_location}</p>
         </div>
+      )}
 
-        {/* MENIU (Dacă e activat) */}
-        {data.is_menu_active && (
-          <div style={{ margin: '40px 0' }}>
-            <button style={{ background: 'transparent', border: '1px solid #d4af37', color: '#d4af37', padding: '12px 30px', cursor: 'pointer', letterSpacing: '2px' }}>
-              VEZI MENIUL
-            </button>
-          </div>
-        )}
-
-        {/* CONTACT MIRI */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '30px', margin: '40px 0', fontSize: '0.8rem' }}>
-          {data.contact_phone_bride && <a href={`tel:${data.contact_phone_bride}`} style={{ color: '#fff', textDecoration: 'none' }}>📞 Mireasă</a>}
-          {data.contact_phone_groom && <a href={`tel:${data.contact_phone_groom}`} style={{ color: '#fff', textDecoration: 'none' }}>📞 Mire</a>}
+      <div style={{ margin: '40px 0' }}>
+        <h3>🥂 PETRECEREA</h3>
+        <p>{new Date(data.wedding_date).toLocaleDateString('ro-RO')} | Ora 19:00</p>
+        <p>{data.location_name}</p>
+        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+          <a href={data.google_maps_url} style={btnS}>MAPS</a>
+          <a href={data.waze_url} style={btnS}>WAZE</a>
         </div>
-
-        {/* RSVP FORM - Trimitem bifele de transport/cazare către el */}
-        <LuxRsvpForm 
-           orderId={data.order_id} 
-           showAccommodation={data.is_accommodation_active} 
-           showTransport={data.is_transport_active} 
-        />
       </div>
+
+      {data.is_menu_active && <button style={btnS}>🍴 VEZI MENIUL</button>}
+
+      <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', margin: '40px 0' }}>
+        <a href={`tel:${data.contact_phone_bride}`}>📞 Mireasă</a>
+        <a href={`tel:${data.contact_phone_groom}`}>📞 Mire</a>
+      </div>
+
+      <LuxRsvpForm 
+        orderId={data.order_id} 
+        showAccommodation={data.is_accommodation_active} 
+        showTransport={data.is_transport_active} 
+      />
     </div>
   );
 }
-
-const btnLocatie = { padding: '8px 20px', border: '1px solid #d4af37', color: '#d4af37', textDecoration: 'none', fontSize: '0.6rem', fontWeight: 'bold' };
+const btnS = { padding: '10px 20px', border: '1px solid #d4af37', color: '#d4af37', textDecoration: 'none' };

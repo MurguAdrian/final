@@ -83,83 +83,131 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 
-export const PersonalizeSection = ({ onSave }: { onSave: () => void }) => {
+export const PersonalizeSection = ({ onSave, orderId }: { onSave: () => void, orderId: number }) => {
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    customSlug: '', brideName: '', groomName: '', nasiNames: '',
-    parentsNames: '', weddingDate: '', locationName: '',
-    wazeUrl: '', googleMapsUrl: '', ourStory: '',
-    religiousDate: '', religiousLocation: '', religiousWaze: '',
-    isReligiousActive: false, isMenuActive: false,
-    isAccommodationActive: false, isTransportActive: false,
-    contactPhoneBride: '', contactPhoneGroom: ''
+  const [formData, setFormData] = useState<any>({
+    customSlug: '', brideName: '', groomName: '', nasiNames: '', parentsNames: '',
+    weddingDate: '', weddingTime: '', locationName: '', googleMapsUrl: '', wazeUrl: '',
+    religiousDate: '', religiousTime: '', religiousLocation: '', religiousWaze: '',
+    ourStory: '', contactPhoneBride: '', contactPhoneGroom: '',
+    isReligiousActive: false, isAccommodationActive: false, isTransportActive: false,
   });
 
   useEffect(() => {
     async function load() {
-      const res = await fetch(`/api/dashboard/summary?orderId=1&t=${Date.now()}`);
+      const res = await fetch(`/api/dashboard/summary?orderId=${orderId}`);
       const data = await res.json();
-      if (data.weddingDetails) {
+      if (data?.weddingDetails) {
         const d = data.weddingDetails;
         setFormData({
-          ...formData,
           ...d,
+          customSlug: d.custom_slug || '',
+          brideName: d.bride_name || '',
+          groomName: d.groom_name || '',
+          nasiNames: d.nasi_names || '',
+          parentsNames: d.parents_names || '',
           weddingDate: d.wedding_date ? d.wedding_date.split('T')[0] : '',
           religiousDate: d.religious_date ? d.religious_date.split('T')[0] : '',
+          weddingTime: d.wedding_time || '',
+          locationName: d.location_name || '',
+          googleMapsUrl: d.google_maps_url || '',
+          wazeUrl: d.waze_url || '',
+          religiousTime: d.religious_time || '',
+          religiousLocation: d.religious_location || '',
+          religiousWaze: d.religious_waze || '',
+          ourStory: d.our_story || '',
+          contactPhoneBride: d.contact_phone_bride || '',
+          contactPhoneGroom: d.contact_phone_groom || '',
+          isReligiousActive: d.is_religious_active || false,
+          isAccommodationActive: d.is_accommodation_active || false,
+          isTransportActive: d.is_transport_active || false,
         });
       }
     }
     load();
-  }, []);
+  }, [orderId]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await fetch('/api/dashboard/personalize', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ orderId: 1, ...formData }),
-    });
-    alert("Salvat!");
-    onSave();
-    setLoading(false);
+    try {
+      const res = await fetch('/api/dashboard/personalize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, ...formData }),
+      });
+      if (res.ok) { alert("Salvat cu succes!"); onSave(); }
+      else { const err = await res.json(); alert(err.error === "SLUG_TAKEN" ? "Slug deja folosit!" : "Eroare la salvare"); }
+    } catch (e) { alert("Eroare server"); } finally { setLoading(false); }
   };
 
   return (
-    <div style={{ maxWidth: '900px', paddingBottom: '100px' }}>
-      <form onSubmit={handleSave} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-        
-        {/* SECȚIUNEA 1: DE BAZĂ */}
-        <h3 style={{ gridColumn: '1/-1', color: '#d4af37' }}>Informații Generale</h3>
-        <input style={inputS} placeholder="Slug (ex: nunta-noastra)" value={formData.customSlug} onChange={e => setFormData({...formData, customSlug: e.target.value})} />
-        <input style={inputS} placeholder="Mireasă" value={formData.brideName} onChange={e => setFormData({...formData, brideName: e.target.value})} />
-        <input style={inputS} placeholder="Mire" value={formData.groomName} onChange={e => setFormData({...formData, groomName: e.target.value})} />
-        <input type="date" style={inputS} value={formData.weddingDate} onChange={e => setFormData({...formData, weddingDate: e.target.value})} />
+    <form onSubmit={handleSave} style={{ maxWidth: '900px', paddingBottom: '100px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '30px' }}>
+        <h2 style={{ color: '#d4af37', margin: 0 }}>🎨 Personalizare Completă</h2>
+        <a href={`/${formData.customSlug}`} target="_blank" style={previewBtn}>PREVIZUALIZARE</a>
+      </div>
 
-        {/* SECȚIUNEA 2: CUNUNIE RELIGIOASĂ */}
-        <div style={{ gridColumn: '1/-1', padding: '20px', border: '1px solid #333' }}>
-           <h3 style={{ color: '#d4af37' }}>Cununia Religioasă</h3>
-           <label><input type="checkbox" checked={formData.isReligiousActive} onChange={e => setFormData({...formData, isReligiousActive: e.target.checked})} /> Activează pe invitație</label>
-           <input style={inputS} placeholder="Locație Biserică" value={formData.religiousLocation} onChange={e => setFormData({...formData, religiousLocation: e.target.value})} />
-           <input type="time" style={inputS} value={formData.religiousDate} onChange={e => setFormData({...formData, religiousDate: e.target.value})} />
+      <div style={grid2}>
+        <div style={{ gridColumn: '1/-1' }}>
+          <label style={labS}>URL PERSONALIZAT</label>
+          <input style={inpS} value={formData.customSlug} onChange={e => setFormData({...formData, customSlug: e.target.value.toLowerCase()})} />
         </div>
 
-        {/* SECȚIUNEA 3: BIFE OPTIONALE */}
-        <div style={{ gridColumn: '1/-1', display: 'flex', gap: '20px' }}>
-           <label><input type="checkbox" checked={formData.isMenuActive} onChange={e => setFormData({...formData, isMenuActive: e.target.checked})} /> Meniu</label>
-           <label><input type="checkbox" checked={formData.isAccommodationActive} onChange={e => setFormData({...formData, isAccommodationActive: e.target.checked})} /> Cazare</label>
-           <label><input type="checkbox" checked={formData.isTransportActive} onChange={e => setFormData({...formData, isTransportActive: e.target.checked})} /> Transport</label>
+        <div style={sectionBox}>
+          <h3 style={secTitle}>Miri & Familie</h3>
+          <input placeholder="Nume Mireasă" style={inpS} value={formData.brideName} onChange={e => setFormData({...formData, brideName: e.target.value})} />
+          <input placeholder="Nume Mire" style={inpS} value={formData.groomName} onChange={e => setFormData({...formData, groomName: e.target.value})} />
+          <input placeholder="Nași" style={inpS} value={formData.nasiNames} onChange={e => setFormData({...formData, nasiNames: e.target.value})} />
+          <input placeholder="Părinți" style={inpS} value={formData.parentsNames} onChange={e => setFormData({...formData, parentsNames: e.target.value})} />
         </div>
 
-        {/* CONTACT */}
-        <input style={inputS} placeholder="Telefon Mireasă" value={formData.contactPhoneBride} onChange={e => setFormData({...formData, contactPhoneBride: e.target.value})} />
-        <input style={inputS} placeholder="Telefon Mire" value={formData.contactPhoneGroom} onChange={e => setFormData({...formData, contactPhoneGroom: e.target.value})} />
+        <div style={sectionBox}>
+          <h3 style={secTitle}>Petrecere (Restaurant)</h3>
+          <input type="date" style={inpS} value={formData.weddingDate} onChange={e => setFormData({...formData, weddingDate: e.target.value})} />
+          <input type="time" style={inpS} value={formData.weddingTime} onChange={e => setFormData({...formData, weddingTime: e.target.value})} />
+          <input placeholder="Nume Locație" style={inpS} value={formData.locationName} onChange={e => setFormData({...formData, locationName: e.target.value})} />
+          <input placeholder="Link Google Maps" style={inpS} value={formData.googleMapsUrl} onChange={e => setFormData({...formData, googleMapsUrl: e.target.value})} />
+          <input placeholder="Link Waze" style={inpS} value={formData.wazeUrl} onChange={e => setFormData({...formData, wazeUrl: e.target.value})} />
+        </div>
 
-        <button type="submit" style={btnS}>{loading ? "Salvare..." : "SALVEAZĂ TOATE DATELE"}</button>
-      </form>
-    </div>
+        <div style={{ ...sectionBox, gridColumn: '1/-1' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <h3 style={secTitle}>⛪ Cununia Religioasă</h3>
+            <label><input type="checkbox" checked={formData.isReligiousActive} onChange={e => setFormData({...formData, isReligiousActive: e.target.checked})} /> Activ</label>
+          </div>
+          <div style={grid2}>
+            <input type="date" style={inpS} value={formData.religiousDate} onChange={e => setFormData({...formData, religiousDate: e.target.value})} />
+            <input type="time" style={inpS} value={formData.religiousTime} onChange={e => setFormData({...formData, religiousTime: e.target.value})} />
+            <input placeholder="Nume Biserică" style={inpS} value={formData.religiousLocation} onChange={e => setFormData({...formData, religiousLocation: e.target.value})} />
+            <input placeholder="Link Waze Biserică" style={inpS} value={formData.religiousWaze} onChange={e => setFormData({...formData, religiousWaze: e.target.value})} />
+          </div>
+        </div>
+
+        <div style={sectionBox}>
+          <h3 style={secTitle}>Contact</h3>
+          <input placeholder="Telefon Mireasă" style={inpS} value={formData.contactPhoneBride} onChange={e => setFormData({...formData, contactPhoneBride: e.target.value})} />
+          <input placeholder="Telefon Mire" style={inpS} value={formData.contactPhoneGroom} onChange={e => setFormData({...formData, contactPhoneGroom: e.target.value})} />
+        </div>
+
+        <div style={sectionBox}>
+          <h3 style={secTitle}>Opțiuni Invitați</h3>
+          <label style={{ display: 'block' }}><input type="checkbox" checked={formData.isAccommodationActive} onChange={e => setFormData({...formData, isAccommodationActive: e.target.checked})} /> Oferim Cazare</label>
+          <label style={{ display: 'block' }}><input type="checkbox" checked={formData.isTransportActive} onChange={e => setFormData({...formData, isTransportActive: e.target.checked})} /> Oferim Transport</label>
+        </div>
+
+        <textarea placeholder="Povestea noastră..." style={{ ...inpS, gridColumn: '1/-1', height: '100px' }} value={formData.ourStory} onChange={e => setFormData({...formData, ourStory: e.target.value})} />
+      </div>
+
+      <button type="submit" disabled={loading} style={saveBtn}>{loading ? "SALVARE..." : "SALVEAZĂ TOATE DATELE"}</button>
+    </form>
   );
 };
 
-const inputS = { width: '100%', background: '#111', border: '1px solid #333', color: '#fff', padding: '10px' };
-const btnS = { gridColumn: '1/-1', background: '#d4af37', padding: '15px', fontWeight: 'bold', cursor: 'pointer' };
+const grid2 = { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' };
+const sectionBox = { background: '#111', padding: '20px', borderRadius: '8px', border: '1px solid #333' };
+const secTitle = { color: '#d4af37', fontSize: '0.9rem', marginTop: 0, marginBottom: '15px', textTransform: 'uppercase' as any };
+const labS = { color: '#d4af37', fontSize: '0.7rem', display: 'block', marginBottom: '5px' };
+const inpS = { width: '100%', background: '#000', border: '1px solid #333', color: '#fff', padding: '12px', marginBottom: '10px' };
+const previewBtn = { padding: '10px 20px', border: '1px solid #d4af37', color: '#d4af37', textDecoration: 'none', borderRadius: '4px', fontSize: '0.8rem' };
+const saveBtn = { width: '100%', padding: '15px', background: '#d4af37', color: '#000', fontWeight: 'bold', border: 'none', cursor: 'pointer', marginTop: '20px' };
