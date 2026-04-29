@@ -127,40 +127,33 @@ import { PhotosSection } from './components/PhotosSection';
 
 export default function LuxDashboard() {
   const [activeTab, setActiveTab] = useState('summary');
-  const [isProfileComplete, setIsProfileComplete] = useState(false);
-  const [slug, setSlug] = useState("");
   const [loading, setLoading] = useState(true);
+  const [weddingData, setWeddingData] = useState<any>(null); // AICI ȚINEM DATELE CONSTANT
   
-  const orderId = 1; // De înlocuit cu session ulterior
+  const orderId = 1; 
 
-  const refreshStatus = useCallback(async () => {
+  const refreshData = useCallback(async () => {
     try {
-      const res = await fetch(`/api/dashboard/summary?orderId=${orderId}&v=${Date.now()}`);
-      if (!res.ok) throw new Error("Eroare server");
-      const data = await res.json();
-      if (data?.weddingDetails) {
-        setIsProfileComplete(!!(data.weddingDetails.bride_name && data.weddingDetails.custom_slug));
-        setSlug(data.weddingDetails.custom_slug || "");
+      const res = await fetch(`/api/dashboard/summary?orderId=${orderId}&t=${Date.now()}`);
+      if (res.ok) {
+        const data = await res.json();
+        setWeddingData(data.weddingDetails);
       }
     } catch (err) {
-      console.error("Refresh status error:", err);
+      console.error("Eroare la sincronizare:", err);
     } finally {
       setLoading(false);
     }
   }, [orderId]);
 
-  useEffect(() => { refreshStatus(); }, [refreshStatus]);
+  useEffect(() => { refreshData(); }, [refreshData]);
 
-  const handleSignOut = () => {
-    // Aici adaugi logica de logout (stergere cookie/sesiune)
-    window.location.href = "/login";
-  };
+  if (loading) return <div style={fullScreenCenter}>SINCRONIZARE DATE LUX...</div>;
 
-  if (loading) return <div style={fullScreenCenter}>VIBE INVITE LUX...</div>;
+  const isProfileComplete = !!(weddingData?.bride_name && weddingData?.custom_slug);
 
   return (
     <div style={dashboardWrapper}>
-      {/* SIDEBAR */}
       <aside style={sidebarS}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <h1 style={{ color: '#d4af37', letterSpacing: '4px', fontSize: '1.2rem', margin: 0 }}>VIBE INVITE</h1>
@@ -174,63 +167,41 @@ export default function LuxDashboard() {
           <TabButton active={activeTab === 'photos'} label="📸 Galerie Poze" onClick={() => setActiveTab('photos')} />
         </nav>
 
-        <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div style={{ padding: '20px' }}>
            <div style={statusCardS(isProfileComplete)}>
              <p style={{ fontSize: '0.6rem', color: isProfileComplete ? '#d4af37' : '#ffa500', margin: '0 0 5px 0' }}>
                {isProfileComplete ? '● LINK ACTIV' : '○ INCOMPLET'}
              </p>
-             {isProfileComplete && <p style={{ fontSize: '0.7rem', color: '#fff', wordBreak: 'break-all' }}>vibeinvite.ro/{slug}</p>}
+             {isProfileComplete && <p style={{ fontSize: '0.7rem', color: '#fff' }}>vibeinvite.ro/{weddingData.custom_slug}</p>}
            </div>
-           
-           <button onClick={handleSignOut} style={signOutBtn}>IEȘIRE CONT</button>
+           <button onClick={() => window.location.href='/login'} style={signOutBtn}>IEȘIRE</button>
         </div>
       </aside>
 
-      {/* MAIN CONTENT */}
       <main style={mainContentS}>
+        {/* Pasăm datele deja încărcate către componente */}
         {activeTab === 'summary' && <SummarySection isComplete={isProfileComplete} orderId={orderId} />}
-        {activeTab === 'personalize' && <PersonalizeSection onSave={refreshStatus} orderId={orderId} />}
-        {activeTab === 'menu' && <MenuSection orderId={orderId} />}
-        {activeTab === 'photos' && <PhotosSection orderId={orderId} />}
+        {activeTab === 'personalize' && (
+          <PersonalizeSection 
+            initialData={weddingData} 
+            orderId={orderId} 
+            onSave={() => refreshData()} 
+          />
+        )}
+        {activeTab === 'menu' && <MenuSection initialData={weddingData} orderId={orderId} onSave={refreshData} />}
+        {activeTab === 'photos' && <PhotosSection initialData={weddingData} orderId={orderId} onSave={refreshData} />}
       </main>
     </div>
   );
 }
 
-// STYLES PENTRU FULLSCREEN
-const dashboardWrapper: React.CSSProperties = {
-  position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-  display: 'flex', background: '#0a0a0a', zIndex: 9999, overflow: 'hidden'
-};
-
-const sidebarS: React.CSSProperties = {
-  width: '280px', background: '#111', borderRight: '1px solid #d4af3722',
-  display: 'flex', flexDirection: 'column', padding: '30px 0', flexShrink: 0
-};
-
-const mainContentS: React.CSSProperties = {
-  flex: 1, height: '100vh', overflowY: 'auto', padding: '50px 80px', color: '#fff'
-};
-
+// Stilurile rămân aceleași (dashboardWrapper, sidebarS, mainContentS, etc.)
+const dashboardWrapper: React.CSSProperties = { position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', background: '#0a0a0a', zIndex: 9999, overflow: 'hidden' };
+const sidebarS: React.CSSProperties = { width: '280px', background: '#111', borderRight: '1px solid #d4af3722', display: 'flex', flexDirection: 'column', padding: '30px 0' };
+const mainContentS: React.CSSProperties = { flex: 1, height: '100vh', overflowY: 'auto', padding: '50px 80px', color: '#fff' };
+const fullScreenCenter: React.CSSProperties = { background: '#000', color: '#d4af37', height: '100vh', width: '100vw', display: 'flex', alignItems: 'center', justifyContent: 'center' };
+const statusCardS = (ok: boolean): React.CSSProperties => ({ padding: '12px', background: '#000', border: `1px solid ${ok ? '#d4af37' : '#ffa500'}`, borderRadius: '8px' });
+const signOutBtn: React.CSSProperties = { width: '100%', background: 'transparent', color: '#ff4444', border: '1px solid #ff4444', padding: '10px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.7rem', marginTop: '10px' };
 const TabButton = ({ active, label, onClick }: any) => (
-  <button onClick={onClick} style={{
-    width: '100%', padding: '14px 20px', marginBottom: '8px',
-    background: active ? '#d4af37' : 'transparent', color: active ? '#000' : '#d4af37',
-    border: 'none', textAlign: 'left', cursor: 'pointer', borderRadius: '8px',
-    fontWeight: 'bold', fontSize: '0.85rem', transition: '0.3s'
-  }}>{label}</button>
+    <button onClick={onClick} style={{ width: '100%', padding: '14px 20px', marginBottom: '8px', background: active ? '#d4af37' : 'transparent', color: active ? '#000' : '#d4af37', border: 'none', textAlign: 'left', cursor: 'pointer', borderRadius: '8px', fontWeight: 'bold' }}>{label}</button>
 );
-
-const statusCardS = (ok: boolean): React.CSSProperties => ({
-  padding: '12px', background: '#000', border: `1px solid ${ok ? '#d4af37' : '#ffa500'}`, borderRadius: '8px'
-});
-
-const signOutBtn: React.CSSProperties = {
-  background: 'transparent', color: '#ff4444', border: '1px solid #ff4444',
-  padding: '10px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.7rem', fontWeight: 'bold'
-};
-
-const fullScreenCenter: React.CSSProperties = {
-  background: '#000', color: '#d4af37', height: '100vh', width: '100vw',
-  display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'fixed', top: 0, left: 0
-};
