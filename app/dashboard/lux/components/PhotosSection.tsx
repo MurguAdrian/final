@@ -166,11 +166,16 @@ export const PhotosSection = ({ initialData, orderId, onSave }: any) => {
     }
   }, [status, fetchPhotos, initialData]);
 
-  const handleActivate = async () => {
-    const confirm = window.confirm("Galeria va fi activă 3 zile gratuit. Ești sigur că vrei să o activezi acum?");
+const handleActivate = async () => {
+    // Verificăm dacă a mai fost activată vreodată (prevenim abuzul celor 3 zile)
+    if (initialData?.photos_expires_at) {
+      alert("Galeria a fost deja activată anterior. Dacă timpul a expirat, te rugăm să folosești opțiunea de Prelungire sau Deblocare.");
+      return;
+    }
+
+    const confirm = window.confirm("Galeria va fi activă 3 zile gratuit. Această activare se poate face O SINGURĂ DATĂ. Ești sigur că vrei să o activezi acum?");
     if (!confirm) return;
 
-    // Calculăm 3 zile de acum încolo
     const expiresAt = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString();
     
     try {
@@ -184,13 +189,29 @@ export const PhotosSection = ({ initialData, orderId, onSave }: any) => {
           photos_expires_at: expiresAt 
         }),
       });
-      onSave(); // Refresh global
+      onSave(); // Spune dashboard-ului să reîncarce datele
     } catch (e) { console.error(e); }
   };
 
-  const handlePayment = (type: 'extend' | 'unlock') => {
-    // Aici vom pune link-ul către Stripe
-    alert(`Redirecționare către Stripe pentru: ${type === 'extend' ? 'Prelungire (50 RON)' : 'Deblocare (100 RON)'}. Vom implementa ruta în pasul următor.`);
+ const handlePayment = async (type: 'extend' | 'unlock') => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/checkout/gallery', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, type }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url; // Te trimite la Stripe
+      } else {
+        alert("Eroare la generarea plății: " + (data.error || "Necunoscută"));
+      }
+    } catch (e) {
+      alert("Eroare server la conectarea cu Stripe");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

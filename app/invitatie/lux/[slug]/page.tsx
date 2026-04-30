@@ -220,10 +220,8 @@ export default async function InvitationPage({ params }: { params: { slug: strin
           </div>
         )}
 
-        {/* ============================================================ */}
-        {/* BUTON GALERIE FOTO LIVE (ADĂUGAT AICI) */}
-        {/* ============================================================ */}
-        {s.is_photos_active && (
+{/* BUTON GALERIE FOTO LIVE - Apare doar dacă e activă și NEEXPIRATĂ */}
+        {s.is_photos_active && s.gallery_status === 'active' && s.photos_expires_at && new Date(s.photos_expires_at) > new Date() && (
           <div style={{ padding: '40px 20px', borderTop: '1px solid #d4af3711' }}>
             <h3 style={goldText}>📸 GALERIE FOTO LIVE</h3>
             <p style={{ fontSize: '0.8rem', opacity: 0.7, marginBottom: '20px' }}>
