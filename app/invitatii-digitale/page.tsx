@@ -809,7 +809,7 @@ export default function InvitatiiDigitalePage() {
                     </h2>
                     <p className="vid-theme-sub">{theme.desc}</p>
                   <div className="vid-btns">
-  {['nature', 'lux', 'boho', 'royal','minimal'].includes(theme.id) ? (
+  {['nature', 'lux', 'boho', 'royal','minimal', 'romantic'].includes(theme.id) ? (
     <Link href={theme.demoPath} className="vid-btn-demo">
       Vezi demo
     </Link>
