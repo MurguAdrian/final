@@ -45,8 +45,9 @@ import Stripe from "stripe";
 import { neon } from "@neondatabase/serverless";
 
 export async function POST(request: Request) {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2025-01-27' as any });
-  const body = await request.text();
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2026-04-22.dahlia' as any, 
+});  const body = await request.text();
   const signature = request.headers.get("stripe-signature")!;
   const sql = neon(process.env.DATABASE_URL!);
 

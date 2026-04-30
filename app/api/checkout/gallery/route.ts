@@ -3,9 +3,9 @@ import Stripe from "stripe";
 
 export async function POST(request: Request) {
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-      apiVersion: '2025-01-27' as any, // Folosim o versiune stabilă
-    });
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2026-04-22.dahlia' as any, 
+});
 
     const { orderId, type } = await request.json();
 
