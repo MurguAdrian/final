@@ -9,27 +9,46 @@ cloudinary.config({
 });
 
 export async function GET(request: Request) {
-    // Verificăm un token secret în URL ca să nu poată oricine să ruleze ștergerea
-    // Ex: /api/cron/cleanup?key=SECRET_TOKEN
-    
     const sql = neon(process.env.DATABASE_URL!);
     
-    // 1. Găsim nunțile expirate
-    const expiredWeddings = await sql`
-      SELECT order_id FROM wedding_settings 
-      WHERE photos_expires_at < NOW() AND is_photos_active = true
+    // PASUL 1: Mutăm în ARHIVĂ nunțile la care le-au expirat cele 3/5 zile active
+    // Le dăm 30 de zile de "grație"
+    const toArchive = await sql`
+      UPDATE wedding_settings 
+      SET gallery_status = 'expired',
+          archive_expires_at = NOW() + INTERVAL '30 days'
+      WHERE photos_expires_at < NOW() 
+        AND gallery_status = 'active'
+      RETURNING order_id;
     `;
 
-    for (const wedding of expiredWeddings) {
-        // 2. Ștergem pozele din Cloudinary pentru acel OrderID
+    // PASUL 2: Găsim nunțile cărora le-a expirat și ARHIVA de 30 de zile
+    const toDelete = await sql`
+      SELECT order_id FROM wedding_settings 
+      WHERE gallery_status = 'expired' 
+        AND archive_expires_at < NOW()
+    `;
+
+    // PASUL 3: Ștergem definitiv DOAR ce a trecut de cele 30 de zile
+for (const wedding of toDelete) {
+        // Ștergem pozele fizice din Cloudinary
         await cloudinary.api.delete_resources_by_tag(`order_${wedding.order_id}`);
         
-        // 3. Dezactivăm galeria în DB
-        await sql`UPDATE wedding_settings SET is_photos_active = false WHERE order_id = ${wedding.order_id}`;
+        // IMPORTANT: Marcăm statusul ca 'deleted' și oprim galeria definitiv
+        await sql`
+          UPDATE wedding_settings 
+          SET gallery_status = 'deleted', 
+              is_photos_active = false 
+          WHERE order_id = ${wedding.order_id}
+        `;
         
-        // 4. Ștergem referințele din tabelul de poze
+        // Ștergem link-urile din baza de date
         await sql`DELETE FROM wedding_photos WHERE order_id = ${wedding.order_id}`;
     }
 
-    return NextResponse.json({ success: true, processed: expiredWeddings.length });
+    return NextResponse.json({ 
+        success: true, 
+        mutatedToArchive: toArchive.length, 
+        deletedForever: toDelete.length 
+    });
 }
