@@ -3,38 +3,45 @@ import Stripe from "stripe";
 import { neon } from "@neondatabase/serverless";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-06-20" as any,
+  apiVersion: '2026-04-22.dahlia' as any,
 });
 
 export async function POST(req: Request) {
   const body = await req.text();
-  const signature = req.headers.get("stripe-signature")!;
+  const signature = req.headers.get("stripe-signature");
+
+  if (!signature) {
+    return NextResponse.json({ error: "No signature" }, { status: 400 });
+  }
+
   const sql = neon(process.env.DATABASE_URL!);
 
   try {
     const event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET! // Asigură-te că ai asta în Vercel!
+      process.env.STRIPE_WEBHOOK_SECRET!
     );
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
-      
-      // Update status în 'paid' pe baza session.id
+
+      // Actualizăm statusul în Neon
       await sql`
         UPDATE orders 
         SET status = 'paid' 
         WHERE stripe_session_id = ${session.id}
       `;
 
-      // Aici poți adăuga și logica de trimitere email prin Resend dacă vrei
-      console.log("Plată confirmată pentru sesiunea:", session.id);
+      console.log("✅ Plată confirmată pentru sesiunea:", session.id);
     }
 
     return NextResponse.json({ received: true });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 400 });
+    console.error(`❌ Webhook Error (${err.type}):`, err.message);
+    // Dacă eroarea este de tip "No matching event found", 
+    // înseamnă de obicei că versiunea API din cod nu e aceeași cu cea a webhook-ului
+    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
   }
 }
 
