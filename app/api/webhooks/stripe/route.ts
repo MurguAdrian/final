@@ -74,6 +74,7 @@
 //   return NextResponse.json({ received: true });
 // }
 
+
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { neon } from '@neondatabase/serverless';
