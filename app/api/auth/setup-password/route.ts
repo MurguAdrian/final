@@ -1,13 +1,10 @@
 import { NextResponse } from 'next/server';
 import { neon } from '@neondatabase/serverless';
-
-// MODIFICARE AICI: Nu mai pune const sql = neon(...) aici sus!
+import bcrypt from 'bcryptjs'; // ADĂUGAT
 
 export async function POST(req: Request) {
   try {
-    // Inițializăm conexiunea DOAR când primim cererea
     const sql = neon(process.env.DATABASE_URL!);
-    
     const { token, password } = await req.json();
 
     const verification = await sql`
@@ -22,9 +19,12 @@ export async function POST(req: Request) {
 
     const email = verification[0].email;
 
+    // CRIPTĂM PAROLA ÎNAINTE DE SALVARE
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     await sql`
       UPDATE orders 
-      SET password = ${password} 
+      SET password = ${hashedPassword} 
       WHERE email = ${email}
     `;
 
