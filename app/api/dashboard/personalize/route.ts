@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { neon } from "@neondatabase/serverless";
 import { getSession } from "@/lib/auth";
 
+// Helper pentru a transforma string gol în null (ca să nu crape DB-ul la date/timp)
+const cleanDate = (val: any) => (val === "" || !val ? null : val);
+const cleanString = (val: any) => (val === "" || !val ? null : val);
+
 export async function POST(request: Request) {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Neautorizat" }, { status: 401 });
@@ -12,23 +16,18 @@ export async function POST(request: Request) {
 
     if (!body.orderId) return NextResponse.json({ error: "Lipsește ID-ul comenzii" }, { status: 400 });
 
-    // 1. Securitate: Verificăm dacă orderId aparține email-ului din sesiune
     const check = await sql`SELECT id FROM orders WHERE id = ${parseInt(body.orderId)} AND email = ${session.email} LIMIT 1`;
-    if (check.length === 0) return NextResponse.json({ error: "Acțiune nepermisă. ID-ul nu aparține acestui cont." }, { status: 403 });
+    if (check.length === 0) return NextResponse.json({ error: "Acțiune nepermisă." }, { status: 403 });
 
-    // 2. Verificare slug unic (Să nu fure nimeni link-ul altuia)
     if (body.customSlug) {
       const slugCheck = await sql`
         SELECT id FROM wedding_settings 
         WHERE custom_slug = ${body.customSlug} AND order_id != ${parseInt(body.orderId)} 
         LIMIT 1
       `;
-      if (slugCheck.length > 0) {
-        return NextResponse.json({ error: "Acest link personalizat este deja folosit de alt cuplu. Alege altul!" }, { status: 400 });
-      }
+      if (slugCheck.length > 0) return NextResponse.json({ error: "Link-ul este deja folosit!" }, { status: 400 });
     }
 
-    // 3. UPSERT
     await sql`
       INSERT INTO wedding_settings (
         order_id, custom_slug, bride_name, groom_name, nasi_names, parents_names, 
@@ -40,28 +39,28 @@ export async function POST(request: Request) {
       )
       VALUES (
         ${parseInt(body.orderId)}, 
-        ${body.customSlug || null}, 
-        ${body.brideName || null}, 
-        ${body.groomName || null}, 
-        ${body.nasiNames || null}, 
-        ${body.parentsNames || null},
-        ${body.weddingDate || null}, 
-        ${body.weddingTime || null}, 
-        ${body.locationName || null}, 
-        ${body.googleMapsUrl || null}, 
-        ${body.wazeUrl || null},
-        ${body.religiousDate || null}, 
-        ${body.religiousTime || null}, 
-        ${body.religiousLocation || null}, 
-        ${body.religiousWaze || null},
+        ${cleanString(body.customSlug)}, 
+        ${cleanString(body.brideName)}, 
+        ${cleanString(body.groomName)}, 
+        ${cleanString(body.nasiNames)}, 
+        ${cleanString(body.parentsNames)},
+        ${cleanDate(body.weddingDate)}, 
+        ${cleanString(body.weddingTime)}, 
+        ${cleanString(body.locationName)}, 
+        ${cleanString(body.googleMapsUrl)}, 
+        ${cleanString(body.wazeUrl)},
+        ${cleanDate(body.religiousDate)}, 
+        ${cleanString(body.religiousTime)}, 
+        ${cleanString(body.religiousLocation)}, 
+        ${cleanString(body.religiousWaze)},
         ${body.isReligiousActive ?? false}, 
         ${body.isMenuActive ?? false}, 
         ${body.isAccommodationActive ?? false}, 
         ${body.isTransportActive ?? false},
-        ${body.contactPhoneBride || null}, 
-        ${body.contactPhoneGroom || null}, 
-        ${body.ourStory || null}, 
-        ${JSON.stringify(body.menu_details) || null}, 
+        ${cleanString(body.contactPhoneBride)}, 
+        ${cleanString(body.contactPhoneGroom)}, 
+        ${cleanString(body.ourStory)}, 
+        ${JSON.stringify(body.menu_details || { items: [] })}, 
         ${body.isPhotosActive ?? false}, 
         ${body.gallery_status || 'inactive'}
       )
@@ -94,7 +93,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
-    console.error("Personalize Error:", error);
+    console.error("Personalize 500 Error:", error.message); // Asta îți va spune EXACT ce a crăpat în Vercel Logs
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

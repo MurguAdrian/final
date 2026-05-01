@@ -1,22 +1,29 @@
-
 "use client";
 import React, { useState, useEffect } from 'react';
 
 export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
   const [loading, setLoading] = useState(false);
-  // Inițializăm state-ul cu datele primite de la părinte sau cu șiruri goale (ca să nu dea eroare de undefined)
+
+  // Funcții helper pentru datele de azi și peste 5 ani
+  const getTodayDate = () => new Date().toISOString().split('T')[0];
+  const getMaxDate = () => {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() + 5); // Limită la 5 ani
+    return d.toISOString().split('T')[0];
+  };
+
   const [formData, setFormData] = useState({
     customSlug: initialData?.custom_slug || '',
     brideName: initialData?.bride_name || '',
     groomName: initialData?.groom_name || '',
     nasiNames: initialData?.nasi_names || '',
     parentsNames: initialData?.parents_names || '',
-    weddingDate: initialData?.wedding_date ? initialData.wedding_date.split('T')[0] : '',
+    weddingDate: initialData?.wedding_date ? new Date(initialData.wedding_date).toISOString().split('T')[0] : '',
     weddingTime: initialData?.wedding_time || '',
     locationName: initialData?.location_name || '',
     googleMapsUrl: initialData?.google_maps_url || '',
     wazeUrl: initialData?.waze_url || '',
-    religiousDate: initialData?.religious_date ? initialData.religious_date.split('T')[0] : '',
+    religiousDate: initialData?.religious_date ? new Date(initialData.religious_date).toISOString().split('T')[0] : '',
     religiousTime: initialData?.religious_time || '',
     religiousLocation: initialData?.religious_location || '',
     religiousWaze: initialData?.religious_waze || '',
@@ -28,8 +35,8 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
     isTransportActive: initialData?.is_transport_active ?? false,
   });
 
-  // Dacă datele din părinte se schimbă, actualizăm și aici (Sync)
-useEffect(() => {
+  // Sync între baza de date și formular
+  useEffect(() => {
     if (initialData) {
       setFormData({
         customSlug: initialData.custom_slug || '',
@@ -58,6 +65,8 @@ useEffect(() => {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!orderId) return alert("Eroare: Sesiunea a expirat. Te rugăm să reîncărcați pagina.");
+    
     setLoading(true);
     try {
       const res = await fetch('/api/dashboard/personalize', {
@@ -65,11 +74,19 @@ useEffect(() => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orderId, ...formData }),
       });
+      const data = await res.json();
+      
       if (res.ok) {
-        alert("Sincronizat cu succes în baza de date!");
-        onSave(); // Spunem părintelui să facă refresh la date
+        alert("Sincronizat cu succes în baza de date! ✨");
+        onSave(); 
+      } else {
+        alert("Eroare: " + (data.error || "Nu s-a putut salva."));
       }
-    } catch (e) { alert("Eroare la salvare"); } finally { setLoading(false); }
+    } catch (e) { 
+      alert("Eroare la salvare. Verifică conexiunea."); 
+    } finally { 
+      setLoading(false); 
+    }
   };
 
   return (
@@ -95,8 +112,21 @@ useEffect(() => {
 
         <div style={sectionBox}>
           <h3 style={secTitle}>Petrecere Restaurant</h3>
-          <input type="date" style={inpS} value={formData.weddingDate} onChange={e => setFormData({...formData, weddingDate: e.target.value})} />
-          <input type="time" style={inpS} value={formData.weddingTime} onChange={e => setFormData({...formData, weddingTime: e.target.value})} />
+          <input 
+            type="date" 
+            style={inpS} 
+            min={getTodayDate()} 
+            max={getMaxDate()} 
+            value={formData.weddingDate} 
+            onChange={e => setFormData({...formData, weddingDate: e.target.value})} 
+          />
+          <input 
+            type="time" 
+            style={inpS} 
+            step="60"
+            value={formData.weddingTime} 
+            onChange={e => setFormData({...formData, weddingTime: e.target.value})} 
+          />
           <input placeholder="Nume Restaurant" style={inpS} value={formData.locationName} onChange={e => setFormData({...formData, locationName: e.target.value})} />
           <input placeholder="Link Google Maps" style={inpS} value={formData.googleMapsUrl} onChange={e => setFormData({...formData, googleMapsUrl: e.target.value})} />
           <input placeholder="Link Waze" style={inpS} value={formData.wazeUrl} onChange={e => setFormData({...formData, wazeUrl: e.target.value})} />
@@ -111,8 +141,21 @@ useEffect(() => {
           </label>
         </div>
         <div style={grid2}>
-          <input type="date" style={inpS} value={formData.religiousDate} onChange={e => setFormData({...formData, religiousDate: e.target.value})} />
-          <input type="time" style={inpS} value={formData.religiousTime} onChange={e => setFormData({...formData, religiousTime: e.target.value})} />
+          <input 
+            type="date" 
+            style={inpS} 
+            min={getTodayDate()} 
+            max={getMaxDate()}
+            value={formData.religiousDate} 
+            onChange={e => setFormData({...formData, religiousDate: e.target.value})} 
+          />
+          <input 
+            type="time" 
+            style={inpS} 
+            step="60"
+            value={formData.religiousTime} 
+            onChange={e => setFormData({...formData, religiousTime: e.target.value})} 
+          />
           <input placeholder="Biserica" style={inpS} value={formData.religiousLocation} onChange={e => setFormData({...formData, religiousLocation: e.target.value})} />
           <input placeholder="Waze Biserică" style={inpS} value={formData.religiousWaze} onChange={e => setFormData({...formData, religiousWaze: e.target.value})} />
         </div>
@@ -126,8 +169,12 @@ useEffect(() => {
         </div>
         <div style={sectionBox}>
           <h3 style={secTitle}>Opțiuni Invitați</h3>
-          <label style={{ display: 'block', margin: '5px 0' }}><input type="checkbox" checked={formData.isAccommodationActive} onChange={e => setFormData({...formData, isAccommodationActive: e.target.checked})} /> Cazare</label>
-          <label style={{ display: 'block', margin: '5px 0' }}><input type="checkbox" checked={formData.isTransportActive} onChange={e => setFormData({...formData, isTransportActive: e.target.checked})} /> Transport</label>
+          <label style={{ display: 'block', margin: '5px 0' }}>
+            <input type="checkbox" checked={formData.isAccommodationActive} onChange={e => setFormData({...formData, isAccommodationActive: e.target.checked})} /> Cazare
+          </label>
+          <label style={{ display: 'block', margin: '5px 0' }}>
+            <input type="checkbox" checked={formData.isTransportActive} onChange={e => setFormData({...formData, isTransportActive: e.target.checked})} /> Transport
+          </label>
         </div>
       </div>
 
@@ -138,7 +185,6 @@ useEffect(() => {
   );
 };
 
-// CSS (n-ai nevoie sa-l modifici daca il ai deja)
 const grid2 = { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '20px' };
 const sectionBox = { background: '#111', padding: '20px', borderRadius: '8px', border: '1px solid #333' };
 const secTitle = { color: '#d4af37', fontSize: '0.8rem', marginTop: 0, textTransform: 'uppercase' as any };
