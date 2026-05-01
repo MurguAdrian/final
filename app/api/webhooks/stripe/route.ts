@@ -16,57 +16,70 @@ export async function POST(req: Request) {
   const sql = neon(process.env.DATABASE_URL!);
 
   try {
-    const event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
+    const event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
       const email = session.customer_email;
 
-      // 1. Update status în 'paid'
+      console.log("--- START PROCESARE WEBHOOK ---");
+      console.log("Email client:", email);
+
+      // 1. Generăm Token-ul
+      const setupToken = crypto.randomBytes(32).toString('hex');
+      
+      // 2. Inserăm în verification_tokens (Folosim SQL pentru dată ca să nu avem erori de format JS)
+      try {
+        await sql`
+          INSERT INTO verification_tokens (email, token, expires_at)
+          VALUES (${email}, ${setupToken}, NOW() + INTERVAL '24 hours')
+        `;
+        console.log("✅ Token inserat cu succes în DB");
+      } catch (dbError: any) {
+        console.error("❌ EROARE LA INSERT TOKEN:", dbError.message);
+        throw new Error("DB Insert Failed");
+      }
+
+      // 3. Update status în 'paid'
       await sql`
         UPDATE orders 
         SET status = 'paid' 
         WHERE stripe_session_id = ${session.id}
       `;
+      console.log("✅ Status comandă actualizat la 'paid'");
 
-      // 2. Generăm un Token de securitate pentru setarea parolei
-      const setupToken = crypto.randomBytes(32).toString('hex');
-      const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // Valabil 24h
+      // 4. Trimitem Email-ul
+      // OBLIGATORIU: Dacă nu ai domeniul verificat în Resend, folosește 'onboarding@resend.dev'
+      try {
+        const { data, error } = await resend.emails.send({
+          from: 'Vibe Invite <onboarding@resend.dev>', 
+          to: email as string,
+          subject: 'Setează parola pentru invitația ta Vibe Invite',
+          html: `
+            <div style="font-family: sans-serif; padding: 20px;">
+              <h2>Bun venit! ✨</h2>
+              <p>Apasă pe butonul de mai jos pentru a-ți seta parola:</p>
+              <a href="https://www.vibeinvite.ro/setup-password?token=${setupToken}" 
+                 style="background: black; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                Setează Parola
+              </a>
+            </div>
+          `
+        });
 
-      // 3. Salvăm token-ul în tabelul tău verification_tokens
-      await sql`
-        INSERT INTO verification_tokens (email, token, expires_at)
-        VALUES (${email}, ${setupToken}, ${expiresAt})
-      `;
-
-      // 4. TRIMITEM EMAIL-UL PRIN RESEND
-      const setupLink = `https://www.vibeinvite.ro/setup-password?token=${setupToken}`;
-      
-      await resend.emails.send({
-        from: 'Vibe Invite <hello@vibeinvite.ro>',
-        to: email as string,
-        subject: 'Bun venit la Vibe Invite! Setează-ți parola',
-        html: `
-          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-            <h1>Felicitări pentru achiziție! ✨</h1>
-            <p>Plata a fost confirmată. Acum poți începe personalizarea invitației tale.</p>
-            <p>Apasă pe butonul de mai jos pentru a-ți seta parola și a accesa dashboard-ul:</p>
-            <a href="${setupLink}" style="display: inline-block; padding: 12px 24px; background: #000; color: #fff; text-decoration: none; border-radius: 8px; font-weight: bold;">Setează Parola</a>
-            <p style="margin-top: 20px; font-size: 0.8rem; color: #666;">Dacă butonul nu funcționează, copiază acest link în browser: ${setupLink}</p>
-          </div>
-        `
-      });
-
-      console.log(`✅ Plată confirmată și email trimis către: ${email}`);
+        if (error) {
+          console.error("❌ EROARE RESEND:", error);
+        } else {
+          console.log("📧 Email trimis cu succes!", data);
+        }
+      } catch (emailErr: any) {
+        console.error("❌ CRASH LA TRIMITERE EMAIL:", emailErr.message);
+      }
     }
 
     return NextResponse.json({ received: true });
   } catch (err: any) {
-    console.error("❌ Eroare Webhook:", err.message);
+    console.error("❌ EROARE GENERALĂ WEBHOOK:", err.message);
     return NextResponse.json({ error: err.message }, { status: 400 });
   }
 }
