@@ -41,11 +41,12 @@ export async function POST(req: Request) {
       }
 
       // 3. Update status în 'paid'
-      await sql`
-        UPDATE orders 
-        SET status = 'paid' 
-        WHERE stripe_session_id = ${session.id}
-      `;
+await sql`
+  UPDATE orders 
+  SET status = 'paid', 
+      expires_at = NOW() + INTERVAL '12 months' 
+  WHERE stripe_session_id = ${session.id}
+`;
       console.log("✅ Status comandă actualizat la 'paid'");
 
       // 4. Trimitem Email-ul

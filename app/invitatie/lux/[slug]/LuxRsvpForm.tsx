@@ -6,21 +6,30 @@ export default function LuxRsvpForm({ orderId, showAccommodation, showTransport 
   const [submitted, setSubmitted] = useState(false);
   const [isComing, setIsComing] = useState("true");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const payload = {
-      orderId, guestName: formData.get("guestName"), isComing: isComing === "true",
-      partnerName: formData.get("partnerName"), kidsCount: parseInt(formData.get("kidsCount") as string) || 0,
-      dietaryPreferences: formData.get("dietary"),
-      needsAccommodation: formData.get("accommodation") === "true",
-      needsTransport: formData.get("transport") === "true",
-      plusOne: !!formData.get("partnerName"),
-      otherMentions: formData.get("mentions")
-    };
-    await fetch("/api/rsvp", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-    setSubmitted(true);
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  const formData = new FormData(e.currentTarget);
+  const payload = {
+    orderId,
+    guestName: formData.get("guestName"),
+    isComing: isComing === "true",
+    partnerName: formData.get("partnerName") || null,
+    plusOne: !!formData.get("partnerName"),
+    adultsCount: isComing === "true" ? 1 : 0, // Minim 1 adult dacă vine
+    kidsCount: parseInt(formData.get("kidsCount") as string) || 0,
+    dietaryPreferences: formData.get("dietary") || null,
+    needsAccommodation: formData.get("accommodation") === "true",
+    needsTransport: formData.get("transport") === "true",
+    otherMentions: formData.get("mentions") || null
   };
+
+  await fetch("/api/rsvp", { 
+    method: "POST", 
+    headers: { "Content-Type": "application/json" }, 
+    body: JSON.stringify(payload) 
+  });
+  setSubmitted(true);
+};
 
   if (submitted) return <h2>Mulțumim! ✦</h2>;
 

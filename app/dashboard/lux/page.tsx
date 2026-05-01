@@ -1,96 +1,3 @@
-
-// "use client";
-// import React, { useState, useEffect, useCallback } from 'react';
-// import { SummarySection } from './components/SummarySection';
-// import { PersonalizeSection } from './components/PersonalizeSection';
-// import { MenuSection } from './components/MenuSection';
-// import { PhotosSection } from './components/PhotosSection';
-// import { getSession } from '@/lib/auth';
-
-
-
-
-// export default function LuxDashboard() {
-//   const [activeTab, setActiveTab] = useState('summary');
-//   const [loading, setLoading] = useState(true);
-//   const [weddingData, setWeddingData] = useState<any>(null); // AICI ȚINEM DATELE CONSTANT
-  
-//   const orderId = 1; 
-
-//   const refreshData = useCallback(async () => {
-//     try {
-//       const res = await fetch(`/api/dashboard/summary?orderId=${orderId}&t=${Date.now()}`);
-//       if (res.ok) {
-//         const data = await res.json();
-//         setWeddingData(data.weddingDetails);
-//       }
-//     } catch (err) {
-//       console.error("Eroare la sincronizare:", err);
-//     } finally {
-//       setLoading(false);
-//     }
-//   }, [orderId]);
-
-//   useEffect(() => { refreshData(); }, [refreshData]);
-
-//   if (loading) return <div style={fullScreenCenter}>SINCRONIZARE DATE LUX...</div>;
-
-//   const isProfileComplete = !!(weddingData?.bride_name && weddingData?.custom_slug);
-
-//   return (
-//     <div style={dashboardWrapper}>
-//       <aside style={sidebarS}>
-//         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-//           <h1 style={{ color: '#d4af37', letterSpacing: '4px', fontSize: '1.2rem', margin: 0 }}>VIBE INVITE</h1>
-//           <span style={{ fontSize: '0.6rem', color: '#d4af37', opacity: 0.6 }}>PREMIUM LUXURY EDITION</span>
-//         </div>
-
-//         <nav style={{ flex: 1, padding: '0 20px' }}>
-//           <TabButton active={activeTab === 'summary'} label="📊 Dashboard" onClick={() => setActiveTab('summary')} />
-//           <TabButton active={activeTab === 'personalize'} label="🎨 Personalizare" onClick={() => setActiveTab('personalize')} />
-//           <TabButton active={activeTab === 'menu'} label="🍴 Meniu Nuntă" onClick={() => setActiveTab('menu')} />
-//           <TabButton active={activeTab === 'photos'} label="📸 Galerie Poze" onClick={() => setActiveTab('photos')} />
-//         </nav>
-
-//         <div style={{ padding: '20px' }}>
-//            <div style={statusCardS(isProfileComplete)}>
-//              <p style={{ fontSize: '0.6rem', color: isProfileComplete ? '#d4af37' : '#ffa500', margin: '0 0 5px 0' }}>
-//                {isProfileComplete ? '● LINK ACTIV' : '○ INCOMPLET'}
-//              </p>
-//              {isProfileComplete && <p style={{ fontSize: '0.7rem', color: '#fff' }}>vibeinvite.ro/invitatie/lux/{weddingData.custom_slug}</p>}
-//            </div>
-//            <button onClick={() => window.location.href='/login'} style={signOutBtn}>IEȘIRE</button>
-//         </div>
-//       </aside>
-
-//       <main style={mainContentS}>
-//         {/* Pasăm datele deja încărcate către componente */}
-//         {activeTab === 'summary' && <SummarySection isComplete={isProfileComplete} orderId={orderId} />}
-//         {activeTab === 'personalize' && (
-//           <PersonalizeSection 
-//             initialData={weddingData} 
-//             orderId={orderId} 
-//             onSave={() => refreshData()} 
-//           />
-//         )}
-//         {activeTab === 'menu' && <MenuSection initialData={weddingData} orderId={orderId} onSave={refreshData} />}
-//         {activeTab === 'photos' && <PhotosSection initialData={weddingData} orderId={orderId} onSave={refreshData} />}
-//       </main>
-//     </div>
-//   );
-// }
-
-// // Stilurile rămân aceleași (dashboardWrapper, sidebarS, mainContentS, etc.)
-// const dashboardWrapper: React.CSSProperties = { position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', background: '#0a0a0a', zIndex: 9999, overflow: 'hidden' };
-// const sidebarS: React.CSSProperties = { width: '280px', background: '#111', borderRight: '1px solid #d4af3722', display: 'flex', flexDirection: 'column', padding: '30px 0' };
-// const mainContentS: React.CSSProperties = { flex: 1, height: '100vh', overflowY: 'auto', padding: '50px 80px', color: '#fff' };
-// const fullScreenCenter: React.CSSProperties = { background: '#000', color: '#d4af37', height: '100vh', width: '100vw', display: 'flex', alignItems: 'center', justifyContent: 'center' };
-// const statusCardS = (ok: boolean): React.CSSProperties => ({ padding: '12px', background: '#000', border: `1px solid ${ok ? '#d4af37' : '#ffa500'}`, borderRadius: '8px' });
-// const signOutBtn: React.CSSProperties = { width: '100%', background: 'transparent', color: '#ff4444', border: '1px solid #ff4444', padding: '10px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.7rem', marginTop: '10px' };
-// const TabButton = ({ active, label, onClick }: any) => (
-//     <button onClick={onClick} style={{ width: '100%', padding: '14px 20px', marginBottom: '8px', background: active ? '#d4af37' : 'transparent', color: active ? '#000' : '#d4af37', border: 'none', textAlign: 'left', cursor: 'pointer', borderRadius: '8px', fontWeight: 'bold' }}>{label}</button>
-// );
-
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { SummarySection } from './components/SummarySection';
@@ -103,7 +10,6 @@ export default function LuxDashboard() {
   const [loading, setLoading] = useState(true);
   const [weddingData, setWeddingData] = useState<any>(null);
 
-  // Funcția de refresh nu mai cere orderId, API-ul va ști cine ești din Cookie
   const refreshData = useCallback(async () => {
     try {
       const res = await fetch(`/api/dashboard/summary?t=${Date.now()}`);
@@ -111,7 +17,6 @@ export default function LuxDashboard() {
         const data = await res.json();
         setWeddingData(data.weddingDetails);
       } else if (res.status === 401) {
-        // Dacă nu e logat, îl trimitem la login
         window.location.href = '/login';
       }
     } catch (err) {
@@ -128,6 +33,7 @@ export default function LuxDashboard() {
   if (loading) return <div style={fullScreenCenter}>SINCRONIZARE DATE LUX...</div>;
 
   const isProfileComplete = !!(weddingData?.bride_name && weddingData?.custom_slug);
+  const currentOrderId = weddingData?.order_id || weddingData?.id;
 
   return (
     <div style={dashboardWrapper}>
@@ -149,7 +55,7 @@ export default function LuxDashboard() {
              <p style={{ fontSize: '0.6rem', color: isProfileComplete ? '#d4af37' : '#ffa500', margin: '0 0 5px 0' }}>
                {isProfileComplete ? '● LINK ACTIV' : '○ INCOMPLET'}
              </p>
-             {isProfileComplete && <p style={{ fontSize: '0.7rem', color: '#fff' }}>vibeinvite.ro/invitatie/lux/{weddingData.custom_slug}</p>}
+             {isProfileComplete && <p style={{ fontSize: '0.7rem', color: '#fff', wordBreak: 'break-all' }}>vibeinvite.ro/invitatie/lux/{weddingData.custom_slug}</p>}
            </div>
            <button onClick={() => window.location.href='/login'} style={signOutBtn}>IEȘIRE</button>
         </div>
@@ -157,19 +63,36 @@ export default function LuxDashboard() {
 
       <main style={mainContentS}>
         {activeTab === 'summary' && <SummarySection isComplete={isProfileComplete} />}
+        
         {activeTab === 'personalize' && (
           <PersonalizeSection 
             initialData={weddingData} 
-            onSave={() => refreshData()} 
+            orderId={currentOrderId} 
+            onSave={refreshData} 
           />
         )}
-        {activeTab === 'menu' && <MenuSection initialData={weddingData} onSave={refreshData} />}
-        {activeTab === 'photos' && <PhotosSection initialData={weddingData} onSave={refreshData} />}
+        
+        {activeTab === 'menu' && (
+          <MenuSection 
+            initialData={weddingData} 
+            orderId={currentOrderId} 
+            onSave={refreshData} 
+          />
+        )}
+        
+        {activeTab === 'photos' && (
+          <PhotosSection 
+            initialData={weddingData} 
+            orderId={currentOrderId} 
+            onSave={refreshData} 
+          />
+        )}
       </main>
     </div>
   );
 }
 
+// Stiluri (Rămân aceleași pe care le ai deja)
 const dashboardWrapper: React.CSSProperties = { position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', display: 'flex', background: '#0a0a0a', zIndex: 9999, overflow: 'hidden' };
 const sidebarS: React.CSSProperties = { width: '280px', background: '#111', borderRight: '1px solid #d4af3722', display: 'flex', flexDirection: 'column', padding: '30px 0' };
 const mainContentS: React.CSSProperties = { flex: 1, height: '100vh', overflowY: 'auto', padding: '50px 80px', color: '#fff' };

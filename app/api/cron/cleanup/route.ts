@@ -12,9 +12,9 @@ export async function GET(req: Request) {
   // Șterge comenzile mai vechi de 12 luni
   // ATENȚIE: Asigură-te că tabelele tale au Foreign Keys cu ON DELETE CASCADE
   await sql`
-    DELETE FROM orders 
-    WHERE created_at < NOW() - INTERVAL '12 months'
-  `;
+DELETE FROM orders 
+  WHERE expires_at < NOW()
+`;
 
   return NextResponse.json({ success: true, message: "Datele vechi au fost șterse." });
 }
