@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
   const [loading, setLoading] = useState(false);
 
+  // Funcții helper pentru data curentă și limita de +5 ani
   const getTodayDate = () => new Date().toISOString().split('T')[0];
   const getMaxDate = () => {
     const d = new Date();
@@ -71,10 +72,15 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
         body: JSON.stringify({ orderId, ...formData }),
       });
       if (res.ok) {
-        alert("Personalizare salvată! ✨");
+        alert("Personalizare salvată cu succes! ✨");
         onSave();
+      } else {
+        const errorData = await res.json();
+        alert("Eroare: " + (errorData.error || "A apărut o problemă."));
       }
-    } catch (e) { alert("Eroare"); }
+    } catch (e) { 
+      alert("Eroare de conexiune la server."); 
+    }
     setLoading(false);
   };
 
@@ -91,6 +97,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
       </div>
 
       <div style={grid2}>
+        {/* SECȚIUNEA MIRI & FAMILIE */}
         <div style={sectionBox}>
           <h3 style={secTitle}>Miri & Familie</h3>
           <input placeholder="Nume Mireasă" style={inpS} value={formData.brideName} onChange={e => setFormData({...formData, brideName: e.target.value})} />
@@ -99,16 +106,31 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
           <input placeholder="Părinți" style={inpS} value={formData.parentsNames} onChange={e => setFormData({...formData, parentsNames: e.target.value})} />
         </div>
 
+        {/* SECȚIUNEA RESTAURANT */}
         <div style={sectionBox}>
           <h3 style={secTitle}>Petrecere Restaurant</h3>
-          <input type="date" style={inpS} min={getTodayDate()} max={getMaxDate()} value={formData.weddingDate} onChange={e => setFormData({...formData, weddingDate: e.target.value})} />
-          <input type="time" step="60" style={inpS} value={formData.weddingTime} onChange={e => setFormData({...formData, weddingTime: e.target.value})} />
+          <input 
+            type="date" 
+            style={inpS} 
+            min={getTodayDate()} 
+            max={getMaxDate()} 
+            value={formData.weddingDate} 
+            onChange={e => setFormData({...formData, weddingDate: e.target.value})} 
+          />
+          <input 
+            type="time" 
+            style={inpS} 
+            step="60" 
+            value={formData.weddingTime} 
+            onChange={e => setFormData({...formData, weddingTime: e.target.value})} 
+          />
           <input placeholder="Nume Restaurant" style={inpS} value={formData.locationName} onChange={e => setFormData({...formData, locationName: e.target.value})} />
           <input placeholder="Link Google Maps" style={inpS} value={formData.googleMapsUrl} onChange={e => setFormData({...formData, googleMapsUrl: e.target.value})} />
           <input placeholder="Link Waze" style={inpS} value={formData.wazeUrl} onChange={e => setFormData({...formData, wazeUrl: e.target.value})} />
         </div>
       </div>
 
+      {/* SECȚIUNEA RELIGIE */}
       <div style={{...sectionBox, marginTop: '20px'}}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <h3 style={secTitle}>⛪ Cununia Religioasă</h3>
@@ -116,20 +138,38 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
             <input type="checkbox" checked={formData.isReligiousActive} onChange={e => setFormData({...formData, isReligiousActive: e.target.checked})} /> Activează
           </label>
         </div>
+        
+        {/* Input-urile pentru Biserică erau tăiate, le-am repus. */}
         <div style={grid2}>
-          <input type="date" style={inpS} min={getTodayDate()} max={getMaxDate()} value={formData.religiousDate} onChange={e => setFormData({...formData, religiousDate: e.target.value})} />
-          <input type="time" step="60" style={inpS} value={formData.religiousTime} onChange={e => setFormData({...formData, religiousTime: e.target.value})} />
+          <input 
+            type="date" 
+            style={inpS} 
+            min={getTodayDate()} 
+            max={getMaxDate()} 
+            value={formData.religiousDate} 
+            onChange={e => setFormData({...formData, religiousDate: e.target.value})} 
+          />
+          <input 
+            type="time" 
+            style={inpS} 
+            step="60" 
+            value={formData.religiousTime} 
+            onChange={e => setFormData({...formData, religiousTime: e.target.value})} 
+          />
           <input placeholder="Biserica" style={inpS} value={formData.religiousLocation} onChange={e => setFormData({...formData, religiousLocation: e.target.value})} />
           <input placeholder="Waze Biserică" style={inpS} value={formData.religiousWaze} onChange={e => setFormData({...formData, religiousWaze: e.target.value})} />
         </div>
       </div>
 
       <div style={grid2}>
+        {/* SECȚIUNEA CONTACT */}
         <div style={sectionBox}>
           <h3 style={secTitle}>Contact</h3>
           <input placeholder="Tel Mireasă" style={inpS} value={formData.contactPhoneBride} onChange={e => setFormData({...formData, contactPhoneBride: e.target.value})} />
           <input placeholder="Tel Mire" style={inpS} value={formData.contactPhoneGroom} onChange={e => setFormData({...formData, contactPhoneGroom: e.target.value})} />
         </div>
+        
+        {/* SECȚIUNEA OPȚIUNI */}
         <div style={sectionBox}>
           <h3 style={secTitle}>Opțiuni Invitați</h3>
           <label style={{ display: 'block', margin: '5px 0' }}><input type="checkbox" checked={formData.isAccommodationActive} onChange={e => setFormData({...formData, isAccommodationActive: e.target.checked})} /> Cazare</label>
