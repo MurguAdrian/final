@@ -18,8 +18,7 @@ export async function POST(req: Request) {
       line_items: [{ price: priceId, quantity: 1 }],
       mode: "payment",
       customer_email: email,
-      success_url: `${baseUrl}/setup-password?token={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/checkout`,
+success_url: `${baseUrl}/success`,      cancel_url: `${baseUrl}/checkout`,
       metadata: {
         email: email,
         themeName: themeName,

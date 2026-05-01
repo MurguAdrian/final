@@ -1,19 +1,18 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { neon } from "@neondatabase/serverless";
+import { Resend } from "resend";
+import crypto from "crypto";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-04-22.dahlia' as any,
 });
 
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 export async function POST(req: Request) {
   const body = await req.text();
-  const signature = req.headers.get("stripe-signature");
-
-  if (!signature) {
-    return NextResponse.json({ error: "No signature" }, { status: 400 });
-  }
-
+  const signature = req.headers.get("stripe-signature")!;
   const sql = neon(process.env.DATABASE_URL!);
 
   try {
@@ -25,23 +24,50 @@ export async function POST(req: Request) {
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
+      const email = session.customer_email;
 
-      // Actualizăm statusul în Neon
+      // 1. Update status în 'paid'
       await sql`
         UPDATE orders 
         SET status = 'paid' 
         WHERE stripe_session_id = ${session.id}
       `;
 
-      console.log("✅ Plată confirmată pentru sesiunea:", session.id);
+      // 2. Generăm un Token de securitate pentru setarea parolei
+      const setupToken = crypto.randomBytes(32).toString('hex');
+      const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // Valabil 24h
+
+      // 3. Salvăm token-ul în tabelul tău verification_tokens
+      await sql`
+        INSERT INTO verification_tokens (email, token, expires_at)
+        VALUES (${email}, ${setupToken}, ${expiresAt})
+      `;
+
+      // 4. TRIMITEM EMAIL-UL PRIN RESEND
+      const setupLink = `https://www.vibeinvite.ro/setup-password?token=${setupToken}`;
+      
+      await resend.emails.send({
+        from: 'Vibe Invite <hello@vibeinvite.ro>',
+        to: email as string,
+        subject: 'Bun venit la Vibe Invite! Setează-ți parola',
+        html: `
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+            <h1>Felicitări pentru achiziție! ✨</h1>
+            <p>Plata a fost confirmată. Acum poți începe personalizarea invitației tale.</p>
+            <p>Apasă pe butonul de mai jos pentru a-ți seta parola și a accesa dashboard-ul:</p>
+            <a href="${setupLink}" style="display: inline-block; padding: 12px 24px; background: #000; color: #fff; text-decoration: none; border-radius: 8px; font-weight: bold;">Setează Parola</a>
+            <p style="margin-top: 20px; font-size: 0.8rem; color: #666;">Dacă butonul nu funcționează, copiază acest link în browser: ${setupLink}</p>
+          </div>
+        `
+      });
+
+      console.log(`✅ Plată confirmată și email trimis către: ${email}`);
     }
 
     return NextResponse.json({ received: true });
   } catch (err: any) {
-    console.error(`❌ Webhook Error (${err.type}):`, err.message);
-    // Dacă eroarea este de tip "No matching event found", 
-    // înseamnă de obicei că versiunea API din cod nu e aceeași cu cea a webhook-ului
-    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
+    console.error("❌ Eroare Webhook:", err.message);
+    return NextResponse.json({ error: err.message }, { status: 400 });
   }
 }
 
