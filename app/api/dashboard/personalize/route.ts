@@ -58,6 +58,8 @@
 //     return NextResponse.json({ error: error.message }, { status: 500 });
 //   }
 // }
+
+
 import { NextResponse } from "next/server";
 import { neon } from "@neondatabase/serverless";
 import { getSession } from "@/lib/auth";
@@ -70,10 +72,11 @@ export async function POST(request: Request) {
     const body = await request.json();
     const sql = neon(process.env.DATABASE_URL!);
 
-    // Verificăm dacă orderId-ul trimis aparține într-adevăr userului logat
+    // 1. Securitate: Verificăm dacă orderId aparține email-ului din sesiune
     const check = await sql`SELECT id FROM orders WHERE id = ${body.orderId} AND email = ${session.email} LIMIT 1`;
     if (check.length === 0) return NextResponse.json({ error: "Acțiune nepermisă" }, { status: 403 });
 
+    // 2. UPSERT (Insert sau Update dacă order_id există deja)
     await sql`
       INSERT INTO wedding_settings (
         order_id, custom_slug, bride_name, groom_name, nasi_names, parents_names, 
@@ -84,12 +87,31 @@ export async function POST(request: Request) {
         is_photos_active, gallery_status
       )
       VALUES (
-        ${body.orderId}, ${body.customSlug || null}, ${body.brideName || null}, ${body.groomName || null}, ${body.nasiNames || null}, ${body.parentsNames || null},
-        ${body.weddingDate || null}, ${body.weddingTime || null}, ${body.locationName || null}, ${body.googleMapsUrl || null}, ${body.wazeUrl || null},
-        ${body.religiousDate || null}, ${body.religiousTime || null}, ${body.religiousLocation || null}, ${body.religiousWaze || null},
-        ${body.isReligiousActive ?? false}, ${body.isMenuActive ?? false}, ${body.isAccommodationActive ?? false}, ${body.isTransportActive ?? false},
-        ${body.contactPhoneBride || null}, ${body.contactPhoneGroom || null}, ${body.ourStory || null}, ${JSON.stringify(body.menu_details) || null}, 
-        ${body.isPhotosActive ?? false}, ${body.gallery_status || 'inactive'}
+        ${body.orderId}, 
+        ${body.customSlug || null}, 
+        ${body.brideName || null}, 
+        ${body.groomName || null}, 
+        ${body.nasiNames || null}, 
+        ${body.parentsNames || null},
+        ${body.weddingDate || null}, 
+        ${body.weddingTime || null}, 
+        ${body.locationName || null}, 
+        ${body.googleMapsUrl || null}, 
+        ${body.wazeUrl || null},
+        ${body.religiousDate || null}, 
+        ${body.religiousTime || null}, 
+        ${body.religiousLocation || null}, 
+        ${body.religiousWaze || null},
+        ${body.isReligiousActive ?? false}, 
+        ${body.isMenuActive ?? false}, 
+        ${body.isAccommodationActive ?? false}, 
+        ${body.isTransportActive ?? false},
+        ${body.contactPhoneBride || null}, 
+        ${body.contactPhoneGroom || null}, 
+        ${body.ourStory || null}, 
+        ${JSON.stringify(body.menu_details) || null}, 
+        ${body.isPhotosActive ?? false}, 
+        ${body.gallery_status || 'inactive'}
       )
       ON CONFLICT (order_id) DO UPDATE SET
         custom_slug = EXCLUDED.custom_slug,
@@ -107,12 +129,12 @@ export async function POST(request: Request) {
         religious_location = EXCLUDED.religious_location,
         religious_waze = EXCLUDED.religious_waze,
         is_religious_active = EXCLUDED.is_religious_active,
+        is_menu_active = EXCLUDED.is_menu_active,
         is_accommodation_active = EXCLUDED.is_accommodation_active,
         is_transport_active = EXCLUDED.is_transport_active,
         contact_phone_bride = EXCLUDED.contact_phone_bride,
         contact_phone_groom = EXCLUDED.contact_phone_groom,
         our_story = EXCLUDED.our_story,
-        is_menu_active = EXCLUDED.is_menu_active,
         menu_details = EXCLUDED.menu_details,
         is_photos_active = EXCLUDED.is_photos_active,
         gallery_status = EXCLUDED.gallery_status;

@@ -110,15 +110,30 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
   });
 
   // Dacă datele din părinte se schimbă, actualizăm și aici (Sync)
-  useEffect(() => {
+useEffect(() => {
     if (initialData) {
-      setFormData(prev => ({
-        ...prev,
-        ...initialData,
+      setFormData({
         customSlug: initialData.custom_slug || '',
-        weddingDate: initialData.wedding_date ? initialData.wedding_date.split('T')[0] : '',
-        religiousDate: initialData.religious_date ? initialData.religious_date.split('T')[0] : '',
-      }));
+        brideName: initialData.bride_name || '',
+        groomName: initialData.groom_name || '',
+        nasiNames: initialData.nasi_names || '',
+        parentsNames: initialData.parents_names || '',
+        weddingDate: initialData.wedding_date ? new Date(initialData.wedding_date).toISOString().split('T')[0] : '',
+        weddingTime: initialData.wedding_time || '',
+        locationName: initialData.location_name || '',
+        googleMapsUrl: initialData.google_maps_url || '',
+        wazeUrl: initialData.waze_url || '',
+        religiousDate: initialData.religious_date ? new Date(initialData.religious_date).toISOString().split('T')[0] : '',
+        religiousTime: initialData.religious_time || '',
+        religiousLocation: initialData.religious_location || '',
+        religiousWaze: initialData.religious_waze || '',
+        ourStory: initialData.our_story || '',
+        contactPhoneBride: initialData.contact_phone_bride || '',
+        contactPhoneGroom: initialData.contact_phone_groom || '',
+        isReligiousActive: initialData.is_religious_active ?? false,
+        isAccommodationActive: initialData.is_accommodation_active ?? false,
+        isTransportActive: initialData.is_transport_active ?? false,
+      });
     }
   }, [initialData]);
 
