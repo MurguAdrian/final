@@ -12,7 +12,6 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
   useEffect(() => {
     async function fetchData() {
       try {
-        // Nu mai trimitem orderId, backend-ul ne recunoaște după Cookie-ul de sesiune
         const res = await fetch(`/api/dashboard/summary?t=${Date.now()}`);
         const result = await res.json();
         setData(result);
@@ -23,9 +22,8 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
       }
     }
     fetchData();
-  }, []); // Am scos orderId de aici
+  }, []);
 
-  // FUNCȚIE EXPORT EXCEL (CSV)
   const exportToExcel = () => {
     if (!data?.guests) return;
 
@@ -105,19 +103,35 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                 <th style={thS}>PERSOANE</th>
                 <th style={thS}>CAZARE</th>
                 <th style={thS}>TRANSPORT</th>
-                <th style={thS}>DETALII/DIETĂ</th>
+                <th style={thS}>DETALII / MENȚIUNI</th>
               </tr>
             </thead>
             <tbody>
               {data?.guests?.length > 0 ? (
                 data.guests.map((guest: any) => (
                   <tr key={guest.id} style={{ borderBottom: '1px solid #ffffff11' }}>
-                    <td style={tdS}>{guest.guest_name}</td>
+                    <td style={tdS}>
+                      <span style={{ fontWeight: 'bold' }}>{guest.guest_name}</span>
+                      {guest.partner_name && <span style={{ display: 'block', fontSize: '0.75rem', color: '#888' }}>+ {guest.partner_name}</span>}
+                    </td>
                     <td style={tdS}>{guest.is_coming ? <span style={{color:'#4caf50'}}>VINE ✅</span> : <span style={{color:'#f44336'}}>NU ❌</span>}</td>
                     <td style={tdS}>{guest.adults_count}A / {guest.kids_count}C</td>
                     <td style={tdS}>{guest.needs_accommodation ? "DA 🏠" : "NU"}</td>
                     <td style={tdS}>{guest.needs_transport ? "DA 🚌" : "NU"}</td>
-                    <td style={tdS}>{guest.dietary_preferences || '-'}</td>
+                    <td style={tdS}>
+                      {/* Aici afișăm ambele câmpuri dacă există */}
+                      {guest.dietary_preferences && (
+                        <div style={{ marginBottom: '4px' }}>
+                           <span style={{ color: '#d4af37', fontSize: '0.7rem' }}>Dietă:</span> {guest.dietary_preferences}
+                        </div>
+                      )}
+                      {guest.other_mentions && (
+                         <div>
+                           <span style={{ color: '#d4af37', fontSize: '0.7rem' }}>Mesaj:</span> {guest.other_mentions}
+                         </div>
+                      )}
+                      {!guest.dietary_preferences && !guest.other_mentions && <span style={{ color: '#555' }}>-</span>}
+                    </td>
                   </tr>
                 ))
               ) : (
