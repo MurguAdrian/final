@@ -18,14 +18,14 @@ export const MenuSection = ({ initialData, orderId, onSave }: any) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          ...initialData, // Trimitem restul datelor pentru a fi siguri
           orderId, 
           isMenuActive: isActive, 
           menu_details: { items: menuItems } 
+          // NU mai trimitem initialData aici. API-ul va păstra restul datelor prin COALESCE.
         }),
       });
       if (res.ok) {
-        alert("Meniu salvat!");
+        alert("Meniu salvat! 🍴");
         onSave();
       }
     } catch (e) { alert("Eroare"); }

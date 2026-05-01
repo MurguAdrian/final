@@ -4,11 +4,10 @@ import React, { useState, useEffect } from 'react';
 export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
   const [loading, setLoading] = useState(false);
 
-  // Funcții helper pentru datele de azi și peste 5 ani
   const getTodayDate = () => new Date().toISOString().split('T')[0];
   const getMaxDate = () => {
     const d = new Date();
-    d.setFullYear(d.getFullYear() + 5); // Limită la 5 ani
+    d.setFullYear(d.getFullYear() + 5); 
     return d.toISOString().split('T')[0];
   };
 
@@ -35,7 +34,6 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
     isTransportActive: initialData?.is_transport_active ?? false,
   });
 
-  // Sync între baza de date și formular
   useEffect(() => {
     if (initialData) {
       setFormData({
@@ -65,8 +63,6 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!orderId) return alert("Eroare: Sesiunea a expirat. Te rugăm să reîncărcați pagina.");
-    
     setLoading(true);
     try {
       const res = await fetch('/api/dashboard/personalize', {
@@ -74,19 +70,12 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orderId, ...formData }),
       });
-      const data = await res.json();
-      
       if (res.ok) {
-        alert("Sincronizat cu succes în baza de date! ✨");
-        onSave(); 
-      } else {
-        alert("Eroare: " + (data.error || "Nu s-a putut salva."));
+        alert("Personalizare salvată! ✨");
+        onSave();
       }
-    } catch (e) { 
-      alert("Eroare la salvare. Verifică conexiunea."); 
-    } finally { 
-      setLoading(false); 
-    }
+    } catch (e) { alert("Eroare"); }
+    setLoading(false);
   };
 
   return (
@@ -112,21 +101,8 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
 
         <div style={sectionBox}>
           <h3 style={secTitle}>Petrecere Restaurant</h3>
-          <input 
-            type="date" 
-            style={inpS} 
-            min={getTodayDate()} 
-            max={getMaxDate()} 
-            value={formData.weddingDate} 
-            onChange={e => setFormData({...formData, weddingDate: e.target.value})} 
-          />
-          <input 
-            type="time" 
-            style={inpS} 
-            step="60"
-            value={formData.weddingTime} 
-            onChange={e => setFormData({...formData, weddingTime: e.target.value})} 
-          />
+          <input type="date" style={inpS} min={getTodayDate()} max={getMaxDate()} value={formData.weddingDate} onChange={e => setFormData({...formData, weddingDate: e.target.value})} />
+          <input type="time" step="60" style={inpS} value={formData.weddingTime} onChange={e => setFormData({...formData, weddingTime: e.target.value})} />
           <input placeholder="Nume Restaurant" style={inpS} value={formData.locationName} onChange={e => setFormData({...formData, locationName: e.target.value})} />
           <input placeholder="Link Google Maps" style={inpS} value={formData.googleMapsUrl} onChange={e => setFormData({...formData, googleMapsUrl: e.target.value})} />
           <input placeholder="Link Waze" style={inpS} value={formData.wazeUrl} onChange={e => setFormData({...formData, wazeUrl: e.target.value})} />
@@ -141,21 +117,8 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
           </label>
         </div>
         <div style={grid2}>
-          <input 
-            type="date" 
-            style={inpS} 
-            min={getTodayDate()} 
-            max={getMaxDate()}
-            value={formData.religiousDate} 
-            onChange={e => setFormData({...formData, religiousDate: e.target.value})} 
-          />
-          <input 
-            type="time" 
-            style={inpS} 
-            step="60"
-            value={formData.religiousTime} 
-            onChange={e => setFormData({...formData, religiousTime: e.target.value})} 
-          />
+          <input type="date" style={inpS} min={getTodayDate()} max={getMaxDate()} value={formData.religiousDate} onChange={e => setFormData({...formData, religiousDate: e.target.value})} />
+          <input type="time" step="60" style={inpS} value={formData.religiousTime} onChange={e => setFormData({...formData, religiousTime: e.target.value})} />
           <input placeholder="Biserica" style={inpS} value={formData.religiousLocation} onChange={e => setFormData({...formData, religiousLocation: e.target.value})} />
           <input placeholder="Waze Biserică" style={inpS} value={formData.religiousWaze} onChange={e => setFormData({...formData, religiousWaze: e.target.value})} />
         </div>
@@ -169,12 +132,8 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
         </div>
         <div style={sectionBox}>
           <h3 style={secTitle}>Opțiuni Invitați</h3>
-          <label style={{ display: 'block', margin: '5px 0' }}>
-            <input type="checkbox" checked={formData.isAccommodationActive} onChange={e => setFormData({...formData, isAccommodationActive: e.target.checked})} /> Cazare
-          </label>
-          <label style={{ display: 'block', margin: '5px 0' }}>
-            <input type="checkbox" checked={formData.isTransportActive} onChange={e => setFormData({...formData, isTransportActive: e.target.checked})} /> Transport
-          </label>
+          <label style={{ display: 'block', margin: '5px 0' }}><input type="checkbox" checked={formData.isAccommodationActive} onChange={e => setFormData({...formData, isAccommodationActive: e.target.checked})} /> Cazare</label>
+          <label style={{ display: 'block', margin: '5px 0' }}><input type="checkbox" checked={formData.isTransportActive} onChange={e => setFormData({...formData, isTransportActive: e.target.checked})} /> Transport</label>
         </div>
       </div>
 
