@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
 import { neon } from "@neondatabase/serverless";
-
+export const dynamic = 'force-dynamic';
 // Configurăm Cloudinary pentru a putea șterge fișierele fizice
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

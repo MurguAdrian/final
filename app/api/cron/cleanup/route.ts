@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { neon } from '@neondatabase/serverless';
-
+export const dynamic = 'force-dynamic';
 export async function GET(req: Request) {
   // Verificăm o cheie secretă ca să nu poată rula oricine acest API
   if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {

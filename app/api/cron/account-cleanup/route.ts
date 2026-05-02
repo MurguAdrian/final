@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
 import { neon } from "@neondatabase/serverless";
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
     const sql = neon(process.env.DATABASE_URL!);
