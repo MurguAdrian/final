@@ -850,25 +850,36 @@ export default async function InvitationPage({ params }: { params: { slug: strin
           CLIENT-SIDE SCENE CONTROLLER
       ══════════════════════════════════════ */}
       <script dangerouslySetInnerHTML={{ __html: `
-        (function() {
-          var scene = document.getElementById('lux-scene');
-          var invite = document.getElementById('lux-invitation');
-          var envWrap = document.getElementById('envelope-wrap');
-          var letter = document.getElementById('envelope-letter');
-          var flap = document.getElementById('envelope-flap');
-          var seal = document.getElementById('envelope-seal');
-          var hint = document.getElementById('open-hint');
+        (function init() {
+          /* ── Re-try until DOM elements exist ── */
+          var scene, invite, envWrap, letter, flap, seal, hint;
           var phase = 'envelope';
+          var autoTimer = null;
+          var countdownTimer = null;
+          var AUTO_OPEN_SEC = 3; /* secunde până la deschidere automată */
+
+          function grabElements() {
+            scene   = document.getElementById('lux-scene');
+            invite  = document.getElementById('lux-invitation');
+            envWrap = document.getElementById('envelope-wrap');
+            letter  = document.getElementById('envelope-letter');
+            flap    = document.getElementById('envelope-flap');
+            seal    = document.getElementById('envelope-seal');
+            hint    = document.getElementById('open-hint');
+            return !!(scene && invite && envWrap && letter && flap && seal && hint);
+          }
 
           function openEnvelope() {
             if (phase !== 'envelope') return;
             phase = 'opening';
+            /* Oprește countdown-ul automat */
+            if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
+            if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+
             if (hint) { hint.className = 'open-hint opening'; hint.textContent = '◆  Dezvăluind invitația  ◆'; }
             if (flap) flap.classList.add('opening');
             if (seal) seal.classList.add('opening');
-            setTimeout(function() {
-              if (letter) letter.classList.add('opening');
-            }, 300);
+            setTimeout(function() { if (letter) letter.classList.add('opening'); }, 300);
             setTimeout(function() {
               phase = 'invite';
               if (scene) scene.classList.add('hidden');
@@ -876,41 +887,85 @@ export default async function InvitationPage({ params }: { params: { slug: strin
             }, 1700);
           }
 
-          if (envWrap) {
-            envWrap.addEventListener('click', openEnvelope);
-            envWrap.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') openEnvelope(); });
+          function startAutoOpen() {
+            var sec = AUTO_OPEN_SEC;
+            /* Actualizăm hint-ul cu countdown */
+            countdownTimer = setInterval(function() {
+              sec--;
+              if (hint && phase === 'envelope') {
+                hint.textContent = sec > 0
+                  ? ('Atinge pentru a deschide · ' + sec + 's')
+                  : 'Se deschide...';
+              }
+              if (sec <= 0) {
+                clearInterval(countdownTimer);
+                countdownTimer = null;
+              }
+            }, 1000);
+
+            autoTimer = setTimeout(function() {
+              if (phase === 'envelope') openEnvelope();
+            }, AUTO_OPEN_SEC * 1000);
           }
 
-          /* ── RSVP Modal ── */
-          var rsvpModal = document.getElementById('rsvp-modal');
-          var openRsvpBtn = document.getElementById('open-rsvp-modal');
-          var closeRsvpBtn = document.getElementById('close-rsvp-modal');
+          function setup() {
+            if (!grabElements()) {
+              /* DOM nu e gata încă — mai încearcă */
+              setTimeout(setup, 30);
+              return;
+            }
 
-          function openRsvpModal() { if (rsvpModal) { rsvpModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; } }
-          function closeRsvpModal() { if (rsvpModal) { rsvpModal.style.display = 'none'; document.body.style.overflow = ''; } }
+            /* Click & keyboard pe plic */
+            envWrap.addEventListener('click', openEnvelope);
+            envWrap.addEventListener('keydown', function(e) {
+              if (e.key === 'Enter' || e.key === ' ') openEnvelope();
+            });
+            /* Touch pe tot ecranul scenei */
+            scene.addEventListener('click', function(e) {
+              if (phase === 'envelope') openEnvelope();
+            });
 
-          if (openRsvpBtn) openRsvpBtn.addEventListener('click', openRsvpModal);
-          if (closeRsvpBtn) closeRsvpBtn.addEventListener('click', closeRsvpModal);
-          if (rsvpModal) rsvpModal.addEventListener('click', function(e) { if (e.target === rsvpModal) closeRsvpModal(); });
+            /* Pornește countdown auto-open */
+            startAutoOpen();
 
-          /* ── Menu Modal ── */
-          var menuModal = document.getElementById('menu-modal');
-          var openMenuBtn = document.getElementById('open-menu-modal');
-          var closeMenuBtn = document.getElementById('close-menu-modal');
-          var closeMenuBtn2 = document.getElementById('close-menu-modal-2');
+            /* ── RSVP Modal ── */
+            var rsvpModal   = document.getElementById('rsvp-modal');
+            var openRsvpBtn = document.getElementById('open-rsvp-modal');
+            var closeRsvpBtn= document.getElementById('close-rsvp-modal');
 
-          function openMenuModal() { if (menuModal) { menuModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; } }
-          function closeMenuModal() { if (menuModal) { menuModal.style.display = 'none'; document.body.style.overflow = ''; } }
+            function openRsvpModal()  { if (rsvpModal) { rsvpModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; } }
+            function closeRsvpModal() { if (rsvpModal) { rsvpModal.style.display = 'none';  document.body.style.overflow = ''; } }
 
-          if (openMenuBtn) openMenuBtn.addEventListener('click', openMenuModal);
-          if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeMenuModal);
-          if (closeMenuBtn2) closeMenuBtn2.addEventListener('click', closeMenuModal);
-          if (menuModal) menuModal.addEventListener('click', function(e) { if (e.target === menuModal) closeMenuModal(); });
+            if (openRsvpBtn)  openRsvpBtn.addEventListener('click', openRsvpModal);
+            if (closeRsvpBtn) closeRsvpBtn.addEventListener('click', closeRsvpModal);
+            if (rsvpModal)    rsvpModal.addEventListener('click', function(e) { if (e.target === rsvpModal) closeRsvpModal(); });
 
-          /* Escape key */
-          document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') { closeRsvpModal(); closeMenuModal(); }
-          });
+            /* ── Menu Modal ── */
+            var menuModal    = document.getElementById('menu-modal');
+            var openMenuBtn  = document.getElementById('open-menu-modal');
+            var closeMenuBtn = document.getElementById('close-menu-modal');
+            var closeMenuBtn2= document.getElementById('close-menu-modal-2');
+
+            function openMenuModal()  { if (menuModal) { menuModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; } }
+            function closeMenuModal() { if (menuModal) { menuModal.style.display = 'none';  document.body.style.overflow = ''; } }
+
+            if (openMenuBtn)   openMenuBtn.addEventListener('click', openMenuModal);
+            if (closeMenuBtn)  closeMenuBtn.addEventListener('click', closeMenuModal);
+            if (closeMenuBtn2) closeMenuBtn2.addEventListener('click', closeMenuModal);
+            if (menuModal)     menuModal.addEventListener('click', function(e) { if (e.target === menuModal) closeMenuModal(); });
+
+            /* Escape */
+            document.addEventListener('keydown', function(e) {
+              if (e.key === 'Escape') { closeRsvpModal(); closeMenuModal(); }
+            });
+          }
+
+          /* Pornim setup imediat + fallback pe DOMContentLoaded + load */
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setup);
+          } else {
+            setup();
+          }
         })();
       `}} />
     </>
