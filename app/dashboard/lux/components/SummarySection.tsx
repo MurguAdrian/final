@@ -552,6 +552,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&display=swap');
+        *, *::before, *::after { box-sizing: border-box; }
         @keyframes lux-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
         @keyframes lux-fade-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
         @keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
@@ -559,7 +560,8 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
         .lux-export-btn:hover { background: rgba(212,175,55,.16) !important; border-color: rgba(212,175,55,.55) !important; color: #F5D678 !important; }
         .lux-copy-btn:hover { background: linear-gradient(135deg,#8B6914,#D4AF37,#F5D678,#D4AF37,#8B6914) !important; }
 
-        /* Responsive summary */
+        /* ── Summary responsive ── */
+        .sum-wrap { width: 100%; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
         .sum-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
         .sum-link-row { display: flex; gap: 10px; flex-wrap: wrap; }
         .sum-stats-grid {
@@ -576,7 +578,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
         @media (max-width: 600px) {
           .sum-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .sum-link-row { flex-direction: column !important; }
-          .sum-link-row input { min-width: 0 !important; }
+          .sum-link-row input { min-width: 0 !important; width: 100% !important; }
           .sum-link-row button { width: 100% !important; }
           .sum-header { flex-direction: column !important; align-items: flex-start !important; }
           .lux-export-btn span { display: none; }
@@ -595,7 +597,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
         }
       `}</style>
 
-      <div style={{ animation: 'lux-fade-in .55s ease both', fontFamily: "'Cormorant Garamond', serif" }}>
+      <div className="sum-wrap" style={{ animation: 'lux-fade-in .55s ease both', fontFamily: "'Cormorant Garamond', serif" }}>
 
         {/* HEADER */}
         <div className="sum-header">
@@ -699,7 +701,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                     background: 'rgba(0,0,0,.4)', border: '1px solid rgba(212,175,55,.2)',
                     borderRadius: 8, color: '#D4AF37',
                     fontFamily: "'Cinzel', serif", fontSize: 11, letterSpacing: '.06em',
-                    outline: 'none'
+                    outline: 'none', width: '100%', boxSizing: 'border-box'
                   }}
                 />
                 <button

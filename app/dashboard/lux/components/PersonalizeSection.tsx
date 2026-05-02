@@ -948,6 +948,8 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&display=swap');
 
+        *, *::before, *::after { box-sizing: border-box; }
+
         .ps-input:focus { border-color: rgba(212,175,55,.55) !important; box-shadow: 0 0 0 3px rgba(212,175,55,.08) !important; outline: none !important; }
         .ps-input::placeholder { color: rgba(212,175,55,.2); }
         .ps-input option { background: #0A0803; color: #F5E6A8; }
@@ -958,7 +960,9 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
         .ps-save-btn:disabled { opacity: .55; cursor: not-allowed; }
         .ps-toggle:hover { border-color: rgba(212,175,55,.45) !important; background: rgba(212,175,55,.1) !important; }
 
-        /* ── Responsive grid ── */
+        /* ── Responsive ── */
+        .ps-wrap { width: 100%; max-width: 960px; box-sizing: border-box; overflow-x: hidden; }
+
         .ps-two-col {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -981,27 +985,31 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
           .ps-rsvp-grid { grid-template-columns: 1fr !important; }
           .ps-header-row { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; }
           .ps-slug-prefix { display: none !important; }
+          .ps-preview-btn span { display: inline !important; }
         }
         @media (max-width: 400px) {
-          .ps-preview-btn span { display: none; }
+          .ps-preview-btn span { display: none !important; }
+          .ps-religious-grid .ps-span-full { grid-column: span 1 !important; }
         }
       `}</style>
 
-      <form onSubmit={handleSave} style={{ maxWidth: '960px', width: '100%', paddingBottom: '80px', fontFamily: "'Lato', sans-serif" }}>
+      <form onSubmit={handleSave} className="ps-wrap" style={{ paddingBottom: '80px', fontFamily: "'Lato', sans-serif" }}>
 
-        {/* HEADER */}
 {/* HEADER */}
 <div
   className="ps-header-row"
   style={{
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: 'column',
+    gap: '20px',
     marginBottom: '28px',
-    gap: '12px'
+    width: '100%',
+    maxWidth: '100%',
+    overflowX: 'hidden'
   }}
 >
-  <div>
+  {/* TITLU */}
+  <div style={{ width: '100%' }}>
     <p
       style={{
         fontFamily: "'Cinzel', serif",
@@ -1014,21 +1022,24 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
     >
       Dashboard
     </p>
+
     <h2
       style={{
         fontFamily: "'Cormorant Garamond', serif",
-        fontSize: 'clamp(20px, 4vw, 30px)',
+        fontSize: 'clamp(20px, 5vw, 30px)',
         fontWeight: 300,
         fontStyle: 'italic',
         color: '#F5E6A8',
         margin: 0,
-        letterSpacing: '.02em'
+        letterSpacing: '.02em',
+        lineHeight: 1.2
       }}
     >
       Personalizare Detalii
     </h2>
   </div>
 
+  {/* BUTON PREVIEW */}
   <a
     href={`/invitatie/lux/${formData.customSlug}`}
     target="_blank"
@@ -1036,10 +1047,11 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
     style={{
       display: 'inline-flex',
       alignItems: 'center',
-      gap: '7px',
-      padding: '9px 18px',
+      justifyContent: 'center',
+      gap: '8px',
+      padding: '12px 18px',
       border: '1px solid rgba(212,175,55,.3)',
-      borderRadius: '4px',
+      borderRadius: '6px',
       color: '#D4AF37',
       textDecoration: 'none',
       fontFamily: "'Cinzel', serif",
@@ -1048,9 +1060,11 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
       letterSpacing: '.18em',
       textTransform: 'uppercase',
       background: 'rgba(212,175,55,.06)',
-      transition: 'all .2s',
+      transition: 'all .2s ease',
       whiteSpace: 'nowrap',
-      flexShrink: 0
+      width: '100%',
+      maxWidth: '100%',
+      boxSizing: 'border-box'
     }}
   >
     <svg
@@ -1058,7 +1072,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
       fill="none"
       stroke="currentColor"
       strokeWidth="1.8"
-      style={{ width: 13, height: 13, flexShrink: 0 }}
+      style={{ width: 14, height: 14, flexShrink: 0 }}
     >
       <path d="M10 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
       <path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6z" />
@@ -1066,6 +1080,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
     <span>Previzualizare</span>
   </a>
 </div>
+
         <GoldDividerLine />
 
         {/* URL PERSONALIZAT */}
@@ -1088,7 +1103,6 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
 
         {/* GRID MIRI + RESTAURANT */}
         <div className="ps-two-col" style={{ marginTop: '16px' }}>
-
           <SectionCard title="Miri & Familie" icon="💍">
             <FieldGroup>
               <label style={labS}>Nume Mireasă</label>

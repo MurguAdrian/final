@@ -1013,6 +1013,7 @@ export const PhotosSection = ({ initialData, orderId, onSave }: any) => {
     <div style={styles.wrapper}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&display=swap');
+        *, *::before, *::after { box-sizing: border-box; }
         .photo-card:hover .photo-overlay { opacity: 1 !important; }
         .photo-card:hover img { transform: scale(1.06); }
         .gold-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(212,175,55,.45) !important; }
@@ -1024,6 +1025,11 @@ export const PhotosSection = ({ initialData, orderId, onSave }: any) => {
         @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
         /* Gallery responsive */
+        .gallery-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+          gap: 10px;
+        }
         @media (max-width: 500px) {
           .gallery-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
         }
@@ -1038,229 +1044,232 @@ export const PhotosSection = ({ initialData, orderId, onSave }: any) => {
           .gallery-header-btns button { flex: 1 !important; justify-content: center !important; }
           .dl-all-btn { width: 100% !important; justify-content: center !important; }
         }
+
+        /* Photos section: no overflow */
+        .photos-section-wrap { width: 100%; max-width: 900px; box-sizing: border-box; overflow-x: hidden; }
       `}</style>
 
-      {/* HEADER */}
-      <div style={styles.header}>
-        <div>
-          <p style={styles.headerLabel}>Panou Control</p>
-          <h2 style={styles.title}>Galerie Foto</h2>
-        </div>
-        <div style={styles.headerIcon}>
-          <svg viewBox="0 0 48 48" fill="none" style={{ width: 26, height: 26 }}>
-            <rect x="4" y="14" width="40" height="28" rx="5" stroke="#D4AF37" strokeWidth="1.8" strokeOpacity=".8" />
-            <path d="M14 14 L17 8 L31 8 L34 14" stroke="#D4AF37" strokeWidth="1.8" strokeOpacity=".8" strokeLinejoin="round" />
-            <circle cx="24" cy="28" r="8" stroke="#D4AF37" strokeWidth="1.5" strokeOpacity=".8" />
-            <circle cx="24" cy="28" r="4" fill="#D4AF37" fillOpacity=".3" />
-            <circle cx="37" cy="20" r="2" fill="#D4AF37" fillOpacity=".6" />
-          </svg>
-        </div>
-      </div>
-
-      <div style={styles.divider} />
-
-      {/* INACTIVE */}
-      {status === 'inactive' && (
-        <div style={styles.card}>
-          <div style={styles.cardInner}>
-            <div style={styles.statusIconWrap}>
-              <svg viewBox="0 0 40 40" fill="none" style={{ width: 28, height: 28 }}>
-                <circle cx="20" cy="20" r="18" stroke="#D4AF37" strokeWidth="1.5" strokeOpacity=".4" />
-                <path d="M20 12 L20 22 M20 27 L20 28" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-            </div>
-            <h3 style={styles.cardTitle}>Activare Modul Foto</h3>
-            <p style={styles.cardDesc}>
-              Confirm că sunt beneficiarul exclusiv al fotografiilor și îmi asum responsabilitatea legală pentru utilizarea acestora.
-            </p>
-            <label style={styles.consentLabel}>
-              <div style={{ ...styles.checkbox, ...(consentChecked ? styles.checkboxChecked : {}) }}>
-                {consentChecked && (
-                  <svg viewBox="0 0 12 12" fill="none" style={{ width: 10, height: 10 }}>
-                    <path d="M2 6L5 9L10 3" stroke="#0A0803" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                )}
-              </div>
-              <input type="checkbox" checked={consentChecked} onChange={e => setConsentChecked(e.target.checked)} style={{ display: 'none' }} />
-              <span style={styles.consentText}>Accept responsabilitatea integrală și termenii de stocare (30 zile).</span>
-            </label>
-            <button onClick={handleActivate} disabled={!consentChecked} className="gold-btn"
-              style={{ ...styles.goldBtn, opacity: consentChecked ? 1 : 0.45, cursor: consentChecked ? 'pointer' : 'not-allowed', transition: 'all .25s' }}>
-              <svg viewBox="0 0 20 20" fill="none" style={{ width: 16, height: 16, flexShrink: 0 }}>
-                <path d="M10 3 L10 17 M4 9 L10 3 L16 9" stroke="#0A0803" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Activează 3 Zile Gratuit
-            </button>
+      <div className="photos-section-wrap">
+        {/* HEADER */}
+        <div style={styles.header}>
+          <div>
+            <p style={styles.headerLabel}>Panou Control</p>
+            <h2 style={styles.title}>Galerie Foto</h2>
+          </div>
+          <div style={styles.headerIcon}>
+            <svg viewBox="0 0 48 48" fill="none" style={{ width: 26, height: 26 }}>
+              <rect x="4" y="14" width="40" height="28" rx="5" stroke="#D4AF37" strokeWidth="1.8" strokeOpacity=".8" />
+              <path d="M14 14 L17 8 L31 8 L34 14" stroke="#D4AF37" strokeWidth="1.8" strokeOpacity=".8" strokeLinejoin="round" />
+              <circle cx="24" cy="28" r="8" stroke="#D4AF37" strokeWidth="1.5" strokeOpacity=".8" />
+              <circle cx="24" cy="28" r="4" fill="#D4AF37" fillOpacity=".3" />
+              <circle cx="37" cy="20" r="2" fill="#D4AF37" fillOpacity=".6" />
+            </svg>
           </div>
         </div>
-      )}
 
-      {/* ACTIVE */}
-      {status === 'active' && (
-        <div style={styles.card}>
-          <div style={styles.cardInner}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
-              <div style={styles.statusBadgeActive}>
-                <span style={styles.statusDot} />
-                Activ
-              </div>
-              <div style={styles.timerBadge}>
-                <svg viewBox="0 0 16 16" fill="none" style={{ width: 12, height: 12, flexShrink: 0 }}>
-                  <circle cx="8" cy="8" r="6.5" stroke="#D4AF37" strokeWidth="1.2" strokeOpacity=".7" />
-                  <path d="M8 5 L8 8.5 L10.5 10" stroke="#D4AF37" strokeWidth="1.2" strokeLinecap="round" />
+        <div style={styles.divider} />
+
+        {/* INACTIVE */}
+        {status === 'inactive' && (
+          <div style={styles.card}>
+            <div style={styles.cardInner}>
+              <div style={styles.statusIconWrap}>
+                <svg viewBox="0 0 40 40" fill="none" style={{ width: 28, height: 28 }}>
+                  <circle cx="20" cy="20" r="18" stroke="#D4AF37" strokeWidth="1.5" strokeOpacity=".4" />
+                  <path d="M20 12 L20 22 M20 27 L20 28" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" />
                 </svg>
-                {timeLeft}
               </div>
-            </div>
-            {new Date(initialData.photos_expires_at).getTime() - new Date(initialData.photos_activated_at).getTime() < 4 * 24 * 60 * 60 * 1000 && (
-              <button onClick={() => handlePayment('extend')} className="gold-btn"
-                style={{ ...styles.goldBtn, marginTop: 4, transition: 'all .25s' }}>
-                <svg viewBox="0 0 20 20" fill="none" style={{ width: 16, height: 16, flexShrink: 0 }}>
-                  <path d="M2 10C2 5.58 5.58 2 10 2s8 3.58 8 8-3.58 8-8 8" stroke="#0A0803" strokeWidth="1.8" strokeLinecap="round" />
-                  <path d="M2 10 L5 7 M2 10 L5 13" stroke="#0A0803" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                Prelungește cu 5 Zile — 150 RON
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* EXPIRED */}
-      {status === 'expired' && !initialData?.is_unlock_paid && (
-        <div style={{ ...styles.card, borderColor: 'rgba(220,60,60,.3)' }}>
-          <div style={styles.cardInner}>
-            <div style={styles.statusBadgeExpired}>
-              <span style={{ ...styles.statusDot, background: '#dc3c3c' }} />
-              Timp Expirat
-            </div>
-            <p style={{ ...styles.cardDesc, marginTop: 4 }}>Upload-ul este blocat. Poți debloca vizualizarea pentru încă 5 zile.</p>
-            <button onClick={() => handlePayment('unlock')} className="danger-btn"
-              style={{ ...styles.goldBtn, background: 'linear-gradient(135deg,#8B2020 0%,#dc3c3c 45%,#f06060 55%,#dc3c3c 70%,#8B2020 100%)', marginTop: 4, transition: 'all .25s', boxShadow: '0 8px 28px rgba(220,60,60,.25)' }}>
-              Deblochează Vizualizare — 200 RON
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* DELETED */}
-      {status === 'deleted' && (
-        <div style={{ ...styles.card, borderColor: 'rgba(212,175,55,.1)' }}>
-          <div style={styles.cardInner}>
-            <div style={styles.statusBadgeDeleted}>
-              <svg viewBox="0 0 16 16" fill="none" style={{ width: 12, height: 12, flexShrink: 0 }}>
-                <path d="M8 1 L8 8 M8 11 L8 12" stroke="rgba(212,175,55,.5)" strokeWidth="1.5" strokeLinecap="round" />
-                <circle cx="8" cy="8" r="7" stroke="rgba(212,175,55,.3)" strokeWidth="1" />
-              </svg>
-              Album Șters Definitiv
-            </div>
-            <p style={{ ...styles.cardDesc, marginTop: 4 }}>Cele 30 de zile au trecut. Poți porni un album nou.</p>
-            <button onClick={() => handlePayment('new_album')} className="gold-btn"
-              style={{ ...styles.goldBtn, marginTop: 4, transition: 'all .25s' }}>
-              Creează Album Nou — 400 RON
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* GALLERY */}
-      {(status === 'active' || initialData?.is_unlock_paid) && status !== 'deleted' && (
-        <div style={{ marginTop: 28, animation: 'fadeIn .5s ease both' }}>
-          {/* Gallery Header */}
-          <div className="gallery-header-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, gap: 12, flexWrap: 'wrap' }}>
-            <div>
-              <p style={styles.galleryCount}>
-                {photos.length} {photos.length === 1 ? 'fotografie' : 'fotografii'}
+              <h3 style={styles.cardTitle}>Activare Modul Foto</h3>
+              <p style={styles.cardDesc}>
+                Confirm că sunt beneficiarul exclusiv al fotografiilor și îmi asum responsabilitatea legală pentru utilizarea acestora.
               </p>
-              <p style={styles.gallerySubCount}>albumul tău privat</p>
-            </div>
-            <div className="gallery-header-btns" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              {photos.length > 0 && (
-                <button onClick={handleDownloadAll} disabled={downloadingAll} className="gold-btn dl-all-btn"
-                  style={{ ...styles.goldBtn, padding: '9px 18px', fontSize: 11, gap: 7, transition: 'all .25s', opacity: downloadingAll ? 0.7 : 1, width: 'auto' }}>
-                  {downloadingAll ? (
-                    <>
-                      <svg viewBox="0 0 16 16" fill="none" style={{ width: 13, height: 13, animation: 'spin 1s linear infinite', flexShrink: 0 }}>
-                        <circle cx="8" cy="8" r="6" stroke="#0A0803" strokeWidth="1.8" strokeDasharray="20 10" />
-                      </svg>
-                      Descărcând...
-                    </>
-                  ) : (
-                    <>
-                      <svg viewBox="0 0 16 16" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
-                        <path d="M8 2 L8 11 M4 8 L8 12 L12 8" stroke="#0A0803" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M2 14 L14 14" stroke="#0A0803" strokeWidth="1.8" strokeLinecap="round" />
-                      </svg>
-                      Descarcă Toate
-                    </>
+              <label style={styles.consentLabel}>
+                <div style={{ ...styles.checkbox, ...(consentChecked ? styles.checkboxChecked : {}) }}>
+                  {consentChecked && (
+                    <svg viewBox="0 0 12 12" fill="none" style={{ width: 10, height: 10 }}>
+                      <path d="M2 6L5 9L10 3" stroke="#0A0803" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                   )}
+                </div>
+                <input type="checkbox" checked={consentChecked} onChange={e => setConsentChecked(e.target.checked)} style={{ display: 'none' }} />
+                <span style={styles.consentText}>Accept responsabilitatea integrală și termenii de stocare (30 zile).</span>
+              </label>
+              <button onClick={handleActivate} disabled={!consentChecked} className="gold-btn"
+                style={{ ...styles.goldBtn, opacity: consentChecked ? 1 : 0.45, cursor: consentChecked ? 'pointer' : 'not-allowed', transition: 'all .25s' }}>
+                <svg viewBox="0 0 20 20" fill="none" style={{ width: 16, height: 16, flexShrink: 0 }}>
+                  <path d="M10 3 L10 17 M4 9 L10 3 L16 9" stroke="#0A0803" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Activează 3 Zile Gratuit
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ACTIVE */}
+        {status === 'active' && (
+          <div style={styles.card}>
+            <div style={styles.cardInner}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+                <div style={styles.statusBadgeActive}>
+                  <span style={styles.statusDot} />
+                  Activ
+                </div>
+                <div style={styles.timerBadge}>
+                  <svg viewBox="0 0 16 16" fill="none" style={{ width: 12, height: 12, flexShrink: 0 }}>
+                    <circle cx="8" cy="8" r="6.5" stroke="#D4AF37" strokeWidth="1.2" strokeOpacity=".7" />
+                    <path d="M8 5 L8 8.5 L10.5 10" stroke="#D4AF37" strokeWidth="1.2" strokeLinecap="round" />
+                  </svg>
+                  {timeLeft}
+                </div>
+              </div>
+              {new Date(initialData.photos_expires_at).getTime() - new Date(initialData.photos_activated_at).getTime() < 4 * 24 * 60 * 60 * 1000 && (
+                <button onClick={() => handlePayment('extend')} className="gold-btn"
+                  style={{ ...styles.goldBtn, marginTop: 4, transition: 'all .25s' }}>
+                  <svg viewBox="0 0 20 20" fill="none" style={{ width: 16, height: 16, flexShrink: 0 }}>
+                    <path d="M2 10C2 5.58 5.58 2 10 2s8 3.58 8 8-3.58 8-8 8" stroke="#0A0803" strokeWidth="1.8" strokeLinecap="round" />
+                    <path d="M2 10 L5 7 M2 10 L5 13" stroke="#0A0803" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  Prelungește cu 5 Zile — 150 RON
                 </button>
               )}
-              <button onClick={fetchPhotos} className="ghost-btn"
-                style={{ ...styles.ghostBtn, transition: 'all .25s' }}>
-                {loading ? (
-                  <svg viewBox="0 0 16 16" fill="none" style={{ width: 13, height: 13, animation: 'spin 1s linear infinite', flexShrink: 0 }}>
-                    <circle cx="8" cy="8" r="6" stroke="#D4AF37" strokeWidth="1.8" strokeDasharray="20 10" />
-                  </svg>
-                ) : (
-                  <svg viewBox="0 0 16 16" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
-                    <path d="M2 8C2 4.68 4.68 2 8 2s6 2.68 6 6-2.68 6-6 6" stroke="#D4AF37" strokeWidth="1.6" strokeLinecap="round" />
-                    <path d="M2 8 L4.5 5.5 M2 8 L4.5 10.5" stroke="#D4AF37" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                )}
-                Refresh
+            </div>
+          </div>
+        )}
+
+        {/* EXPIRED */}
+        {status === 'expired' && !initialData?.is_unlock_paid && (
+          <div style={{ ...styles.card, borderColor: 'rgba(220,60,60,.3)' }}>
+            <div style={styles.cardInner}>
+              <div style={styles.statusBadgeExpired}>
+                <span style={{ ...styles.statusDot, background: '#dc3c3c' }} />
+                Timp Expirat
+              </div>
+              <p style={{ ...styles.cardDesc, marginTop: 4 }}>Upload-ul este blocat. Poți debloca vizualizarea pentru încă 5 zile.</p>
+              <button onClick={() => handlePayment('unlock')} className="danger-btn"
+                style={{ ...styles.goldBtn, background: 'linear-gradient(135deg,#8B2020 0%,#dc3c3c 45%,#f06060 55%,#dc3c3c 70%,#8B2020 100%)', marginTop: 4, transition: 'all .25s', boxShadow: '0 8px 28px rgba(220,60,60,.25)' }}>
+                Deblochează Vizualizare — 200 RON
               </button>
             </div>
           </div>
+        )}
 
-          {/* Grid */}
-          {photos.length === 0 && !loading ? (
-            <div style={styles.emptyState}>
-              <svg viewBox="0 0 48 48" fill="none" style={{ width: 38, height: 38, marginBottom: 12, opacity: .4 }}>
-                <rect x="4" y="14" width="40" height="28" rx="5" stroke="#D4AF37" strokeWidth="1.5" />
-                <path d="M14 14 L17 8 L31 8 L34 14" stroke="#D4AF37" strokeWidth="1.5" strokeLinejoin="round" />
-                <circle cx="24" cy="28" r="8" stroke="#D4AF37" strokeWidth="1.2" />
-              </svg>
-              <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 15, fontStyle: 'italic', color: 'rgba(212,175,55,.4)' }}>Nicio fotografie încă</p>
-              <p style={{ fontFamily: "'Cinzel',serif", fontSize: 9, letterSpacing: '.18em', color: 'rgba(212,175,55,.25)', marginTop: 4 }}>FOTOGRAFIILE INVITAȚILOR VOR APĂREA AICI</p>
+        {/* DELETED */}
+        {status === 'deleted' && (
+          <div style={{ ...styles.card, borderColor: 'rgba(212,175,55,.1)' }}>
+            <div style={styles.cardInner}>
+              <div style={styles.statusBadgeDeleted}>
+                <svg viewBox="0 0 16 16" fill="none" style={{ width: 12, height: 12, flexShrink: 0 }}>
+                  <path d="M8 1 L8 8 M8 11 L8 12" stroke="rgba(212,175,55,.5)" strokeWidth="1.5" strokeLinecap="round" />
+                  <circle cx="8" cy="8" r="7" stroke="rgba(212,175,55,.3)" strokeWidth="1" />
+                </svg>
+                Album Șters Definitiv
+              </div>
+              <p style={{ ...styles.cardDesc, marginTop: 4 }}>Cele 30 de zile au trecut. Poți porni un album nou.</p>
+              <button onClick={() => handlePayment('new_album')} className="gold-btn"
+                style={{ ...styles.goldBtn, marginTop: 4, transition: 'all .25s' }}>
+                Creează Album Nou — 400 RON
+              </button>
             </div>
-          ) : (
-            <div className="gallery-grid" style={styles.galleryGrid}>
-              {photos.map((p: any) => (
-                <div key={p.id} className="photo-card" style={styles.photoCard}>
-                  <img src={p.url} alt="Nunta" style={styles.photoImg} />
-                  <div className="photo-overlay" style={styles.photoOverlay}>
-                    <button
-                      onClick={() => handleDownloadSingle(p)}
-                      disabled={downloadingId === p.id}
-                      className="dl-btn"
-                      style={styles.dlBtn}>
-                      {downloadingId === p.id ? (
+          </div>
+        )}
+
+        {/* GALLERY */}
+        {(status === 'active' || initialData?.is_unlock_paid) && status !== 'deleted' && (
+          <div style={{ marginTop: 28, animation: 'fadeIn .5s ease both' }}>
+            <div className="gallery-header-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, gap: 12, flexWrap: 'wrap' }}>
+              <div>
+                <p style={styles.galleryCount}>
+                  {photos.length} {photos.length === 1 ? 'fotografie' : 'fotografii'}
+                </p>
+                <p style={styles.gallerySubCount}>albumul tău privat</p>
+              </div>
+              <div className="gallery-header-btns" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {photos.length > 0 && (
+                  <button onClick={handleDownloadAll} disabled={downloadingAll} className="gold-btn dl-all-btn"
+                    style={{ ...styles.goldBtn, padding: '9px 18px', fontSize: 11, gap: 7, transition: 'all .25s', opacity: downloadingAll ? 0.7 : 1, width: 'auto' }}>
+                    {downloadingAll ? (
+                      <>
                         <svg viewBox="0 0 16 16" fill="none" style={{ width: 13, height: 13, animation: 'spin 1s linear infinite', flexShrink: 0 }}>
-                          <circle cx="8" cy="8" r="6" stroke="#D4AF37" strokeWidth="1.8" strokeDasharray="20 10" />
+                          <circle cx="8" cy="8" r="6" stroke="#0A0803" strokeWidth="1.8" strokeDasharray="20 10" />
                         </svg>
-                      ) : (
+                        Descărcând...
+                      </>
+                    ) : (
+                      <>
                         <svg viewBox="0 0 16 16" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
-                          <path d="M8 2 L8 10 M4 7 L8 11 L12 7" stroke="#D4AF37" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                          <path d="M2 13.5 L14 13.5" stroke="#D4AF37" strokeWidth="1.6" strokeLinecap="round" />
+                          <path d="M8 2 L8 11 M4 8 L8 12 L12 8" stroke="#0A0803" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M2 14 L14 14" stroke="#0A0803" strokeWidth="1.8" strokeLinecap="round" />
                         </svg>
-                      )}
-                      {downloadingId === p.id ? '...' : 'Descarcă'}
-                    </button>
-                    <a href={p.url} target="_blank" rel="noreferrer" style={styles.viewBtn}>
-                      <svg viewBox="0 0 16 16" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
-                        <path d="M1 8C1 8 3.5 3 8 3s7 5 7 5-2.5 5-7 5S1 8 1 8z" stroke="rgba(212,175,55,.8)" strokeWidth="1.4" />
-                        <circle cx="8" cy="8" r="2" stroke="rgba(212,175,55,.8)" strokeWidth="1.4" />
-                      </svg>
-                      Vezi
-                    </a>
-                  </div>
-                </div>
-              ))}
+                        Descarcă Toate
+                      </>
+                    )}
+                  </button>
+                )}
+                <button onClick={fetchPhotos} className="ghost-btn"
+                  style={{ ...styles.ghostBtn, transition: 'all .25s' }}>
+                  {loading ? (
+                    <svg viewBox="0 0 16 16" fill="none" style={{ width: 13, height: 13, animation: 'spin 1s linear infinite', flexShrink: 0 }}>
+                      <circle cx="8" cy="8" r="6" stroke="#D4AF37" strokeWidth="1.8" strokeDasharray="20 10" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 16 16" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
+                      <path d="M2 8C2 4.68 4.68 2 8 2s6 2.68 6 6-2.68 6-6 6" stroke="#D4AF37" strokeWidth="1.6" strokeLinecap="round" />
+                      <path d="M2 8 L4.5 5.5 M2 8 L4.5 10.5" stroke="#D4AF37" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                  Refresh
+                </button>
+              </div>
             </div>
-          )}
-        </div>
-      )}
+
+            {photos.length === 0 && !loading ? (
+              <div style={styles.emptyState}>
+                <svg viewBox="0 0 48 48" fill="none" style={{ width: 38, height: 38, marginBottom: 12, opacity: .4 }}>
+                  <rect x="4" y="14" width="40" height="28" rx="5" stroke="#D4AF37" strokeWidth="1.5" />
+                  <path d="M14 14 L17 8 L31 8 L34 14" stroke="#D4AF37" strokeWidth="1.5" strokeLinejoin="round" />
+                  <circle cx="24" cy="28" r="8" stroke="#D4AF37" strokeWidth="1.2" />
+                </svg>
+                <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 15, fontStyle: 'italic', color: 'rgba(212,175,55,.4)' }}>Nicio fotografie încă</p>
+                <p style={{ fontFamily: "'Cinzel',serif", fontSize: 9, letterSpacing: '.18em', color: 'rgba(212,175,55,.25)', marginTop: 4 }}>FOTOGRAFIILE INVITAȚILOR VOR APĂREA AICI</p>
+              </div>
+            ) : (
+              <div className="gallery-grid">
+                {photos.map((p: any) => (
+                  <div key={p.id} className="photo-card" style={styles.photoCard}>
+                    <img src={p.url} alt="Nunta" style={styles.photoImg} />
+                    <div className="photo-overlay" style={styles.photoOverlay}>
+                      <button
+                        onClick={() => handleDownloadSingle(p)}
+                        disabled={downloadingId === p.id}
+                        className="dl-btn"
+                        style={styles.dlBtn}>
+                        {downloadingId === p.id ? (
+                          <svg viewBox="0 0 16 16" fill="none" style={{ width: 13, height: 13, animation: 'spin 1s linear infinite', flexShrink: 0 }}>
+                            <circle cx="8" cy="8" r="6" stroke="#D4AF37" strokeWidth="1.8" strokeDasharray="20 10" />
+                          </svg>
+                        ) : (
+                          <svg viewBox="0 0 16 16" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
+                            <path d="M8 2 L8 10 M4 7 L8 11 L12 7" stroke="#D4AF37" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M2 13.5 L14 13.5" stroke="#D4AF37" strokeWidth="1.6" strokeLinecap="round" />
+                          </svg>
+                        )}
+                        {downloadingId === p.id ? '...' : 'Descarcă'}
+                      </button>
+                      <a href={p.url} target="_blank" rel="noreferrer" style={styles.viewBtn}>
+                        <svg viewBox="0 0 16 16" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
+                          <path d="M1 8C1 8 3.5 3 8 3s7 5 7 5-2.5 5-7 5S1 8 1 8z" stroke="rgba(212,175,55,.8)" strokeWidth="1.4" />
+                          <circle cx="8" cy="8" r="2" stroke="rgba(212,175,55,.8)" strokeWidth="1.4" />
+                        </svg>
+                        Vezi
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
@@ -1281,9 +1290,11 @@ const styles: Record<string, React.CSSProperties> = {
   wrapper: {
     fontFamily: "'Lato', sans-serif",
     color: G.text,
-    maxWidth: 900,
     width: '100%',
+    maxWidth: 900,
     margin: '0 auto',
+    boxSizing: 'border-box',
+    overflowX: 'hidden',
   },
   header: {
     display: 'flex',
@@ -1514,11 +1525,6 @@ const styles: Record<string, React.CSSProperties> = {
     textTransform: 'uppercase',
     color: G.goldDim,
     marginTop: 2,
-  },
-  galleryGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-    gap: 10,
   },
   photoCard: {
     position: 'relative',

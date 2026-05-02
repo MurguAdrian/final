@@ -1141,7 +1141,7 @@ export default function LuxDashboard() {
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&family=Lato:wght@300;400;700&display=swap');
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; -webkit-font-smoothing: antialiased; }
+        html, body { height: 100%; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
         body { font-family: 'Lato', sans-serif; background: #050401; color: #F5E6A8; }
 
         @keyframes lux-spin    { from { transform: rotate(0deg) }   to { transform: rotate(360deg) } }
@@ -1162,8 +1162,6 @@ export default function LuxDashboard() {
         .lux-mobile-tab:hover { background: rgba(212,175,55,.08) !important; }
 
         /* ══ LAYOUT RULES ══ */
-
-        /* Desktop sidebar */
         .lux-sidebar { display: flex !important; }
         .lux-mobile-header { display: none !important; }
         .lux-mobile-nav { display: none !important; }
@@ -1174,34 +1172,55 @@ export default function LuxDashboard() {
           .lux-sidebar { display: none !important; }
           .lux-mobile-header { display: flex !important; }
           .lux-tablet-nav { display: flex !important; }
-          .lux-main { padding-top: 112px !important; padding-left: 16px !important; padding-right: 16px !important; padding-bottom: 32px !important; }
+          .lux-main {
+            padding-top: 116px !important;
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+            padding-bottom: 40px !important;
+          }
         }
 
         /* Phone (< 768) */
         @media (max-width: 767px) {
           .lux-tablet-nav { display: none !important; }
           .lux-mobile-nav { display: flex !important; }
-          .lux-main { padding-top: 72px !important; padding-left: 12px !important; padding-right: 12px !important; padding-bottom: 88px !important; }
+          .lux-main {
+            padding-top: 72px !important;
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+            /* bottom padding = nav height (68) + safe area + extra breathing room */
+            padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px) + 20px) !important;
+          }
         }
 
-        /* Very small (< 380) */
         @media (max-width: 379px) {
-          .lux-main { padding-left: 8px !important; padding-right: 8px !important; }
+          .lux-main {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+          }
         }
 
-        /* Tablet content: push below header (56) + tab bar (48) */
+        /* Prevent horizontal overflow everywhere */
+        .lux-main { overflow-x: hidden !important; }
+        .lux-main > * { max-width: 100%; box-sizing: border-box; }
+        img, svg { max-width: 100%; }
+
+        /* Tablet nav safe positioning */
         @media (min-width: 768px) and (max-width: 1023px) {
           .lux-main { padding-top: 116px !important; }
         }
 
-        /* Prevent horizontal overflow globally */
-        .lux-main > * { max-width: 100%; }
-        img, svg { max-width: 100%; }
+        /* Mobile bottom nav: respect iPhone safe area */
+        .lux-mobile-nav {
+          padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+          height: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
+        }
       `}</style>
 
       <div style={{
         position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-        display: 'flex', background: '#050401', zIndex: 9999, overflow: 'hidden'
+        display: 'flex', background: '#050401', zIndex: 9999,
+        overflow: 'hidden'
       }}>
 
         {/* BG ATMOSPHERE */}
@@ -1452,11 +1471,15 @@ export default function LuxDashboard() {
 
         {/* ══ MAIN CONTENT ══ */}
         <main className="lux-main" style={{
-          flex: 1, height: '100vh', overflowY: 'auto', overflowX: 'hidden',
+          flex: 1,
+          height: '100vh',
+          overflowY: 'auto',
+          overflowX: 'hidden',
           padding: 'clamp(28px,4vw,52px) clamp(20px,4vw,64px)',
           position: 'relative', zIndex: 5,
+          WebkitOverflowScrolling: 'touch',
         }}>
-          {/* Art deco corner accents */}
+          {/* Art deco corner */}
           <div style={{ position: 'fixed', top: 0, right: 0, width: 'min(120px,12vw)', height: 'min(120px,12vw)', opacity: .25, pointerEvents: 'none', zIndex: 4 }}>
             <svg viewBox="0 0 160 160" fill="none" style={{ transform: 'scale(-1,1)', width: '100%', height: '100%' }}>
               <path d="M8 8 L8 120 M8 8 L120 8" stroke="url(#dg2)" strokeWidth="1.2" />
@@ -1471,7 +1494,7 @@ export default function LuxDashboard() {
             </svg>
           </div>
 
-          <div style={{ animation: 'lux-fade-in .5s ease both', position: 'relative', zIndex: 5 }}>
+          <div style={{ animation: 'lux-fade-in .5s ease both', position: 'relative', zIndex: 5, width: '100%' }}>
             {activeTab === 'summary' && <SummarySection isComplete={isProfileComplete} />}
             {activeTab === 'personalize' && (
               <PersonalizeSection
@@ -1538,12 +1561,14 @@ export default function LuxDashboard() {
         {/* ══ PHONE BOTTOM NAV (< 768px) ══ */}
         <nav className="lux-mobile-nav" style={{
           position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200,
-          height: 68,
+          /* height set via CSS with safe-area calc */
+          minHeight: 68,
           background: 'rgba(5,4,1,.98)',
           borderTop: '1px solid rgba(212,175,55,.15)',
           backdropFilter: 'blur(20px)',
           display: 'none',
-          alignItems: 'stretch', justifyContent: 'stretch',
+          alignItems: 'flex-start',
+          justifyContent: 'stretch',
           boxShadow: '0 -8px 40px rgba(0,0,0,.6)'
         }}>
           <div style={{
@@ -1561,8 +1586,10 @@ export default function LuxDashboard() {
                 background: 'transparent', border: 'none', cursor: 'pointer',
                 borderTop: activeTab === tab.id ? '2px solid #D4AF37' : '2px solid transparent',
                 color: activeTab === tab.id ? '#D4AF37' : 'rgba(212,175,55,.4)',
-                padding: '7px 4px',
+                padding: '10px 4px 8px',
                 minWidth: 0,
+                /* Ensure tappable area */
+                minHeight: 56,
               }}>
               <span style={{
                 transition: 'transform .2s',

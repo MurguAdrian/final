@@ -661,7 +661,6 @@ function CategoryCard({
           gap: 10,
           minWidth: 0,
         }}>
-        {/* Left: emoji + text */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
           <div style={{
             width: 38, height: 38, borderRadius: 10, flexShrink: 0,
@@ -674,7 +673,7 @@ function CategoryCard({
           <div style={{ minWidth: 0, flex: 1 }}>
             <p style={{
               fontFamily: "'Cinzel', serif",
-              fontSize: 11, fontWeight: 600,
+              fontSize: 'clamp(10px,2.5vw,11px)', fontWeight: 600,
               letterSpacing: '.08em', color: cat.active ? '#F5E6A8' : 'rgba(245,230,168,.4)',
               marginBottom: 2, transition: 'color .3s',
               whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
@@ -694,7 +693,6 @@ function CategoryCard({
           </div>
         </div>
 
-        {/* Right: toggle + chevron */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
           <LuxToggle checked={cat.active} onChange={onToggle} />
           {cat.active && (
@@ -709,7 +707,6 @@ function CategoryCard({
       {cat.active && expanded && (
         <div style={{ padding: '14px 16px', animation: 'lux-fade-in .35s ease both' }}>
 
-          {/* Column labels — hidden on very small screens via inline media workaround */}
           {cat.items.length > 0 && (
             <div className="menu-col-labels" style={{
               display: 'grid', gridTemplateColumns: '1fr 1.4fr 36px',
@@ -725,7 +722,6 @@ function CategoryCard({
             </div>
           )}
 
-          {/* Items */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {cat.items.map((item, idx) => (
               <div key={idx} className="menu-item-row" style={{
@@ -767,7 +763,6 @@ function CategoryCard({
             ))}
           </div>
 
-          {/* Empty state */}
           {cat.items.length === 0 && (
             <div style={{
               padding: '20px 0', textAlign: 'center',
@@ -781,7 +776,6 @@ function CategoryCard({
             </div>
           )}
 
-          {/* Add item */}
           <button
             className="lux-add"
             onClick={onAddItem}
@@ -853,28 +847,29 @@ export const MenuSection = ({ initialData, orderId, onSave }: any) => {
         .lux-save:disabled{opacity:.6;cursor:not-allowed;}
         .lux-toggle-master:hover{background:rgba(212,175,55,.1)!important;border-color:rgba(212,175,55,.4)!important;}
 
-        /* Responsive item rows */
+        /* ── Responsive ── */
+        .menu-section-wrap { width: 100%; max-width: 780px; box-sizing: border-box; overflow-x: hidden; }
+
         @media (max-width: 600px) {
           .menu-col-labels { display: none !important; }
           .menu-item-row {
             grid-template-columns: 1fr 36px !important;
             grid-template-rows: auto auto;
+            gap: 6px !important;
           }
-          .menu-item-row input:nth-child(2) {
-            grid-column: 1;
-          }
-          .menu-item-row input:nth-child(3) {
-            grid-column: 1;
-          }
-          .menu-item-row button {
-            grid-column: 2;
-            grid-row: 1 / 3;
-            align-self: center;
-          }
+          .menu-item-row input:first-child { grid-column: 1; grid-row: 1; }
+          .menu-item-row input:nth-child(2) { grid-column: 1; grid-row: 2; }
+          .menu-item-row button { grid-column: 2; grid-row: 1 / 3; align-self: center; }
+          .menu-stats-row { flex-direction: column !important; gap: 6px !important; }
+          .menu-master-toggle { flex-wrap: wrap !important; }
+        }
+
+        @media (max-width: 400px) {
+          .menu-section-wrap { padding: 0 !important; }
         }
       `}</style>
 
-      <div style={{ maxWidth: 780, animation: 'lux-fade-in .55s ease both', fontFamily: "'Cormorant Garamond', serif", width: '100%' }}>
+      <div className="menu-section-wrap" style={{ animation: 'lux-fade-in .55s ease both', fontFamily: "'Cormorant Garamond', serif" }}>
 
         {/* HEADER */}
         <div style={{ marginBottom: 6 }}>
@@ -889,7 +884,7 @@ export const MenuSection = ({ initialData, orderId, onSave }: any) => {
               color: '#F5E6A8', margin: 0, lineHeight: 1.1
             }}>Meniu Nuntă</h2>
             {isActive && (
-              <div style={{ display: 'flex', gap: 16, flexShrink: 0 }}>
+              <div className="menu-stats-row" style={{ display: 'flex', gap: 16, flexShrink: 0 }}>
                 <div style={{ textAlign: 'center' }}>
                   <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(18px,4vw,28px)', fontWeight: 300, color: '#D4AF37', lineHeight: 1 }}>{activeCount}</p>
                   <p style={{ fontFamily: "'Cinzel', serif", fontSize: 7, letterSpacing: '.18em', textTransform: 'uppercase', color: 'rgba(212,175,55,.4)' }}>Categorii</p>
@@ -921,7 +916,7 @@ export const MenuSection = ({ initialData, orderId, onSave }: any) => {
             position: 'absolute', top: 0, left: '10%', right: '10%', height: 1,
             background: `linear-gradient(90deg,transparent,${isActive ? 'rgba(212,175,55,.45)' : 'rgba(212,175,55,.2)'},transparent)`
           }} />
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+          <div className="menu-master-toggle" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
               <div style={{
                 width: 40, height: 40, borderRadius: 10, flexShrink: 0,
@@ -982,7 +977,6 @@ export const MenuSection = ({ initialData, orderId, onSave }: any) => {
               ))}
             </div>
 
-            {/* Info note */}
             <div style={{
               display: 'flex', alignItems: 'flex-start', gap: 10,
               padding: '12px 16px', borderRadius: 10,
@@ -1052,4 +1046,5 @@ const inputStyle: React.CSSProperties = {
   fontSize: 14, color: '#F5E6A8',
   outline: 'none', transition: 'all .2s',
   minWidth: 0,
+  boxSizing: 'border-box',
 };
