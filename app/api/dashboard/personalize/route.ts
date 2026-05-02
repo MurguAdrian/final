@@ -23,7 +23,7 @@ export async function POST(request: Request) {
         religious_date, religious_time, religious_location, religious_waze, 
         is_religious_active, is_menu_active, is_accommodation_active, is_transport_active,
         contact_phone_bride, contact_phone_groom, our_story, menu_details, 
-        is_photos_active, gallery_status
+        is_photos_active, gallery_status, photos_expires_at, photo_consent_accepted, photos_activated_at
       )
       VALUES (
         ${oid}, ${clean(body.customSlug)}, ${clean(body.brideName)}, ${clean(body.groomName)}, 
@@ -35,7 +35,8 @@ export async function POST(request: Request) {
         ${body.isAccommodationActive ?? null}, ${body.isTransportActive ?? null},
         ${clean(body.contactPhoneBride)}, ${clean(body.contactPhoneGroom)}, 
         ${clean(body.ourStory)}, ${body.menu_details ? JSON.stringify(body.menu_details) : null}, 
-        ${body.isPhotosActive ?? null}, ${body.gallery_status || null}
+        ${body.isPhotosActive ?? null}, ${body.gallery_status || null}, 
+        ${clean(body.photos_expires_at)}, ${body.photo_consent_accepted ?? false}, ${clean(body.photos_activated_at)}
       )
       ON CONFLICT (order_id) DO UPDATE SET
         custom_slug = COALESCE(EXCLUDED.custom_slug, wedding_settings.custom_slug),
@@ -61,7 +62,10 @@ export async function POST(request: Request) {
         our_story = COALESCE(EXCLUDED.our_story, wedding_settings.our_story),
         menu_details = COALESCE(EXCLUDED.menu_details, wedding_settings.menu_details),
         is_photos_active = COALESCE(EXCLUDED.is_photos_active, wedding_settings.is_photos_active),
-        gallery_status = COALESCE(EXCLUDED.gallery_status, wedding_settings.gallery_status);
+        gallery_status = COALESCE(EXCLUDED.gallery_status, wedding_settings.gallery_status),
+        photos_expires_at = COALESCE(EXCLUDED.photos_expires_at, wedding_settings.photos_expires_at),
+        photo_consent_accepted = COALESCE(EXCLUDED.photo_consent_accepted, wedding_settings.photo_consent_accepted),
+        photos_activated_at = COALESCE(EXCLUDED.photos_activated_at, wedding_settings.photos_activated_at);
     `;
 
     return NextResponse.json({ success: true });
