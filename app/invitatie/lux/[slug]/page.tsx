@@ -1,4 +1,5 @@
 
+
 // import { neon } from "@neondatabase/serverless";
 // import { notFound } from "next/navigation";
 // import LuxRsvpForm from "./LuxRsvpForm";
@@ -83,6 +84,22 @@
 //           </div>
 //         )}
 
+// {/* BUTON GALERIE FOTO LIVE - Apare doar dacă e activă și NEEXPIRATĂ */}
+//         {s.is_photos_active && s.gallery_status === 'active' && s.photos_expires_at && new Date(s.photos_expires_at) > new Date() && (
+//           <div style={{ padding: '40px 20px', borderTop: '1px solid #d4af3711' }}>
+//             <h3 style={goldText}>📸 GALERIE FOTO LIVE</h3>
+//             <p style={{ fontSize: '0.8rem', opacity: 0.7, marginBottom: '20px' }}>
+//               Împarte momentele surprinse de tine cu noi!
+//             </p>
+//             <a 
+//               href={`/invitatie/lux/${params.slug}/upload`} 
+//               style={{ ...btnGold, padding: '15px 40px', fontSize: '1rem', background: '#d4af37', color: '#000', borderRadius: '4px', fontWeight: 'bold' }}
+//             >
+//               ÎNCARCĂ POZE
+//             </a>
+//           </div>
+//         )}
+
 //         {/* ICONIȚE CAZARE & TRANSPORT */}
 //         {(s.is_accommodation_active || s.is_transport_active) && (
 //           <div style={{ display: 'flex', gap: '30px', justifyContent: 'center', padding: '20px', marginTop: '20px' }}>
@@ -135,7 +152,6 @@
 //   display: 'inline-block', padding: '12px 25px', border: '1px solid #d4af37', 
 //   color: '#d4af37', textDecoration: 'none', fontSize: '0.7rem', marginTop: '10px' 
 // };
-
 import { neon } from "@neondatabase/serverless";
 import { notFound } from "next/navigation";
 import LuxRsvpForm from "./LuxRsvpForm";
@@ -220,8 +236,10 @@ export default async function InvitationPage({ params }: { params: { slug: strin
           </div>
         )}
 
-{/* BUTON GALERIE FOTO LIVE - Apare doar dacă e activă și NEEXPIRATĂ */}
-        {s.is_photos_active && s.gallery_status === 'active' && s.photos_expires_at && new Date(s.photos_expires_at) > new Date() && (
+        {/* ============================================================ */}
+        {/* BUTON GALERIE FOTO LIVE - LOGICĂ ACTUALIZATĂ                 */}
+        {/* ============================================================ */}
+        {s.gallery_status === 'active' && s.photos_expires_at && new Date(s.photos_expires_at).getTime() > new Date().getTime() && (
           <div style={{ padding: '40px 20px', borderTop: '1px solid #d4af3711' }}>
             <h3 style={goldText}>📸 GALERIE FOTO LIVE</h3>
             <p style={{ fontSize: '0.8rem', opacity: 0.7, marginBottom: '20px' }}>
