@@ -3,10 +3,17 @@ import Stripe from "stripe";
 
 export async function POST(request: Request) {
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2023-10-16' as any });
+    // Folosim versiunea specifica contului tau: 2026-04-22.dahlia
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { 
+      apiVersion: '2026-04-22.dahlia' as any 
+    });
+
     const { orderId, type } = await request.json();
 
-    let amount = 15000; // Default Prelungire: 150 RON
+    // Detectam automat URL-ul (www.vibeinvite.ro) ca sa nu mai depindem de variabile de mediu lipsa
+    const origin = request.headers.get("origin") || "https://www.vibeinvite.ro";
+
+    let amount = 15000; // 150 RON
     let title = "Prelungire Galerie Foto (+5 zile)";
 
     if (type === 'unlock') {
@@ -28,13 +35,18 @@ export async function POST(request: Request) {
         quantity: 1,
       }],
       mode: "payment",
-      metadata: { orderId: orderId.toString(), paymentType: type },
-      success_url: `${process.env.NEXT_PUBLIC_URL}/dashboard/lux?payment=success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_URL}/dashboard/lux?payment=canceled`,
+      // Metadata sunt esentiale pentru Webhook-ul tau (checkout.session.completed)
+      metadata: { 
+        orderId: orderId.toString(), 
+        paymentType: type 
+      },
+      success_url: `${origin}/dashboard/lux?payment=success`,
+      cancel_url: `${origin}/dashboard/lux?payment=canceled`,
     });
 
     return NextResponse.json({ url: session.url });
   } catch (error: any) {
+    console.error("Stripe Error Details:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
