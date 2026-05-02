@@ -1031,6 +1031,7 @@ export default async function InvitationPage({ params }: { params: { slug: strin
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600;700&display=swap');
+        
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body { background: #000; color: #fff; font-family: 'Cormorant Garamond', serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
@@ -1055,214 +1056,151 @@ export default async function InvitationPage({ params }: { params: { slug: strin
         .lux-scene-line.top { top: 10%; }
         .lux-scene-line.bottom { bottom: 10%; }
 
-        .scene-crown { animation: fadeUp 0.6s ease both; margin-bottom: 6px; }
-        .scene-subtitle { font-family: 'Cinzel', serif; font-size: clamp(8px, 1vw, 10px); letter-spacing: .36em; text-transform: uppercase; color: rgba(212,175,55,.65); margin-bottom: 14px; animation: fadeUp 0.7s ease both 0.05s; }
-        .scene-names { font-family: 'Cormorant Garamond', serif; font-size: clamp(26px, 4vw, 48px); font-weight: 300; font-style: italic; color: #F5D678; text-align: center; line-height: 1.15; animation: fadeUp 0.8s ease both 0.1s; margin-bottom: 18px; text-shadow: 0 0 40px rgba(212,175,55,.3); }
+        .scene-names { font-family: 'Cormorant Garamond', serif; font-size: clamp(26px, 4vw, 48px); font-weight: 300; font-style: italic; color: #F5D678; text-align: center; line-height: 1.15; margin-bottom: 18px; text-shadow: 0 0 40px rgba(212,175,55,.3); }
         .scene-names strong { font-weight: 600; font-style: normal; color: #F5E6A8; }
-        .scene-names span { color: rgba(212,175,55,.5); font-weight: 300; font-size: .75em; display: inline; margin: 0 8px; letter-spacing: .2em; font-style: normal; }
+        .scene-names span { color: rgba(212,175,55,.5); font-weight: 300; font-size: .75em; display: inline; margin: 0 8px; }
 
-        .envelope-wrap { position: relative; width: clamp(260px, 42vw, 500px); cursor: pointer; user-select: none; filter: drop-shadow(0 40px 80px rgba(0,0,0,.7)); animation: envFloat 5s ease-in-out infinite, fadeUp 0.9s ease both 0.18s; transition: transform 0.2s ease; }
-        .envelope-wrap:hover { transform: translateY(-4px); }
-        .envelope-shadow { position: absolute; bottom: -18px; left: 8%; right: 8%; height: 22px; background: radial-gradient(ellipse, rgba(212,175,55,.18) 0%, transparent 70%); filter: blur(10px); z-index: 0; }
-
-        .envelope-letter { position: absolute; left: 8%; right: 8%; bottom: 4%; height: 62%; z-index: 2; background: linear-gradient(170deg, #1A1408 0%, #0D0A04 100%); border: 1px solid rgba(212,175,55,.35); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.4); overflow: hidden; transform: translateY(0); transition: transform 1.4s cubic-bezier(.22,.1,.2,1) .2s, box-shadow 1.4s ease .2s, z-index 0s .2s; }
-        .envelope-letter.opening { transform: translateY(-148%) scale(1.06) rotate(-0.6deg); box-shadow: 0 40px 100px rgba(0,0,0,.9), 0 0 60px rgba(212,175,55,.2); z-index: 30; }
-        .letter-lines { position: absolute; inset: 0; opacity: .07; background-image: repeating-linear-gradient(0deg, #D4AF37 0, #D4AF37 1px, transparent 1px, transparent 32px); }
-        .letter-border { position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px; border: 1px solid rgba(212,175,55,.2); border-radius: 2px; }
-        .letter-content { text-align: center; padding: 0 20px; position: relative; z-index: 1; }
-        .letter-couple { font-family: 'Cormorant Garamond', serif; font-size: clamp(14px, 2.4vw, 24px); font-style: italic; font-weight: 300; color: #D4AF37; line-height: 1.2; letter-spacing: .04em; }
-        .letter-divider { width: 40px; height: 1px; background: linear-gradient(90deg, transparent, #D4AF37, transparent); margin: 8px auto; }
-        .letter-date { font-family: 'Cinzel', serif; font-size: clamp(7px, .9vw, 9px); letter-spacing: .3em; text-transform: uppercase; color: rgba(212,175,55,.7); font-weight: 400; }
-
-        .envelope-body { width: 100%; padding-top: 60%; position: relative; z-index: 5; }
-        .envelope-inner { position: absolute; inset: 0; background: #0A0803; border-radius: 6px; border: 1px solid rgba(212,175,55,.28); box-shadow: 0 8px 40px rgba(0,0,0,.8), inset 0 1px 0 rgba(212,175,55,.15); overflow: hidden; }
-        .env-noise { position: absolute; inset: 0; opacity: .06; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='turbulence' baseFrequency='.012' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); }
-        .env-left { position: absolute; top: 0; bottom: 0; left: 0; width: 50%; background: linear-gradient(160deg, #0E0C06, #080602); clip-path: polygon(0 0,0 100%,100% 100%); }
-        .env-right { position: absolute; top: 0; bottom: 0; right: 0; width: 50%; background: linear-gradient(200deg, #0E0C06, #080602); clip-path: polygon(100% 0,0 100%,100% 100%); }
-        .env-bottom { position: absolute; bottom: 0; left: 0; right: 0; height: 50%; background: linear-gradient(180deg, #0C0A04, #070601); clip-path: polygon(0 100%,50% 0,100% 100%); }
-        .env-top-line { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,.4), transparent); }
-
-        .envelope-seal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -52%); width: clamp(50px, 9vw, 80px); height: clamp(50px, 9vw, 80px); background: radial-gradient(circle at 35% 35%, #F5D678 0%, #D4AF37 40%, #8B6914 100%); border-radius: 50%; border: 2px solid rgba(245,214,120,.5); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 6px rgba(212,175,55,.08), 0 0 0 12px rgba(212,175,55,.04), 0 8px 30px rgba(0,0,0,.8); z-index: 10; transition: opacity .25s; }
+        /* Envelope */
+        .envelope-wrap { position: relative; width: clamp(260px, 42vw, 500px); cursor: pointer; user-select: none; filter: drop-shadow(0 40px 80px rgba(0,0,0,.7)); animation: envFloat 5s ease-in-out infinite; transition: transform 0.2s ease; }
+        .envelope-letter { position: absolute; left: 8%; right: 8%; bottom: 4%; height: 62%; z-index: 2; background: linear-gradient(170deg, #1A1408 0%, #0D0A04 100%); border: 1px solid rgba(212,175,55,.35); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; transition: transform 1.4s cubic-bezier(.22,.1,.2,1); }
+        .envelope-letter.opening { transform: translateY(-148%) scale(1.06) rotate(-0.6deg); z-index: 30; }
+        
+        .envelope-flap { position: absolute; top: 0; left: 0; right: 0; z-index: 8; height: 52%; background: linear-gradient(160deg, #14100A, #0A0803); clip-path: polygon(0 0,100% 0,50% 100%); transform-origin: top center; transition: transform 1.05s cubic-bezier(.4,0,.2,1); border-bottom: 1px solid rgba(212,175,55,.25); }
+        .envelope-flap.opening { transform: perspective(800px) rotateX(180deg); }
+        
+        .envelope-seal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -52%); width: clamp(50px, 9vw, 80px); height: clamp(50px, 9vw, 80px); background: radial-gradient(circle at 35% 35%, #F5D678 0%, #D4AF37 40%, #8B6914 100%); border-radius: 50%; border: 2px solid rgba(245,214,120,.5); display: flex; align-items: center; justify-content: center; z-index: 10; transition: opacity .25s; }
         .envelope-seal.opening { opacity: 0; }
-        .seal-ring-outer { position: absolute; inset: -8px; border: 1px solid rgba(212,175,55,.3); border-radius: 50%; border-style: dashed; animation: lux-spin 30s linear infinite; }
-        .seal-ring-inner { position: absolute; inset: -14px; border: 1px solid rgba(212,175,55,.12); border-radius: 50%; }
-        .seal-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(12px, 2vw, 19px); font-style: italic; color: #0A0803; font-weight: 600; position: relative; z-index: 1; }
+        .seal-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(12px, 2vw, 19px); font-style: italic; color: #0A0803; font-weight: 600; }
 
-        .envelope-flap { position: absolute; top: 0; left: 0; right: 0; z-index: 8; height: 52%; background: linear-gradient(160deg, #14100A, #0A0803); clip-path: polygon(0 0,100% 0,50% 100%); transform-origin: top center; transform: perspective(800px) rotateX(0deg); transition: transform 1.05s cubic-bezier(.4,0,.2,1); border-bottom: 1px solid rgba(212,175,55,.25); }
-        .envelope-flap.opening { transform: perspective(800px) rotateX(192deg); }
-        .flap-sheen { position: absolute; inset: 0; background: linear-gradient(160deg, rgba(212,175,55,.08) 0%, transparent 50%); }
+        .envelope-body { width: 100%; padding-top: 60%; position: relative; z-index: 5; background: #0A0803; border: 1px solid rgba(212,175,55,.28); border-radius: 6px; overflow: hidden; }
 
-        .open-hint { font-family: 'Cinzel', serif; font-size: clamp(8px, 1vw, 10px); letter-spacing: .28em; text-transform: uppercase; color: rgba(212,175,55,.55); animation: fadeUp 1s ease both .35s, lux-pulse 3s ease-in-out infinite 1.3s; margin-top: 14px; }
-        .open-hint.opening { animation: none; opacity: .8; }
-
-        /* ── INVITATION STYLE ── */
-        .gold-divider { display: flex; align-items: center; width: 100%; max-width: 440px; margin: 28px auto; }
-        .gold-divider-line-l { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,.6)); }
-        .gold-divider-line-r { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(212,175,55,.6), transparent); }
-
-        .lux-invitation { background: #000; color: #fff; text-align: center; font-family: 'Cormorant Garamond', serif; overflow-x: hidden; opacity: 0; transition: opacity 0.7s ease 0.1s; min-height: 100vh; display: none; }
+        /* ── INVITATION CONTENT ── */
+        .lux-invitation { background: #000; color: #fff; text-align: center; opacity: 0; display: none; transition: opacity 0.7s ease; }
         .lux-invitation.visible { opacity: 1; display: block; }
 
-        .lux-hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: clamp(40px, 8vw, 80px) 20px; border-bottom: 1px solid rgba(212,175,55,.15); position: relative; overflow: hidden; }
-        .hero-bg-grad { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 80% 70% at 50% 40%, #1A1408 0%, #0A0803 55%, #000 100%); }
-        .hero-corner { position: absolute; width: min(160px, 20vw); height: min(160px, 20vw); opacity: .6; pointer-events: none; }
-        .hero-corner.tl { top: 0; left: 0; }
-        .hero-corner.tr { top: 0; right: 0; transform: scaleX(-1); }
-        .hero-corner.bl { bottom: 0; left: 0; transform: scaleY(-1); }
-        .hero-corner.br { bottom: 0; right: 0; transform: scale(-1); }
+        .lux-hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 60px 20px; position: relative; }
+        .hero-names { font-size: clamp(52px, 10vw, 100px); font-weight: 600; font-style: italic; color: #F5E6A8; line-height: .92; }
 
-        .hero-inner { position: relative; z-index: 2; }
-        .hero-eyebrow { font-family: 'Cinzel', serif; font-size: clamp(8px, 1vw, 10px); letter-spacing: .36em; text-transform: uppercase; color: rgba(212,175,55,.65); margin-bottom: 16px; }
-        .hero-names { font-size: clamp(52px, 10vw, 100px); font-weight: 600; font-style: italic; color: #F5E6A8; line-height: .92; letter-spacing: -.01em; text-shadow: 0 0 60px rgba(212,175,55,.25); margin-bottom: 4px; }
-        .hero-amp { font-family: 'Cinzel', serif; font-size: clamp(14px, 2vw, 22px); font-weight: 400; color: rgba(212,175,55,.6); margin: 8px 0; letter-spacing: .3em; display: block; }
-        .hero-extra { opacity: 0.75; margin-top: 10px; font-size: clamp(13px, 1.6vw, 16px); font-style: italic; color: rgba(245,214,120,.6); }
-
-        .lux-details { padding: clamp(60px, 10vw, 100px) clamp(16px, 4vw, 32px); }
-        .lux-info-box { border: 1px solid rgba(212,175,55,.2); padding: clamp(32px, 5vw, 48px) clamp(20px, 4vw, 32px); max-width: 560px; margin: 0 auto 40px auto; background: #0a0a0a; border-radius: 4px; position: relative; }
+        .lux-info-box { border: 1px solid rgba(212,175,55,.2); padding: 40px 20px; max-width: 560px; margin: 0 auto 40px auto; background: #0a0a0a; border-radius: 4px; position: relative; }
         .info-box-corner { position: absolute; width: 14px; height: 14px; border-color: rgba(212,175,55,.3); }
         .info-box-corner.tl { top: 8px; left: 8px; border-top: 1px solid; border-left: 1px solid; }
         .info-box-corner.tr { top: 8px; right: 8px; border-top: 1px solid; border-right: 1px solid; }
         .info-box-corner.bl { bottom: 8px; left: 8px; border-bottom: 1px solid; border-left: 1px solid; }
         .info-box-corner.br { bottom: 8px; right: 8px; border-bottom: 1px solid; border-right: 1px solid; }
 
-        .gold-heading { color: #d4af37; letter-spacing: 4px; margin-bottom: 20px; font-family: 'Cinzel', serif; font-size: clamp(12px, 1.4vw, 14px); }
-        .event-date { font-size: clamp(18px, 3vw, 28px); margin: 4px 0; }
-        .event-time { font-size: clamp(13px, 1.6vw, 16px); opacity: 0.7; margin: 4px 0; }
-        .btn-gold { display: inline-flex; align-items: center; gap: 6px; padding: 10px 22px; border: 1px solid #d4af37; color: #d4af37; text-decoration: none; font-size: clamp(9px, 1.1vw, 11px); font-family: 'Cinzel', serif; letter-spacing: .14em; text-transform: uppercase; transition: background .2s; border-radius: 2px; margin-top: 8px; }
-        .btn-gold-solid { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 13px 28px; border-radius: 4px; background: linear-gradient(135deg, #8B6914 0%, #D4AF37 45%, #F5D678 55%, #D4AF37 70%, #8B6914 100%); color: #0A0803; text-decoration: none; font-size: clamp(10px, 1.2vw, 12px); font-family: 'Cinzel', serif; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; cursor: pointer; border: none; box-shadow: 0 8px 32px rgba(212,175,55,.3); transition: transform .2s, box-shadow .2s; position: relative; overflow: hidden; }
-        .btn-gold-solid::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent); background-size: 350px 100%; animation: shimmer 3s linear infinite; }
+        .btn-gold-solid { display: inline-flex; align-items: center; justify-content: center; padding: 13px 28px; background: linear-gradient(135deg, #8B6914, #D4AF37, #F5D678); color: #0A0803; text-transform: uppercase; font-weight: 700; cursor: pointer; border: none; border-radius: 4px; letter-spacing: .18em; font-family: 'Cinzel', serif; }
         
-        .lux-story { padding: clamp(40px, 8vw, 80px) 20px; max-width: 620px; margin: 0 auto; }
-        .story-text { font-style: italic; font-size: clamp(15px, 1.8vw, 19px); line-height: 1.9; color: rgba(245,230,168,.8); }
+        .lux-modal-overlay { position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,.9); backdrop-filter: blur(14px); display: none; align-items: center; justify-content: center; padding: 20px; }
+        .lux-modal { background: #0D0A04; border: 1px solid rgba(212,175,55,.25); padding: 40px; border-radius: 20px; width: 100%; max-width: 520px; position: relative; max-height: 90vh; overflow-y: auto; }
 
-        .lux-modal-overlay { position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,.85); backdrop-filter: blur(14px); display: none; align-items: center; justify-content: center; padding: 24px; overflow-y: auto; }
-        .lux-modal { background: linear-gradient(170deg, #1A1408, #0A0803); border: 1px solid rgba(212,175,55,.25); border-radius: 20px; padding: 40px; max-width: 520px; width: 100%; box-shadow: 0 40px 100px rgba(0,0,0,.9); position: relative; max-height: 90vh; overflow-y: auto; }
-        .modal-close-btn { position: absolute; top: 14px; right: 14px; background: rgba(212,175,55,.1); border: 1px solid rgba(212,175,55,.25); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: rgba(212,175,55,.7); }
-
-        .lux-footer { padding: 60px; opacity: .4; font-size: .7rem; font-family: 'Cinzel', serif; letter-spacing: .1em; text-align: center; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes envFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        @keyframes lux-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes lux-pulse { 0%,100% { opacity: .45; } 50% { opacity: .9; } }
-        @keyframes shimmer { 0% { background-position: -350px 0; } 100% { background-position: 350px 0; } }
+        .open-hint { color: #D4AF37; animation: lux-pulse 3s infinite; margin-top: 20px; letter-spacing: 2px; text-transform: uppercase; font-size: 10px; font-family: 'Cinzel'; }
       `}</style>
 
-      {/* ── PLICUL (SCENA INITIALA) ── */}
+      {/* ── SCENA PLIC ── */}
       <div id="lux-scene" className="lux-scene">
-        <svg className="lux-scene-corner tl" viewBox="0 0 160 160" fill="none"><path d="M8 8 L8 120 M8 8 L120 8" stroke="url(#dg1)" strokeWidth="1.2"/><defs><linearGradient id="dg1" x1="0" y1="0" x2="160" y2="160" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#D4AF37"/><stop offset="50%" stopColor="#F5D678"/><stop offset="100%" stopColor="#8B6914" stopOpacity=".4"/></linearGradient></defs></svg>
-        <svg className="lux-scene-corner tr" viewBox="0 0 160 160" fill="none"><path d="M8 8 L8 120 M8 8 L120 8" stroke="url(#dg2)" strokeWidth="1.2"/><defs><linearGradient id="dg2" x1="0" y1="0" x2="160" y2="160" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#D4AF37"/><stop offset="100%" stopColor="#8B6914" stopOpacity=".4"/></linearGradient></defs></svg>
-        <div className="lux-scene-line top"/><div className="lux-scene-line bottom"/>
-
-        <div className="scene-crown">
-          <svg viewBox="0 0 120 60" fill="none" style={{width:72,height:36}}>
-            <path d="M10 50 L10 20 L30 40 L60 5 L90 40 L110 20 L110 50 Z" fill="none" stroke="url(#cg1)" strokeWidth="1.4" strokeLinejoin="round"/><circle cx="60" cy="5" r="3.5" fill="url(#cg1)"/><defs><linearGradient id="cg1" x1="0" y1="0" x2="120" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#8B6914"/><stop offset="40%" stopColor="#D4AF37"/><stop offset="100%" stopColor="#8B6914"/></linearGradient></defs>
-          </svg>
-        </div>
+        <svg className="lux-scene-corner tl" viewBox="0 0 160 160" fill="none"><path d="M8 8 L8 120 M8 8 L120 8" stroke="#D4AF37" strokeWidth="1.2"/></svg>
+        <svg className="lux-scene-corner tr" viewBox="0 0 160 160" fill="none"><path d="M8 8 L8 120 M8 8 L120 8" stroke="#D4AF37" strokeWidth="1.2"/></svg>
+        
         <p className="scene-subtitle">Invitație de Nuntă</p>
-        <h1 className="scene-names"><strong>{s.bride_name}</strong><span>&amp;</span><strong>{s.groom_name}</strong></h1>
+        <h1 className="scene-names"><strong>{s.bride_name}</strong><span>&</span><strong>{s.groom_name}</strong></h1>
 
-        <div className="envelope-wrap" id="envelope-wrap" role="button" tabIndex={0}>
-          <div className="envelope-shadow"/>
+        <div className="envelope-wrap" id="envelope-wrap">
           <div className="envelope-letter" id="envelope-letter">
-            <div className="letter-lines"/><div className="letter-border"/>
-            <div className="letter-content">
-              <p className="letter-couple">{s.bride_name} &amp; {s.groom_name}</p>
-              <div className="letter-divider"/>
-              <p className="letter-date">{s.wedding_date ? new Date(s.wedding_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }) : ''}</p>
+            <div style={{textAlign: 'center', color: '#D4AF37', padding: '20px'}}>
+              <p>{s.bride_name} & {s.groom_name}</p>
+              <div style={{height:'1px', background:'#D4AF37', margin:'10px auto', width:'40px'}}></div>
+              <p style={{fontSize: '10px'}}>{s.wedding_date ? new Date(s.wedding_date).toLocaleDateString('ro-RO') : ''}</p>
             </div>
           </div>
           <div className="envelope-body">
-            <div className="envelope-inner">
-              <div className="env-noise"/><div className="env-left"/><div className="env-right"/><div className="env-bottom"/><div className="env-top-line"/>
-            </div>
-            <div className="envelope-seal" id="envelope-seal">
-              <div className="seal-ring-outer"/><div className="seal-ring-inner"/>
-              <span className="seal-text">{brideInitial}&amp;{groomInitial}</span>
-            </div>
-            <div className="envelope-flap" id="envelope-flap"><div className="flap-sheen"/></div>
+             <div className="envelope-seal" id="envelope-seal">
+               <span className="seal-text">{brideInitial}&{groomInitial}</span>
+             </div>
+             <div className="envelope-flap" id="envelope-flap"></div>
           </div>
         </div>
         <p className="open-hint" id="open-hint">Atinge pentru a deschide</p>
       </div>
 
-      {/* ── INVITATIA PROPRIU-ZISA ── */}
+      {/* ── CONTINUT INVITATIE ── */}
       <div className="lux-invitation" id="lux-invitation">
         <section className="lux-hero">
-          <div className="hero-bg-grad"/>
-          <svg className="hero-corner tl" viewBox="0 0 160 160" fill="none"><path d="M8 8 L8 120 M8 8 L120 8" stroke="url(#hd1)" strokeWidth="1.2"/><defs><linearGradient id="hd1" x1="0" y1="0" x2="160" y2="160" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#D4AF37"/><stop offset="100%" stopColor="#8B6914" stopOpacity=".3"/></linearGradient></defs></svg>
-          <div className="hero-inner">
-            <p className="hero-eyebrow">VĂ INVITĂM</p>
-            <div className="hero-names">{s.bride_name}</div>
-            <span className="hero-amp">&amp;</span>
-            <div className="hero-names">{s.groom_name}</div>
-            <div className="hero-extra">
-              <p>Alături de nașii: {s.nasi_names}</p>
-              <p>Împreună cu părinții: {s.parents_names}</p>
-            </div>
-            {s.wedding_date && <Countdown targetDate={s.wedding_date} />}
+          <p style={{letterSpacing: '4px', color: '#D4AF37', marginBottom: '20px'}}>VĂ INVITĂM</p>
+          <div className="hero-names">{s.bride_name}</div>
+          <div style={{fontSize: '30px', color: '#D4AF37', margin: '10px 0'}}>&</div>
+          <div className="hero-names">{s.groom_name}</div>
+          
+          <div style={{marginTop: '40px', opacity: 0.8}}>
+            <p>Alături de nașii: <strong>{s.nasi_names}</strong></p>
+            <p>Împreună cu părinții: <strong>{s.parents_names}</strong></p>
           </div>
+
+          {s.wedding_date && <Countdown targetDate={s.wedding_date} />}
         </section>
 
         <section className="lux-details">
+          {/* Party Box */}
           <div className="lux-info-box">
             <div className="info-box-corner tl"/><div className="info-box-corner tr"/><div className="info-box-corner bl"/><div className="info-box-corner br"/>
             <h3 className="gold-heading">PETRECEREA</h3>
-            <p className="event-date">{s.wedding_date ? new Date(s.wedding_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Data nesetată'}</p>
-            <p className="event-time">Ora {s.wedding_time || '--:--'}</p>
-            <p className="event-location">{s.location_name}</p>
-            <div className="nav-btns">
-              {s.waze_url && <a href={s.waze_url} target="_blank" className="btn-gold">WAZE</a>}
-              {s.google_maps_url && <a href={s.google_maps_url} target="_blank" className="btn-gold">MAPS</a>}
+            <p className="event-date">{s.wedding_date ? new Date(s.wedding_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }) : ''}</p>
+            <p className="event-time">Ora {s.wedding_time}</p>
+            <p style={{margin: '15px 0', fontWeight: 'bold'}}>{s.location_name}</p>
+            <div style={{display: 'flex', gap: '10px', justifyContent: 'center'}}>
+              {s.waze_url && <a href={s.waze_url} target="_blank" className="btn-gold" style={{textDecoration:'none', border:'1px solid #D4AF37', padding:'5px 15px', color:'#D4AF37'}}>WAZE</a>}
+              {s.google_maps_url && <a href={s.google_maps_url} target="_blank" className="btn-gold" style={{textDecoration:'none', border:'1px solid #D4AF37', padding:'5px 15px', color:'#D4AF37'}}>MAPS</a>}
             </div>
           </div>
 
+          {/* Religious Box */}
           {s.is_religious_active && (
             <div className="lux-info-box">
-              <div className="info-box-corner tl"/><div className="info-box-corner tr"/><div className="info-box-corner bl"/><div className="info-box-corner br"/>
+              <div className="info-box-corner tl"/><div className="info-box-corner tr"/>
               <h3 className="gold-heading">CUNUNIA RELIGIOASĂ</h3>
-              <p className="event-date">{s.religious_date ? new Date(s.religious_date).toLocaleDateString('ro-RO') : ''}</p>
-              <p className="event-time">Ora {s.religious_time}</p>
-              <p className="event-location">{s.religious_location}</p>
+              <p>Ora {s.religious_time}</p>
+              <p>{s.religious_location}</p>
             </div>
           )}
 
+          {/* Story Section */}
           {s.our_story && (
-            <div className="lux-story"><p className="story-text">"{s.our_story}"</p></div>
-          )}
-
-          {s.is_menu_active && s.menu_details?.categories && (
-            <div className="menu-btn-section">
-              <button className="btn-gold-solid" id="open-menu-modal"><span>◆ Vezi Meniu ◆</span></button>
+            <div className="lux-story">
+              <p className="story-text">"{s.our_story}"</p>
             </div>
           )}
 
-          {s.gallery_status === 'active' && (
-            <div style={{textAlign:'center', padding:'40px'}}>
-              <h3 className="gold-heading">📸 GALERIE FOTO</h3>
-              <a href={`/invitatie/lux/${params.slug}/upload`} className="btn-gold">ÎNCARCĂ POZE</a>
+          {/* Menu Button */}
+          {s.is_menu_active && (
+            <div style={{margin: '40px 0'}}>
+              <button className="btn-gold-solid" id="open-menu-btn">◆ VEZI MENIU ◆</button>
             </div>
           )}
 
-          <div id="rsvp" style={{textAlign:'center', marginTop:40}}>
-             <button className="btn-gold-solid" id="open-rsvp-modal" style={{width:'100%', maxWidth:400}}><span>◆ Confirmă Prezența ◆</span></button>
+          {/* RSVP Button */}
+          <div style={{marginTop: '60px'}}>
+            <button className="btn-gold-solid" id="open-rsvp-btn" style={{width: '100%', maxWidth: '400px'}}>◆ CONFIRMĂ PREZENȚA ◆</button>
           </div>
         </section>
 
-        <footer className="lux-footer">Contact: {s.contact_phone_bride} / {s.contact_phone_groom}</footer>
+        <footer className="lux-footer">
+          Contact: {s.contact_phone_bride} / {s.contact_phone_groom}
+        </footer>
       </div>
 
-      {/* ── MODALE (MENU & RSVP) ── */}
+      {/* ── MODALE ── */}
       <div className="lux-modal-overlay" id="menu-modal">
         <div className="lux-modal">
-          <button className="modal-close-btn" id="close-menu-modal">✕</button>
-          <h2 style={{textAlign:'center', color:'#F5E6A8', marginBottom:20}}>Meniul Evenimentului</h2>
-          {s.menu_details?.categories?.filter((cat:any)=>cat.active).map((cat:any, i:number)=>(
-            <div key={i} style={{marginBottom:24}}>
-              <h4 style={{color:'#D4AF37', borderBottom:'1px solid rgba(212,175,55,.3)', paddingBottom:5, marginBottom:10}}>{cat.label}</h4>
-              {cat.items?.map((item:any, j:number)=>(
-                <div key={j} style={{marginBottom:8}}>
-                  <div style={{color:'#fff'}}>{item.name}</div>
-                  <div style={{fontSize:'0.8rem', opacity:0.6, fontStyle:'italic'}}>{item.description}</div>
+          <button style={{position:'absolute', top:15, right:15, background:'none', color:'#D4AF37', border:'none', fontSize:20}} id="close-menu">✕</button>
+          <h2 style={{textAlign:'center', color:'#D4AF37', marginBottom:20}}>Meniu Eveniment</h2>
+          {s.menu_details?.categories?.map((cat:any, i:number) => (
+            <div key={i} style={{marginBottom: 20}}>
+              <h4 style={{borderBottom:'1px solid #D4AF37', paddingBottom:5}}>{cat.label}</h4>
+              {cat.items?.map((item:any, j:number) => (
+                <div key={j} style={{margin:'10px 0'}}>
+                  <p style={{color:'#fff', fontSize:14}}>{item.name}</p>
+                  <p style={{fontSize:11, opacity:0.6}}>{item.description}</p>
                 </div>
               ))}
             </div>
@@ -1272,74 +1210,47 @@ export default async function InvitationPage({ params }: { params: { slug: strin
 
       <div className="lux-modal-overlay" id="rsvp-modal">
         <div className="lux-modal">
-          <button className="modal-close-btn" id="close-rsvp-modal">✕</button>
+          <button style={{position:'absolute', top:15, right:15, background:'none', color:'#D4AF37', border:'none', fontSize:20}} id="close-rsvp">✕</button>
           <LuxRsvpForm orderId={s.order_id} showAccommodation={s.is_accommodation_active} showTransport={s.is_transport_active} />
         </div>
       </div>
 
-      {/* ── SCRIPT LOGIC (REPARAT) ── */}
+      {/* ── LOGICA JS (HYDRATION SAFE) ── */}
       <script dangerouslySetInnerHTML={{ __html: `
         (function() {
-          var phase = 'envelope';
-          var AUTO_OPEN_SEC = 3;
-
           function setup() {
-            var scene = document.getElementById('lux-scene');
-            var invite = document.getElementById('lux-invitation');
-            var envWrap = document.getElementById('envelope-wrap');
-            var flap = document.getElementById('envelope-flap');
-            var seal = document.getElementById('envelope-seal');
-            var letter = document.getElementById('envelope-letter');
-            var hint = document.getElementById('open-hint');
+            const wrap = document.getElementById('envelope-wrap');
+            const scene = document.getElementById('lux-scene');
+            const invite = document.getElementById('lux-invitation');
+            const flap = document.getElementById('envelope-flap');
+            const seal = document.getElementById('envelope-seal');
+            const letter = document.getElementById('envelope-letter');
 
-            if (!scene || !invite || !envWrap) return setTimeout(setup, 50);
+            if (!wrap || !scene || !invite) return setTimeout(setup, 50);
 
             function open() {
-              if (phase !== 'envelope') return;
-              phase = 'opening';
-              if (hint) { hint.className = 'open-hint opening'; hint.textContent = 'Se deschide...'; }
-              if (flap) flap.classList.add('opening');
-              if (seal) seal.classList.add('opening');
-              setTimeout(function() { if (letter) letter.classList.add('opening'); }, 300);
-              setTimeout(function() {
-                scene.classList.add('hidden');
+              flap.classList.add('opening');
+              seal.classList.add('opening');
+              setTimeout(() => letter.classList.add('opening'), 400);
+              setTimeout(() => {
+                scene.style.display = 'none';
                 invite.classList.add('visible');
                 window.scrollTo(0,0);
-              }, 1700);
+              }, 1800);
             }
 
-            envWrap.addEventListener('click', open);
-            
-            // Auto-open logic
-            var sec = AUTO_OPEN_SEC;
-            var timer = setInterval(function() {
-              sec--;
-              if (hint && phase === 'envelope') hint.textContent = 'Atinge pentru a deschide · ' + sec + 's';
-              if (sec <= 0) { clearInterval(timer); open(); }
-            }, 1000);
+            wrap.addEventListener('click', open);
 
             // Modal Logic
-            function toggleModal(id, show) {
-              var m = document.getElementById(id);
-              if (m) {
-                m.style.display = show ? 'flex' : 'none';
-                document.body.style.overflow = show ? 'hidden' : '';
-              }
-            }
+            const menuModal = document.getElementById('menu-modal');
+            const rsvpModal = document.getElementById('rsvp-modal');
 
-            document.getElementById('open-menu-modal')?.addEventListener('click', function() { toggleModal('menu-modal', true); });
-            document.getElementById('close-menu-modal')?.addEventListener('click', function() { toggleModal('menu-modal', false); });
-            document.getElementById('open-rsvp-modal')?.addEventListener('click', function() { toggleModal('rsvp-modal', true); });
-            document.getElementById('close-rsvp-modal')?.addEventListener('click', function() { toggleModal('rsvp-modal', false); });
-            
-            window.addEventListener('click', function(e) {
-              if (e.target.classList.contains('lux-modal-overlay')) {
-                toggleModal('menu-modal', false);
-                toggleModal('rsvp-modal', false);
-              }
-            });
+            document.getElementById('open-menu-btn')?.addEventListener('click', () => menuModal.style.display = 'flex');
+            document.getElementById('close-menu')?.addEventListener('click', () => menuModal.style.display = 'none');
+            document.getElementById('open-rsvp-btn')?.addEventListener('click', () => rsvpModal.style.display = 'flex');
+            document.getElementById('close-rsvp')?.addEventListener('click', () => rsvpModal.style.display = 'none');
           }
-          setup();
+          if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', setup); } else { setup(); }
         })();
       `}} />
     </>
