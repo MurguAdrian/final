@@ -30,13 +30,13 @@ export async function GET(request: Request) {
     }
 
     // 2. Notificare cu 10 ore înainte de expirare
-    const expiringSoon = await sql`
-      SELECT o.email, s.photos_expires_at, s.order_id
-      FROM wedding_settings s
-      JOIN orders o ON s.order_id = o.id
-      WHERE s.photos_expires_at BETWEEN NOW() AND (NOW() + INTERVAL '10 hours')
-      AND s.gallery_status = 'active'
-    `;
+const expiringSoon = await sql`
+  SELECT o.email, s.photos_expires_at, s.order_id
+  FROM wedding_settings s
+  JOIN orders o ON s.order_id = o.id
+  WHERE s.photos_expires_at BETWEEN NOW() AND (NOW() + INTERVAL '8 hours')
+  AND s.gallery_status = 'active'
+`;
 
     for (const item of expiringSoon) {
       await resend.emails.send({

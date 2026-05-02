@@ -1,17 +1,16 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function UploadPage({ params }: { params: { slug: string } }) {
   const [agreed, setAgreed] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [orderId, setOrderId] = useState<number | null>(null);
 
-  // Luăm orderId-ul nunții pe baza slug-ului la încărcare
-  useState(() => {
+  useEffect(() => {
     fetch(`/api/dashboard/summary?slug=${params.slug}`)
       .then(res => res.json())
       .then(data => setOrderId(data.weddingDetails.order_id));
-  });
+  }, [params.slug]);
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || !orderId) return;
@@ -32,47 +31,51 @@ export default function UploadPage({ params }: { params: { slug: string } }) {
     alert("Pozele au fost trimise cu succes mirilor!");
   };
 
-  if (!agreed) {
-    return (
-      <div style={fullScreen}>
-        <div style={modalS}>
-          <h2 style={{ color: '#d4af37' }}>📸 Acord Încărcare Poze</h2>
-          <p style={{ fontSize: '0.85rem', color: '#ccc', margin: '20px 0' }}>
-            Prin continuarea, ești de acord că pozele încărcate vor fi vizibile și descărcabile doar de către miri.
-            <br/><br/>
-            ● Pozele sunt stocate temporar (7 zile).<br/>
-            ● Este interzisă încărcarea de conținut ofensator.<br/>
-            ● Doar format foto (fără video).
-          </p>
-          <button onClick={() => setAgreed(true)} style={btnS}>SUNT DE ACORD</button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div style={fullScreen}>
-      <h1 style={{ color: '#d4af37', fontSize: '1.5rem' }}>ÎNCARCĂ POZE DE LA NUNTĂ</h1>
-      <p style={{ opacity: 0.7, marginBottom: '30px' }}>Pozele apar instant în panoul mirilor.</p>
-      
-      <label style={uploadLabel}>
-        {uploading ? "SE ÎNCARCĂ..." : "SELECTEAZĂ POZE"}
-        <input 
-          type="file" 
-          multiple 
-          accept="image/*" 
-          disabled={uploading} 
-          style={{ display: 'none' }} 
-          onChange={handleFile} 
-        />
-      </label>
-      
-      <p style={{ marginTop: '40px', fontSize: '0.7rem', opacity: 0.5 }}>VIBE INVITE LUXURY EDITION</p>
+      <div style={modalS}>
+        <h2 style={{ color: '#d4af37', marginBottom: '10px' }}>📸 ÎNCARCĂ POZE</h2>
+        <p style={{ fontSize: '0.85rem', color: '#ccc', marginBottom: '20px' }}>
+          Fotografiile sunt destinate exclusiv mirilor și vor fi stocate maximum 30 de zile, după care vor fi șterse automat.
+        </p>
+
+        <div style={{ textAlign: 'left', marginBottom: '25px', display: 'flex', gap: '10px' }}>
+          <input 
+            type="checkbox" 
+            id="consent" 
+            checked={agreed} 
+            onChange={(e) => setAgreed(e.target.checked)}
+            style={{ marginTop: '4px' }}
+          />
+          <label htmlFor="consent" style={{ fontSize: '0.75rem', opacity: 0.8, cursor: 'pointer' }}>
+            Confirm că am acordul persoanelor din fotografii și sunt de acord cu stocarea acestora timp de maximum 30 de zile, exclusiv pentru mirii evenimentului.
+          </label>
+        </div>
+
+        {agreed ? (
+           <label style={uploadLabel}>
+             {uploading ? "SE ÎNCARCĂ..." : "SELECTEAZĂ POZE"}
+             <input 
+               type="file" 
+               multiple 
+               accept="image/*" 
+               disabled={uploading} 
+               style={{ display: 'none' }} 
+               onChange={handleFile} 
+             />
+           </label>
+        ) : (
+          <button style={{ ...uploadLabel, opacity: 0.3, cursor: 'not-allowed' }} disabled>
+            SELECTEAZĂ POZE
+          </button>
+        )}
+
+        <p style={{ marginTop: '30px', fontSize: '0.7rem', opacity: 0.4 }}>VIBE INVITE LUXURY EDITION</p>
+      </div>
     </div>
   );
 }
 
-const fullScreen = { background: '#000', color: '#fff', height: '100vh', width: '100vw', display: 'flex', flexDirection: 'column' as any, alignItems: 'center', justifyContent: 'center', textAlign: 'center' as any, padding: '20px' };
-const modalS = { background: '#111', padding: '30px', borderRadius: '12px', border: '1px solid #d4af37', maxWidth: '400px' };
-const btnS = { background: '#d4af37', color: '#000', border: 'none', padding: '15px 30px', fontWeight: 'bold', cursor: 'pointer', borderRadius: '4px', width: '100%' };
-const uploadLabel = { background: '#d4af37', color: '#000', padding: '20px 40px', borderRadius: '50px', fontWeight: 'bold', cursor: 'pointer', display: 'inline-block' };
+const fullScreen = { background: '#000', color: '#fff', height: '100vh', width: '100vw', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' };
+const modalS = { background: '#0a0a0a', padding: '40px 20px', borderRadius: '12px', border: '1px solid #d4af3733', maxWidth: '400px', textAlign: 'center' as any };
+const uploadLabel = { background: '#d4af37', color: '#000', padding: '15px 30px', borderRadius: '4px', fontWeight: 'bold', cursor: 'pointer', display: 'inline-block', width: '100%', border: 'none' };
