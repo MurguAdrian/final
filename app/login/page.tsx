@@ -446,7 +446,7 @@ export default function LoginPage() {
                     VibeInvite
                   </p>
                   <h1 className="vl-h1">
-                    Bine ai <em>revenit</em>, mire!
+                    Casa <em>de</em> Piatra!
                   </h1>
                   <p className="vl-sub">
                     Intră în contul tău și continuă pregătirile pentru ziua cea mare.
