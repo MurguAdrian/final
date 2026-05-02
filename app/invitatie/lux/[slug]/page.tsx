@@ -571,45 +571,7 @@ export default async function InvitationPage({ params }: { params: { slug: strin
           .lux-modal { max-height: 88vh; border-radius: 16px; }
         }
       `}</style>
-<script
-  dangerouslySetInnerHTML={{
-    __html: `
-      document.addEventListener('DOMContentLoaded', () => {
-        const wrap = document.getElementById('envelope-wrap');
-        const letter = document.getElementById('envelope-letter');
-        const flap = document.getElementById('envelope-flap');
-        const seal = document.getElementById('envelope-seal');
-        const scene = document.getElementById('lux-scene');
-        const invite = document.getElementById('lux-invitation');
-        const hint = document.getElementById('open-hint');
 
-        if (!wrap) return;
-
-        const openEnvelope = () => {
-          wrap.style.pointerEvents = 'none';
-          letter?.classList.add('opening');
-          flap?.classList.add('opening');
-          seal?.classList.add('opening');
-          hint?.classList.add('opening');
-
-          setTimeout(() => {
-            scene?.classList.add('hidden');
-            invite?.classList.add('visible');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }, 1600);
-        };
-
-        wrap.addEventListener('click', openEnvelope);
-        wrap.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            openEnvelope();
-          }
-        });
-      });
-    `,
-  }}
-/>
       {/* ══════════════════════════════════════
           ENVELOPE SCENE (client-side toggle)
       ══════════════════════════════════════ */}
@@ -894,7 +856,7 @@ export default async function InvitationPage({ params }: { params: { slug: strin
           var phase = 'envelope';
           var autoTimer = null;
           var countdownTimer = null;
-          var AUTO_OPEN_SEC = 3; /* secunde până la deschidere automată */
+          var AUTO_OPEN_SEC = 5; /* secunde până la deschidere automată */
 
           function grabElements() {
             scene   = document.getElementById('lux-scene');
@@ -949,7 +911,7 @@ export default async function InvitationPage({ params }: { params: { slug: strin
           function setup() {
             if (!grabElements()) {
               /* DOM nu e gata încă — mai încearcă */
-              setTimeout(setup, 30);
+              setTimeout(setup, 50);
               return;
             }
 
