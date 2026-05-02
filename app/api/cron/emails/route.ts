@@ -5,7 +5,6 @@ import { neon } from "@neondatabase/serverless";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function GET(request: Request) {
-  // Verificăm securitatea (opțional, poți pune o cheie în header)
   const sql = neon(process.env.DATABASE_URL!);
 
   try {
@@ -20,7 +19,7 @@ export async function GET(request: Request) {
 
     for (const wedding of upcomingWeddings) {
       await resend.emails.send({
-        from: 'Nunta Ta <echipa@vibeinvite.ro>',
+        from: 'Vibe Invite <onboarding@resend.dev>', // Recomandat sa folosesti asta pana verifici domeniul tau
         to: wedding.email,
         subject: 'Nu uita să activezi Galeria Foto Live!',
         html: `<h1>Bună, ${wedding.bride_name}!</h1>
@@ -29,18 +28,19 @@ export async function GET(request: Request) {
       });
     }
 
-    // 2. Notificare cu 10 ore înainte de expirare
-const expiringSoon = await sql`
-  SELECT o.email, s.photos_expires_at, s.order_id
-  FROM wedding_settings s
-  JOIN orders o ON s.order_id = o.id
-  WHERE s.photos_expires_at BETWEEN NOW() AND (NOW() + INTERVAL '8 hours')
-  AND s.gallery_status = 'active'
-`;
+    // 2. Notificare expirare galerie (Am pus 12 ore fereastra ca sa evitam erori de Timezone)
+    const expiringSoon = await sql`
+      SELECT o.email, s.photos_expires_at, s.order_id
+      FROM wedding_settings s
+      JOIN orders o ON s.order_id = o.id
+      WHERE s.gallery_status = 'active'
+      AND s.photos_expires_at > NOW() 
+      AND s.photos_expires_at <= (NOW() + INTERVAL '12 hours')
+    `;
 
     for (const item of expiringSoon) {
       await resend.emails.send({
-        from: 'Nunta Ta <echipa@vibeinvite.ro>',
+        from: 'Vibe Invite <onboarding@resend.dev>',
         to: item.email,
         subject: '⚠️ Galeria ta foto expiră în curând!',
         html: `<p>Mai aveți foarte puțin timp! Galeria foto se va închide în curând. Prelungește acum accesul pentru a nu pierde momentele invitaților.</p>
@@ -48,8 +48,13 @@ const expiringSoon = await sql`
       });
     }
 
-    return NextResponse.json({ success: true, sentUpcoming: upcomingWeddings.length, sentExpiring: expiringSoon.length });
+    return NextResponse.json({ 
+      success: true, 
+      sentUpcoming: upcomingWeddings.length, 
+      sentExpiring: expiringSoon.length 
+    });
   } catch (error: any) {
+    console.error("Cron Error:", error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
