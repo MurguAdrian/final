@@ -223,16 +223,39 @@ export default async function InvitationPage({ params }: { params: { slug: strin
           </div>
         )}
 
-        {/* MENIU */}
-        {s.is_menu_active && s.menu_details?.items && (
-          <div style={infoBox}>
-            <h3 style={goldText}>MENIU</h3>
-            {s.menu_details.items.map((item: any, idx: number) => (
-              <div key={idx} style={{ marginBottom: '20px' }}>
-                <div style={{ color: '#d4af37', fontWeight: 'bold' }}>{item.title}</div>
-                <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>{item.description}</div>
-              </div>
-            ))}
+{/* ============================================================ */}
+        {/* MENIU EVENIMENT (Actualizat pentru noul format pe categorii) */}
+        {/* ============================================================ */}
+        {s.is_menu_active && s.menu_details?.categories && (
+          <div style={{ ...infoBox, padding: '50px 20px', maxWidth: '650px' }}>
+            <h3 style={{ ...goldText, marginBottom: '40px' }}>MENIUL EVENIMENTULUI</h3>
+            
+            {/* Filtrăm doar categoriile active care au cel puțin un item adăugat */}
+            {s.menu_details.categories
+              .filter((cat: any) => cat.active && cat.items && cat.items.length > 0)
+              .map((cat: any, cIdx: number) => (
+                <div key={cIdx} style={{ marginBottom: '40px' }}>
+                  <div style={{ display: 'inline-block', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px', marginBottom: '20px' }}>
+                    <h4 style={{ color: '#fff', fontSize: '1.2rem', margin: 0, fontWeight: 300, letterSpacing: '2px' }}>
+                      <span style={{ marginRight: '10px' }}>{cat.emoji}</span>
+                      {cat.label}
+                    </h4>
+                  </div>
+                  
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                    {cat.items.map((item: any, iIdx: number) => (
+                      <div key={iIdx}>
+                        <div style={{ color: '#d4af37', fontSize: '1.1rem' }}>{item.name}</div>
+                        {item.description && (
+                          <div style={{ fontSize: '0.85rem', opacity: 0.6, fontStyle: 'italic', marginTop: '4px' }}>
+                            {item.description}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
           </div>
         )}
 
