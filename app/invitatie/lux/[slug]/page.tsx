@@ -503,7 +503,6 @@ export default async function InvitationPage({ params }: { params: { slug: strin
           animation: slideUp .32s cubic-bezier(.4,0,.2,1);
           max-height: 92vh; overflow-y: auto; position: relative;
           -webkit-overflow-scrolling: touch;
-          /* Safe area on iOS */
           padding-bottom: max(clamp(24px, 4vw, 40px), env(safe-area-inset-bottom));
         }
         .modal-top-line {
@@ -570,46 +569,9 @@ export default async function InvitationPage({ params }: { params: { slug: strin
           .lux-modal { max-height: 88vh; border-radius: 16px; }
         }
       `}</style>
-<script dangerouslySetInnerHTML={{
-  __html: `
-    (function () {
-      function init() {
-        const wrap = document.getElementById('envelope-wrap');
-        const letter = document.getElementById('envelope-letter');
-        const flap = document.getElementById('envelope-flap');
-        const seal = document.getElementById('envelope-seal');
-        const scene = document.getElementById('lux-scene');
-        const invite = document.getElementById('lux-invitation');
-        const hint = document.getElementById('open-hint');
 
-        if (!wrap || !scene || !invite) {
-          setTimeout(init, 50);
-          return;
-        }
-
-        function open() {
-          wrap.style.pointerEvents = 'none';
-
-          letter && letter.classList.add('opening');
-          flap && flap.classList.add('opening');
-          seal && seal.classList.add('opening');
-
-          setTimeout(() => {
-            scene.classList.add('hidden');
-            invite.classList.add('visible');
-          }, 1500);
-        }
-
-        wrap.addEventListener('click', open);
-        wrap.addEventListener('touchstart', open, { passive: true });
-      }
-
-      init();
-    })();
-  `
-}} />
       {/* ══════════════════════════════════════
-          ENVELOPE SCENE (client-side toggle)
+          ENVELOPE SCENE
       ══════════════════════════════════════ */}
       <div id="lux-scene" className="lux-scene">
         {/* Corner decorations */}
@@ -769,7 +731,7 @@ export default async function InvitationPage({ params }: { params: { slug: strin
             </div>
           )}
 
-          {/* ── MENU BUTTON (opens modal via JS) ── */}
+          {/* ── MENU BUTTON ── */}
           {s.is_menu_active && s.menu_details?.categories && (
             <div className="menu-btn-section">
               <h3 className="gold-heading" style={{marginBottom:16}}>MENIUL EVENIMENTULUI</h3>
@@ -783,7 +745,7 @@ export default async function InvitationPage({ params }: { params: { slug: strin
             </div>
           )}
 
-          {/* ── MENU MODAL (hidden by default, shown via JS) ── */}
+          {/* ── MENU MODAL ── */}
           {s.is_menu_active && s.menu_details?.categories && (
             <div className="lux-modal-overlay" id="menu-modal" style={{display:'none'}} role="dialog" aria-modal="true" aria-label="Meniu eveniment">
               <div className="lux-modal" style={{maxWidth:600}}>
@@ -883,18 +845,33 @@ export default async function InvitationPage({ params }: { params: { slug: strin
       </div>
 
       {/* ══════════════════════════════════════
-          CLIENT-SIDE SCENE CONTROLLER
+          CONTROLLER — UN SINGUR SCRIPT
+          State machine: cover → opening → invite
+          Compatibil cu: Chrome, Safari, FB/Messenger
+          in-app browser, iOS WebView, Android WebView
       ══════════════════════════════════════ */}
       <script dangerouslySetInnerHTML={{ __html: `
-        (function init() {
-          /* ── Re-try until DOM elements exist ── */
-          var scene, invite, envWrap, letter, flap, seal, hint;
-          var phase = 'envelope';
-          var autoTimer = null;
-          var countdownTimer = null;
-          var AUTO_OPEN_SEC = 3; /* secunde până la deschidere automată */
+        (function () {
+          'use strict';
 
-          function grabElements() {
+          /* ─── CONSTANTE ─── */
+          var AUTO_OPEN_MS = 2500;   /* ms până la deschidere automată */
+          var OPEN_ANIM_MS = 1700;   /* ms durată animație deschidere */
+
+          /* ─── STATE ─── */
+          var phase = 'idle'; /* idle | cover | opening | invite */
+          var autoTimer = null;
+          var countdownInterval = null;
+          var pollRaf = null;
+
+          /* ─── ELEMENTE ─── */
+          var scene, invite, envWrap, letter, flap, seal, hint;
+
+          /* ─────────────────────────────────────
+             grab() — preia elementele din DOM.
+             Returnează true doar când TOATE există.
+          ───────────────────────────────────── */
+          function grab() {
             scene   = document.getElementById('lux-scene');
             invite  = document.getElementById('lux-invitation');
             envWrap = document.getElementById('envelope-wrap');
@@ -905,105 +882,148 @@ export default async function InvitationPage({ params }: { params: { slug: strin
             return !!(scene && invite && envWrap && letter && flap && seal && hint);
           }
 
+          /* ─────────────────────────────────────
+             openEnvelope() — tranziție cover → invite.
+             Idempotentă: apeluri multiple sunt ignorate.
+          ───────────────────────────────────── */
           function openEnvelope() {
-            if (phase !== 'envelope') return;
+            if (phase !== 'cover') return;
             phase = 'opening';
-            /* Oprește countdown-ul automat */
-            if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
-            if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
 
+            /* Oprește timere active */
+            if (autoTimer)       { clearTimeout(autoTimer);      autoTimer = null; }
+            if (countdownInterval){ clearInterval(countdownInterval); countdownInterval = null; }
+
+            /* Feedback vizual */
             if (hint) { hint.className = 'open-hint opening'; hint.textContent = '◆  Dezvăluind invitația  ◆'; }
+
+            /* Animație plic */
             if (flap) flap.classList.add('opening');
             if (seal) seal.classList.add('opening');
-            setTimeout(function() { if (letter) letter.classList.add('opening'); }, 300);
-            setTimeout(function() {
-              phase = 'invite';
-              if (scene) scene.classList.add('hidden');
+            setTimeout(function () { if (letter) letter.classList.add('opening'); }, 300);
+
+            /* Tranziție la invitație */
+            setTimeout(function () {
+              if (scene)  scene.classList.add('hidden');
               if (invite) invite.classList.add('visible');
-            }, 1700);
+              phase = 'invite';
+            }, OPEN_ANIM_MS);
           }
 
+          /* ─────────────────────────────────────
+             startAutoOpen() — countdown vizual
+             + deschidere automată după AUTO_OPEN_MS.
+          ───────────────────────────────────── */
           function startAutoOpen() {
-            var sec = AUTO_OPEN_SEC;
-            /* Actualizăm hint-ul cu countdown */
-            countdownTimer = setInterval(function() {
-              sec--;
-              if (hint && phase === 'envelope') {
-                hint.textContent = sec > 0
-                  ? ('Atinge pentru a deschide · ' + sec + 's')
+            var remaining = Math.round(AUTO_OPEN_MS / 1000);
+
+            /* Actualizează hint-ul în fiecare secundă */
+            countdownInterval = setInterval(function () {
+              remaining--;
+              if (hint && phase === 'cover') {
+                hint.textContent = remaining > 0
+                  ? ('Atinge pentru a deschide · ' + remaining + 's')
                   : 'Se deschide...';
               }
-              if (sec <= 0) {
-                clearInterval(countdownTimer);
-                countdownTimer = null;
+              if (remaining <= 0) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
               }
             }, 1000);
 
-            autoTimer = setTimeout(function() {
-              if (phase === 'envelope') openEnvelope();
-            }, AUTO_OPEN_SEC * 1000);
+            /* Deschidere automată */
+            autoTimer = setTimeout(function () {
+              if (phase === 'cover') openEnvelope();
+            }, AUTO_OPEN_MS);
           }
 
-          function setup() {
-            if (!grabElements()) {
-              /* DOM nu e gata încă — mai încearcă */
-              setTimeout(setup, 30);
-              return;
+          /* ─────────────────────────────────────
+             attachEvents() — leagă click/touch/key.
+             Apelat o singură dată după grab().
+          ───────────────────────────────────── */
+          function attachEvents() {
+            /* Click pe plic sau pe toată scena */
+            function onUserOpen(e) {
+              if (e) e.stopPropagation();
+              if (phase === 'cover') openEnvelope();
             }
 
-            /* Click & keyboard pe plic */
-            envWrap.addEventListener('click', openEnvelope);
-            envWrap.addEventListener('keydown', function(e) {
-              if (e.key === 'Enter' || e.key === ' ') openEnvelope();
-            });
-            /* Touch pe tot ecranul scenei */
-            scene.addEventListener('click', function(e) {
-              if (phase === 'envelope') openEnvelope();
+            envWrap.addEventListener('click', onUserOpen);
+            envWrap.addEventListener('touchend', function (e) {
+              e.preventDefault(); /* previne double-fire pe iOS */
+              onUserOpen(null);
+            }, { passive: false });
+            envWrap.addEventListener('keydown', function (e) {
+              if (e.key === 'Enter' || e.key === ' ') onUserOpen(null);
             });
 
-            /* Pornește countdown auto-open */
-            startAutoOpen();
+            /* Fallback: click pe toată scena (in-app browser safety) */
+            scene.addEventListener('click', function () {
+              if (phase === 'cover') openEnvelope();
+            });
 
             /* ── RSVP Modal ── */
-            var rsvpModal   = document.getElementById('rsvp-modal');
-            var openRsvpBtn = document.getElementById('open-rsvp-modal');
-            var closeRsvpBtn= document.getElementById('close-rsvp-modal');
+            var rsvpModal    = document.getElementById('rsvp-modal');
+            var openRsvpBtn  = document.getElementById('open-rsvp-modal');
+            var closeRsvpBtn = document.getElementById('close-rsvp-modal');
 
-            function openRsvpModal()  { if (rsvpModal) { rsvpModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; } }
-            function closeRsvpModal() { if (rsvpModal) { rsvpModal.style.display = 'none';  document.body.style.overflow = ''; } }
+            function openRsvp()  { if (rsvpModal) { rsvpModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; } }
+            function closeRsvp() { if (rsvpModal) { rsvpModal.style.display = 'none';  document.body.style.overflow = ''; } }
 
-            if (openRsvpBtn)  openRsvpBtn.addEventListener('click', openRsvpModal);
-            if (closeRsvpBtn) closeRsvpBtn.addEventListener('click', closeRsvpModal);
-            if (rsvpModal)    rsvpModal.addEventListener('click', function(e) { if (e.target === rsvpModal) closeRsvpModal(); });
+            if (openRsvpBtn)  openRsvpBtn.addEventListener('click', openRsvp);
+            if (closeRsvpBtn) closeRsvpBtn.addEventListener('click', closeRsvp);
+            if (rsvpModal)    rsvpModal.addEventListener('click', function (e) { if (e.target === rsvpModal) closeRsvp(); });
 
             /* ── Menu Modal ── */
-            var menuModal    = document.getElementById('menu-modal');
-            var openMenuBtn  = document.getElementById('open-menu-modal');
-            var closeMenuBtn = document.getElementById('close-menu-modal');
-            var closeMenuBtn2= document.getElementById('close-menu-modal-2');
+            var menuModal     = document.getElementById('menu-modal');
+            var openMenuBtn   = document.getElementById('open-menu-modal');
+            var closeMenuBtn  = document.getElementById('close-menu-modal');
+            var closeMenuBtn2 = document.getElementById('close-menu-modal-2');
 
-            function openMenuModal()  { if (menuModal) { menuModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; } }
-            function closeMenuModal() { if (menuModal) { menuModal.style.display = 'none';  document.body.style.overflow = ''; } }
+            function openMenu()  { if (menuModal) { menuModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; } }
+            function closeMenu() { if (menuModal) { menuModal.style.display = 'none';  document.body.style.overflow = ''; } }
 
-            if (openMenuBtn)   openMenuBtn.addEventListener('click', openMenuModal);
-            if (closeMenuBtn)  closeMenuBtn.addEventListener('click', closeMenuModal);
-            if (closeMenuBtn2) closeMenuBtn2.addEventListener('click', closeMenuModal);
-            if (menuModal)     menuModal.addEventListener('click', function(e) { if (e.target === menuModal) closeMenuModal(); });
+            if (openMenuBtn)   openMenuBtn.addEventListener('click', openMenu);
+            if (closeMenuBtn)  closeMenuBtn.addEventListener('click', closeMenu);
+            if (closeMenuBtn2) closeMenuBtn2.addEventListener('click', closeMenu);
+            if (menuModal)     menuModal.addEventListener('click', function (e) { if (e.target === menuModal) closeMenu(); });
 
-            /* Escape */
-            document.addEventListener('keydown', function(e) {
-              if (e.key === 'Escape') { closeRsvpModal(); closeMenuModal(); }
+            /* Escape key */
+            document.addEventListener('keydown', function (e) {
+              if (e.key === 'Escape') { closeRsvp(); closeMenu(); }
             });
           }
 
-          /* Pornim setup imediat + fallback pe DOMContentLoaded + load */
-          if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', setup);
-          } else {
-            setup();
+          /* ─────────────────────────────────────
+             pollUntilReady() — polling cu rAF.
+             Sigur pe orice browser/WebView:
+             nu depinde de readyState, nu face
+             setTimeout recursiv care poate fi
+             throttled în in-app browsers.
+          ───────────────────────────────────── */
+          function pollUntilReady() {
+            if (grab()) {
+              /* DOM complet — inițializăm */
+              phase = 'cover';
+              attachEvents();
+              startAutoOpen();
+            } else {
+              /* Mai așteptăm un frame */
+              pollRaf = requestAnimationFrame(pollUntilReady);
+            }
           }
+
+          /* ─────────────────────────────────────
+             Boot — pornim polling-ul imediat.
+             Nu verificăm readyState intenționat:
+             rAF se execută numai când browserul
+             e gata să deseneze, deci DOM e sigur.
+          ───────────────────────────────────── */
+          requestAnimationFrame(pollUntilReady);
+
         })();
       `}} />
     </>
   );
 }
+
