@@ -1048,7 +1048,6 @@
 //   minWidth: 0,
 //   boxSizing: 'border-box',
 // };
-
 "use client";
 import React, { useState, useEffect } from 'react';
 
@@ -1085,31 +1084,24 @@ function buildInitialCategories(saved: any): MenuCategory[] {
 }
 
 const LuxToggle = ({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) => (
-  <label className="flex items-center gap-2.5 cursor-pointer select-none shrink-0" onClick={e => e.stopPropagation()}>
-    <input type="checkbox" checked={checked} onChange={e => onChange(e.target.checked)} className="sr-only" />
-    <div
-      className="relative w-11 h-6 rounded-full border transition-all duration-300"
-      style={{
-        background: checked ? 'linear-gradient(135deg,#7A5C1A,#C9A84C)' : 'rgba(201,168,76,0.08)',
-        borderColor: checked ? 'rgba(201,168,76,0.4)' : 'rgba(201,168,76,0.16)',
-      }}
-    >
-      <div
-        className="absolute top-[3px] w-[18px] h-[18px] rounded-full shadow-md transition-all duration-300"
-        style={{
-          left: checked ? '22px' : '3px',
-          background: checked ? '#fff' : 'rgba(201,168,76,0.38)',
-        }}
-      />
+  <label className="lux-toggle-wrap" onClick={e => e.stopPropagation()}>
+    <input
+      type="checkbox"
+      checked={checked}
+      onChange={e => onChange(e.target.checked)}
+      style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }}
+    />
+    <div className={`lux-toggle-track ${checked ? 'lux-toggle-track--on' : 'lux-toggle-track--off'}`}>
+      <div className={`lux-toggle-thumb ${checked ? 'lux-toggle-thumb--on' : 'lux-toggle-thumb--off'}`} />
     </div>
-    <span className={`font-[family-name:var(--font-cinzel)] text-[8px] tracking-[0.16em] uppercase hidden sm:block transition-colors duration-200 ${checked ? 'text-[#C9A84C]' : 'text-[#C9A84C]/30'}`}>
-      {checked ? 'Activ' : 'Off'}
+    <span className={`lux-toggle-label ${checked ? 'lux-toggle-label--on' : 'lux-toggle-label--off'}`}>
+      {checked ? 'Activ' : 'Inactiv'}
     </span>
   </label>
 );
 
 function CategoryCard({
-  cat, onToggle, onAddItem, onRemoveItem, onChangeItem,
+  cat, onToggle, onAddItem, onRemoveItem, onChangeItem
 }: {
   cat: MenuCategory;
   onToggle: () => void;
@@ -1119,124 +1111,184 @@ function CategoryCard({
 }) {
   const [expanded, setExpanded] = useState(cat.active);
 
-  useEffect(() => {
-    if (cat.active) setExpanded(true);
-  }, [cat.active]);
+  useEffect(() => { if (cat.active) setExpanded(true); }, [cat.active]);
 
   return (
-    <div
-      className="rounded-2xl border overflow-hidden transition-all duration-300"
-      style={{
-        borderColor: cat.active ? 'rgba(201,168,76,0.22)' : 'rgba(201,168,76,0.09)',
-        background: cat.active ? 'rgba(201,168,76,0.04)' : 'rgba(201,168,76,0.01)',
-      }}
-    >
+    <div style={{
+      borderRadius: 12,
+      border: `1px solid ${cat.active ? 'rgba(212,175,55,.25)' : 'rgba(212,175,55,.1)'}`,
+      background: cat.active
+        ? 'linear-gradient(160deg, rgba(212,175,55,.07), rgba(212,175,55,.03))'
+        : 'rgba(212,175,55,.02)',
+      overflow: 'hidden',
+      transition: 'all .25s ease'
+    }}>
       {/* Header */}
       <div
-        className="flex items-center justify-between px-5 py-4 gap-3"
         onClick={() => cat.active && setExpanded(p => !p)}
         style={{
+          display: 'flex', alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '14px 16px', gap: 12,
           cursor: cat.active ? 'pointer' : 'default',
-          borderBottom: cat.active && expanded ? '1px solid rgba(201,168,76,0.1)' : '1px solid transparent',
+          borderBottom: cat.active && expanded ? '1px solid rgba(212,175,55,.1)' : '1px solid transparent',
+          transition: 'border-color .2s'
         }}
       >
-        <div className="flex items-center gap-4 flex-1 min-w-0">
-          <div
-            className="w-10 h-10 rounded-xl shrink-0 flex items-center justify-center text-base transition-all duration-200"
-            style={{
-              background: cat.active ? 'rgba(201,168,76,0.1)' : 'rgba(201,168,76,0.04)',
-              border: `1px solid ${cat.active ? 'rgba(201,168,76,0.25)' : 'rgba(201,168,76,0.1)'}`,
-            }}
-          >
-            {cat.emoji}
-          </div>
-          <div className="min-w-0 flex-1">
-            <p
-              className="font-[family-name:var(--font-cinzel)] text-[10px] tracking-[0.1em] font-semibold leading-tight transition-colors duration-200 truncate"
-              style={{ color: cat.active ? '#EDE0C4' : 'rgba(237,224,196,0.35)' }}
-            >
-              {cat.label}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
+          <div style={{
+            width: 36, height: 36, borderRadius: 9, flexShrink: 0,
+            background: cat.active ? 'rgba(212,175,55,.1)' : 'rgba(212,175,55,.04)',
+            border: `1px solid ${cat.active ? 'rgba(212,175,55,.25)' : 'rgba(212,175,55,.1)'}`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 15, transition: 'all .25s'
+          }}>{cat.emoji}</div>
+          <div style={{ minWidth: 0 }}>
+            <p style={{
+              fontFamily: "'Cinzel', serif",
+              fontSize: 10, fontWeight: 600, letterSpacing: '.1em',
+              color: cat.active ? '#F5E6A8' : 'rgba(245,230,168,.35)',
+              marginBottom: 2, transition: 'color .25s',
+              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const
+            }}>{cat.label}</p>
+            <p style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: 11, fontStyle: 'italic',
+              color: cat.active
+                ? cat.items.length > 0 ? 'rgba(212,175,55,.5)' : 'rgba(212,175,55,.35)'
+                : 'rgba(212,175,55,.2)'
+            }}>
+              {!cat.active && 'Activează pentru a configura'}
+              {cat.active && cat.items.length === 0 && 'Niciun element adăugat'}
+              {cat.active && cat.items.length > 0 && `${cat.items.length} ${cat.items.length === 1 ? 'element' : 'elemente'}`}
             </p>
-            {cat.active && cat.items.length > 0 && (
-              <p className="font-[family-name:var(--font-cormorant)] text-xs italic text-[#C9A84C]/45 mt-0.5">
-                {cat.items.length} {cat.items.length === 1 ? 'element' : 'elemente'}
-              </p>
-            )}
-            {!cat.active && (
-              <p className="font-[family-name:var(--font-cormorant)] text-xs italic text-[#C9A84C]/22 mt-0.5">
-                Inactiv
-              </p>
-            )}
           </div>
         </div>
-
-        <div className="flex items-center gap-3 shrink-0">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
           <LuxToggle checked={cat.active} onChange={onToggle} />
           {cat.active && (
-            <span
-              className="text-[#C9A84C]/35 transition-transform duration-300 text-xs"
-              style={{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
-            >
-              ▾
-            </span>
+            <span style={{
+              color: 'rgba(212,175,55,.45)',
+              fontSize: 10, lineHeight: 1,
+              transition: 'transform .2s',
+              display: 'inline-block',
+              transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)'
+            }}>▾</span>
           )}
         </div>
       </div>
 
       {/* Body */}
       {cat.active && expanded && (
-        <div className="px-5 py-5">
-          {/* Column headers */}
+        <div style={{ padding: '16px', animation: 'lux-fade .3s ease both' }}>
           {cat.items.length > 0 && (
-            <div className="hidden sm:grid grid-cols-[1fr_1.3fr_36px] gap-3 mb-3 px-1">
-              {['Fel / Produs', 'Descriere (opțional)', ''].map((h, i) => (
-                <span key={i} className="font-[family-name:var(--font-cinzel)] text-[7px] tracking-[0.24em] uppercase text-[#C9A84C]/30">
-                  {h}
-                </span>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1.4fr 36px',
+              gap: 8, marginBottom: 8, padding: '0 2px'
+            }} className="menu-col-labels">
+              {['Nome', 'Descriere (opțional)', ''].map((h, i) => (
+                <span key={i} style={{
+                  fontFamily: "'Cinzel', serif",
+                  fontSize: 7, letterSpacing: '.22em',
+                  textTransform: 'uppercase' as const,
+                  color: 'rgba(212,175,55,.35)'
+                }}>{h}</span>
               ))}
             </div>
           )}
 
-          {/* Items */}
-          <div className="flex flex-col gap-2.5">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {cat.items.map((item, idx) => (
-              <div
-                key={idx}
-                className="group flex flex-col sm:grid sm:grid-cols-[1fr_1.3fr_36px] gap-2.5 sm:gap-3 items-start sm:items-center p-3.5 rounded-xl border border-[#C9A84C]/08 bg-[#080604]/50 hover:border-[#C9A84C]/16 transition-all duration-200"
-              >
+              <div key={idx} className="menu-item-row" style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1.4fr 36px',
+                gap: 8, alignItems: 'center',
+                padding: '10px 12px',
+                borderRadius: 8,
+                background: 'rgba(0,0,0,.25)',
+                border: '1px solid rgba(212,175,55,.1)'
+              }}>
                 <input
-                  className={menuInpCls}
+                  className="lux-input"
                   placeholder="ex: Somon afumat"
                   value={item.name}
                   onChange={e => onChangeItem(idx, 'name', e.target.value)}
+                  style={{ fontSize: 16, padding: '8px 12px' }}
                 />
                 <input
-                  className={menuInpCls}
+                  className="lux-input"
                   placeholder="ex: cu cremă de avocado"
                   value={item.description}
                   onChange={e => onChangeItem(idx, 'description', e.target.value)}
+                  style={{ fontSize: 16, padding: '8px 12px' }}
                 />
                 <button
                   onClick={() => onRemoveItem(idx)}
-                  className="w-9 h-9 flex items-center justify-center rounded-lg border border-red-500/14 bg-red-500/04 hover:bg-red-500/14 hover:border-red-500/30 text-red-400/40 hover:text-red-400/80 transition-all duration-200 shrink-0 self-center sm:self-auto"
+                  style={{
+                    width: 32, height: 32,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: 'rgba(255,60,60,.07)',
+                    border: '1px solid rgba(255,60,60,.18)',
+                    borderRadius: 7, cursor: 'pointer',
+                    color: 'rgba(255,100,100,.55)',
+                    fontSize: 13, transition: 'all .18s',
+                    flexShrink: 0
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,60,60,.15)';
+                    (e.currentTarget as HTMLButtonElement).style.color = '#ff7070';
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,60,60,.07)';
+                    (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,100,100,.55)';
+                  }}
                 >
-                  <span className="text-xs">✕</span>
+                  ✕
                 </button>
               </div>
             ))}
           </div>
 
           {cat.items.length === 0 && (
-            <div className="rounded-xl border border-dashed border-[#C9A84C]/12 py-8 text-center mb-3">
-              <p className="font-[family-name:var(--font-cormorant)] text-base italic font-light text-[#C9A84C]/25">
-                Niciun element
-              </p>
+            <div style={{
+              padding: '20px',
+              border: '1px dashed rgba(212,175,55,.14)',
+              borderRadius: 8, marginBottom: 10, textAlign: 'center' as const
+            }}>
+              <p style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 14, fontStyle: 'italic', fontWeight: 300,
+                color: 'rgba(212,175,55,.28)'
+              }}>Niciun element adăugat</p>
             </div>
           )}
 
           <button
             onClick={onAddItem}
-            className="w-full py-3 mt-3 rounded-xl border border-dashed border-[#C9A84C]/18 hover:border-[#C9A84C]/38 bg-transparent hover:bg-[#C9A84C]/04 text-[#C9A84C]/40 hover:text-[#C9A84C]/75 font-[family-name:var(--font-cinzel)] text-[8px] tracking-[0.22em] uppercase font-semibold transition-all duration-200"
+            style={{
+              width: '100%', padding: '10px 0',
+              marginTop: cat.items.length > 0 ? 10 : 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              background: 'transparent',
+              border: '1px dashed rgba(212,175,55,.22)',
+              borderRadius: 8,
+              color: 'rgba(212,175,55,.45)',
+              fontFamily: "'Cinzel', serif",
+              fontSize: 8, fontWeight: 600, letterSpacing: '.2em',
+              textTransform: 'uppercase' as const,
+              cursor: 'pointer', transition: 'all .18s'
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,.06)';
+              (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(212,175,55,.4)';
+              (e.currentTarget as HTMLButtonElement).style.color = '#F5D678';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+              (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(212,175,55,.22)';
+              (e.currentTarget as HTMLButtonElement).style.color = 'rgba(212,175,55,.45)';
+            }}
           >
             + Adaugă element
           </button>
@@ -1266,8 +1318,9 @@ export const MenuSection = ({ initialData, orderId, onSave }: any) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orderId, isMenuActive: isActive, menu_details: { categories } }),
       });
-      if (res.ok) { alert("Meniu salvat! 🍴"); onSave(); }
-    } catch (e) { alert("Eroare la salvare"); }
+      if (res.ok) { alert("Meniu salvat!"); onSave(); }
+      else alert("Eroare la salvare");
+    } catch { alert("Eroare la salvare"); }
     setLoading(false);
   };
 
@@ -1277,74 +1330,110 @@ export const MenuSection = ({ initialData, orderId, onSave }: any) => {
   const activeCount = categories.filter(c => c.active).length;
   const totalItems = categories.reduce((a, c) => a + c.items.length, 0);
 
+  const LuxToggle = ({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) => (
+    <label className="lux-toggle-wrap" onClick={e => e.stopPropagation()}>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={e => onChange(e.target.checked)}
+        style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }}
+      />
+      <div className={`lux-toggle-track ${checked ? 'lux-toggle-track--on' : 'lux-toggle-track--off'}`}>
+        <div className={`lux-toggle-thumb ${checked ? 'lux-toggle-thumb--on' : 'lux-toggle-thumb--off'}`} />
+      </div>
+      <span className={`lux-toggle-label ${checked ? 'lux-toggle-label--on' : 'lux-toggle-label--off'}`}>
+        {checked ? 'Activ' : 'Inactiv'}
+      </span>
+    </label>
+  );
+
   return (
     <>
       <style>{`
-        @keyframes fadeUp { from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);} }
-        .ms-fade { animation: fadeUp 0.4s ease both; }
-        .ms-inp:focus { border-color: rgba(201,168,76,0.4) !important; outline: none; box-shadow: 0 0 0 3px rgba(201,168,76,0.05); }
-        .ms-inp::placeholder { color: rgba(237,224,196,0.2); font-style: italic; }
-        .ms-inp option { background: #0E0B06; color: #EDE0C4; }
-        input { font-size: 16px !important; }
-        @keyframes shimmer { 0%{background-position:-400px 0}100%{background-position:400px 0} }
+        @media (max-width: 600px) {
+          .menu-col-labels { display: none !important; }
+          .menu-item-row {
+            grid-template-columns: 1fr 36px !important;
+            grid-template-rows: auto auto;
+          }
+          .menu-item-row input:first-child { grid-column: 1; grid-row: 1; }
+          .menu-item-row input:nth-child(2) { grid-column: 1; grid-row: 2; }
+          .menu-item-row button { grid-column: 2; grid-row: 1 / 3; align-self: center; }
+        }
       `}</style>
 
-      <div className="w-full pb-10 ms-fade">
-
+      <div style={{ maxWidth: 780 }}>
         {/* Header */}
-        <div className="mb-10">
-          <p className="font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.38em] uppercase text-[#C9A84C]/40 mb-3">
-            Configurare
-          </p>
-          <div className="flex items-start justify-between gap-4 flex-wrap">
-            <h1 className="font-[family-name:var(--font-cormorant)] text-3xl sm:text-4xl font-light italic text-[#EDE0C4] leading-tight">
-              Meniu Nuntă
-            </h1>
-            {isActive && (
-              <div className="flex gap-6 shrink-0">
-                <div className="text-center">
-                  <p className="font-[family-name:var(--font-cormorant)] text-3xl font-light text-[#C9A84C] leading-none">{activeCount}</p>
-                  <p className="font-[family-name:var(--font-cinzel)] text-[7px] tracking-[0.2em] uppercase text-[#C9A84C]/35 mt-1">Categorii</p>
-                </div>
-                <div className="w-px bg-[#C9A84C]/14" />
-                <div className="text-center">
-                  <p className="font-[family-name:var(--font-cormorant)] text-3xl font-light text-[#C9A84C] leading-none">{totalItems}</p>
-                  <p className="font-[family-name:var(--font-cinzel)] text-[7px] tracking-[0.2em] uppercase text-[#C9A84C]/35 mt-1">Feluri</p>
-                </div>
-              </div>
-            )}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 8 }}>
+          <div>
+            <span className="lux-page-label">Configurare</span>
+            <h2 className="lux-page-title" style={{ marginBottom: 0 }}>Meniu Nuntă</h2>
           </div>
+          {isActive && (
+            <div style={{ display: 'flex', gap: 24, flexShrink: 0 }}>
+              <div style={{ textAlign: 'center' as const }}>
+                <p style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: 28, fontWeight: 300,
+                  color: '#D4AF37', lineHeight: 1
+                }}>{activeCount}</p>
+                <p style={{
+                  fontFamily: "'Cinzel', serif",
+                  fontSize: 7, letterSpacing: '.18em',
+                  textTransform: 'uppercase' as const,
+                  color: 'rgba(212,175,55,.4)'
+                }}>Categorii</p>
+              </div>
+              <div style={{ width: 1, background: 'rgba(212,175,55,.18)' }} />
+              <div style={{ textAlign: 'center' as const }}>
+                <p style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: 28, fontWeight: 300,
+                  color: '#D4AF37', lineHeight: 1
+                }}>{totalItems}</p>
+                <p style={{
+                  fontFamily: "'Cinzel', serif",
+                  fontSize: 7, letterSpacing: '.18em',
+                  textTransform: 'uppercase' as const,
+                  color: 'rgba(212,175,55,.4)'
+                }}>Feluri</p>
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="h-px bg-gradient-to-r from-transparent via-[#C9A84C]/20 to-transparent mb-8" />
+        <div className="lux-divider"><span className="lux-divider-gem" /></div>
 
         {/* Master Toggle */}
-        <div
-          className="rounded-2xl border p-6 mb-8 transition-all duration-300"
-          style={{
-            borderColor: isActive ? 'rgba(201,168,76,0.22)' : 'rgba(201,168,76,0.1)',
-            background: isActive ? 'rgba(201,168,76,0.05)' : 'rgba(201,168,76,0.02)',
-          }}
-        >
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4 flex-1 min-w-0">
-              <div
-                className="w-11 h-11 rounded-xl shrink-0 flex items-center justify-center text-xl transition-all duration-200"
-                style={{
-                  background: isActive ? 'rgba(201,168,76,0.1)' : 'rgba(201,168,76,0.04)',
-                  border: `1px solid ${isActive ? 'rgba(201,168,76,0.28)' : 'rgba(201,168,76,0.12)'}`,
-                }}
-              >
-                🍽️
-              </div>
-              <div className="min-w-0">
-                <p className="font-[family-name:var(--font-cinzel)] text-[11px] tracking-[0.1em] font-semibold text-[#EDE0C4] mb-1">
-                  Afișează meniul pe invitație
-                </p>
-                <p className="font-[family-name:var(--font-cormorant)] text-sm italic text-[#C9A84C]/40 leading-snug">
-                  {isActive ? 'Invitații vor vedea meniul complet' : 'Activează pentru a configura și afișa'}
-                </p>
-              </div>
+        <div style={{
+          padding: '18px 20px',
+          background: isActive
+            ? 'linear-gradient(160deg, rgba(212,175,55,.08), rgba(212,175,55,.03))'
+            : 'rgba(212,175,55,.03)',
+          border: `1px solid ${isActive ? 'rgba(212,175,55,.25)' : 'rgba(212,175,55,.1)'}`,
+          borderRadius: 12, marginBottom: 24,
+          position: 'relative', overflow: 'hidden',
+          transition: 'all .25s'
+        }}>
+          <div style={{
+            position: 'absolute', top: 0, left: '10%', right: '10%', height: 1,
+            background: `linear-gradient(90deg, transparent, ${isActive ? 'rgba(212,175,55,.35)' : 'rgba(212,175,55,.15)'}, transparent)`
+          }} />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' as const }}>
+            <div>
+              <p style={{
+                fontFamily: "'Cinzel', serif",
+                fontSize: 11, fontWeight: 600, letterSpacing: '.1em',
+                color: '#F5E6A8', marginBottom: 4
+              }}>Afișează meniul pe invitație</p>
+              <p style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 14, fontStyle: 'italic',
+                color: isActive ? 'rgba(212,175,55,.5)' : 'rgba(212,175,55,.28)',
+                lineHeight: 1.4
+              }}>
+                {isActive ? 'Invitații vor vedea meniul complet' : 'Activează pentru a configura și afișa'}
+              </p>
             </div>
             <LuxToggle checked={isActive} onChange={setIsActive} />
           </div>
@@ -1352,17 +1441,22 @@ export const MenuSection = ({ initialData, orderId, onSave }: any) => {
 
         {/* Categories */}
         {isActive && (
-          <div>
-            <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
-              <p className="font-[family-name:var(--font-cinzel)] text-[8px] tracking-[0.28em] uppercase text-[#C9A84C]/38">
-                Categorii Meniu
-              </p>
-              <p className="font-[family-name:var(--font-cormorant)] text-sm italic text-[#C9A84C]/30">
-                Activează categoriile dorite și adaugă felurile
-              </p>
+          <div style={{ animation: 'lux-fade .35s ease both' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14, flexWrap: 'wrap', gap: 8 }}>
+              <span style={{
+                fontFamily: "'Cinzel', serif",
+                fontSize: 8, letterSpacing: '.28em',
+                textTransform: 'uppercase' as const,
+                color: 'rgba(212,175,55,.38)'
+              }}>Categorii Meniu</span>
+              <span style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 13, fontStyle: 'italic',
+                color: 'rgba(212,175,55,.3)'
+              }}>Activează și adaugă felurile dorite</span>
             </div>
 
-            <div className="flex flex-col gap-3 mb-8">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
               {categories.map(cat => (
                 <CategoryCard
                   key={cat.id}
@@ -1379,9 +1473,18 @@ export const MenuSection = ({ initialData, orderId, onSave }: any) => {
               ))}
             </div>
 
-            <div className="flex items-start gap-3 p-4 rounded-xl border border-[#C9A84C]/08 bg-[#C9A84C]/02 mb-8">
-              <span className="text-[#C9A84C]/30 shrink-0 mt-0.5">ℹ</span>
-              <p className="font-[family-name:var(--font-cormorant)] text-sm italic text-[#C9A84C]/38 leading-relaxed">
+            <div style={{
+              display: 'flex', alignItems: 'flex-start', gap: 10,
+              padding: '12px 16px', borderRadius: 8,
+              background: 'rgba(212,175,55,.03)',
+              border: '1px solid rgba(212,175,55,.1)',
+              marginBottom: 24
+            }}>
+              <p style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 13, fontStyle: 'italic',
+                color: 'rgba(212,175,55,.38)', lineHeight: 1.7
+              }}>
                 Doar categoriile activate vor apărea pe invitație. Descrierile sunt opționale.
               </p>
             </div>
@@ -1392,42 +1495,23 @@ export const MenuSection = ({ initialData, orderId, onSave }: any) => {
         <button
           onClick={handleSave}
           disabled={loading}
-          className="w-full py-4 rounded-xl font-[family-name:var(--font-cinzel)] text-[11px] tracking-[0.24em] uppercase font-bold transition-all duration-200 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 relative overflow-hidden"
-          style={{
-            background: loading
-              ? 'rgba(201,168,76,0.18)'
-              : 'linear-gradient(135deg,#7A5C1A 0%,#C9A84C 40%,#E8C96A 55%,#C9A84C 70%,#7A5C1A 100%)',
-            color: loading ? 'rgba(201,168,76,0.45)' : '#0A0804',
-            boxShadow: loading ? 'none' : '0 8px 32px rgba(201,168,76,0.22)',
-          }}
+          className="lux-btn-gold"
         >
-          {!loading && (
-            <span
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background: 'linear-gradient(90deg,transparent,rgba(255,255,255,0.16),transparent)',
-                backgroundSize: '400px 100%',
-                animation: 'shimmer 3s linear infinite',
-              }}
-            />
-          )}
-          <span className="relative z-10">
-            {loading ? 'Salvare în curs...' : '◆  Salvează Meniul  ◆'}
+          <span style={{ position: 'relative', zIndex: 1 }}>
+            {loading ? 'Salvare în curs...' : 'Salvează Meniul'}
           </span>
+          {!loading && <span className="shimmer" />}
         </button>
 
-        <p className="font-[family-name:var(--font-cinzel)] text-[7px] tracking-[0.2em] uppercase text-[#C9A84C]/16 text-center mt-5">
-          VibeInvite · Meniu Nuntă
-        </p>
+        <p style={{
+          fontFamily: "'Cinzel', serif",
+          fontSize: 7, letterSpacing: '.2em',
+          textTransform: 'uppercase' as const,
+          color: 'rgba(212,175,55,.18)',
+          textAlign: 'center' as const,
+          marginTop: 14
+        }}>VibeInvite · Meniu Nuntă Premium</p>
       </div>
     </>
   );
 };
-
-const menuInpCls = [
-  'w-full px-3.5 py-2.5 rounded-lg min-w-0',
-  'bg-[#080604]/70 border border-[#C9A84C]/12',
-  'text-[#EDE0C4] font-[family-name:var(--font-cormorant)] text-base',
-  'transition-all duration-200',
-  'ms-inp',
-].join(' ');

@@ -1602,6 +1602,7 @@
 //     textAlign: 'center',
 //   } as React.CSSProperties,
 // };
+
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 
@@ -1611,8 +1612,6 @@ export const PhotosSection = ({ initialData, orderId, onSave }: any) => {
   const [loading, setLoading] = useState(false);
   const [timeLeft, setTimeLeft] = useState("");
   const [consentChecked, setConsentChecked] = useState(false);
-  const [downloadingAll, setDownloadingAll] = useState(false);
-  const [downloadingId, setDownloadingId] = useState<string | null>(null);
 
   const fetchPhotos = useCallback(async () => {
     if (!orderId) return;
@@ -1635,7 +1634,7 @@ export const PhotosSection = ({ initialData, orderId, onSave }: any) => {
           const d = Math.floor(diff / (1000 * 60 * 60 * 24));
           const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
           const m = Math.floor((diff / 1000 / 60) % 60);
-          setTimeLeft(`${d}z ${h}h ${m}m`);
+          setTimeLeft(`${d}z ${h}h ${m}m rămase`);
         }
       }, 1000);
       return () => clearInterval(timer);
@@ -1678,282 +1677,271 @@ export const PhotosSection = ({ initialData, orderId, onSave }: any) => {
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
-    } catch (e) { alert("Eroare plată"); }
+    } catch { alert("Eroare plată"); }
     finally { setLoading(false); }
   };
 
-  const handleDownloadSingle = async (photo: any) => {
-    setDownloadingId(photo.id);
-    try {
-      const response = await fetch(photo.url);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      const ext = photo.url.split('.').pop()?.split('?')[0] || 'jpg';
-      a.download = `foto-nunta-${photo.id}.${ext}`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-    } catch (e) {
-      console.error(e);
-      window.open(photo.url, '_blank');
-    }
-    setDownloadingId(null);
-  };
-
-  const handleDownloadAll = async () => {
-    if (photos.length === 0) return;
-    setDownloadingAll(true);
-    try {
-      for (let i = 0; i < photos.length; i++) {
-        const photo = photos[i];
-        try {
-          const response = await fetch(photo.url);
-          const blob = await response.blob();
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          const ext = photo.url.split('.').pop()?.split('?')[0] || 'jpg';
-          a.download = `foto-nunta-${String(i + 1).padStart(3, '0')}.${ext}`;
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(url);
-          document.body.removeChild(a);
-          await new Promise(resolve => setTimeout(resolve, 300));
-        } catch (e) { console.error(`Eroare la descărcarea pozei ${i + 1}:`, e); }
-      }
-    } catch (e) { console.error(e); }
-    setDownloadingAll(false);
-  };
-
-  const showGallery = (status === 'active' || initialData?.is_unlock_paid) && status !== 'deleted';
+  const StatusBadge = ({ color, label }: { color: string; label: string }) => (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 7,
+      padding: '5px 14px', borderRadius: 100,
+      background: `${color}12`,
+      border: `1px solid ${color}35`,
+      fontFamily: "'Cinzel', serif",
+      fontSize: 8, letterSpacing: '.18em',
+      color: color,
+    }}>
+      <span style={{ width: 5, height: 5, borderRadius: '50%', background: color }} />
+      {label}
+    </span>
+  );
 
   return (
-    <div className="w-full pb-10">
-      <style>{`
-        @keyframes fadeUp { from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);} }
-        .phs-fade { animation: fadeUp 0.4s ease both; }
-        @keyframes spin { from{transform:rotate(0deg);}to{transform:rotate(360deg);} }
-        .phs-spin { animation: spin 1s linear infinite; }
-        .phs-card:hover .phs-overlay { opacity: 1 !important; }
-        .phs-card:hover .phs-img { transform: scale(1.05); }
-      `}</style>
-
+    <div style={{ maxWidth: 760 }}>
       {/* Header */}
-      <div className="mb-10 phs-fade">
-        <p className="font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.38em] uppercase text-[#C9A84C]/40 mb-3">
-          Panou Control
-        </p>
-        <h1 className="font-[family-name:var(--font-cormorant)] text-3xl sm:text-4xl font-light italic text-[#EDE0C4] leading-tight">
-          Galerie Foto
-        </h1>
-      </div>
+      <span className="lux-page-label">Conținut</span>
+      <h2 className="lux-page-title">Galerie Foto</h2>
 
-      <div className="h-px bg-gradient-to-r from-transparent via-[#C9A84C]/20 to-transparent mb-8" />
+      <div className="lux-divider"><span className="lux-divider-gem" /></div>
 
-      {/* Status Cards */}
+      {/* ── INACTIVE ── */}
       {status === 'inactive' && (
-        <div className="rounded-2xl border border-[#C9A84C]/15 bg-[#0E0B06] overflow-hidden mb-8 phs-fade">
-          <div className="px-6 sm:px-8 py-8">
-            <h3 className="font-[family-name:var(--font-cormorant)] text-2xl italic font-light text-[#EDE0C4] mb-2">
-              Activare Galerie Foto
-            </h3>
-            <p className="font-[family-name:var(--font-cormorant)] text-base italic text-[#EDE0C4]/50 leading-relaxed mb-6">
-              Activând galeria, confirm că sunt beneficiarul exclusiv al fotografiilor și îmi asum responsabilitatea legală pentru utilizarea lor.
+        <div className="lux-card" style={{ marginBottom: 24 }}>
+          <div style={{ marginBottom: 20 }}>
+            <p style={{
+              fontFamily: "'Cinzel', serif",
+              fontSize: 11, fontWeight: 600, letterSpacing: '.12em',
+              color: 'rgba(212,175,55,.85)', marginBottom: 10
+            }}>Activare Modul Galerie</p>
+            <p style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: 16, fontStyle: 'italic',
+              color: 'rgba(245,230,168,.45)', lineHeight: 1.7
+            }}>
+              Permite invitaților tăi să încarce fotografii de la nuntă. Modulul este gratuit pentru 3 zile.
             </p>
-
-            <label className="flex items-start gap-4 cursor-pointer p-4 rounded-xl border border-[#C9A84C]/12 bg-[#C9A84C]/03 hover:border-[#C9A84C]/22 transition-all duration-200 mb-6">
-              <div
-                className={`w-5 h-5 rounded-md border flex items-center justify-center shrink-0 mt-0.5 transition-all duration-200 ${
-                  consentChecked ? 'bg-[#C9A84C]/25 border-[#C9A84C]' : 'border-[#C9A84C]/22'
-                }`}
-              >
-                {consentChecked && <span className="text-[#C9A84C] text-[10px] font-bold">✓</span>}
-              </div>
-              <input type="checkbox" checked={consentChecked} onChange={e => setConsentChecked(e.target.checked)} className="sr-only" />
-              <span className="font-[family-name:var(--font-cinzel)] text-[10px] tracking-[0.08em] text-[#C9A84C]/65 leading-relaxed">
-                Accept responsabilitatea integrală și termenii de stocare (30 zile).
-              </span>
-            </label>
-
-            <GoldButton disabled={!consentChecked} onClick={handleActivate}>
-              Activează 3 Zile Gratuit
-            </GoldButton>
           </div>
+
+          <div style={{
+            padding: '16px',
+            background: 'rgba(212,175,55,.04)',
+            border: '1px solid rgba(212,175,55,.12)',
+            borderRadius: 10, marginBottom: 20
+          }}>
+            <p style={{
+              fontFamily: "'Cinzel', serif",
+              fontSize: 8, letterSpacing: '.2em',
+              textTransform: 'uppercase' as const,
+              color: 'rgba(212,175,55,.45)',
+              marginBottom: 12
+            }}>Termeni de Stocare</p>
+            <p style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 13, color: 'rgba(245,230,168,.5)',
+              lineHeight: 1.7, marginBottom: 0
+            }}>
+              Fotografiile sunt stocate timp de 30 de zile. Confirm că sunt beneficiarul exclusiv al fotografiilor
+              și îmi asum responsabilitatea legală pentru utilizarea acestora pe această platformă.
+            </p>
+          </div>
+
+          <label style={{
+            display: 'flex', alignItems: 'flex-start', gap: 12,
+            cursor: 'pointer', marginBottom: 24
+          }}>
+            <input
+              type="checkbox"
+              checked={consentChecked}
+              onChange={e => setConsentChecked(e.target.checked)}
+              style={{ width: 16, height: 16, accentColor: '#D4AF37', cursor: 'pointer', marginTop: 2, flexShrink: 0 }}
+            />
+            <span style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 14, color: 'rgba(245,230,168,.6)',
+              lineHeight: 1.6
+            }}>
+              Accept responsabilitatea integrală și termenii de stocare (30 de zile).
+            </span>
+          </label>
+
+          <button
+            onClick={handleActivate}
+            disabled={!consentChecked}
+            className="lux-btn-gold"
+            style={{ opacity: consentChecked ? 1 : 0.45 }}
+          >
+            <span style={{ position: 'relative', zIndex: 1 }}>Activează 3 Zile Gratuit</span>
+            {consentChecked && <span className="shimmer" />}
+          </button>
         </div>
       )}
 
+      {/* ── ACTIVE ── */}
       {status === 'active' && (
-        <div className="rounded-2xl border border-[#C9A84C]/18 bg-[#C9A84C]/04 overflow-hidden mb-8 phs-fade">
-          <div className="px-6 sm:px-8 py-6">
-            <div className="flex flex-wrap items-center gap-3 mb-4">
-              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/08 border border-emerald-500/22 font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.18em] uppercase text-emerald-400/80">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
-                Activ
-              </span>
-              {timeLeft && (
-                <span className="font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.14em] text-[#C9A84C]/60 bg-[#C9A84C]/06 border border-[#C9A84C]/14 rounded-full px-3 py-1.5">
-                  {timeLeft} rămase
-                </span>
-              )}
-            </div>
-            {new Date(initialData.photos_expires_at).getTime() - new Date(initialData.photos_activated_at).getTime() < 4 * 24 * 60 * 60 * 1000 && (
-              <GoldButton onClick={() => handlePayment('extend')}>
-                Prelungește cu 5 Zile — 150 RON
-              </GoldButton>
+        <div className="lux-card" style={{ marginBottom: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
+            <StatusBadge color="#4ade80" label="ACTIV" />
+            {timeLeft && (
+              <span style={{
+                fontFamily: "'Cinzel', serif",
+                fontSize: 9, letterSpacing: '.15em',
+                color: 'rgba(255,165,0,.75)'
+              }}>⏳ {timeLeft}</span>
             )}
           </div>
+          {new Date(initialData.photos_expires_at).getTime() - new Date(initialData.photos_activated_at).getTime() < 4 * 24 * 60 * 60 * 1000 && (
+            <button onClick={() => handlePayment('extend')} className="lux-btn-outline" style={{ marginTop: 8 }}>
+              Prelungește cu 5 Zile — 150 RON
+            </button>
+          )}
         </div>
       )}
 
+      {/* ── EXPIRED ── */}
       {status === 'expired' && !initialData?.is_unlock_paid && (
-        <div className="rounded-2xl border border-red-500/22 bg-red-500/04 overflow-hidden mb-8 phs-fade">
-          <div className="px-6 sm:px-8 py-6">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/08 border border-red-500/22 font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.18em] uppercase text-red-400/80 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
-              Timp Expirat
-            </span>
-            <p className="font-[family-name:var(--font-cormorant)] text-base italic text-[#EDE0C4]/50 mb-5 leading-relaxed">
-              Upload-ul este blocat. Poți debloca vizualizarea pentru încă 5 zile.
-            </p>
+        <div className="lux-card" style={{ borderColor: 'rgba(248,113,113,.3)', marginBottom: 24 }}>
+          <div style={{ marginBottom: 14 }}>
+            <StatusBadge color="#f87171" label="TIMP EXPIRAT" />
+          </div>
+          <p style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: 16, fontStyle: 'italic',
+            color: 'rgba(245,230,168,.45)', lineHeight: 1.7,
+            marginBottom: 20
+          }}>Upload-ul este blocat. Poți debloca vizualizarea pentru încă 5 zile.</p>
+          <button
+            onClick={() => handlePayment('unlock')}
+            style={{
+              padding: '14px 28px',
+              background: 'rgba(248,113,113,.12)',
+              border: '1px solid rgba(248,113,113,.3)',
+              borderRadius: 6,
+              color: 'rgba(252,165,165,.85)',
+              fontFamily: "'Cinzel', serif",
+              fontSize: 9, fontWeight: 700,
+              letterSpacing: '.18em', textTransform: 'uppercase' as const,
+              cursor: 'pointer', transition: 'all .18s'
+            }}
+          >
+            Deblochează Vizualizare — 200 RON
+          </button>
+        </div>
+      )}
+
+      {/* ── DELETED ── */}
+      {status === 'deleted' && (
+        <div className="lux-card" style={{ marginBottom: 24 }}>
+          <div style={{ marginBottom: 14 }}>
+            <StatusBadge color="rgba(212,175,55,.5)" label="ALBUM ȘTERS" />
+          </div>
+          <p style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: 16, fontStyle: 'italic',
+            color: 'rgba(245,230,168,.4)', lineHeight: 1.7,
+            marginBottom: 20
+          }}>Cele 30 de zile au trecut. Poți porni un album nou.</p>
+          <button
+            onClick={() => handlePayment('new_album')}
+            className="lux-btn-gold"
+          >
+            <span style={{ position: 'relative', zIndex: 1 }}>Creează Album Nou — 400 RON</span>
+            <span className="shimmer" />
+          </button>
+        </div>
+      )}
+
+      {/* ── GALLERY ── */}
+      {(status === 'active' || initialData?.is_unlock_paid) && status !== 'deleted' && (
+        <div style={{ marginTop: 36 }}>
+          <div className="lux-divider"><span className="lux-divider-gem" /></div>
+
+          <div style={{
+            display: 'flex', alignItems: 'center',
+            justifyContent: 'space-between', flexWrap: 'wrap', gap: 12,
+            marginBottom: 24
+          }}>
+            <div>
+              <span className="lux-page-label">Fotografii Încărcate</span>
+              <p style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 22, fontStyle: 'italic', fontWeight: 300,
+                color: '#F5E6A8'
+              }}>{photos.length} {photos.length === 1 ? 'fotografie' : 'fotografii'}</p>
+            </div>
             <button
-              onClick={() => handlePayment('unlock')}
-              className="w-full py-4 rounded-xl font-[family-name:var(--font-cinzel)] text-[11px] tracking-[0.22em] uppercase font-bold text-white transition-all duration-200 hover:-translate-y-0.5"
-              style={{ background: 'linear-gradient(135deg,#7A1F1F,#c53030,#e05555,#c53030,#7A1F1F)', boxShadow: '0 8px 28px rgba(192,53,53,0.28)' }}
+              onClick={fetchPhotos}
+              className="lux-btn-outline"
+              disabled={loading}
             >
-              Deblochează Vizualizare — 200 RON
+              {loading ? 'Se încarcă...' : 'Actualizează'}
             </button>
           </div>
-        </div>
-      )}
 
-      {status === 'deleted' && (
-        <div className="rounded-2xl border border-[#C9A84C]/10 bg-[#0E0B06] overflow-hidden mb-8 phs-fade">
-          <div className="px-6 sm:px-8 py-6">
-            <p className="font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.2em] uppercase text-[#C9A84C]/40 mb-2">Album Șters Definitiv</p>
-            <p className="font-[family-name:var(--font-cormorant)] text-base italic text-[#EDE0C4]/45 mb-5 leading-relaxed">
-              Cele 30 de zile au trecut. Poți porni un album nou.
-            </p>
-            <GoldButton onClick={() => handlePayment('new_album')}>
-              Creează Album Nou — 400 RON
-            </GoldButton>
-          </div>
-        </div>
-      )}
-
-      {/* Gallery */}
-      {showGallery && (
-        <div className="phs-fade">
-          {/* Gallery header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-            <div>
-              <p className="font-[family-name:var(--font-cormorant)] text-2xl font-light italic text-[#EDE0C4]">
-                {photos.length} {photos.length === 1 ? 'fotografie' : 'fotografii'}
-              </p>
-              <p className="font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.22em] uppercase text-[#C9A84C]/40 mt-1">
-                Album privat
-              </p>
-            </div>
-            <div className="flex gap-3 flex-wrap">
-              {photos.length > 0 && (
-                <button
-                  onClick={handleDownloadAll}
-                  disabled={downloadingAll}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.16em] uppercase font-semibold transition-all duration-200 disabled:opacity-60"
-                  style={{
-                    background: 'linear-gradient(135deg,#7A5C1A,#C9A84C,#E8C96A,#C9A84C,#7A5C1A)',
-                    color: '#0A0804',
-                    boxShadow: '0 4px 18px rgba(201,168,76,0.25)',
-                  }}
-                >
-                  {downloadingAll ? (
-                    <span className="w-3 h-3 rounded-full border border-[#0A0804]/40 border-t-[#0A0804] phs-spin" />
-                  ) : null}
-                  {downloadingAll ? 'Descărcând...' : 'Descarcă Toate'}
-                </button>
-              )}
-              <button
-                onClick={fetchPhotos}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#C9A84C]/18 bg-[#C9A84C]/06 hover:bg-[#C9A84C]/12 hover:border-[#C9A84C]/30 text-[#C9A84C]/70 hover:text-[#C9A84C] font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.16em] uppercase font-semibold transition-all duration-200"
-              >
-                {loading ? <span className="w-3 h-3 rounded-full border border-[#C9A84C]/40 border-t-[#C9A84C] phs-spin" /> : null}
-                Actualizează
-              </button>
-            </div>
-          </div>
-
-          {photos.length === 0 && !loading ? (
-            <div className="rounded-2xl border border-dashed border-[#C9A84C]/15 bg-[#C9A84C]/02 py-20 text-center">
-              <p className="font-[family-name:var(--font-cormorant)] text-xl italic font-light text-[#C9A84C]/30 mb-2">
-                Nicio fotografie încă
-              </p>
-              <p className="font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.25em] uppercase text-[#C9A84C]/18">
-                Fotografiile invitaților vor apărea aici
-              </p>
+          {photos.length === 0 ? (
+            <div style={{
+              padding: 'clamp(40px, 6vw, 60px)',
+              border: '1px dashed rgba(212,175,55,.15)',
+              borderRadius: 14, textAlign: 'center' as const
+            }}>
+              <p style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 20, fontStyle: 'italic', fontWeight: 300,
+                color: 'rgba(212,175,55,.3)', marginBottom: 8
+              }}>Nicio fotografie încărcată</p>
+              <p style={{
+                fontFamily: "'Cinzel', serif",
+                fontSize: 8, letterSpacing: '.22em',
+                textTransform: 'uppercase' as const,
+                color: 'rgba(212,175,55,.2)'
+              }}>Invitații pot încărca fotografii prin invitație</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+              gap: 12
+            }}>
               {photos.map((p: any) => (
-                <div
-                  key={p.id}
-                  className="phs-card relative rounded-xl overflow-hidden border border-[#C9A84C]/12 bg-[#0A0804] cursor-pointer group"
-                  style={{ aspectRatio: '1' }}
-                >
+                <div key={p.id} style={{
+                  position: 'relative', height: 160,
+                  borderRadius: 10, overflow: 'hidden',
+                  border: '1px solid rgba(212,175,55,.15)',
+                  background: 'rgba(0,0,0,.4)'
+                }}>
                   <img
                     src={p.url}
                     alt="Nuntă"
-                    className="phs-img w-full h-full object-cover block transition-transform duration-500"
+                    style={{
+                      width: '100%', height: '100%',
+                      objectFit: 'cover' as const,
+                      display: 'block'
+                    }}
                   />
-                  <div
-                    className="phs-overlay absolute inset-0 flex flex-col items-center justify-end gap-2 p-3 opacity-0 transition-opacity duration-300"
-                    style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.92) 0%, rgba(8,6,4,0.4) 55%, transparent 100%)' }}
+                  <a
+                    href={p.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      position: 'absolute', bottom: 0, left: 0, right: 0,
+                      padding: '8px',
+                      background: 'linear-gradient(0deg, rgba(5,4,1,.85), transparent)',
+                      fontFamily: "'Cinzel', serif",
+                      fontSize: 7, letterSpacing: '.2em',
+                      textTransform: 'uppercase' as const,
+                      color: 'rgba(212,175,55,.8)',
+                      textAlign: 'center' as const,
+                      textDecoration: 'none',
+                      transition: 'background .18s'
+                    }}
                   >
-                    <button
-                      onClick={() => handleDownloadSingle(p)}
-                      disabled={downloadingId === p.id}
-                      className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-[#C9A84C]/14 hover:bg-[#C9A84C]/22 border border-[#C9A84C]/30 text-[#C9A84C] font-[family-name:var(--font-cinzel)] text-[8px] tracking-[0.12em] uppercase font-semibold transition-all duration-200 disabled:opacity-50"
-                    >
-                      {downloadingId === p.id
-                        ? <span className="w-3 h-3 rounded-full border border-[#C9A84C]/40 border-t-[#C9A84C] phs-spin shrink-0" />
-                        : null
-                      }
-                      {downloadingId === p.id ? '...' : 'Descarcă'}
-                    </button>
-                    <a
-                      href={p.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-white/06 hover:bg-white/10 border border-white/12 text-[#EDE0C4]/65 font-[family-name:var(--font-cinzel)] text-[8px] tracking-[0.12em] uppercase font-semibold transition-all duration-200"
-                    >
-                      Vezi
-                    </a>
-                  </div>
+                    Descarcă
+                  </a>
                 </div>
               ))}
             </div>
           )}
-
-          {/* Bottom breathing room */}
-          <div className="h-12" />
         </div>
       )}
     </div>
   );
 };
-
-const GoldButton = ({ children, onClick, disabled }: { children: React.ReactNode; onClick?: () => void; disabled?: boolean }) => (
-  <button
-    onClick={onClick}
-    disabled={disabled}
-    className="w-full py-4 rounded-xl font-[family-name:var(--font-cinzel)] text-[11px] tracking-[0.22em] uppercase font-bold transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed hover:-translate-y-0.5"
-    style={{
-      background: disabled ? 'rgba(201,168,76,0.15)' : 'linear-gradient(135deg,#7A5C1A 0%,#C9A84C 40%,#E8C96A 55%,#C9A84C 70%,#7A5C1A 100%)',
-      color: disabled ? 'rgba(201,168,76,0.4)' : '#0A0804',
-      boxShadow: disabled ? 'none' : '0 8px 28px rgba(201,168,76,0.24)',
-    }}
-  >
-    {children}
-  </button>
-);

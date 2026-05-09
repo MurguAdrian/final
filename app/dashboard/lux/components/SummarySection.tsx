@@ -1030,8 +1030,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
     const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
-    const url = URL.createObjectURL(blob);
-    link.setAttribute("href", url);
+    link.setAttribute("href", URL.createObjectURL(blob));
     link.setAttribute("download", `lista_invitati_${data?.weddingDetails?.custom_slug || 'export'}.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
@@ -1039,25 +1038,34 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
     document.body.removeChild(link);
   };
 
-  const userSlug = data?.weddingDetails?.custom_slug || "nunta-ta";
-  const inviteUrl = `https://vibeinvite.ro/invitatie/lux/${userSlug}`;
-
   const handleCopy = () => {
-    navigator.clipboard.writeText(inviteUrl);
+    const url = `https://vibeinvite.ro/invitatie/lux/${data?.weddingDetails?.custom_slug}`;
+    navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   if (loading) return (
-    <div className="flex items-center justify-center py-20">
-      <div className="flex flex-col items-center gap-4">
-        <div className="w-7 h-7 rounded-full border border-[#C9A84C]/20 border-t-[#C9A84C] animate-spin" />
-        <span className="font-[family-name:var(--font-cinzel)] text-[10px] tracking-[0.35em] uppercase text-[#C9A84C]/40">
-          Se încarcă
-        </span>
-      </div>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '48px 0' }}>
+      <div style={{
+        width: 18, height: 18,
+        border: '1.5px solid rgba(212,175,55,.25)',
+        borderTopColor: '#D4AF37',
+        borderRadius: '50%',
+        animation: 'lux-spin 0.9s linear infinite',
+        flexShrink: 0
+      }} />
+      <span style={{
+        fontFamily: "'Cinzel', serif",
+        fontSize: 10, letterSpacing: '.3em',
+        textTransform: 'uppercase' as const,
+        color: 'rgba(212,175,55,.5)'
+      }}>Se încarcă...</span>
     </div>
   );
+
+  const userSlug = data?.weddingDetails?.custom_slug || "nunta-ta";
+  const inviteUrl = `https://vibeinvite.ro/invitatie/lux/${userSlug}`;
 
   const stats = [
     { label: 'Vizualizări', value: data?.views || 0 },
@@ -1068,206 +1076,286 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
   ];
 
   return (
-    <div className="w-full">
-      <style>{`
-        @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-        .ss-fade { animation: fadeUp 0.4s ease both; }
-      `}</style>
-
-      {/* Page Header */}
-      <div className="mb-10 ss-fade">
-        <p className="font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.38em] uppercase text-[#C9A84C]/40 mb-3">
-          Panou Principal
-        </p>
-        <h1 className="font-[family-name:var(--font-cormorant)] text-3xl sm:text-4xl font-light italic text-[#EDE0C4] leading-tight">
-          Centrul de Comandă
-        </h1>
+    <div>
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 8 }}>
+        <div>
+          <span className="lux-page-label">Panou Principal</span>
+          <h2 className="lux-page-title" style={{ marginBottom: 0 }}>Centrul de Comandă</h2>
+        </div>
+        {data?.guests?.length > 0 && (
+          <button className="lux-btn-outline" onClick={exportToExcel}>
+            Exportă Lista CSV
+          </button>
+        )}
       </div>
+
+      <div className="lux-divider"><span className="lux-divider-gem" /></div>
 
       {/* Link Card */}
-      <div className="ss-fade" style={{ animationDelay: '0.05s' }}>
-        <div className={`rounded-2xl border p-6 sm:p-8 mb-8 ${
-          isComplete
-            ? 'border-[#C9A84C]/18 bg-[#C9A84C]/04'
-            : 'border-amber-500/20 bg-amber-500/04'
-        }`}>
-          {!isComplete ? (
-            <div>
-              <p className="font-[family-name:var(--font-cinzel)] text-[10px] tracking-[0.2em] uppercase text-amber-400/70 mb-2">
-                Pasul 1: Configurare Necesară
-              </p>
-              <p className="font-[family-name:var(--font-cormorant)] text-lg italic text-[#EDE0C4]/50">
-                Accesează secțiunea Personalizare pentru a configura link-ul invitației tale.
-              </p>
-            </div>
-          ) : (
-            <div>
-              <div className="flex items-center gap-2.5 mb-4">
-                <span className="w-2 h-2 rounded-full bg-[#C9A84C] shrink-0" />
-                <p className="font-[family-name:var(--font-cinzel)] text-[10px] tracking-[0.2em] uppercase text-[#C9A84C]/70">
-                  Invitația ta este Live
-                </p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <div className="flex-1 bg-[#080604]/60 border border-[#C9A84C]/15 rounded-xl px-4 py-3 min-w-0">
-                  <p className="font-[family-name:var(--font-cinzel)] text-[11px] tracking-[0.06em] text-[#C9A84C]/80 truncate">
-                    {inviteUrl}
-                  </p>
-                </div>
-                <button
-                  onClick={handleCopy}
-                  className="shrink-0 px-6 py-3 rounded-xl bg-[#C9A84C]/10 border border-[#C9A84C]/25 hover:bg-[#C9A84C]/18 hover:border-[#C9A84C]/40 text-[#C9A84C] font-[family-name:var(--font-cinzel)] text-[10px] tracking-[0.2em] uppercase font-semibold transition-all duration-200"
-                >
-                  {copied ? 'Copiat!' : 'Copiază'}
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-10 ss-fade" style={{ animationDelay: '0.1s' }}>
-        {stats.map((stat, i) => (
-          <div
-            key={stat.label}
-            className="rounded-xl border border-[#C9A84C]/14 bg-[#C9A84C]/03 px-4 py-5 text-center"
-            style={{ animationDelay: `${0.1 + i * 0.04}s` }}
-          >
-            <p className="font-[family-name:var(--font-cinzel)] text-[8px] tracking-[0.22em] uppercase text-[#C9A84C]/40 mb-3">
-              {stat.label}
-            </p>
-            <p className="font-[family-name:var(--font-cormorant)] text-4xl font-light text-[#EDE0C4] leading-none">
-              {stat.value}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      <div className="h-px bg-gradient-to-r from-transparent via-[#C9A84C]/20 to-transparent mb-10" />
-
-      {/* Guest List */}
-      <div className="ss-fade" style={{ animationDelay: '0.15s' }}>
-        <div className="flex items-end justify-between mb-6 flex-wrap gap-4">
+      <div className="lux-card" style={{
+        marginBottom: 32,
+        background: isComplete
+          ? 'linear-gradient(160deg, rgba(212,175,55,.07), rgba(212,175,55,.03))'
+          : 'linear-gradient(160deg, rgba(255,140,0,.08), rgba(255,140,0,.03))',
+        borderColor: isComplete ? 'rgba(212,175,55,.25)' : 'rgba(255,165,0,.3)'
+      }}>
+        {!isComplete ? (
           <div>
-            <p className="font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.3em] uppercase text-[#C9A84C]/40 mb-2">
-              Registrul Invitaților
-            </p>
-            <h2 className="font-[family-name:var(--font-cormorant)] text-2xl font-light italic text-[#EDE0C4]">
-              Răspunsuri Primite
-            </h2>
-          </div>
-          {data?.guests?.length > 0 && (
-            <button
-              onClick={exportToExcel}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[#C9A84C]/22 bg-[#C9A84C]/05 hover:bg-[#C9A84C]/12 hover:border-[#C9A84C]/38 text-[#C9A84C]/70 hover:text-[#C9A84C] font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.18em] uppercase font-semibold transition-all duration-200"
-            >
-              Exportă CSV
-            </button>
-          )}
-        </div>
-
-        {data?.guests?.length > 0 ? (
-          <div className="flex flex-col gap-3">
-            {data.guests.map((guest: any) => (
-              <div
-                key={guest.id}
-                className="rounded-xl border border-[#C9A84C]/10 bg-[#C9A84C]/02 hover:border-[#C9A84C]/20 hover:bg-[#C9A84C]/04 transition-all duration-200"
-              >
-                <div className="p-5 sm:p-6">
-                  {/* Name + status row */}
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <div>
-                      <p className="font-[family-name:var(--font-cormorant)] text-xl font-semibold text-[#EDE0C4] leading-tight">
-                        {guest.guest_name}
-                      </p>
-                      {guest.partner_name && (
-                        <p className="font-[family-name:var(--font-cormorant)] text-sm italic text-[#C9A84C]/45 mt-0.5">
-                          & {guest.partner_name}
-                        </p>
-                      )}
-                    </div>
-                    <span className={`shrink-0 font-[family-name:var(--font-cinzel)] text-[8px] tracking-[0.14em] uppercase px-3 py-1.5 rounded-full border ${
-                      guest.is_coming
-                        ? 'bg-emerald-500/08 border-emerald-500/22 text-emerald-400/80'
-                        : 'bg-red-500/06 border-red-500/18 text-red-400/70'
-                    }`}>
-                      {guest.is_coming ? 'Vine' : 'Nu vine'}
-                    </span>
-                  </div>
-
-                  {/* Details row */}
-                  <div className="flex flex-wrap gap-x-6 gap-y-2">
-                    <div>
-                      <span className="font-[family-name:var(--font-cinzel)] text-[8px] tracking-[0.2em] uppercase text-[#C9A84C]/35 block mb-0.5">
-                        Persoane
-                      </span>
-                      <span className="font-[family-name:var(--font-cormorant)] text-base text-[#EDE0C4]/70">
-                        {guest.adults_count} adult{guest.adults_count !== 1 ? 'i' : ''}{guest.kids_count > 0 ? ` · ${guest.kids_count} copii` : ''}
-                      </span>
-                    </div>
-
-                    {guest.needs_accommodation && (
-                      <div>
-                        <span className="font-[family-name:var(--font-cinzel)] text-[8px] tracking-[0.2em] uppercase text-[#C9A84C]/35 block mb-0.5">
-                          Cazare
-                        </span>
-                        <span className="font-[family-name:var(--font-cormorant)] text-base text-[#C9A84C]/70">
-                          Necesară
-                        </span>
-                      </div>
-                    )}
-
-                    {guest.needs_transport && (
-                      <div>
-                        <span className="font-[family-name:var(--font-cinzel)] text-[8px] tracking-[0.2em] uppercase text-[#C9A84C]/35 block mb-0.5">
-                          Transport
-                        </span>
-                        <span className="font-[family-name:var(--font-cormorant)] text-base text-[#C9A84C]/70">
-                          Necesar
-                        </span>
-                      </div>
-                    )}
-
-                    {guest.dietary_preferences && (
-                      <div>
-                        <span className="font-[family-name:var(--font-cinzel)] text-[8px] tracking-[0.2em] uppercase text-[#C9A84C]/35 block mb-0.5">
-                          Dietă
-                        </span>
-                        <span className="font-[family-name:var(--font-cormorant)] text-base italic text-[#EDE0C4]/60">
-                          {guest.dietary_preferences}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  {guest.other_mentions && (
-                    <div className="mt-4 pt-4 border-t border-[#C9A84C]/08">
-                      <span className="font-[family-name:var(--font-cinzel)] text-[8px] tracking-[0.2em] uppercase text-[#C9A84C]/35 block mb-1">
-                        Mesaj
-                      </span>
-                      <p className="font-[family-name:var(--font-cormorant)] text-base italic text-[#EDE0C4]/55 leading-relaxed">
-                        {guest.other_mentions}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
+            <p style={{
+              fontFamily: "'Cinzel', serif",
+              fontSize: 11, fontWeight: 600,
+              letterSpacing: '.12em',
+              color: 'rgba(255,165,0,.85)',
+              marginBottom: 10
+            }}>Pasul 1: Configurează Link-ul</p>
+            <p style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: 16, fontStyle: 'italic',
+              color: 'rgba(245,230,168,.45)',
+              lineHeight: 1.7
+            }}>Mergi la secțiunea Personalizare pentru a alege numele link-ului tău unic.</p>
           </div>
         ) : (
-          <div className="rounded-xl border border-[#C9A84C]/10 border-dashed bg-[#C9A84C]/02 py-16 text-center">
-            <p className="font-[family-name:var(--font-cormorant)] text-xl italic font-light text-[#C9A84C]/30 mb-2">
-              Niciun răspuns încă
-            </p>
-            <p className="font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.25em] uppercase text-[#C9A84C]/20">
-              Distribuie invitația pentru confirmări
-            </p>
+          <div>
+            <p style={{
+              fontFamily: "'Cinzel', serif",
+              fontSize: 9, letterSpacing: '.22em',
+              textTransform: 'uppercase' as const,
+              color: 'rgba(212,175,55,.55)',
+              marginBottom: 12
+            }}>Invitația ta este LIVE</p>
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' as const }}>
+              <input
+                readOnly
+                value={inviteUrl}
+                style={{
+                  flex: 1, minWidth: 220,
+                  padding: '12px 16px',
+                  background: 'rgba(0,0,0,.4)',
+                  border: '1px solid rgba(212,175,55,.2)',
+                  borderRadius: 8,
+                  color: '#D4AF37',
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 13, letterSpacing: '.03em',
+                  outline: 'none',
+                }}
+              />
+              <button
+                onClick={handleCopy}
+                style={{
+                  padding: '12px 24px',
+                  borderRadius: 8,
+                  background: copied ? 'rgba(74,222,128,.12)' : 'rgba(212,175,55,.12)',
+                  border: `1px solid ${copied ? 'rgba(74,222,128,.35)' : 'rgba(212,175,55,.3)'}`,
+                  color: copied ? 'rgba(134,239,172,.9)' : '#D4AF37',
+                  fontFamily: "'Cinzel', serif",
+                  fontSize: 9, fontWeight: 700,
+                  letterSpacing: '.2em', textTransform: 'uppercase' as const,
+                  cursor: 'pointer', transition: 'all .2s',
+                  whiteSpace: 'nowrap' as const
+                }}
+              >
+                {copied ? 'Copiat!' : 'Copiază'}
+              </button>
+            </div>
           </div>
         )}
       </div>
 
-      <div className="h-10" />
+      {/* Stats */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+        gap: 12, marginBottom: 32
+      }}>
+        {stats.map(s => (
+          <div key={s.label} className="lux-stat-card">
+            <span className="lux-stat-label">{s.label}</span>
+            <p className="lux-stat-value">{s.value}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="lux-divider"><span className="lux-divider-gem" /></div>
+
+      {/* Guest Table */}
+      <div style={{
+        background: 'rgba(212,175,55,.03)',
+        border: '1px solid rgba(212,175,55,.16)',
+        borderRadius: 16,
+        overflow: 'hidden',
+        position: 'relative'
+      }}>
+        <div style={{
+          position: 'absolute', top: 0, left: '10%', right: '10%', height: 1,
+          background: 'linear-gradient(90deg, transparent, rgba(212,175,55,.3), transparent)'
+        }} />
+
+        <div style={{
+          padding: 'clamp(18px, 3vw, 28px)',
+          borderBottom: '1px solid rgba(212,175,55,.1)'
+        }}>
+          <span style={{
+            fontFamily: "'Cinzel', serif",
+            fontSize: 8, letterSpacing: '.3em',
+            textTransform: 'uppercase' as const,
+            color: 'rgba(212,175,55,.4)',
+            display: 'block', marginBottom: 6
+          }}>Registrul Invitaților</span>
+          <h3 style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: 'clamp(18px, 2.5vw, 24px)',
+            fontStyle: 'italic', fontWeight: 300,
+            color: '#F5E6A8', margin: 0
+          }}>Detalii Răspunsuri</h3>
+        </div>
+
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 540 }}>
+            <thead>
+              <tr style={{ background: 'rgba(212,175,55,.05)' }}>
+                {['Nume', 'Status', 'Persoane', 'Cazare', 'Transport', 'Mențiuni'].map(h => (
+                  <th key={h} style={{
+                    padding: '14px 16px',
+                    fontFamily: "'Cinzel', serif",
+                    fontSize: 7, letterSpacing: '.22em',
+                    textTransform: 'uppercase' as const,
+                    color: 'rgba(212,175,55,.48)',
+                    textAlign: 'left' as const,
+                    fontWeight: 600,
+                    borderBottom: '1px solid rgba(212,175,55,.12)'
+                  }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {data?.guests?.length > 0 ? (
+                data.guests.map((guest: any) => (
+                  <tr
+                    key={guest.id}
+                    style={{
+                      borderBottom: '1px solid rgba(212,175,55,.07)',
+                      transition: 'background .18s'
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(212,175,55,.03)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                  >
+                    <td style={{ padding: '14px 16px' }}>
+                      <span style={{
+                        fontFamily: "'Cormorant Garamond', serif",
+                        fontSize: 16, fontWeight: 600, color: '#F5E6A8'
+                      }}>{guest.guest_name}</span>
+                      {guest.partner_name && (
+                        <span style={{
+                          display: 'block',
+                          fontFamily: "'Cormorant Garamond', serif",
+                          fontSize: 12, fontStyle: 'italic',
+                          color: 'rgba(212,175,55,.4)', marginTop: 2
+                        }}>+ {guest.partner_name}</span>
+                      )}
+                    </td>
+                    <td style={{ padding: '14px 16px' }}>
+                      {guest.is_coming ? (
+                        <span style={{
+                          display: 'inline-block',
+                          padding: '4px 12px', borderRadius: 100,
+                          background: 'rgba(74,222,128,.07)',
+                          border: '1px solid rgba(74,222,128,.22)',
+                          fontFamily: "'Cinzel', serif",
+                          fontSize: 8, letterSpacing: '.14em',
+                          color: 'rgba(134,239,172,.85)'
+                        }}>VINE</span>
+                      ) : (
+                        <span style={{
+                          display: 'inline-block',
+                          padding: '4px 12px', borderRadius: 100,
+                          background: 'rgba(248,113,113,.07)',
+                          border: '1px solid rgba(248,113,113,.22)',
+                          fontFamily: "'Cinzel', serif",
+                          fontSize: 8, letterSpacing: '.14em',
+                          color: 'rgba(252,165,165,.85)'
+                        }}>NU</span>
+                      )}
+                    </td>
+                    <td style={{ padding: '14px 16px' }}>
+                      <span style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: 12, color: 'rgba(212,175,55,.65)'
+                      }}>{guest.adults_count}A / {guest.kids_count}C</span>
+                    </td>
+                    <td style={{ padding: '14px 16px' }}>
+                      <span style={{
+                        fontFamily: "'Cinzel', serif", fontSize: 10,
+                        color: guest.needs_accommodation ? 'rgba(212,175,55,.75)' : 'rgba(245,230,168,.2)'
+                      }}>
+                        {guest.needs_accommodation ? "DA" : "—"}
+                      </span>
+                    </td>
+                    <td style={{ padding: '14px 16px' }}>
+                      <span style={{
+                        fontFamily: "'Cinzel', serif", fontSize: 10,
+                        color: guest.needs_transport ? 'rgba(212,175,55,.75)' : 'rgba(245,230,168,.2)'
+                      }}>
+                        {guest.needs_transport ? "DA" : "—"}
+                      </span>
+                    </td>
+                    <td style={{ padding: '14px 16px' }}>
+                      {guest.dietary_preferences && (
+                        <div style={{ marginBottom: guest.other_mentions ? 6 : 0 }}>
+                          <span style={{
+                            fontFamily: "'Cinzel', serif", fontSize: 7,
+                            letterSpacing: '.14em', textTransform: 'uppercase' as const,
+                            color: 'rgba(212,175,55,.4)', display: 'block', marginBottom: 2
+                          }}>Dietă</span>
+                          <span style={{
+                            fontFamily: "'Cormorant Garamond', serif",
+                            fontSize: 13, fontStyle: 'italic',
+                            color: 'rgba(245,230,168,.65)'
+                          }}>{guest.dietary_preferences}</span>
+                        </div>
+                      )}
+                      {guest.other_mentions && (
+                        <div>
+                          <span style={{
+                            fontFamily: "'Cinzel', serif", fontSize: 7,
+                            letterSpacing: '.14em', textTransform: 'uppercase' as const,
+                            color: 'rgba(212,175,55,.4)', display: 'block', marginBottom: 2
+                          }}>Mesaj</span>
+                          <span style={{
+                            fontFamily: "'Cormorant Garamond', serif",
+                            fontSize: 13, fontStyle: 'italic',
+                            color: 'rgba(245,230,168,.65)'
+                          }}>{guest.other_mentions}</span>
+                        </div>
+                      )}
+                      {!guest.dietary_preferences && !guest.other_mentions && (
+                        <span style={{ color: 'rgba(245,230,168,.18)', fontSize: 16 }}>—</span>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} style={{ padding: 'clamp(40px, 6vw, 72px)', textAlign: 'center' }}>
+                    <p style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: 20, fontStyle: 'italic', fontWeight: 300,
+                      color: 'rgba(212,175,55,.3)', marginBottom: 8
+                    }}>Niciun răspuns încă</p>
+                    <p style={{
+                      fontFamily: "'Cinzel', serif",
+                      fontSize: 8, letterSpacing: '.22em',
+                      textTransform: 'uppercase' as const,
+                      color: 'rgba(212,175,55,.22)'
+                    }}>Distribuie invitația pentru a primi confirmări</p>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

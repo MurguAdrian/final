@@ -1399,13 +1399,11 @@
 //   flexShrink: 0,
 //   transition: 'all .18s',
 // };
-
 "use client";
 import React, { useState, useEffect } from 'react';
 
 export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
   const [loading, setLoading] = useState(false);
-
   const currentYear = new Date().getFullYear();
   const maxYear = currentYear + 5;
 
@@ -1459,7 +1457,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
     }
   }, [initialData]);
 
-  const set = (key: string, val: any) => setFormData(prev => ({ ...prev, [key]: val }));
+  const set = (key: string, value: any) => setFormData(prev => ({ ...prev, [key]: value }));
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -1471,42 +1469,52 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
         body: JSON.stringify({ orderId, ...formData }),
       });
       if (res.ok) {
-        alert("Personalizare salvată cu succes! ✨");
+        alert("Personalizare salvată cu succes!");
         onSave();
       } else {
         const errorData = await res.json();
         alert("Eroare: " + (errorData.error || "A apărut o problemă."));
       }
-    } catch (e) {
+    } catch {
       alert("Eroare de conexiune la server.");
     }
     setLoading(false);
   };
 
+  // Custom date picker (dropdowns, no native date input to avoid zoom issues)
   const CustomDatePicker = ({ value, onChangeKey }: { value: string; onChangeKey: string }) => {
-    const [day, month, year] = value ? value.split('-').reverse() : ['', '', ''];
-    const handleDateChange = (type: 'day' | 'month' | 'year', val: string) => {
-      let d = type === 'day' ? val : (day || '01');
-      let m = type === 'month' ? val : (month || '01');
-      let y = type === 'year' ? val : (year || currentYear.toString());
+    const parts = value ? value.split('-') : ['', '', ''];
+    const year = parts[0], month = parts[1], day = parts[2];
+
+    const handleChange = (type: 'y' | 'm' | 'd', val: string) => {
       if (!val) { set(onChangeKey, ''); return; }
+      const y = type === 'y' ? val : (year || String(currentYear));
+      const m = type === 'm' ? val : (month || '01');
+      const d = type === 'd' ? val : (day || '01');
       set(onChangeKey, `${y}-${m}-${d}`);
     };
+
+    const months = ['Ian','Feb','Mar','Apr','Mai','Iun','Iul','Aug','Sep','Oct','Nov','Dec'];
+
     return (
-      <div className="flex gap-2">
-        <select className={selectCls} value={day} onChange={e => handleDateChange('day', e.target.value)}>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <select className="lux-select" value={day} onChange={e => handleChange('d', e.target.value)} style={{ flex: '0 0 auto', width: 80 }}>
           <option value="">Zi</option>
-          {[...Array(31)].map((_, i) => <option key={i} value={String(i+1).padStart(2,'0')}>{i+1}</option>)}
-        </select>
-        <select className={selectCls} value={month} onChange={e => handleDateChange('month', e.target.value)}>
-          <option value="">Lună</option>
-          {['Ian','Feb','Mar','Apr','Mai','Iun','Iul','Aug','Sep','Oct','Nov','Dec'].map((m, i) => (
-            <option key={i} value={String(i+1).padStart(2,'0')}>{m}</option>
+          {Array.from({ length: 31 }, (_, i) => (
+            <option key={i} value={String(i + 1).padStart(2, '0')}>{i + 1}</option>
           ))}
         </select>
-        <select className={selectCls} value={year} onChange={e => handleDateChange('year', e.target.value)}>
+        <select className="lux-select" value={month} onChange={e => handleChange('m', e.target.value)} style={{ flex: 1 }}>
+          <option value="">Lună</option>
+          {months.map((m, i) => (
+            <option key={i} value={String(i + 1).padStart(2, '0')}>{m}</option>
+          ))}
+        </select>
+        <select className="lux-select" value={year} onChange={e => handleChange('y', e.target.value)} style={{ flex: '0 0 auto', width: 100 }}>
           <option value="">An</option>
-          {[...Array(maxYear - currentYear + 1)].map((_, i) => <option key={i} value={currentYear+i}>{currentYear+i}</option>)}
+          {Array.from({ length: maxYear - currentYear + 1 }, (_, i) => (
+            <option key={i} value={currentYear + i}>{currentYear + i}</option>
+          ))}
         </select>
       </div>
     );
@@ -1514,288 +1522,254 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: any) => {
 
   const CustomTimePicker = ({ value, onChangeKey }: { value: string; onChangeKey: string }) => {
     const [hours, minutes] = value ? value.split(':') : ['', ''];
-    const handleTimeChange = (type: 'h' | 'm', val: string) => {
-      let h = type === 'h' ? val : (hours || '12');
-      let m = type === 'm' ? val : (minutes || '00');
+
+    const handleChange = (type: 'h' | 'm', val: string) => {
       if (!val) { set(onChangeKey, ''); return; }
+      const h = type === 'h' ? val : (hours || '12');
+      const m = type === 'm' ? val : (minutes || '00');
       set(onChangeKey, `${h}:${m}`);
     };
+
     return (
-      <div className="flex gap-2 items-center">
-        <select className={selectCls} value={hours} onChange={e => handleTimeChange('h', e.target.value)}>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <select className="lux-select" value={hours} onChange={e => handleChange('h', e.target.value)} style={{ flex: 1 }}>
           <option value="">Ora</option>
-          {[...Array(24)].map((_, i) => <option key={i} value={String(i).padStart(2,'0')}>{String(i).padStart(2,'0')}</option>)}
+          {Array.from({ length: 24 }, (_, i) => (
+            <option key={i} value={String(i).padStart(2, '0')}>{String(i).padStart(2, '0')}</option>
+          ))}
         </select>
-        <span className="text-[#C9A84C]/40 text-lg shrink-0">:</span>
-        <select className={selectCls} value={minutes} onChange={e => handleTimeChange('m', e.target.value)}>
+        <span style={{ color: 'rgba(212,175,55,.6)', fontFamily: "'Cinzel', serif", flexShrink: 0 }}>:</span>
+        <select className="lux-select" value={minutes} onChange={e => handleChange('m', e.target.value)} style={{ flex: 1 }}>
           <option value="">Min</option>
-          {[...Array(60)].map((_, i) => <option key={i} value={String(i).padStart(2,'0')}>{String(i).padStart(2,'0')}</option>)}
+          {Array.from({ length: 60 }, (_, i) => (
+            <option key={i} value={String(i).padStart(2, '0')}>{String(i).padStart(2, '0')}</option>
+          ))}
         </select>
       </div>
     );
   };
 
+  const LuxToggle = ({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label?: string }) => (
+    <label className="lux-toggle-wrap" onClick={e => e.stopPropagation()}>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={e => onChange(e.target.checked)}
+        style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }}
+      />
+      <div className={`lux-toggle-track ${checked ? 'lux-toggle-track--on' : 'lux-toggle-track--off'}`}>
+        <div className={`lux-toggle-thumb ${checked ? 'lux-toggle-thumb--on' : 'lux-toggle-thumb--off'}`} />
+      </div>
+      {label && (
+        <span className={`lux-toggle-label ${checked ? 'lux-toggle-label--on' : 'lux-toggle-label--off'}`}>
+          {label}
+        </span>
+      )}
+    </label>
+  );
+
   return (
-    <>
-      <style>{`
-        @keyframes fadeUp { from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);} }
-        .ps-fade { animation: fadeUp 0.4s ease both; }
-        .ps-inp:focus { border-color: rgba(201,168,76,0.45) !important; outline: none; box-shadow: 0 0 0 3px rgba(201,168,76,0.06); }
-        .ps-inp::placeholder { color: rgba(237,224,196,0.2); font-style: italic; }
-        .ps-inp option { background: #0E0B06; color: #EDE0C4; }
-        input[type="text"], input[type="tel"], input[type="url"], textarea, select { font-size: 16px !important; touch-action: manipulation; }
-      `}</style>
-
-      <form onSubmit={handleSave} className="w-full pb-16 ps-fade">
-
-        {/* Header */}
-        <div className="mb-10">
-          <p className="font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.38em] uppercase text-[#C9A84C]/40 mb-3">
-            Dashboard
-          </p>
-          <div className="flex flex-col sm:flex-row sm:items-end gap-4">
-            <h1 className="font-[family-name:var(--font-cormorant)] text-3xl sm:text-4xl font-light italic text-[#EDE0C4] flex-1 leading-tight">
-              Personalizare Detalii
-            </h1>
-            {formData.customSlug && (
-              <a
-                href={`/invitatie/lux/${formData.customSlug}`}
-                target="_blank"
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-[#C9A84C]/22 bg-[#C9A84C]/05 hover:bg-[#C9A84C]/12 text-[#C9A84C]/70 hover:text-[#C9A84C] font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.18em] uppercase font-semibold transition-all duration-200 shrink-0"
-              >
-                Previzualizare
-              </a>
-            )}
-          </div>
+    <div style={{ maxWidth: 860, paddingBottom: 60 }}>
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 8 }}>
+        <div>
+          <span className="lux-page-label">Configurare</span>
+          <h2 className="lux-page-title" style={{ marginBottom: 0 }}>Personalizare Detalii</h2>
         </div>
+        {formData.customSlug && (
+          <a
+            href={`/invitatie/lux/${formData.customSlug}`}
+            target="_blank"
+            className="lux-btn-outline"
+          >
+            Previzualizare
+          </a>
+        )}
+      </div>
 
-        <div className="h-px bg-gradient-to-r from-transparent via-[#C9A84C]/20 to-transparent mb-8" />
+      <div className="lux-divider"><span className="lux-divider-gem" /></div>
+
+      <form onSubmit={handleSave}>
 
         {/* URL */}
-        <Section title="URL Personalizat" subtitle="Adresa publică a invitației">
-          <Label>Slug personalizat</Label>
-          <div className="flex items-stretch rounded-xl overflow-hidden border border-[#C9A84C]/18 bg-[#080604]/60 mb-1">
-            <span className="hidden sm:flex items-center px-4 py-3 text-[#C9A84C]/30 bg-[#C9A84C]/04 border-r border-[#C9A84C]/12 font-[family-name:var(--font-cinzel)] text-[11px] tracking-[0.06em] shrink-0 whitespace-nowrap">
-              vibeinvite.ro/
-            </span>
-            <input
-              className={`${inpCls} ps-inp border-0 rounded-none bg-transparent flex-1 min-w-0 m-0`}
-              value={formData.customSlug}
-              onChange={e => set('customSlug', e.target.value.toLowerCase().replace(/\s/g, '-'))}
-              placeholder="nunta-andrei-maria"
-            />
+        <div className="lux-section-box">
+          <p className="lux-section-title">Link Personalizat</p>
+          <div className="lux-field">
+            <label className="lux-label">URL Unic (ex: nunta-noastra)</label>
+            <div style={{
+              display: 'flex',
+              background: 'rgba(0,0,0,.35)',
+              border: '1px solid rgba(212,175,55,.16)',
+              borderRadius: 8, overflow: 'hidden'
+            }}>
+              <span style={{
+                padding: '13px 14px',
+                background: 'rgba(0,0,0,.3)',
+                borderRight: '1px solid rgba(212,175,55,.12)',
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 12, color: 'rgba(212,175,55,.35)',
+                flexShrink: 0, whiteSpace: 'nowrap' as const
+              }}>vibeinvite.ro/</span>
+              <input
+                className="lux-input"
+                style={{ border: 'none', borderRadius: 0, background: 'transparent' }}
+                value={formData.customSlug}
+                onChange={e => set('customSlug', e.target.value.toLowerCase().replace(/\s/g, '-'))}
+                placeholder="nunta-andrei-maria"
+              />
+            </div>
           </div>
-          <Hint>Litere mici, cifre și cratimă</Hint>
-        </Section>
-
-        {/* Miri + Restaurant */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
-          <Section title="Miri & Familie" emoji="💍">
-            <Label>Nume Mireasă</Label>
-            <input className={`${inpCls} ps-inp`} placeholder="ex: Maria" value={formData.brideName} onChange={e => set('brideName', e.target.value)} />
-            <Label>Nume Mire</Label>
-            <input className={`${inpCls} ps-inp`} placeholder="ex: Andrei" value={formData.groomName} onChange={e => set('groomName', e.target.value)} />
-            <Label>Nași</Label>
-            <input className={`${inpCls} ps-inp`} placeholder="ex: Popescu Ion și Elena" value={formData.nasiNames} onChange={e => set('nasiNames', e.target.value)} />
-            <Label>Părinți</Label>
-            <input className={`${inpCls} ps-inp mb-0`} placeholder="Din partea mirelui... / miresei..." value={formData.parentsNames} onChange={e => set('parentsNames', e.target.value)} />
-          </Section>
-
-          <Section title="Petrecere Restaurant" emoji="🥂">
-            <Label>Data Petrecerii</Label>
-            <div className="mb-4"><CustomDatePicker value={formData.weddingDate} onChangeKey="weddingDate" /></div>
-            <Label>Ora Începerii</Label>
-            <div className="mb-4"><CustomTimePicker value={formData.weddingTime} onChangeKey="weddingTime" /></div>
-            <Label>Locație</Label>
-            <input className={`${inpCls} ps-inp`} placeholder="ex: Restaurant Aristocrat" value={formData.locationName} onChange={e => set('locationName', e.target.value)} />
-            <Label>Google Maps</Label>
-            <input className={`${inpCls} ps-inp`} placeholder="https://maps.app.goo.gl/..." value={formData.googleMapsUrl} onChange={e => set('googleMapsUrl', e.target.value)} />
-            <Label>Waze</Label>
-            <input className={`${inpCls} ps-inp mb-0`} placeholder="https://waze.com/ul/..." value={formData.wazeUrl} onChange={e => set('wazeUrl', e.target.value)} />
-          </Section>
         </div>
 
-        {/* Cununia Religioasă */}
-        <div className="rounded-2xl border border-[#C9A84C]/15 bg-[#0E0B06] overflow-hidden mb-5">
-          <div
-            className="flex items-center justify-between px-6 py-4 gap-4"
-            style={{ borderBottom: formData.isReligiousActive ? '1px solid rgba(201,168,76,0.1)' : 'none' }}
-          >
-            <div className="flex items-center gap-3">
-              <span className="text-base">⛪</span>
-              <div>
-                <p className="font-[family-name:var(--font-cinzel)] text-[10px] tracking-[0.2em] uppercase text-[#C9A84C]/75">
-                  Cununia Religioasă
-                </p>
-                <p className="font-[family-name:var(--font-cormorant)] text-xs italic text-[#C9A84C]/35 mt-0.5">
-                  Secțiune opțională
-                </p>
-              </div>
+        {/* Miri & Familie + Petrecere */}
+        <div className="lux-grid-2">
+          <div className="lux-section-box">
+            <p className="lux-section-title">Miri & Familie</p>
+            <div className="lux-field">
+              <label className="lux-label">Nume Mireasă</label>
+              <input className="lux-input" placeholder="ex: Maria" value={formData.brideName} onChange={e => set('brideName', e.target.value)} />
             </div>
-            <LuxToggle checked={formData.isReligiousActive} onChange={v => set('isReligiousActive', v)} />
+            <div className="lux-field">
+              <label className="lux-label">Nume Mire</label>
+              <input className="lux-input" placeholder="ex: Andrei" value={formData.groomName} onChange={e => set('groomName', e.target.value)} />
+            </div>
+            <div className="lux-field">
+              <label className="lux-label">Nași</label>
+              <input className="lux-input" placeholder="ex: Popescu Ion și Elena" value={formData.nasiNames} onChange={e => set('nasiNames', e.target.value)} />
+            </div>
+            <div className="lux-field">
+              <label className="lux-label">Părinți</label>
+              <input className="lux-input" placeholder="ex: Din partea mirelui..." value={formData.parentsNames} onChange={e => set('parentsNames', e.target.value)} />
+            </div>
           </div>
 
+          <div className="lux-section-box">
+            <p className="lux-section-title">Petrecere Restaurant</p>
+            <div className="lux-field">
+              <label className="lux-label">Data Petrecerii</label>
+              <CustomDatePicker value={formData.weddingDate} onChangeKey="weddingDate" />
+            </div>
+            <div className="lux-field" style={{ marginTop: 4 }}>
+              <label className="lux-label">Ora Începerii (24h)</label>
+              <CustomTimePicker value={formData.weddingTime} onChangeKey="weddingTime" />
+            </div>
+            <div className="lux-field" style={{ marginTop: 4 }}>
+              <label className="lux-label">Locație (Nume Restaurant)</label>
+              <input className="lux-input" placeholder="ex: Restaurant Aristocrat" value={formData.locationName} onChange={e => set('locationName', e.target.value)} />
+            </div>
+            <div className="lux-field">
+              <label className="lux-label">Link Google Maps</label>
+              <input className="lux-input" placeholder="https://maps.app.goo.gl/..." value={formData.googleMapsUrl} onChange={e => set('googleMapsUrl', e.target.value)} />
+            </div>
+            <div className="lux-field">
+              <label className="lux-label">Link Waze</label>
+              <input className="lux-input" placeholder="https://waze.com/ul/..." value={formData.wazeUrl} onChange={e => set('wazeUrl', e.target.value)} />
+            </div>
+          </div>
+        </div>
+
+        {/* Cununie */}
+        <div className="lux-section-box">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18, paddingBottom: 14, borderBottom: '1px solid rgba(212,175,55,.12)' }}>
+            <p className="lux-section-title" style={{ margin: 0, border: 'none', padding: 0 }}>Cununia Religioasă</p>
+            <LuxToggle
+              checked={formData.isReligiousActive}
+              onChange={v => set('isReligiousActive', v)}
+              label="Afișează"
+            />
+          </div>
           {formData.isReligiousActive && (
-            <div className="px-6 py-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5">
-                <div>
-                  <Label>Data Cununiei</Label>
-                  <div className="mb-4"><CustomDatePicker value={formData.religiousDate} onChangeKey="religiousDate" /></div>
-                </div>
-                <div>
-                  <Label>Ora</Label>
-                  <div className="mb-4"><CustomTimePicker value={formData.religiousTime} onChangeKey="religiousTime" /></div>
-                </div>
-                <div className="sm:col-span-2">
-                  <Label>Biserica</Label>
-                  <input className={`${inpCls} ps-inp`} placeholder="ex: Biserica Sf. Maria" value={formData.religiousLocation} onChange={e => set('religiousLocation', e.target.value)} />
-                </div>
-                <div className="sm:col-span-2">
-                  <Label>Waze Biserică</Label>
-                  <input className={`${inpCls} ps-inp mb-0`} placeholder="Link Waze" value={formData.religiousWaze} onChange={e => set('religiousWaze', e.target.value)} />
-                </div>
+            <div className="lux-grid-2">
+              <div className="lux-field">
+                <label className="lux-label">Data Cununiei</label>
+                <CustomDatePicker value={formData.religiousDate} onChangeKey="religiousDate" />
+              </div>
+              <div className="lux-field">
+                <label className="lux-label">Ora (24h)</label>
+                <CustomTimePicker value={formData.religiousTime} onChangeKey="religiousTime" />
+              </div>
+              <div className="lux-field lux-span-2">
+                <label className="lux-label">Biserică</label>
+                <input className="lux-input" placeholder="ex: Biserica Sf. Maria" value={formData.religiousLocation} onChange={e => set('religiousLocation', e.target.value)} />
+              </div>
+              <div className="lux-field lux-span-2">
+                <label className="lux-label">Waze Biserică</label>
+                <input className="lux-input" placeholder="Link Waze" value={formData.religiousWaze} onChange={e => set('religiousWaze', e.target.value)} />
               </div>
             </div>
           )}
         </div>
 
         {/* Contact + RSVP */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
-          <Section title="Contact" emoji="📞">
-            <Label>Telefon Mireasă</Label>
-            <input className={`${inpCls} ps-inp`} placeholder="07XX XXX XXX" type="tel" value={formData.contactPhoneBride} onChange={e => set('contactPhoneBride', e.target.value)} />
-            <Label>Telefon Mire</Label>
-            <input className={`${inpCls} ps-inp mb-0`} placeholder="07XX XXX XXX" type="tel" value={formData.contactPhoneGroom} onChange={e => set('contactPhoneGroom', e.target.value)} />
-          </Section>
+        <div className="lux-grid-2">
+          <div className="lux-section-box">
+            <p className="lux-section-title">Contact pentru Oaspeți</p>
+            <div className="lux-field">
+              <label className="lux-label">Telefon Mireasă</label>
+              <input className="lux-input" placeholder="07XX XXX XXX" value={formData.contactPhoneBride} onChange={e => set('contactPhoneBride', e.target.value)} />
+            </div>
+            <div className="lux-field">
+              <label className="lux-label">Telefon Mire</label>
+              <input className="lux-input" placeholder="07XX XXX XXX" value={formData.contactPhoneGroom} onChange={e => set('contactPhoneGroom', e.target.value)} />
+            </div>
+          </div>
 
-          <Section title="Opțiuni RSVP" emoji="📋">
-            <p className="font-[family-name:var(--font-cormorant)] text-sm italic text-[#EDE0C4]/40 mb-5 leading-relaxed">
-              Bifează ce detalii dorești să solicite invitații:
-            </p>
-            <CheckRow
-              checked={formData.isAccommodationActive}
-              onChange={v => set('isAccommodationActive', v)}
-              label="Întreabă dacă au nevoie de Cazare"
-            />
-            <div className="h-3" />
-            <CheckRow
-              checked={formData.isTransportActive}
-              onChange={v => set('isTransportActive', v)}
-              label="Întreabă dacă au nevoie de Transport"
-            />
-          </Section>
+          <div className="lux-section-box">
+            <p className="lux-section-title">Opțiuni RSVP</p>
+            <p style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: 14, fontStyle: 'italic',
+              color: 'rgba(212,175,55,.4)', lineHeight: 1.6,
+              marginBottom: 20
+            }}>Bifează pentru a colecta detalii suplimentare la confirmare:</p>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', marginBottom: 16 }}>
+              <input
+                type="checkbox"
+                checked={formData.isAccommodationActive}
+                onChange={e => set('isAccommodationActive', e.target.checked)}
+                style={{ width: 16, height: 16, accentColor: '#D4AF37', cursor: 'pointer' }}
+              />
+              <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: 'rgba(245,230,168,.65)' }}>
+                Necesită Cazare
+              </span>
+            </label>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={formData.isTransportActive}
+                onChange={e => set('isTransportActive', e.target.checked)}
+                style={{ width: 16, height: 16, accentColor: '#D4AF37', cursor: 'pointer' }}
+              />
+              <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: 'rgba(245,230,168,.65)' }}>
+                Necesită Transport
+              </span>
+            </label>
+          </div>
         </div>
 
         {/* Povestea */}
-        <Section title="Povestea Noastră" emoji="📖">
-          <Label>Mesaj pentru invitați</Label>
-          <textarea
-            className={`${inpCls} ps-inp resize-none mb-1`}
-            rows={5}
-            placeholder="Cum v-ați cunoscut, un mesaj scurt pentru invitați..."
-            value={formData.ourStory}
-            onChange={e => set('ourStory', e.target.value)}
-          />
-          <Hint>Maxim 500 de caractere recomandat</Hint>
-        </Section>
+        <div className="lux-section-box">
+          <p className="lux-section-title">Povestea Noastră</p>
+          <div className="lux-field">
+            <label className="lux-label">Mesaj pentru Invitați</label>
+            <textarea
+              className="lux-textarea"
+              placeholder="Cum v-ați cunoscut, un mesaj scurt pentru invitați..."
+              value={formData.ourStory}
+              onChange={e => set('ourStory', e.target.value)}
+            />
+          </div>
+        </div>
 
         {/* Save */}
-        <div className="mt-8">
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-4 rounded-xl font-[family-name:var(--font-cinzel)] text-[11px] tracking-[0.24em] uppercase font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{
-              background: loading ? 'rgba(201,168,76,0.2)' : 'linear-gradient(135deg,#7A5C1A 0%,#C9A84C 40%,#E8C96A 55%,#C9A84C 70%,#7A5C1A 100%)',
-              color: loading ? 'rgba(201,168,76,0.5)' : '#0A0804',
-              boxShadow: loading ? 'none' : '0 8px 32px rgba(201,168,76,0.22)',
-            }}
-          >
-            {loading ? 'Se salvează...' : '◆  Salvează Modificările  ◆'}
-          </button>
-        </div>
+        <button type="submit" disabled={loading} className="lux-btn-gold" style={{ marginTop: 8 }}>
+          <span style={{ position: 'relative', zIndex: 1 }}>
+            {loading ? 'Se salvează...' : 'Salvează Modificările'}
+          </span>
+          {!loading && <span className="shimmer" />}
+        </button>
+
       </form>
-    </>
+    </div>
   );
 };
-
-/* ── Shared sub-components ── */
-
-const Section = ({ title, subtitle, emoji, children }: { title: string; subtitle?: string; emoji?: string; children: React.ReactNode }) => (
-  <div className="rounded-2xl border border-[#C9A84C]/14 bg-[#0E0B06] overflow-hidden mb-5">
-    <div className="px-6 py-4 border-b border-[#C9A84C]/08 flex items-center gap-2.5">
-      {emoji && <span className="text-sm opacity-80">{emoji}</span>}
-      <div>
-        <p className="font-[family-name:var(--font-cinzel)] text-[9px] tracking-[0.26em] uppercase text-[#C9A84C]/65 font-semibold">
-          {title}
-        </p>
-        {subtitle && <p className="font-[family-name:var(--font-cormorant)] text-xs italic text-[#C9A84C]/30 mt-0.5">{subtitle}</p>}
-      </div>
-    </div>
-    <div className="px-6 py-5">{children}</div>
-  </div>
-);
-
-const Label = ({ children }: { children: React.ReactNode }) => (
-  <label className="block font-[family-name:var(--font-cinzel)] text-[8px] tracking-[0.24em] uppercase text-[#C9A84C]/45 mb-2 font-semibold">
-    {children}
-  </label>
-);
-
-const Hint = ({ children }: { children: React.ReactNode }) => (
-  <p className="font-[family-name:var(--font-cormorant)] text-xs italic text-[#C9A84C]/28 mt-1 mb-2">{children}</p>
-);
-
-const CheckRow = ({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label: string }) => (
-  <label className="flex items-center gap-3 cursor-pointer select-none group">
-    <div
-      className={`w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-all duration-200 ${
-        checked ? 'bg-[#C9A84C]/25 border-[#C9A84C]' : 'border-[#C9A84C]/22 bg-transparent group-hover:border-[#C9A84C]/45'
-      }`}
-    >
-      {checked && <span className="text-[#C9A84C] text-[10px] font-bold leading-none">✓</span>}
-    </div>
-    <input type="checkbox" checked={checked} onChange={e => onChange(e.target.checked)} className="sr-only" />
-    <span className="font-[family-name:var(--font-cormorant)] text-base text-[#EDE0C4]/75">{label}</span>
-  </label>
-);
-
-const LuxToggle = ({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) => (
-  <label className="flex items-center gap-3 cursor-pointer select-none shrink-0">
-    <input type="checkbox" checked={checked} onChange={e => onChange(e.target.checked)} className="sr-only" />
-    <div
-      className="relative w-11 h-6 rounded-full border transition-all duration-300"
-      style={{
-        background: checked ? 'linear-gradient(135deg,#7A5C1A,#C9A84C)' : 'rgba(201,168,76,0.08)',
-        borderColor: checked ? 'rgba(201,168,76,0.4)' : 'rgba(201,168,76,0.18)',
-      }}
-    >
-      <div
-        className="absolute top-[3px] w-[18px] h-[18px] rounded-full transition-all duration-300 shadow-md"
-        style={{
-          left: checked ? '22px' : '3px',
-          background: checked ? '#fff' : 'rgba(201,168,76,0.4)',
-        }}
-      />
-    </div>
-    <span className={`font-[family-name:var(--font-cinzel)] text-[8px] tracking-[0.16em] uppercase transition-colors duration-200 ${checked ? 'text-[#C9A84C]' : 'text-[#C9A84C]/35'}`}>
-      {checked ? 'Activă' : 'Inactivă'}
-    </span>
-  </label>
-);
-
-const inpCls = [
-  'w-full px-4 py-3 rounded-xl',
-  'bg-[#080604]/60 border border-[#C9A84C]/16',
-  'text-[#EDE0C4] font-[family-name:var(--font-cormorant)] text-base',
-  'transition-all duration-200 mb-4 block',
-  'min-w-0 box-border',
-].join(' ');
-
-const selectCls = [
-  'flex-1 px-3 py-3 rounded-xl min-w-0',
-  'bg-[#080604]/60 border border-[#C9A84C]/16',
-  'text-[#EDE0C4] font-[family-name:var(--font-cormorant)] text-base',
-  'cursor-pointer appearance-none',
-  'ps-inp',
-].join(' ');
