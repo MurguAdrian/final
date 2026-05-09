@@ -410,7 +410,20 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const pathname              = usePathname()
   const menuRef               = useRef<HTMLDivElement>(null)
+  const HIDE_HEADER_ROUTES = [
+    '/dashboard',
+    '/lux',
+    '/invitatie',
+  ]
 
+  if (HIDE_HEADER_ROUTES.some(route => pathname.startsWith(route))) {
+    return null
+  }
+  useEffect(() => {
+  if (HIDE_HEADER_ROUTES.some(route => pathname.startsWith(route))) {
+    document.body.style.overflow = ''
+  }
+}, [pathname])
   /* scroll listener — add shadow + accent line */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
