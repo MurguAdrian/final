@@ -1687,7 +1687,6 @@
 //   } as React.CSSProperties,
 // };
 
-
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 
@@ -1703,29 +1702,54 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
   const [status, setStatus] = useState<GalleryStatus>(
     initialData?.gallery_status || "inactive"
   );
+
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [timeLeft, setTimeLeft] = useState("");
 
   const fetchPhotos = useCallback(async () => {
-    const res = await fetch(`/api/photos/list?orderId=${orderId}`);
-    const data = await res.json();
-    if (data.photos) setPhotos(data.photos);
+    try {
+      const res = await fetch(`/api/photos/list?orderId=${orderId}`);
+      const data = await res.json();
+      if (data?.photos) setPhotos(data.photos);
+    } catch (e) {
+      console.error(e);
+    }
   }, [orderId]);
 
+  // ─────────────────────────────
+  // CORE LOGIC (3 zile + 30 zile hard cap)
+  // ─────────────────────────────
   useEffect(() => {
-    setStatus(initialData?.gallery_status || "inactive");
+    const start = initialData?.photos_activated_at;
+    const softExpiry = initialData?.photos_expires_at;
 
-    if (!initialData?.photos_expires_at) return;
+    if (!start) return;
+
+    const startTime = new Date(start).getTime();
+    const hardLimit = startTime + 30 * 86400000;
 
     const timer = setInterval(() => {
-      const diff =
-        new Date(initialData.photos_expires_at).getTime() - Date.now();
+      const now = Date.now();
 
-      if (diff <= 0) {
+      const soft = softExpiry ? new Date(softExpiry).getTime() : hardLimit;
+      const expiry = Math.min(soft, hardLimit);
+
+      // 🔴 DELETE (30 zile)
+      if (now >= hardLimit) {
+        setStatus("deleted");
+        setTimeLeft("ȘTERS DEFINITIV");
+        return;
+      }
+
+      // 🔴 EXPIRED
+      if (now >= expiry) {
         setStatus("expired");
         setTimeLeft("EXPIRAT");
         return;
       }
+
+      // 🟡 ACTIVE TIMER
+      const diff = expiry - now;
 
       const d = Math.floor(diff / 86400000);
       const h = Math.floor((diff / 3600000) % 24);
@@ -1737,13 +1761,18 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
     return () => clearInterval(timer);
   }, [initialData]);
 
+  // ─────────────────────────────
+  // LOAD PHOTOS LOGIC
+  // ─────────────────────────────
   useEffect(() => {
-    if (status === "active") fetchPhotos();
-  }, [status, fetchPhotos]);
+    if (status === "active" || initialData?.is_unlock_paid) {
+      fetchPhotos();
+    }
+  }, [status, fetchPhotos, initialData]);
 
   return (
     <div style={{ padding: 20, fontFamily: "Arial" }}>
-      
+
       <h2>GALERIE FOTO</h2>
 
       <p>Status: {status}</p>
@@ -1752,7 +1781,7 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
       {/* ACTIVE */}
       {status === "active" && (
         <div style={{ padding: 10, border: "1px solid green" }}>
-          <b>ACTIVE</b>
+          ACTIVE (3 zile / extins / unlock)
         </div>
       )}
 
@@ -1760,34 +1789,63 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
       {status === "expired" && (
         <div style={{ padding: 10, border: "1px solid red" }}>
           <b>EXPIRED</b>
+
           <br />
+
           <button
-            onClick={() => alert("unlock")}
+            onClick={() => alert("unlock 200 RON → +5 zile")}
             style={{ marginTop: 10 }}
           >
-            Unlock
+            Unlock 200 RON
+          </button>
+
+          <button
+            onClick={() => alert("extend 150 RON → +5 zile (doar dacă în 3 zile)")}
+            style={{ marginTop: 10, marginLeft: 10 }}
+          >
+            Extend 150 RON
+          </button>
+        </div>
+      )}
+
+      {/* DELETED (30 zile hard limit) */}
+      {status === "deleted" && (
+        <div style={{ padding: 10, border: "2px solid black" }}>
+          <b>ALBUM ȘTERS (30 ZILE LIMITĂ)</b>
+
+          <br />
+
+          <button
+            onClick={() => alert("400 RON → album nou (reset complet)")}
+            style={{ marginTop: 10 }}
+          >
+            Album Nou 400 RON
           </button>
         </div>
       )}
 
       {/* GALLERY */}
-      <div style={{ marginTop: 20 }}>
+      <div style={{ marginTop: 20, display: "flex", flexWrap: "wrap", gap: 10 }}>
         {photos.map((p) => (
           <div
             key={p.id}
             style={{
-              marginBottom: 10,
               padding: 10,
               border: "1px solid #ccc",
             }}
           >
             <img
               src={p.url}
-              style={{ width: 120, height: 120, objectFit: "cover" }}
+              style={{
+                width: 120,
+                height: 120,
+                objectFit: "cover",
+              }}
             />
           </div>
         ))}
       </div>
+
     </div>
   );
 };
