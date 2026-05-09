@@ -1805,7 +1805,7 @@ export default function LuxDashboard() {
           .lux-mobile-header { display: flex !important; }
           .lux-tablet-nav { display: flex !important; }
           .lux-main {
-            padding-top: 20px !important;
+            padding-top: 116px !important;
             padding-left: 16px !important;
             padding-right: 16px !important;
             padding-bottom: 40px !important;
@@ -1817,7 +1817,7 @@ export default function LuxDashboard() {
           .lux-tablet-nav { display: none !important; }
           .lux-mobile-nav { display: flex !important; }
           .lux-main {
-            padding-top: 12px !important;
+            padding-top: 72px !important;
             padding-left: 12px !important;
             padding-right: 12px !important;
             padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px) + 20px) !important;
