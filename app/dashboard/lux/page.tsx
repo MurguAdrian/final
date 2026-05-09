@@ -1648,11 +1648,13 @@ export default function LuxDashboard() {
   }, [refreshData]);
 
   if (loading) return (
-    <div className="lux-loading">
-      <div className="lux-spinner" />
-      <span className="lux-loading-text">Sincronizare Date</span>
-      <style>{luxLoadingStyles}</style>
-    </div>
+    <>
+      <style>{GLOBAL_STYLES}</style>
+      <div className="lux-loading">
+        <div className="lux-spinner" />
+        <span className="lux-loading-label">Sincronizare Date</span>
+      </div>
+    </>
   );
 
   const isProfileComplete = !!(weddingData?.bride_name && weddingData?.custom_slug);
@@ -1667,42 +1669,43 @@ export default function LuxDashboard() {
 
   return (
     <>
-      <style>{globalStyles}</style>
+      <style>{GLOBAL_STYLES}</style>
+
+      {/* ROOT: fixed fullscreen, no site layout bleeds in */}
       <div className="lux-root">
 
-        {/* ── SIDEBAR ── */}
+        {/* ── DESKTOP SIDEBAR (hidden on mobile) ── */}
         <aside className="lux-sidebar">
-          <div className="lux-sidebar-top">
-            <div className="lux-brand">
-              <span className="lux-brand-main">VIBE</span>
-              <span className="lux-brand-sub">INVITE</span>
-            </div>
-            <p className="lux-brand-tagline">Premium Luxury Edition</p>
+          <div className="lux-sidebar-brand">
+            <span className="lux-brand-main">VIBE</span>
+            <span className="lux-brand-dim">INVITE</span>
+            <p className="lux-brand-tag">Premium Luxury Edition</p>
           </div>
 
-          <div className="lux-divider-h" />
+          <div className="lux-hr" />
 
           <nav className="lux-nav">
-            <p className="lux-nav-label">Navigare</p>
-            {tabs.map(tab => (
+            <p className="lux-nav-eyebrow">Navigare</p>
+            {tabs.map(t => (
               <button
-                key={tab.id}
-                className={`lux-nav-item ${activeTab === tab.id ? 'lux-nav-item--active' : ''}`}
-                onClick={() => setActiveTab(tab.id)}
+                key={t.id}
+                className={`lux-nav-btn ${activeTab === t.id ? 'active' : ''}`}
+                onClick={() => setActiveTab(t.id)}
               >
                 <span className="lux-nav-dot" />
-                {tab.label}
+                {t.label}
               </button>
             ))}
           </nav>
 
-          <div className="lux-sidebar-bottom">
-            <div className="lux-divider-h" />
-
-            <div className={`lux-status-card ${isProfileComplete ? 'lux-status-card--live' : 'lux-status-card--setup'}`}>
-              <div className="lux-status-indicator">
-                <span className={`lux-status-dot ${isProfileComplete ? 'lux-status-dot--live' : 'lux-status-dot--setup'}`} />
-                <span className="lux-status-label">{isProfileComplete ? 'Link Activ' : 'Configurare Necesară'}</span>
+          <div className="lux-sidebar-footer">
+            <div className="lux-hr" />
+            <div className={`lux-status ${isProfileComplete ? 'live' : 'setup'}`}>
+              <div className="lux-status-row">
+                <span className={`lux-status-dot ${isProfileComplete ? 'live' : 'setup'}`} />
+                <span className="lux-status-text">
+                  {isProfileComplete ? 'Link Activ' : 'Configurare Necesară'}
+                </span>
               </div>
               {isProfileComplete && (
                 <p className="lux-status-url">
@@ -1710,29 +1713,29 @@ export default function LuxDashboard() {
                 </p>
               )}
             </div>
-
-            <button className="lux-signout" onClick={() => window.location.href = '/login'}>
+            <button className="lux-signout" onClick={() => { window.location.href = '/login'; }}>
               Ieșire
             </button>
-
             <p className="lux-copyright">VibeInvite © 2026</p>
           </div>
         </aside>
 
-        {/* ── MOBILE HEADER ── */}
+        {/* ── MOBILE HEADER (hidden on desktop) ── */}
         <header className="lux-mobile-header">
-          <span className="lux-brand-mobile">VIBE<span>INVITE</span></span>
+          <span className="lux-mobile-brand">VIBE<span>INVITE</span></span>
           <span className="lux-mobile-page">{tabs.find(t => t.id === activeTab)?.label}</span>
-          <span className={`lux-mobile-badge ${isProfileComplete ? '' : 'lux-mobile-badge--setup'}`}>
+          <span className={`lux-mobile-badge ${isProfileComplete ? '' : 'setup'}`}>
             <span className="lux-mobile-badge-dot" />
             {isProfileComplete ? 'LIVE' : 'SETUP'}
           </span>
         </header>
 
-        {/* ── MAIN ── */}
+        {/* ── MAIN SCROLL AREA: single scroll context ── */}
         <main className="lux-main">
-          <div className="lux-content-wrap">
-            {activeTab === 'summary' && <SummarySection isComplete={isProfileComplete} />}
+          <div className="lux-content">
+            {activeTab === 'summary' && (
+              <SummarySection isComplete={isProfileComplete} />
+            )}
             {activeTab === 'personalize' && (
               <PersonalizeSection
                 initialData={weddingData}
@@ -1757,15 +1760,15 @@ export default function LuxDashboard() {
           </div>
         </main>
 
-        {/* ── MOBILE BOTTOM NAV ── */}
-        <nav className="lux-mobile-nav">
-          {tabs.map(tab => (
+        {/* ── MOBILE BOTTOM NAV (hidden on desktop) ── */}
+        <nav className="lux-bottom-nav">
+          {tabs.map(t => (
             <button
-              key={tab.id}
-              className={`lux-mobile-nav-item ${activeTab === tab.id ? 'lux-mobile-nav-item--active' : ''}`}
-              onClick={() => setActiveTab(tab.id)}
+              key={t.id}
+              className={`lux-bottom-btn ${activeTab === t.id ? 'active' : ''}`}
+              onClick={() => setActiveTab(t.id)}
             >
-              {tab.label}
+              {t.label}
             </button>
           ))}
         </nav>
@@ -1775,525 +1778,546 @@ export default function LuxDashboard() {
   );
 }
 
-const luxLoadingStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&display=swap');
-  @keyframes lux-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  .lux-loading {
-    height: 100vh; width: 100vw;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
-    background: #07060A;
-  }
-  .lux-spinner {
-    width: 32px; height: 32px;
-    border: 1.5px solid rgba(212,175,55,.2);
-    border-top-color: #D4AF37;
-    border-radius: 50%;
-    animation: lux-spin 0.9s linear infinite;
-  }
-  .lux-loading-text {
-    font-family: 'Cinzel', serif; font-size: 9px;
-    letter-spacing: .4em; text-transform: uppercase;
-    color: rgba(212,175,55,.45);
-  }
-`;
+/* ─────────────────────────────────────────────
+   GLOBAL STYLES — single source of truth
+   All font sizes on inputs ≥ 16px (no zoom)
+   Single scroll context via lux-main
+───────────────────────────────────────────── */
+const GLOBAL_STYLES = `
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500&display=swap');
 
-const globalStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500&display=swap');
+/* RESET */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; -webkit-font-smoothing: antialiased; }
-  body { background: #07060A; }
+/* Prevent site-level scroll — dashboard owns the scroll */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: #07060A;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  :root {
-    --gold: #D4AF37;
-    --gold-light: #F5D678;
-    --gold-dark: #8B6914;
-    --gold-dim: rgba(212,175,55,.45);
-    --gold-faint: rgba(212,175,55,.12);
-    --gold-ghost: rgba(212,175,55,.06);
-    --cream: #F5E6A8;
-    --cream-dim: rgba(245,230,168,.55);
-    --bg: #07060A;
-    --bg-sidebar: #0A0807;
-    --bg-card: rgba(212,175,55,.04);
-    --border: rgba(212,175,55,.16);
-    --border-med: rgba(212,175,55,.25);
-    --text: #F5E6A8;
-    --text-dim: rgba(245,230,168,.55);
-    --text-muted: rgba(245,230,168,.3);
-    --sidebar-w: 248px;
-    --header-h: 56px;
-    --bottom-nav-h: 64px;
-  }
+/* CSS TOKENS */
+:root {
+  --gold: #D4AF37;
+  --gold-light: #F5D678;
+  --gold-dark: #8B6914;
+  --gold-45: rgba(212,175,55,.45);
+  --gold-25: rgba(212,175,55,.25);
+  --gold-12: rgba(212,175,55,.12);
+  --gold-06: rgba(212,175,55,.06);
+  --cream: #F5E6A8;
+  --cream-55: rgba(245,230,168,.55);
+  --cream-30: rgba(245,230,168,.30);
+  --bg: #07060A;
+  --bg-sidebar: #0A0807;
+  --border: rgba(212,175,55,.16);
+  --sidebar-w: 248px;
+  --header-h: 52px;
+  --bottom-h: 60px;
+}
 
-  @keyframes lux-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  @keyframes lux-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
+@keyframes lux-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes lux-fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
 
-  /* ── ROOT ── */
-  .lux-root {
-    display: flex;
-    height: 100vh; width: 100vw;
-    overflow: hidden;
-    background: var(--bg);
-    position: fixed; inset: 0;
-  }
+/* ── LOADING ── */
+.lux-loading {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 18px;
+  background: var(--bg);
+}
+.lux-spinner {
+  width: 30px; height: 30px;
+  border: 1.5px solid rgba(212,175,55,.2);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: lux-spin .9s linear infinite;
+}
+.lux-loading-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px; letter-spacing: .38em;
+  text-transform: uppercase; color: var(--gold-45);
+}
 
-  /* ── SIDEBAR ── */
-  .lux-sidebar {
-    width: var(--sidebar-w);
-    flex-shrink: 0;
-    background: var(--bg-sidebar);
-    border-right: 1px solid var(--border);
-    display: flex; flex-direction: column;
-    overflow: hidden;
-    z-index: 20;
-  }
-  .lux-sidebar-top {
-    padding: 36px 28px 28px;
-  }
-  .lux-brand {
-    font-family: 'Cinzel', serif;
-    font-size: 14px; font-weight: 600;
-    letter-spacing: .3em;
-    margin-bottom: 6px;
-  }
-  .lux-brand-main { color: var(--gold); }
-  .lux-brand-sub { color: rgba(212,175,55,.35); }
-  .lux-brand-tagline {
-    font-family: 'Cinzel', serif;
-    font-size: 7px; letter-spacing: .24em;
-    text-transform: uppercase; color: rgba(212,175,55,.28);
-  }
-  .lux-divider-h {
-    height: 1px; margin: 0;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-  }
-  .lux-nav {
-    flex: 1; padding: 24px 16px;
-    display: flex; flex-direction: column; gap: 2px;
-    overflow-y: auto;
-  }
-  .lux-nav-label {
-    font-family: 'Cinzel', serif;
-    font-size: 7px; letter-spacing: .3em;
-    text-transform: uppercase; color: rgba(212,175,55,.28);
-    padding: 0 12px; margin-bottom: 10px;
-  }
-  .lux-nav-item {
-    display: flex; align-items: center; gap: 12px;
-    width: 100%; padding: 11px 14px;
-    background: transparent;
-    border: 1px solid transparent; border-radius: 8px;
-    color: var(--gold-dim);
-    font-family: 'Cinzel', serif;
-    font-size: 10px; font-weight: 600; letter-spacing: .14em;
-    cursor: pointer; text-align: left;
-    transition: all .18s ease;
-  }
-  .lux-nav-item:hover {
-    background: var(--gold-ghost);
-    color: var(--gold);
-    border-color: rgba(212,175,55,.1);
-  }
-  .lux-nav-item--active {
-    background: linear-gradient(135deg, rgba(212,175,55,.12), rgba(212,175,55,.06));
-    border-color: rgba(212,175,55,.22);
-    color: var(--gold-light);
-  }
-  .lux-nav-dot {
-    width: 4px; height: 4px; border-radius: 50%;
-    background: currentColor; flex-shrink: 0; opacity: .5;
-    transition: opacity .18s;
-  }
-  .lux-nav-item--active .lux-nav-dot { opacity: 1; }
+/* ── ROOT: fixed fullscreen ── */
+.lux-root {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  background: var(--bg);
+  overflow: hidden; /* children manage their own overflow */
+}
 
-  .lux-sidebar-bottom {
-    padding: 16px;
-    display: flex; flex-direction: column; gap: 12px;
-  }
-  .lux-status-card {
-    padding: 14px 16px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--gold-ghost);
-  }
-  .lux-status-card--live { border-color: rgba(212,175,55,.22); }
-  .lux-status-card--setup { border-color: rgba(255,165,0,.2); background: rgba(255,165,0,.04); }
-  .lux-status-indicator { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-  .lux-status-dot {
-    width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
-  }
-  .lux-status-dot--live { background: var(--gold); box-shadow: 0 0 8px rgba(212,175,55,.6); }
-  .lux-status-dot--setup { background: #ffa500; box-shadow: 0 0 8px rgba(255,165,0,.5); }
-  .lux-status-label {
-    font-family: 'Cinzel', serif;
-    font-size: 7px; letter-spacing: .2em;
-    text-transform: uppercase; color: var(--gold-dim);
-  }
-  .lux-status-url {
-    font-family: 'Inter', sans-serif;
-    font-size: 10px; color: rgba(212,175,55,.45);
-    word-break: break-all; line-height: 1.6;
-  }
-  .lux-status-url strong { color: var(--gold-dim); font-weight: 500; }
-  .lux-signout {
-    width: 100%; padding: 10px;
-    background: rgba(255,60,60,.05);
-    border: 1px solid rgba(255,60,60,.18);
-    border-radius: 8px;
-    color: rgba(255,100,100,.6);
-    font-family: 'Cinzel', serif;
-    font-size: 9px; font-weight: 600;
-    letter-spacing: .2em; text-transform: uppercase;
-    cursor: pointer; transition: all .18s;
-  }
-  .lux-signout:hover {
-    background: rgba(255,60,60,.1);
-    border-color: rgba(255,80,80,.4);
-    color: #ff7070;
-  }
-  .lux-copyright {
-    font-family: 'Cinzel', serif;
-    font-size: 7px; letter-spacing: .2em;
-    text-transform: uppercase; color: rgba(212,175,55,.18);
-    text-align: center;
-  }
+/* ── SIDEBAR (desktop only) ── */
+.lux-sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.lux-sidebar-brand {
+  padding: 32px 24px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.lux-brand-main {
+  font-family: 'Cinzel', serif;
+  font-size: 14px; font-weight: 600;
+  letter-spacing: .3em; color: var(--gold);
+}
+.lux-brand-dim { color: rgba(212,175,55,.3); }
+.lux-brand-tag {
+  display: block; margin-top: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 7px; letter-spacing: .22em;
+  text-transform: uppercase; color: rgba(212,175,55,.25);
+}
+.lux-hr {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+}
+.lux-nav {
+  flex: 1; padding: 20px 14px;
+  display: flex; flex-direction: column; gap: 2px;
+  overflow-y: auto;
+}
+.lux-nav-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 7px; letter-spacing: .3em;
+  text-transform: uppercase; color: rgba(212,175,55,.25);
+  padding: 0 12px; margin-bottom: 10px;
+}
+.lux-nav-btn {
+  width: 100%; padding: 11px 14px;
+  display: flex; align-items: center; gap: 10px;
+  background: transparent; border: 1px solid transparent;
+  border-radius: 8px; cursor: pointer; text-align: left;
+  font-family: 'Cinzel', serif; font-size: 10px;
+  font-weight: 600; letter-spacing: .12em;
+  color: var(--gold-45); transition: all .18s;
+}
+.lux-nav-btn:hover { background: var(--gold-06); color: var(--gold); }
+.lux-nav-btn.active {
+  background: linear-gradient(135deg, rgba(212,175,55,.12), rgba(212,175,55,.05));
+  border-color: rgba(212,175,55,.2);
+  color: var(--gold-light);
+}
+.lux-nav-dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: currentColor; flex-shrink: 0; opacity: .5;
+}
+.lux-nav-btn.active .lux-nav-dot { opacity: 1; }
 
-  /* ── MOBILE HEADER ── */
-  .lux-mobile-header {
-    display: none;
-    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-    height: var(--header-h);
-    align-items: center; justify-content: space-between;
-    padding: 0 20px;
-    background: rgba(7,6,10,.96);
-    border-bottom: 1px solid var(--border);
-    backdrop-filter: blur(16px);
-  }
-  .lux-brand-mobile {
-    font-family: 'Cinzel', serif;
-    font-size: 12px; font-weight: 600;
-    letter-spacing: .25em; color: var(--gold);
-  }
-  .lux-brand-mobile span { color: rgba(212,175,55,.35); }
-  .lux-mobile-page {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 13px; font-style: italic;
-    color: var(--gold-dim);
-  }
-  .lux-mobile-badge {
-    display: flex; align-items: center; gap: 5px;
-    padding: 4px 10px; border-radius: 100px;
-    background: var(--gold-ghost);
-    border: 1px solid var(--border);
-    font-family: 'Cinzel', serif;
-    font-size: 7px; letter-spacing: .15em;
-    color: var(--gold-dim);
-  }
-  .lux-mobile-badge--setup { border-color: rgba(255,165,0,.2); color: rgba(255,165,0,.7); }
-  .lux-mobile-badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.lux-sidebar-footer {
+  padding: 14px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.lux-status {
+  padding: 12px 14px; border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--gold-06);
+}
+.lux-status.live { border-color: rgba(212,175,55,.2); }
+.lux-status.setup { border-color: rgba(255,165,0,.2); background: rgba(255,165,0,.04); }
+.lux-status-row { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
+.lux-status-dot {
+  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+}
+.lux-status-dot.live { background: var(--gold); box-shadow: 0 0 7px rgba(212,175,55,.6); }
+.lux-status-dot.setup { background: #ffa500; box-shadow: 0 0 7px rgba(255,165,0,.5); }
+.lux-status-text {
+  font-family: 'Cinzel', serif;
+  font-size: 7px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--gold-45);
+}
+.lux-status-url {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px; color: rgba(212,175,55,.4);
+  word-break: break-all; line-height: 1.6;
+}
+.lux-status-url strong { color: var(--gold-45); }
+.lux-signout {
+  width: 100%; padding: 10px;
+  background: rgba(255,60,60,.05);
+  border: 1px solid rgba(255,60,60,.18);
+  border-radius: 8px;
+  color: rgba(255,100,100,.6);
+  font-family: 'Cinzel', serif;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
+  cursor: pointer; transition: all .18s;
+}
+.lux-signout:hover {
+  background: rgba(255,60,60,.1);
+  border-color: rgba(255,80,80,.35);
+  color: #ff7070;
+}
+.lux-copyright {
+  font-family: 'Cinzel', serif;
+  font-size: 7px; letter-spacing: .18em;
+  text-transform: uppercase; color: rgba(212,175,55,.18);
+  text-align: center;
+}
 
-  /* ── MAIN ── */
-  .lux-main {
-    flex: 1; overflow-y: auto; overflow-x: hidden;
-    position: relative;
-    scroll-behavior: smooth;
-  }
-  .lux-content-wrap {
-    padding: clamp(32px, 4vw, 60px) clamp(24px, 5vw, 72px);
-    animation: lux-fade .4s ease both;
-    min-height: 100%;
-  }
+/* ── MOBILE HEADER (hidden on desktop) ── */
+.lux-mobile-header {
+  display: none;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--header-h);
+  align-items: center; justify-content: space-between;
+  padding: 0 18px;
+  background: rgba(7,6,10,.97);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.lux-mobile-brand {
+  font-family: 'Cinzel', serif;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: .22em; color: var(--gold);
+}
+.lux-mobile-brand span { color: rgba(212,175,55,.3); }
+.lux-mobile-page {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px; font-style: italic; color: var(--gold-45);
+}
+.lux-mobile-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 100px;
+  background: var(--gold-06); border: 1px solid var(--border);
+  font-family: 'Cinzel', serif; font-size: 7px;
+  letter-spacing: .14em; color: var(--gold-45);
+}
+.lux-mobile-badge.setup { border-color: rgba(255,165,0,.2); color: rgba(255,165,0,.7); }
+.lux-mobile-badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
 
-  /* ── MOBILE BOTTOM NAV ── */
-  .lux-mobile-nav {
-    display: none;
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
-    height: var(--bottom-nav-h);
-    background: rgba(7,6,10,.97);
-    border-top: 1px solid var(--border);
-    backdrop-filter: blur(20px);
-    align-items: stretch; justify-content: stretch;
-  }
-  .lux-mobile-nav-item {
-    flex: 1;
-    display: flex; align-items: center; justify-content: center;
-    background: transparent; border: none;
-    border-top: 2px solid transparent;
-    color: rgba(212,175,55,.35);
-    font-family: 'Cinzel', serif;
-    font-size: 8px; font-weight: 600;
-    letter-spacing: .1em; text-transform: uppercase;
-    cursor: pointer; transition: all .18s;
-  }
-  .lux-mobile-nav-item--active {
-    border-top-color: var(--gold);
-    color: var(--gold);
-  }
+/* ── MAIN: THE SINGLE SCROLL CONTEXT ── */
+.lux-main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; /* smooth momentum on iOS */
+  overscroll-behavior: contain;      /* no scroll bleed-through */
+  /* no transform, no position:relative that could interfere */
+}
+.lux-content {
+  padding: 48px 40px 80px;
+  animation: lux-fade .35s ease both;
+  min-height: 100%;
+}
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    .lux-sidebar { display: none; }
-    .lux-mobile-header { display: flex; }
-    .lux-mobile-nav { display: flex; }
-    .lux-content-wrap {
-      padding: calc(var(--header-h) + 24px) 20px calc(var(--bottom-nav-h) + 24px);
-    }
-  }
+/* ── MOBILE BOTTOM NAV (hidden on desktop) ── */
+.lux-bottom-nav {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  height: var(--bottom-h);
+  background: rgba(7,6,10,.97);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.lux-bottom-btn {
+  flex: 1; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent;
+  border: none;
+  border-top: 2px solid transparent;
+  color: rgba(212,175,55,.35);
+  font-family: 'Cinzel', serif; font-size: 8px;
+  font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; cursor: pointer;
+  transition: color .18s, border-color .18s;
+  /* tap target safety */
+  min-width: 44px;
+  -webkit-tap-highlight-color: transparent;
+}
+.lux-bottom-btn.active {
+  border-top-color: var(--gold);
+  color: var(--gold);
+}
 
-  /* ── SHARED COMPONENT STYLES ── */
-  .lux-page-label {
-    font-family: 'Cinzel', serif;
-    font-size: 9px; letter-spacing: .38em;
-    text-transform: uppercase; color: var(--gold-dim);
-    margin-bottom: 10px; display: block;
+/* ── RESPONSIVE: mobile-first, then desktop ── */
+@media (max-width: 768px) {
+  .lux-sidebar { display: none; }
+  .lux-mobile-header { display: flex; }
+  .lux-bottom-nav { display: flex; }
+  .lux-content {
+    /* top: below header, bottom: above nav + safe area */
+    padding: calc(var(--header-h) + 20px) 18px calc(var(--bottom-h) + 24px + env(safe-area-inset-bottom));
   }
-  .lux-page-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(26px, 4vw, 40px);
-    font-weight: 300; font-style: italic;
-    color: var(--cream); line-height: 1.1;
-    margin: 0 0 32px;
-  }
-  .lux-divider {
-    display: flex; align-items: center;
-    width: 100%; margin: 28px 0;
-  }
-  .lux-divider::before, .lux-divider::after {
-    content: '';
-    flex: 1; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-  }
-  .lux-divider-gem {
-    width: 6px; height: 6px;
-    border: 1px solid rgba(212,175,55,.5);
-    transform: rotate(45deg);
-    margin: 0 12px; flex-shrink: 0;
-  }
+}
 
-  /* Cards */
-  .lux-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: clamp(20px, 3vw, 32px);
-    position: relative; overflow: hidden;
-  }
-  .lux-card::before {
-    content: '';
-    position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(212,175,55,.3), transparent);
-  }
+/* ── SHARED COMPONENT TOKENS ── */
 
-  /* Inputs — NO ZOOM (font-size >= 16px on mobile) */
-  .lux-input {
-    width: 100%;
-    background: rgba(0,0,0,.35);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--cream);
-    padding: 13px 16px;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px; /* prevents mobile zoom */
-    line-height: 1.4;
-    outline: none;
-    transition: border-color .18s, background .18s;
-    -webkit-appearance: none;
-    touch-action: manipulation;
-  }
-  .lux-input:focus {
-    border-color: rgba(212,175,55,.45);
-    background: rgba(212,175,55,.06);
-  }
-  .lux-input::placeholder { color: rgba(245,230,168,.22); font-style: italic; }
+/* Typography */
+.lux-eyebrow {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 9px; letter-spacing: .36em;
+  text-transform: uppercase; color: var(--gold-45);
+  margin-bottom: 8px;
+}
+.lux-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 4vw, 38px);
+  font-weight: 300; font-style: italic;
+  color: var(--cream); line-height: 1.1;
+  margin: 0 0 28px;
+}
 
-  .lux-select {
-    width: 100%;
-    background: rgba(0,0,0,.35);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--cream);
-    padding: 13px 16px;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    outline: none;
-    cursor: pointer;
-    -webkit-appearance: none;
-    transition: border-color .18s;
-  }
-  .lux-select:focus { border-color: rgba(212,175,55,.45); }
-  .lux-select option { background: #0a0807; color: var(--cream); }
+/* Divider */
+.lux-divider {
+  display: flex; align-items: center;
+  margin: 24px 0;
+}
+.lux-divider::before, .lux-divider::after {
+  content: '';
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+}
+.lux-gem {
+  width: 6px; height: 6px;
+  border: 1px solid rgba(212,175,55,.4);
+  transform: rotate(45deg);
+  margin: 0 12px; flex-shrink: 0;
+}
 
-  .lux-textarea {
-    width: 100%;
-    background: rgba(0,0,0,.35);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--cream);
-    padding: 13px 16px;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    outline: none;
-    resize: vertical; min-height: 100px;
-    transition: border-color .18s, background .18s;
-    -webkit-appearance: none;
-  }
-  .lux-textarea:focus {
-    border-color: rgba(212,175,55,.45);
-    background: rgba(212,175,55,.06);
-  }
-  .lux-textarea::placeholder { color: rgba(245,230,168,.22); font-style: italic; }
+/* Card */
+.lux-card {
+  background: var(--gold-06);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  position: relative; overflow: hidden;
+  margin-bottom: 20px;
+}
+.lux-card::before {
+  content: '';
+  position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,.25), transparent);
+}
 
-  .lux-label {
-    display: block;
-    font-family: 'Cinzel', serif;
-    font-size: 8px; letter-spacing: .22em;
-    text-transform: uppercase; color: var(--gold-dim);
-    margin-bottom: 8px;
-  }
+/* Section box */
+.lux-section {
+  background: rgba(212,175,55,.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  position: relative;
+}
+.lux-section::before {
+  content: '';
+  position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,.18), transparent);
+}
+.lux-section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 8px; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--gold-45);
+  padding-bottom: 12px; margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
 
-  .lux-field { margin-bottom: 20px; }
+/* Grid */
+.lux-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 640px) {
+  .lux-grid-2 { grid-template-columns: 1fr; }
+  .lux-span-2 { grid-column: span 1 !important; }
+}
+.lux-span-2 { grid-column: span 2; }
 
-  /* Button */
-  .lux-btn-gold {
-    width: 100%; padding: 15px;
-    border-radius: 4px;
-    background: linear-gradient(135deg, #8B6914 0%, #D4AF37 45%, #F5D678 55%, #D4AF37 70%, #8B6914 100%);
-    color: #0A0803;
-    font-family: 'Cinzel', serif;
-    font-size: 11px; font-weight: 700;
-    letter-spacing: .22em; text-transform: uppercase;
-    border: none; cursor: pointer;
-    box-shadow: 0 8px 36px rgba(212,175,55,.28);
-    transition: transform .2s, box-shadow .2s;
-    position: relative; overflow: hidden;
-  }
-  .lux-btn-gold:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 48px rgba(212,175,55,.42);
-  }
-  .lux-btn-gold:disabled { opacity: .55; cursor: not-allowed; }
-  .lux-btn-gold .shimmer {
-    position: absolute; inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
-    background-size: 350px 100%;
-    animation: shimmer 3s linear infinite;
-  }
+/* ──────────────────────────────────────────────
+   INPUTS — MOBILE CRITICAL
+   font-size: 16px  → prevents iOS zoom
+   No transform, no scale, no weird offsets
+   appearance: none → removes native chrome that can cause issues
+   line-height: 1.5 → correct caret vertical position
+   padding: 14px 16px → comfortable touch target
+────────────────────────────────────────────── */
+.lux-input,
+.lux-select,
+.lux-textarea {
+  width: 100%;
+  background: rgba(0,0,0,.4);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--cream);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;        /* CRITICAL: prevents mobile zoom */
+  line-height: 1.5;       /* correct caret vertical alignment */
+  padding: 14px 16px;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  transition: border-color .18s, background .18s;
+  /* NO transform, NO scale, NO translate */
+  transform: none;
+  /* Prevent layout shifts */
+  display: block;
+}
+.lux-input:focus,
+.lux-select:focus,
+.lux-textarea:focus {
+  border-color: rgba(212,175,55,.45);
+  background: rgba(212,175,55,.06);
+}
+.lux-input::placeholder,
+.lux-textarea::placeholder {
+  color: rgba(245,230,168,.22);
+  font-style: italic;
+}
+.lux-select {
+  cursor: pointer;
+  /* Down arrow without native chrome */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(212,175,55,.5)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+.lux-select option { background: #0a0807; color: var(--cream); }
+.lux-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
 
-  .lux-btn-outline {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 20px; border-radius: 6px;
-    background: var(--gold-ghost);
-    border: 1px solid var(--border-med);
-    color: var(--gold-dim);
-    font-family: 'Cinzel', serif;
-    font-size: 9px; font-weight: 600;
-    letter-spacing: .16em; text-transform: uppercase;
-    cursor: pointer; transition: all .18s;
-    text-decoration: none; white-space: nowrap;
-  }
-  .lux-btn-outline:hover {
-    background: rgba(212,175,55,.12);
-    border-color: rgba(212,175,55,.45);
-    color: var(--gold-light);
-  }
+/* Label */
+.lux-label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 8px; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold-45);
+  margin-bottom: 8px;
+}
+.lux-field { margin-bottom: 16px; }
 
-  /* Section box */
-  .lux-section-box {
-    background: rgba(212,175,55,.03);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: clamp(20px, 3vw, 28px);
-    margin-bottom: 20px;
-    position: relative; overflow: hidden;
-  }
-  .lux-section-box::before {
-    content: '';
-    position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(212,175,55,.22), transparent);
-  }
-  .lux-section-title {
-    font-family: 'Cinzel', serif;
-    font-size: 9px; letter-spacing: .22em;
-    text-transform: uppercase; color: var(--gold-dim);
-    margin-bottom: 20px; padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
+/* Buttons */
+.lux-btn-gold {
+  width: 100%; padding: 16px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #8B6914 0%, #D4AF37 45%, #F5D678 55%, #D4AF37 70%, #8B6914 100%);
+  color: #0A0803;
+  font-family: 'Cinzel', serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase;
+  border: none; cursor: pointer;
+  position: relative; overflow: hidden;
+  box-shadow: 0 6px 30px rgba(212,175,55,.25);
+  transition: transform .18s, box-shadow .18s;
+  /* Mobile tap */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.lux-btn-gold:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 40px rgba(212,175,55,.38);
+}
+.lux-btn-gold:disabled { opacity: .5; cursor: not-allowed; }
+.lux-btn-gold .shimmer {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+  background-size: 350px 100%;
+  animation: shimmer 3s linear infinite;
+}
 
-  /* Grid */
-  .lux-grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-  @media (max-width: 640px) {
-    .lux-grid-2 { grid-template-columns: 1fr; }
-    .lux-span-2 { grid-column: span 1; }
-  }
-  .lux-span-2 { grid-column: span 2; }
+.lux-btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: 6px;
+  background: var(--gold-06);
+  border: 1px solid var(--gold-25);
+  color: var(--gold-45);
+  font-family: 'Cinzel', serif;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  cursor: pointer; transition: all .18s;
+  text-decoration: none; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.lux-btn-outline:hover {
+  background: var(--gold-12);
+  border-color: rgba(212,175,55,.4);
+  color: var(--gold-light);
+}
 
-  /* Toggle */
-  .lux-toggle-wrap {
-    display: inline-flex; align-items: center; gap: 10px;
-    cursor: pointer; flex-shrink: 0;
-  }
-  .lux-toggle-track {
-    width: 44px; height: 24px; border-radius: 12px;
-    position: relative; flex-shrink: 0;
-    transition: all .25s ease;
-  }
-  .lux-toggle-track--on {
-    background: linear-gradient(135deg, #8B6914, #D4AF37);
-    border: 1px solid rgba(212,175,55,.5);
-  }
-  .lux-toggle-track--off {
-    background: rgba(212,175,55,.1);
-    border: 1px solid var(--border);
-  }
-  .lux-toggle-thumb {
-    position: absolute; top: 2px;
-    width: 18px; height: 18px; border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(0,0,0,.35);
-    transition: transform .25s ease, background .25s ease;
-  }
-  .lux-toggle-thumb--on { transform: translateX(20px); background: #fff; }
-  .lux-toggle-thumb--off { transform: translateX(2px); background: rgba(212,175,55,.4); }
-  .lux-toggle-label {
-    font-family: 'Cinzel', serif;
-    font-size: 8px; letter-spacing: .16em;
-    text-transform: uppercase;
-    transition: color .2s;
-    white-space: nowrap;
-  }
-  .lux-toggle-label--on { color: var(--gold); }
-  .lux-toggle-label--off { color: rgba(212,175,55,.3); }
+/* Toggle */
+.lux-toggle-wrap {
+  display: inline-flex; align-items: center; gap: 8px;
+  cursor: pointer; flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.lux-toggle-track {
+  width: 44px; height: 24px; border-radius: 12px;
+  position: relative; flex-shrink: 0;
+  transition: background .25s, border-color .25s;
+}
+.lux-toggle-track.on {
+  background: linear-gradient(135deg, #8B6914, #D4AF37);
+  border: 1px solid rgba(212,175,55,.5);
+}
+.lux-toggle-track.off {
+  background: rgba(212,175,55,.1);
+  border: 1px solid var(--border);
+}
+.lux-toggle-thumb {
+  position: absolute; top: 2px;
+  width: 18px; height: 18px; border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0,0,0,.3);
+  transition: transform .25s, background .25s;
+}
+.lux-toggle-thumb.on { transform: translateX(20px); background: #fff; }
+.lux-toggle-thumb.off { transform: translateX(2px); background: rgba(212,175,55,.4); }
+.lux-toggle-label {
+  font-family: 'Cinzel', serif; font-size: 8px;
+  letter-spacing: .14em; text-transform: uppercase;
+  white-space: nowrap; transition: color .2s;
+}
+.lux-toggle-label.on { color: var(--gold); }
+.lux-toggle-label.off { color: rgba(212,175,55,.3); }
 
-  /* Stat card */
-  .lux-stat-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: clamp(16px, 2.5vw, 24px);
-    text-align: center;
-    position: relative; overflow: hidden;
-  }
-  .lux-stat-card::before {
-    content: '';
-    position: absolute; top: 0; left: 20%; right: 20%; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(212,175,55,.3), transparent);
-  }
-  .lux-stat-label {
-    font-family: 'Cinzel', serif;
-    font-size: 7px; letter-spacing: .25em;
-    text-transform: uppercase; color: var(--gold-dim);
-    margin-bottom: 10px; display: block;
-  }
-  .lux-stat-value {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(28px, 4vw, 42px);
-    font-weight: 300; color: var(--cream);
-    line-height: 1;
-  }
+/* Stat card */
+.lux-stat-card {
+  background: var(--gold-06); border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.lux-stat-card::before {
+  content: '';
+  position: absolute; top: 0; left: 20%; right: 20%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,.25), transparent);
+}
+.lux-stat-label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 7px; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--gold-45);
+  margin-bottom: 8px;
+}
+.lux-stat-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 300; color: var(--cream); line-height: 1;
+}
 `;
