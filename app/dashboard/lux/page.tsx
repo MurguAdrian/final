@@ -1620,7 +1620,6 @@
 //     </>
 //   );
 // }
-
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { SummarySection } from './components/SummarySection';
@@ -1802,12 +1801,10 @@ export default function LuxDashboard() {
         /* Tablet (768–1023) */
         @media (max-width: 1023px) {
           .lux-sidebar { display: none !important; }
-/* În blocul de <style> */
-.lux-mobile-header { 
-  display: none !important; 
-}          .lux-tablet-nav { display: flex !important; }
+          .lux-mobile-header { display: flex !important; }
+          .lux-tablet-nav { display: flex !important; }
           .lux-main {
-            padding-top: 20px !important;
+            padding-top: 116px !important;
             padding-left: 16px !important;
             padding-right: 16px !important;
             padding-bottom: 40px !important;
@@ -1819,7 +1816,7 @@ export default function LuxDashboard() {
           .lux-tablet-nav { display: none !important; }
           .lux-mobile-nav { display: flex !important; }
           .lux-main {
-            padding-top: 20px !important;
+            padding-top: 72px !important;
             padding-left: 12px !important;
             padding-right: 12px !important;
             padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px) + 20px) !important;
@@ -1860,7 +1857,7 @@ export default function LuxDashboard() {
           `
         }} />
 
-        ══ MOBILE / TABLET HEADER (≤ 1023px) ══
+        {/* ══ MOBILE / TABLET HEADER (≤ 1023px) ══ */}
         <header className="lux-mobile-header" style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200,
           height: 56,
