@@ -185,41 +185,63 @@ export async function POST(req: Request) {
       } 
       
       // CAZUL B: MODUL FOTO
+// CAZUL B: MODUL FOTO
 else if (metadata.orderId && metadata.paymentType) {
   const orderId = parseInt(metadata.orderId);
   const paymentType = metadata.paymentType;
 
-  // PRELUNGIRE / REACTIVARE UPLOAD (5 zile)
+  // EXTEND (150 RON) – doar în primele 3 zile, o singură dată
+  // Modifică DOAR photos_expires_at += 5 zile
+  // NU atinge T0, NU atinge is_unlock_paid
   if (paymentType === 'extend') {
     await sql`
       UPDATE wedding_settings
       SET
-        gallery_status = 'active',
-photos_expires_at = COALESCE(GREATEST(photos_expires_at, NOW()), NOW()) + INTERVAL '5 days',
-is_unlock_paid = true      WHERE order_id = ${orderId}
+        photos_expires_at = photos_expires_at + INTERVAL '5 days'
+      WHERE order_id = ${orderId}
+        AND gallery_status = 'active'
+        AND NOW() < photos_activated_at + INTERVAL '3 days'
     `;
   }
 
-  // ALBUM NOU (reactivare completă – flux de la început)
-else if (paymentType === 'new_album') {
-  await sql`
-    UPDATE wedding_settings
-    SET
-      gallery_status = 'active',
-      photos_activated_at = NOW(),
-      photos_expires_at = NOW() + INTERVAL '3 days',
-      archive_expires_at = NULL,
-      photo_consent_accepted = false,
-      is_unlock_paid = false,
-      view_count = 0
-    WHERE order_id = ${orderId}
-  `;
+  // UNLOCK (200 RON) – status expired, o singură dată
+  // status = active, is_unlock_paid = true, photos_expires_at = now + 5 zile
+  // NU modifică T0 (photos_activated_at)
+  else if (paymentType === 'unlock') {
+    await sql`
+      UPDATE wedding_settings
+      SET
+        gallery_status = 'active',
+        is_unlock_paid = true,
+        photos_expires_at = NOW() + INTERVAL '5 days'
+      WHERE order_id = ${orderId}
+        AND gallery_status = 'expired'
+        AND is_unlock_paid = false
+        AND NOW() < photos_activated_at + INTERVAL '30 days'
+    `;
+  }
 
-  await sql`
-    DELETE FROM wedding_photos
-    WHERE order_id = ${orderId}
-  `;
-}
+  // ALBUM NOU (400 RON) – reset complet
+  // T0 = now, photos_expires_at = now + 3 zile, is_unlock_paid = false
+  else if (paymentType === 'new_album') {
+    await sql`
+      UPDATE wedding_settings
+      SET
+        gallery_status = 'active',
+        photos_activated_at = NOW(),
+        photos_expires_at = NOW() + INTERVAL '3 days',
+        archive_expires_at = NULL,
+        photo_consent_accepted = false,
+        is_unlock_paid = false,
+        view_count = 0
+      WHERE order_id = ${orderId}
+    `;
+
+    await sql`
+      DELETE FROM wedding_photos
+      WHERE order_id = ${orderId}
+    `;
+  }
 }}
 
     return NextResponse.json({ received: true });
