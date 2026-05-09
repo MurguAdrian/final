@@ -195,25 +195,31 @@ else if (metadata.orderId && metadata.paymentType) {
       UPDATE wedding_settings
       SET
         gallery_status = 'active',
-        photos_expires_at = GREATEST(photos_expires_at, NOW()) + INTERVAL '5 days'
-      WHERE order_id = ${orderId}
+photos_expires_at = COALESCE(GREATEST(photos_expires_at, NOW()), NOW()) + INTERVAL '5 days',
+is_unlock_paid = true      WHERE order_id = ${orderId}
     `;
   }
 
   // ALBUM NOU (reactivare completă – flux de la început)
-  else if (paymentType === 'new_album') {
-    await sql`
-      UPDATE wedding_settings
-      SET
-        gallery_status = 'active',
-        photos_activated_at = NOW(),
-        photos_expires_at = NOW() + INTERVAL '3 days',
-        archive_expires_at = NULL,
-        photo_consent_accepted = false,
-        is_unlock_paid = false
-      WHERE order_id = ${orderId}
-    `;
-  }
+else if (paymentType === 'new_album') {
+  await sql`
+    UPDATE wedding_settings
+    SET
+      gallery_status = 'active',
+      photos_activated_at = NOW(),
+      photos_expires_at = NOW() + INTERVAL '3 days',
+      archive_expires_at = NULL,
+      photo_consent_accepted = false,
+      is_unlock_paid = false,
+      view_count = 0
+    WHERE order_id = ${orderId}
+  `;
+
+  await sql`
+    DELETE FROM wedding_photos
+    WHERE order_id = ${orderId}
+  `;
+}
 }}
 
     return NextResponse.json({ received: true });
