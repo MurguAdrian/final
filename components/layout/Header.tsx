@@ -412,8 +412,6 @@ export default function Header() {
   const menuRef               = useRef<HTMLDivElement>(null)
   const HIDE_HEADER_ROUTES = [
     '/dashboard',
-    '/lux',
-    '/invitatie',
   ]
 
   if (HIDE_HEADER_ROUTES.some(route => pathname.startsWith(route))) {
