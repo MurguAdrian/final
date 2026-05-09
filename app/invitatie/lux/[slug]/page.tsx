@@ -176,6 +176,7 @@
 //   display: 'inline-block', padding: '12px 25px', border: '1px solid #d4af37', 
 //   color: '#d4af37', textDecoration: 'none', fontSize: '0.7rem', marginTop: '10px' 
 // };
+
 import { neon } from "@neondatabase/serverless";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
