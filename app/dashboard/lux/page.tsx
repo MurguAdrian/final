@@ -1620,6 +1620,7 @@
 //     </>
 //   );
 // }
+
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { SummarySection } from './components/SummarySection';
@@ -1804,7 +1805,7 @@ export default function LuxDashboard() {
           .lux-mobile-header { display: flex !important; }
           .lux-tablet-nav { display: flex !important; }
           .lux-main {
-            padding-top: 116px !important;
+            padding-top: 20px !important;
             padding-left: 16px !important;
             padding-right: 16px !important;
             padding-bottom: 40px !important;
@@ -1816,7 +1817,7 @@ export default function LuxDashboard() {
           .lux-tablet-nav { display: none !important; }
           .lux-mobile-nav { display: flex !important; }
           .lux-main {
-            padding-top: 72px !important;
+            padding-top: 12px !important;
             padding-left: 12px !important;
             padding-right: 12px !important;
             padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px) + 20px) !important;
@@ -1857,7 +1858,7 @@ export default function LuxDashboard() {
           `
         }} />
 
-        {/* ══ MOBILE / TABLET HEADER (≤ 1023px) ══ */}
+        {/* ══ MOBILE / TABLET HEADER (≤ 1023px) ══
         <header className="lux-mobile-header" style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200,
           height: 56,
@@ -1869,7 +1870,7 @@ export default function LuxDashboard() {
           backdropFilter: 'blur(20px)',
           gap: 8,
         }}>
-          {/* Logo */}
+          
           <div style={{ display: 'flex', alignItems: 'center', gap: 7, flexShrink: 0 }}>
             <svg viewBox="0 0 120 60" fill="none" style={{ width: 28, height: 14 }}>
               <path d="M10 50 L10 20 L30 40 L60 5 L90 40 L110 20 L110 50 Z" fill="none" stroke="url(#mhg)" strokeWidth="1.4" strokeLinejoin="round" />
@@ -1894,7 +1895,7 @@ export default function LuxDashboard() {
             </span>
           </div>
 
-          {/* Current tab label */}
+         
           <span style={{
             fontFamily: "'Cormorant Garamond', serif", fontSize: 13,
             fontStyle: 'italic', color: 'rgba(212,175,55,.5)',
@@ -1905,7 +1906,7 @@ export default function LuxDashboard() {
             {tabLabels[activeTab]}
           </span>
 
-          {/* Status + Sign-out */}
+          
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
             <div style={{
               display: 'flex', alignItems: 'center', gap: 4,
@@ -1943,7 +1944,7 @@ export default function LuxDashboard() {
               <span>Ieșire</span>
             </button>
           </div>
-        </header>
+        </header> */}
 
         {/* ══ DESKTOP SIDEBAR (≥ 1024px) ══ */}
         <aside className="lux-sidebar" style={{
