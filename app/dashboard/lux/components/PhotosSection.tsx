@@ -1686,8 +1686,18 @@
 //     textAlign: 'center',
 //   } as React.CSSProperties,
 // };
+
+
+
+
+
+
+
+
+
+
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 
 interface Photo {
   id: string;
@@ -1696,14 +1706,38 @@ interface Photo {
 
 type GalleryStatus = "inactive" | "active" | "expired" | "deleted";
 
-export const PhotosSection = ({ initialData, orderId }: any) => {
+export const PhotosSection = ({ initialData: _initialData, orderId }: any) => {
+  const [initialData, setInitialData] = useState(_initialData);
   const [status, setStatus] = useState<GalleryStatus>(
-    initialData?.gallery_status || "inactive"
+    _initialData?.gallery_status || "inactive"
   );
-
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [timeLeft, setTimeLeft] = useState("");
+  const tickerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // ─────────────────────────────
+  // POLL DB – la fiecare 30s
+  // ─────────────────────────────
+  const fetchSettings = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/photos/settings?orderId=${orderId}`);
+      const data = await res.json();
+      if (data?.settings) {
+        setInitialData(data.settings);
+      }
+    } catch (e) {
+      console.error("Poll error:", e);
+    }
+  }, [orderId]);
+
+  useEffect(() => {
+    const interval = setInterval(fetchSettings, 30000);
+    return () => clearInterval(interval);
+  }, [fetchSettings]);
+
+  // ─────────────────────────────
+  // LOAD PHOTOS
+  // ─────────────────────────────
   const fetchPhotos = useCallback(async () => {
     try {
       const res = await fetch(`/api/photos/list?orderId=${orderId}`);
@@ -1714,59 +1748,6 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
     }
   }, [orderId]);
 
-  // ─────────────────────────────
-  // CORE LOGIC – STATE MACHINE CORECT
-  // T0 = photos_activated_at
-  // HARD LIMIT = T0 + 30 zile (IMUTABIL)
-  // ─────────────────────────────
-  useEffect(() => {
-    const start = initialData?.photos_activated_at;
-
-    if (!start) return;
-
-    const T0 = new Date(start).getTime();
-    const hardLimit = T0 + 30 * 86400000; // ABSOLUT IMUTABIL
-
-    const tick = () => {
-      const now = Date.now();
-      const softExpiry = initialData?.photos_expires_at
-        ? new Date(initialData.photos_expires_at).getTime()
-        : T0 + 3 * 86400000;
-
-      // 1. HARD LIMIT – prioritate maximă, indiferent de orice
-      if (now >= hardLimit) {
-        setStatus("deleted");
-        setTimeLeft("ȘTERS DEFINITIV");
-        return;
-      }
-
-      // 2. EXPIRED – now > photos_expires_at dar < hardLimit
-      if (now >= softExpiry) {
-        setStatus("expired");
-        setTimeLeft("EXPIRAT");
-        return;
-      }
-
-      // 3. ACTIVE – mai e timp până la photos_expires_at
-      setStatus("active");
-
-      const diff = softExpiry - now;
-      const d = Math.floor(diff / 86400000);
-      const h = Math.floor((diff / 3600000) % 24);
-      const m = Math.floor((diff / 60000) % 60);
-
-      setTimeLeft(`${d}z ${h}h ${m}m`);
-    };
-
-    tick(); // rulează imediat
-    const timer = setInterval(tick, 1000);
-
-    return () => clearInterval(timer);
-  }, [initialData]);
-
-  // ─────────────────────────────
-  // LOAD PHOTOS
-  // ─────────────────────────────
   useEffect(() => {
     if (status === "active" || initialData?.is_unlock_paid) {
       fetchPhotos();
@@ -1774,21 +1755,80 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
   }, [status, fetchPhotos, initialData]);
 
   // ─────────────────────────────
-  // HANDLERS
+  // STATE MACHINE TIMER
   // ─────────────────────────────
+  useEffect(() => {
+    const start = initialData?.photos_activated_at;
 
-  // EXTEND (150 RON) – doar în primele 3 zile, o singură dată
-  // photos_expires_at += 5 zile | T0 și hardLimit NU se modifică
-  const handleExtend = async () => {
-    const T0 = new Date(initialData.photos_activated_at).getTime();
-    const now = Date.now();
-    const withinFirst3Days = now < T0 + 3 * 86400000;
-
-    if (!withinFirst3Days) {
-      alert("Extensia este disponibilă doar în primele 3 zile.");
+    if (!start) {
+      setStatus("inactive");
+      setTimeLeft("");
       return;
     }
 
+    const T0 = new Date(start).getTime();
+    const hardLimit = T0 + 30 * 86400000;
+
+    const tick = () => {
+      const now = Date.now();
+      const softExpiry = initialData?.photos_expires_at
+        ? new Date(initialData.photos_expires_at).getTime()
+        : T0 + 3 * 86400000;
+
+      if (now >= hardLimit) {
+        setStatus("deleted");
+        setTimeLeft("ȘTERS DEFINITIV");
+        return;
+      }
+
+      if (now >= softExpiry) {
+        setStatus("expired");
+        setTimeLeft("EXPIRAT");
+        return;
+      }
+
+      setStatus("active");
+
+      const diff = softExpiry - now;
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff / 3600000) % 24);
+      const m = Math.floor((diff / 60000) % 60);
+      setTimeLeft(`${d}z ${h}h ${m}m`);
+    };
+
+    tick();
+    tickerRef.current = setInterval(tick, 1000);
+
+    return () => {
+      if (tickerRef.current) clearInterval(tickerRef.current);
+    };
+  }, [initialData]); // re-rulează când DB-ul aduce date noi
+
+  // ─────────────────────────────
+  // HANDLERS
+  // ─────────────────────────────
+  const handleActivate = async () => {
+    try {
+      const res = await fetch("/api/photos/activate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId }),
+      });
+      const data = await res.json();
+      if (data?.success) await fetchSettings();
+      else alert(data?.error || "Eroare la activare.");
+    } catch (e) {
+      console.error(e);
+      alert("Eroare la activare.");
+    }
+  };
+
+  const handleExtend = async () => {
+    const T0 = new Date(initialData.photos_activated_at).getTime();
+    if (Date.now() >= T0 + 3 * 86400000) {
+      alert("Extensia este disponibilă doar în primele 3 zile.");
+      return;
+    }
     try {
       const res = await fetch("/api/photos/extend", {
         method: "POST",
@@ -1796,21 +1836,14 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
         body: JSON.stringify({ orderId }),
       });
       const data = await res.json();
-      if (data?.success) {
-        // Reîncarcă pagina pentru a prelua noul photos_expires_at din DB
-        window.location.reload();
-      } else {
-        alert(data?.error || "Eroare la extensie.");
-      }
+      if (data?.success) await fetchSettings();
+      else alert(data?.error || "Eroare la extensie.");
     } catch (e) {
       console.error(e);
       alert("Eroare la extensie.");
     }
   };
 
-  // UNLOCK (200 RON) – status expired, o singură dată
-  // status = active, is_unlock_paid = true, photos_expires_at = now + 5 zile
-  // T0 și hardLimit NU se modifică
   const handleUnlock = async () => {
     try {
       const res = await fetch("/api/photos/unlock", {
@@ -1819,19 +1852,14 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
         body: JSON.stringify({ orderId }),
       });
       const data = await res.json();
-      if (data?.success) {
-        window.location.reload();
-      } else {
-        alert(data?.error || "Eroare la unlock.");
-      }
+      if (data?.success) await fetchSettings();
+      else alert(data?.error || "Eroare la unlock.");
     } catch (e) {
       console.error(e);
       alert("Eroare la unlock.");
     }
   };
 
-  // ALBUM NOU (400 RON) – reset complet
-  // photos_activated_at = now, photos_expires_at = now + 3 zile, is_unlock_paid = false
   const handleNewAlbum = async () => {
     try {
       const res = await fetch("/api/photos/new-album", {
@@ -1840,11 +1868,8 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
         body: JSON.stringify({ orderId }),
       });
       const data = await res.json();
-      if (data?.success) {
-        window.location.reload();
-      } else {
-        alert(data?.error || "Eroare la creare album nou.");
-      }
+      if (data?.success) await fetchSettings();
+      else alert(data?.error || "Eroare la creare album nou.");
     } catch (e) {
       console.error(e);
       alert("Eroare la creare album nou.");
@@ -1858,11 +1883,19 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
       <p>Status: {status}</p>
       <p>Timer: {timeLeft}</p>
 
-      {/* ACTIVE */}
+      {status === "inactive" && (
+        <div style={{ padding: 10, border: "1px solid gray" }}>
+          <b>Modul foto inactiv</b>
+          <br />
+          <button onClick={handleActivate} style={{ marginTop: 10 }}>
+            Activează Modul Foto
+          </button>
+        </div>
+      )}
+
       {status === "active" && (
         <div style={{ padding: 10, border: "1px solid green" }}>
-          ACTIVE (acces activ)
-          {/* Extend disponibil doar în primele 3 zile și dacă nu s-a plătit unlock */}
+          ACTIVE – timp rămas: {timeLeft}
           {!initialData?.is_unlock_paid && (
             <button onClick={handleExtend} style={{ marginLeft: 10 }}>
               Extinde 150 RON (+5 zile)
@@ -1871,12 +1904,10 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
         </div>
       )}
 
-      {/* EXPIRED */}
       {status === "expired" && (
         <div style={{ padding: 10, border: "1px solid red" }}>
-          <b>EXPIRED</b>
+          <b>EXPIRAT</b>
           <br />
-          {/* Unlock disponibil o singură dată */}
           {!initialData?.is_unlock_paid && (
             <button onClick={handleUnlock} style={{ marginTop: 10 }}>
               Unlock 200 RON (+5 zile)
@@ -1885,7 +1916,6 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
         </div>
       )}
 
-      {/* DELETED – hard limit 30 zile atins */}
       {status === "deleted" && (
         <div style={{ padding: 10, border: "2px solid black" }}>
           <b>ALBUM ȘTERS (30 ZILE LIMITĂ)</b>
@@ -1896,7 +1926,6 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
         </div>
       )}
 
-      {/* GALLERY */}
       <div style={{ marginTop: 20, display: "flex", flexWrap: "wrap", gap: 10 }}>
         {photos.map((p) => (
           <div key={p.id} style={{ padding: 10, border: "1px solid #ccc" }}>
