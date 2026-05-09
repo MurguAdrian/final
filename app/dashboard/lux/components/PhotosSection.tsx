@@ -1686,7 +1686,6 @@
 //     textAlign: 'center',
 //   } as React.CSSProperties,
 // };
-
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 
@@ -1696,7 +1695,6 @@ interface Photo {
 }
 
 type GalleryStatus = "inactive" | "active" | "expired" | "deleted";
-type PaymentType = "extend" | "unlock" | "new_album";
 
 export const PhotosSection = ({ initialData, orderId }: any) => {
   const [status, setStatus] = useState<GalleryStatus>(
@@ -1717,52 +1715,57 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
   }, [orderId]);
 
   // ─────────────────────────────
-  // CORE LOGIC (3 zile + 30 zile hard cap)
+  // CORE LOGIC – STATE MACHINE CORECT
+  // T0 = photos_activated_at
+  // HARD LIMIT = T0 + 30 zile (IMUTABIL)
   // ─────────────────────────────
   useEffect(() => {
     const start = initialData?.photos_activated_at;
-    const softExpiry = initialData?.photos_expires_at;
 
     if (!start) return;
 
-    const startTime = new Date(start).getTime();
-    const hardLimit = startTime + 30 * 86400000;
+    const T0 = new Date(start).getTime();
+    const hardLimit = T0 + 30 * 86400000; // ABSOLUT IMUTABIL
 
-    const timer = setInterval(() => {
+    const tick = () => {
       const now = Date.now();
+      const softExpiry = initialData?.photos_expires_at
+        ? new Date(initialData.photos_expires_at).getTime()
+        : T0 + 3 * 86400000;
 
-      const soft = softExpiry ? new Date(softExpiry).getTime() : hardLimit;
-      const expiry = Math.min(soft, hardLimit);
-
-      // 🔴 DELETE (30 zile)
+      // 1. HARD LIMIT – prioritate maximă, indiferent de orice
       if (now >= hardLimit) {
         setStatus("deleted");
         setTimeLeft("ȘTERS DEFINITIV");
         return;
       }
 
-      // 🔴 EXPIRED
-      if (now >= expiry) {
+      // 2. EXPIRED – now > photos_expires_at dar < hardLimit
+      if (now >= softExpiry) {
         setStatus("expired");
         setTimeLeft("EXPIRAT");
         return;
       }
 
-      // 🟡 ACTIVE TIMER
-      const diff = expiry - now;
+      // 3. ACTIVE – mai e timp până la photos_expires_at
+      setStatus("active");
 
+      const diff = softExpiry - now;
       const d = Math.floor(diff / 86400000);
       const h = Math.floor((diff / 3600000) % 24);
       const m = Math.floor((diff / 60000) % 60);
 
       setTimeLeft(`${d}z ${h}h ${m}m`);
-    }, 1000);
+    };
+
+    tick(); // rulează imediat
+    const timer = setInterval(tick, 1000);
 
     return () => clearInterval(timer);
   }, [initialData]);
 
   // ─────────────────────────────
-  // LOAD PHOTOS LOGIC
+  // LOAD PHOTOS
   // ─────────────────────────────
   useEffect(() => {
     if (status === "active" || initialData?.is_unlock_paid) {
@@ -1770,9 +1773,86 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
     }
   }, [status, fetchPhotos, initialData]);
 
+  // ─────────────────────────────
+  // HANDLERS
+  // ─────────────────────────────
+
+  // EXTEND (150 RON) – doar în primele 3 zile, o singură dată
+  // photos_expires_at += 5 zile | T0 și hardLimit NU se modifică
+  const handleExtend = async () => {
+    const T0 = new Date(initialData.photos_activated_at).getTime();
+    const now = Date.now();
+    const withinFirst3Days = now < T0 + 3 * 86400000;
+
+    if (!withinFirst3Days) {
+      alert("Extensia este disponibilă doar în primele 3 zile.");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/photos/extend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId }),
+      });
+      const data = await res.json();
+      if (data?.success) {
+        // Reîncarcă pagina pentru a prelua noul photos_expires_at din DB
+        window.location.reload();
+      } else {
+        alert(data?.error || "Eroare la extensie.");
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Eroare la extensie.");
+    }
+  };
+
+  // UNLOCK (200 RON) – status expired, o singură dată
+  // status = active, is_unlock_paid = true, photos_expires_at = now + 5 zile
+  // T0 și hardLimit NU se modifică
+  const handleUnlock = async () => {
+    try {
+      const res = await fetch("/api/photos/unlock", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId }),
+      });
+      const data = await res.json();
+      if (data?.success) {
+        window.location.reload();
+      } else {
+        alert(data?.error || "Eroare la unlock.");
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Eroare la unlock.");
+    }
+  };
+
+  // ALBUM NOU (400 RON) – reset complet
+  // photos_activated_at = now, photos_expires_at = now + 3 zile, is_unlock_paid = false
+  const handleNewAlbum = async () => {
+    try {
+      const res = await fetch("/api/photos/new-album", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId }),
+      });
+      const data = await res.json();
+      if (data?.success) {
+        window.location.reload();
+      } else {
+        alert(data?.error || "Eroare la creare album nou.");
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Eroare la creare album nou.");
+    }
+  };
+
   return (
     <div style={{ padding: 20, fontFamily: "Arial" }}>
-
       <h2>GALERIE FOTO</h2>
 
       <p>Status: {status}</p>
@@ -1781,7 +1861,13 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
       {/* ACTIVE */}
       {status === "active" && (
         <div style={{ padding: 10, border: "1px solid green" }}>
-          ACTIVE (3 zile / extins / unlock)
+          ACTIVE (acces activ)
+          {/* Extend disponibil doar în primele 3 zile și dacă nu s-a plătit unlock */}
+          {!initialData?.is_unlock_paid && (
+            <button onClick={handleExtend} style={{ marginLeft: 10 }}>
+              Extinde 150 RON (+5 zile)
+            </button>
+          )}
         </div>
       )}
 
@@ -1789,36 +1875,22 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
       {status === "expired" && (
         <div style={{ padding: 10, border: "1px solid red" }}>
           <b>EXPIRED</b>
-
           <br />
-
-          <button
-            onClick={() => alert("unlock 200 RON → +5 zile")}
-            style={{ marginTop: 10 }}
-          >
-            Unlock 200 RON
-          </button>
-
-          <button
-            onClick={() => alert("extend 150 RON → +5 zile (doar dacă în 3 zile)")}
-            style={{ marginTop: 10, marginLeft: 10 }}
-          >
-            Extend 150 RON
-          </button>
+          {/* Unlock disponibil o singură dată */}
+          {!initialData?.is_unlock_paid && (
+            <button onClick={handleUnlock} style={{ marginTop: 10 }}>
+              Unlock 200 RON (+5 zile)
+            </button>
+          )}
         </div>
       )}
 
-      {/* DELETED (30 zile hard limit) */}
+      {/* DELETED – hard limit 30 zile atins */}
       {status === "deleted" && (
         <div style={{ padding: 10, border: "2px solid black" }}>
           <b>ALBUM ȘTERS (30 ZILE LIMITĂ)</b>
-
           <br />
-
-          <button
-            onClick={() => alert("400 RON → album nou (reset complet)")}
-            style={{ marginTop: 10 }}
-          >
+          <button onClick={handleNewAlbum} style={{ marginTop: 10 }}>
             Album Nou 400 RON
           </button>
         </div>
@@ -1827,25 +1899,14 @@ export const PhotosSection = ({ initialData, orderId }: any) => {
       {/* GALLERY */}
       <div style={{ marginTop: 20, display: "flex", flexWrap: "wrap", gap: 10 }}>
         {photos.map((p) => (
-          <div
-            key={p.id}
-            style={{
-              padding: 10,
-              border: "1px solid #ccc",
-            }}
-          >
+          <div key={p.id} style={{ padding: 10, border: "1px solid #ccc" }}>
             <img
               src={p.url}
-              style={{
-                width: 120,
-                height: 120,
-                objectFit: "cover",
-              }}
+              style={{ width: 120, height: 120, objectFit: "cover" }}
             />
           </div>
         ))}
       </div>
-
     </div>
   );
 };
