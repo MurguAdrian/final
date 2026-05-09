@@ -1858,7 +1858,7 @@ export default function LuxDashboard() {
           `
         }} />
 
-        {/* ══ MOBILE / TABLET HEADER (≤ 1023px) ══
+        ══ MOBILE / TABLET HEADER (≤ 1023px) ══
         <header className="lux-mobile-header" style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200,
           height: 56,
@@ -1870,7 +1870,7 @@ export default function LuxDashboard() {
           backdropFilter: 'blur(20px)',
           gap: 8,
         }}>
-          
+          {/* Logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 7, flexShrink: 0 }}>
             <svg viewBox="0 0 120 60" fill="none" style={{ width: 28, height: 14 }}>
               <path d="M10 50 L10 20 L30 40 L60 5 L90 40 L110 20 L110 50 Z" fill="none" stroke="url(#mhg)" strokeWidth="1.4" strokeLinejoin="round" />
@@ -1895,7 +1895,7 @@ export default function LuxDashboard() {
             </span>
           </div>
 
-         
+          {/* Current tab label */}
           <span style={{
             fontFamily: "'Cormorant Garamond', serif", fontSize: 13,
             fontStyle: 'italic', color: 'rgba(212,175,55,.5)',
@@ -1906,7 +1906,7 @@ export default function LuxDashboard() {
             {tabLabels[activeTab]}
           </span>
 
-          
+          {/* Status + Sign-out */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
             <div style={{
               display: 'flex', alignItems: 'center', gap: 4,
@@ -1944,7 +1944,7 @@ export default function LuxDashboard() {
               <span>Ieșire</span>
             </button>
           </div>
-        </header> */}
+        </header>
 
         {/* ══ DESKTOP SIDEBAR (≥ 1024px) ══ */}
         <aside className="lux-sidebar" style={{
