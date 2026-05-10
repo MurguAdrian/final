@@ -177,6 +177,157 @@
 //   color: '#d4af37', textDecoration: 'none', fontSize: '0.7rem', marginTop: '10px' 
 // };
 
+// import { neon } from "@neondatabase/serverless";
+// import { notFound } from "next/navigation";
+// import type { Metadata } from "next";
+// import LuxInviteClient from "./LuxInviteClient";
+
+// export const dynamic = 'force-dynamic';
+// export const revalidate = 0;
+
+// /* ════════════════════════════════════════════════════════════════
+//    METADATA SSR — Open Graph pentru WhatsApp / Facebook / Telegram
+// ════════════════════════════════════════════════════════════════ */
+// export async function generateMetadata(
+//   { params }: { params: { slug: string } }
+// ): Promise<Metadata> {
+//   const sql = neon(process.env.DATABASE_URL!);
+//   const data = await sql`
+//     SELECT bride_name, groom_name, wedding_date, location_name
+//     FROM wedding_settings
+//     WHERE custom_slug = ${params.slug}
+//     LIMIT 1
+//   `;
+//   if (!data || data.length === 0) return {};
+
+//   const s = data[0];
+//   const dateStr = s.wedding_date
+//     ? new Date(s.wedding_date).toLocaleDateString('ro-RO', {
+//         day: 'numeric',
+//         month: 'long',
+//         year: 'numeric',
+//       })
+//     : '';
+//   const title = `${s.bride_name} & ${s.groom_name} — Invitație de Nuntă`;
+//   const description = `Vă invităm cu drag la nunta noastră${dateStr ? `, pe ${dateStr}` : ''}${s.location_name ? `, la ${s.location_name}` : ''}. Confirmați prezența online.`;
+//   const url = `https://vibeinvite.ro/invitatie/lux/${params.slug}`;
+
+//   return {
+//     title,
+//     description,
+//     openGraph: {
+//       type: 'website',
+//       url,
+//       title,
+//       description,
+//       siteName: 'VibeInvite',
+//       images: [{ url: '/og-lux.jpg', width: 1200, height: 630, alt: title }],
+//       locale: 'ro_RO',
+//     },
+//     twitter: {
+//       card: 'summary_large_image',
+//       title,
+//       description,
+//       images: ['/og-lux.jpg'],
+//     },
+//     alternates: { canonical: url },
+//   };
+// }
+
+// /* ════════════════════════════════════════════════════════════════
+//    SERVER COMPONENT — fetch date DB + return client component
+// ════════════════════════════════════════════════════════════════ */
+// export default async function InvitationPage({
+//   params,
+// }: {
+//   params: { slug: string };
+// }) {
+//   const sql = neon(process.env.DATABASE_URL!);
+
+//   const data = await sql`
+//     SELECT *
+//     FROM wedding_settings
+//     WHERE custom_slug = ${params.slug}
+//     LIMIT 1
+//   `;
+//   if (!data || data.length === 0) notFound();
+
+//   const s = data[0];
+
+//   // Incrementăm view_count async — nu blocăm render-ul
+//   await sql`
+//     UPDATE wedding_settings
+//     SET view_count = view_count + 1
+//     WHERE id = ${s.id}
+//   `;
+
+//   // Galeria e activă doar dacă status = 'active' ȘI nu a expirat
+//   const isGalleryActive =
+//     s.gallery_status === 'active' &&
+//     s.photos_expires_at &&
+//     new Date(s.photos_expires_at).getTime() > Date.now();
+
+//   // Formatări dată
+//   const weddingDateISO = s.wedding_date
+//     ? new Date(s.wedding_date).toISOString()
+//     : null;
+
+//   const weddingDateDisplay = s.wedding_date
+//     ? new Date(s.wedding_date).toLocaleDateString('ro-RO', {
+//         weekday: 'long',
+//         day: 'numeric',
+//         month: 'long',
+//         year: 'numeric',
+//       })
+//     : null;
+
+//   const religiousDateDisplay = s.religious_date
+//     ? new Date(s.religious_date).toLocaleDateString('ro-RO', {
+//         day: 'numeric',
+//         month: 'long',
+//         year: 'numeric',
+//       })
+//     : null;
+
+//   // Inițiale sigiliu plic
+//   const brideInitial = s.bride_name ? s.bride_name.charAt(0) : '';
+//   const groomInitial = s.groom_name ? s.groom_name.charAt(0) : '';
+//   const initials =
+//     brideInitial && groomInitial ? `${brideInitial}&${groomInitial}` : '♦';
+
+//   return (
+//     <LuxInviteClient
+//       slug={params.slug}
+//       brideName={s.bride_name || ''}
+//       groomName={s.groom_name || ''}
+//       initials={initials}
+//       nasiNames={s.nasi_names || ''}
+//       parentsNames={s.parents_names || ''}
+//       weddingDateISO={weddingDateISO}
+//       weddingDateDisplay={weddingDateDisplay}
+//       weddingTime={s.wedding_time || ''}
+//       locationName={s.location_name || ''}
+//       wazeUrl={s.waze_url || ''}
+//       googleMapsUrl={s.google_maps_url || ''}
+//       isReligiousActive={!!s.is_religious_active}
+//       religiousDateDisplay={religiousDateDisplay}
+//       religiousTime={s.religious_time || ''}
+//       religiousLocation={s.religious_location || ''}
+//       religiousWaze={s.religious_waze || ''}
+//       ourStory={s.our_story || ''}
+//       isMenuActive={!!s.is_menu_active}
+//       menuDetails={s.menu_details || null}
+//       isGalleryActive={!!isGalleryActive}
+//       isAccommodationActive={!!s.is_accommodation_active}
+//       isTransportActive={!!s.is_transport_active}
+//       contactPhoneBride={s.contact_phone_bride || ''}
+//       contactPhoneGroom={s.contact_phone_groom || ''}
+//       orderId={s.order_id}
+//     />
+//   );
+// }
+
+
 import { neon } from "@neondatabase/serverless";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -185,9 +336,6 @@ import LuxInviteClient from "./LuxInviteClient";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-/* ════════════════════════════════════════════════════════════════
-   METADATA SSR — Open Graph pentru WhatsApp / Facebook / Telegram
-════════════════════════════════════════════════════════════════ */
 export async function generateMetadata(
   { params }: { params: { slug: string } }
 ): Promise<Metadata> {
@@ -202,11 +350,7 @@ export async function generateMetadata(
 
   const s = data[0];
   const dateStr = s.wedding_date
-    ? new Date(s.wedding_date).toLocaleDateString('ro-RO', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      })
+    ? new Date(s.wedding_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })
     : '';
   const title = `${s.bride_name} & ${s.groom_name} — Invitație de Nuntă`;
   const description = `Vă invităm cu drag la nunta noastră${dateStr ? `, pe ${dateStr}` : ''}${s.location_name ? `, la ${s.location_name}` : ''}. Confirmați prezența online.`;
@@ -224,24 +368,13 @@ export async function generateMetadata(
       images: [{ url: '/og-lux.jpg', width: 1200, height: 630, alt: title }],
       locale: 'ro_RO',
     },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: ['/og-lux.jpg'],
-    },
+    twitter: { card: 'summary_large_image', title, description, images: ['/og-lux.jpg'] },
     alternates: { canonical: url },
+    viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover',
   };
 }
 
-/* ════════════════════════════════════════════════════════════════
-   SERVER COMPONENT — fetch date DB + return client component
-════════════════════════════════════════════════════════════════ */
-export default async function InvitationPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function InvitationPage({ params }: { params: { slug: string } }) {
   const sql = neon(process.env.DATABASE_URL!);
 
   const data = await sql`
@@ -254,46 +387,30 @@ export default async function InvitationPage({
 
   const s = data[0];
 
-  // Incrementăm view_count async — nu blocăm render-ul
   await sql`
     UPDATE wedding_settings
     SET view_count = view_count + 1
     WHERE id = ${s.id}
   `;
 
-  // Galeria e activă doar dacă status = 'active' ȘI nu a expirat
   const isGalleryActive =
     s.gallery_status === 'active' &&
     s.photos_expires_at &&
     new Date(s.photos_expires_at).getTime() > Date.now();
 
-  // Formatări dată
-  const weddingDateISO = s.wedding_date
-    ? new Date(s.wedding_date).toISOString()
-    : null;
+  const weddingDateISO = s.wedding_date ? new Date(s.wedding_date).toISOString() : null;
 
   const weddingDateDisplay = s.wedding_date
-    ? new Date(s.wedding_date).toLocaleDateString('ro-RO', {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      })
+    ? new Date(s.wedding_date).toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
     : null;
 
   const religiousDateDisplay = s.religious_date
-    ? new Date(s.religious_date).toLocaleDateString('ro-RO', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      })
+    ? new Date(s.religious_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })
     : null;
 
-  // Inițiale sigiliu plic
   const brideInitial = s.bride_name ? s.bride_name.charAt(0) : '';
   const groomInitial = s.groom_name ? s.groom_name.charAt(0) : '';
-  const initials =
-    brideInitial && groomInitial ? `${brideInitial}&${groomInitial}` : '♦';
+  const initials = brideInitial && groomInitial ? `${brideInitial}&${groomInitial}` : '♦';
 
   return (
     <LuxInviteClient
