@@ -2517,7 +2517,7 @@ type GalleryStatus = 'inactive' | 'active' | 'expired';
 
 export const PhotosSection = ({ initialData: _initialData, orderId, onSave }: PhotosSectionProps) => {
   const [initialData, setInitialData]       = useState(_initialData);
-  const [status, setStatus]                 = useState<GalleryStatus>('inactive');
+  const [status, setStatus]                 = useState<GalleryStatus | null>(null);
   const [photos, setPhotos]                 = useState<Photo[]>([]);
   const [loading, setLoading]               = useState(false);
   const [timeLeft, setTimeLeft]             = useState('');
