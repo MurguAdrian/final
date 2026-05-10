@@ -1,20 +1,18 @@
 import { NextResponse } from 'next/server';
 import { neon } from '@neondatabase/serverless';
+
 export const dynamic = 'force-dynamic';
+
+// Acest cron e acum redundant față de account-cleanup
+// Îl păstrăm doar ca fallback simplu fără Cloudinary
 export async function GET(req: Request) {
-  // Verificăm o cheie secretă ca să nu poată rula oricine acest API
   if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const sql = neon(process.env.DATABASE_URL!);
-  
-  // Șterge comenzile mai vechi de 12 luni
-  // ATENȚIE: Asigură-te că tabelele tale au Foreign Keys cu ON DELETE CASCADE
-  await sql`
-DELETE FROM orders 
-  WHERE expires_at < NOW()
-`;
 
-  return NextResponse.json({ success: true, message: "Datele vechi au fost șterse." });
+  await sql`DELETE FROM orders WHERE expires_at < NOW()`;
+
+  return NextResponse.json({ success: true, message: "Conturi expirate șterse." });
 }
