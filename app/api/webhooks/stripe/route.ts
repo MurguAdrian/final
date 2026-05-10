@@ -167,7 +167,7 @@ export async function POST(req: Request) {
           `;
 
           const { error } = await resend.emails.send({
-            from: 'Vibe Invite <onboarding@resend.dev>', 
+            from: 'Vibe Invite <office@vibeinvite.ro>', 
             to: email as string,
             subject: 'Setează parola pentru invitația ta Vibe Invite',
             html: `

@@ -54,7 +54,7 @@ export async function GET(request: Request) {
         if (!isGalleryActive) {
           // Galeria nu e activă — îi îndemn să o activeze
           await resend.emails.send({
-            from: 'VibeInvite <noreply@vibeinvite.ro>',
+            from: 'VibeInvite <office@vibeinvite.ro>',
             to: row.email,
             subject: `🎊 Mâine e ziua cea mare, ${brideName} & ${groomName}! Activați galeria foto`,
             html: `
@@ -113,7 +113,7 @@ export async function GET(request: Request) {
         } else {
           // Galeria e deja activă — îi felicităm și le amintim că invitații pot încărca
           await resend.emails.send({
-            from: 'VibeInvite <noreply@vibeinvite.ro>',
+            from: 'VibeInvite <office@vibeinvite.ro>',
             to: row.email,
             subject: `🎊 Mâine e ziua cea mare! Galeria foto este pregătită`,
             html: `
@@ -201,7 +201,7 @@ export async function GET(request: Request) {
 
       try {
         await resend.emails.send({
-          from: 'VibeInvite <noreply@vibeinvite.ro>',
+          from: 'VibeInvite <office@vibeinvite.ro>',
           to: row.email,
           subject: `📸 Galeria foto a expirat — Reactivează și păstrează momentele`,
           html: `

@@ -89,7 +89,7 @@ export async function POST(req: Request) {
 
     // 4. Trimitem email-ul
     const { data, error } = await resend.emails.send({
-      from: 'Vibe Invite <onboarding@resend.dev>', 
+      from: 'Vibe Invite <office@vibeinvite.ro>', 
       to: email,
       subject: 'Resetare Parolă Vibe Invite',
       html: `
