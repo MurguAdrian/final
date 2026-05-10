@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { neon } from '@neondatabase/serverless';
-import bcrypt from 'bcryptjs'; // ADĂUGAT
+import bcrypt from 'bcryptjs'; 
 
 export async function POST(req: Request) {
   try {
