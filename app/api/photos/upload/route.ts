@@ -80,19 +80,28 @@ export async function POST(request: Request) {
 
     const { gallery_status, photos_expires_at } = settings[0];
 
-    if (gallery_status !== 'active') {
-      return NextResponse.json(
-        { error: "Galeria foto nu este activă momentan. Revino mai târziu." },
-        { status: 403 }
-      );
-    }
+    // if (gallery_status !== 'active') {
+    //   return NextResponse.json(
+    //     { error: "Galeria foto nu este activă momentan. Revino mai târziu." },
+    //     { status: 403 }
+    //   );
+    // }
 
-    if (!photos_expires_at || new Date() > new Date(photos_expires_at)) {
-      return NextResponse.json(
-        { error: "Perioada de încărcare a expirat." },
-        { status: 403 }
-      );
-    }
+    // if (!photos_expires_at || new Date() > new Date(photos_expires_at)) {
+    //   return NextResponse.json(
+    //     { error: "Perioada de încărcare a expirat." },
+    //     { status: 403 }
+    //   );
+    // }
+
+if (gallery_status !== 'active') {
+  return NextResponse.json(
+    { error: "Galeria foto nu este activă momentan. Revino mai târziu." },
+    { status: 403 }
+  );
+}
+// Am șt
+
 
     // ── UPLOAD CLOUDINARY ──
     const arrayBuffer = await file.arrayBuffer();

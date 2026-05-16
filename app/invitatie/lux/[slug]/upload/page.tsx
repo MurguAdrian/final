@@ -574,11 +574,11 @@ export default function UploadPage({ params }: { params: { slug: string } }) {
               <p className="upload-eyebrow">◆ Galerie Foto Live ◆</p>
               <h2 className="upload-title">Încarcă Poze</h2>
               <div className="upload-divider"/>
-              <p className="upload-desc">Fotografiile sunt destinate exclusiv mirilor și vor fi stocate maximum 30 de zile, după care vor fi șterse automat.</p>
-              <label className="consent-block">
-                <input type="checkbox" id="consent" className="consent-checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}/>
-                <span className="consent-text">Confirm că am acordul persoanelor din fotografii și sunt de acord cu stocarea acestora timp de maximum 30 de zile, exclusiv pentru mirii evenimentului.</span>
-              </label>
+<p className="upload-desc">Fotografiile sunt destinate exclusiv mirilor și vor fi disponibile în albumul online pe toată durata existenței evenimentului.</p>
+<label className="consent-block">
+  <input type="checkbox" id="consent" className="consent-checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}/>
+  <span className="consent-text">Confirm că am acordul persoanelor din fotografii și sunt de acord cu stocarea acestora în albumul privat al mirilor.</span>
+</label>
               {agreed ? (
                 <label className="upload-label-btn" style={{cursor:'pointer'}}>
                   <span>{uploading ? (<><span className="upload-spinner"/>{' '}SE ÎNCARCĂ...</>) : ('◆ SELECTEAZĂ POZE ◆')}</span>

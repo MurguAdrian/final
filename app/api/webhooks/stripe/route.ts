@@ -78,21 +78,18 @@ export async function POST(req: Request) {
           if (error) console.error("❌ EROARE RESEND:", error);
       } 
       
-// CAZUL B: MODUL FOTO — DOAR reactivate
-else if (metadata.orderId && metadata.paymentType === 'reactivate') {
-  const orderId = parseInt(metadata.orderId);
+// CAZUL B: MODUL FOTO
+  else if (metadata.orderId && metadata.paymentType === 'reactivate') {
+    const orderId = parseInt(metadata.orderId);
 
-  // Reactivare: gallery_status='active', photos_expires_at = now + 3 zile
-  // NU atingem photos_activated_at (T0 original păstrat)
-  // NU ștergem pozele — același album
-  await sql`
-    UPDATE wedding_settings
-    SET
-      gallery_status    = 'active',
-      photos_expires_at = NOW() + INTERVAL '3 days'
-    WHERE order_id = ${orderId}
-  `;
-}}
+    // 🔥 MODIFICARE: Doar ne asigurăm că e 'active', fără să mai punem interval de 3 zile
+    await sql`
+      UPDATE wedding_settings
+      SET gallery_status = 'active'
+      WHERE order_id = ${orderId}
+    `;
+  }
+}
 
     return NextResponse.json({ received: true });
   } catch (err: any) {
