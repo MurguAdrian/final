@@ -361,6 +361,31 @@ export default function LoginPage() {
     setLoading(true);
     setError("");
 
+  //   try {
+  //     const res = await fetch("/api/auth/login", {
+  //       method: "POST",
+  //       body: JSON.stringify({ email, password }),
+  //       headers: { "Content-Type": "application/json" },
+  //     });
+
+  //     const data = await res.json();
+
+  //     if (res.ok) {
+  //       if (data.theme === "Lux") {
+  //         router.push("/dashboard/lux");
+  //       } else {
+  //         router.push("/dashboard/nature");
+  //       }
+  //     } else {
+  //       setError(data.error || "Date invalide. Verifică email-ul și parola.");
+  //     }
+  //   } catch (err) {
+  //     setError("Eroare de conexiune. Încearcă din nou.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
@@ -371,11 +396,18 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (res.ok) {
-        if (data.theme === "Lux") {
-          router.push("/dashboard/lux");
-        } else {
-          router.push("/dashboard/nature");
-        }
+        const themeRoutes: Record<string, string> = {
+          lux:      "/dashboard/lux",
+          nature:   "/dashboard/nature",
+          boho:     "/dashboard/boho",
+          royal:    "/dashboard/royal",
+          minimal:  "/dashboard/minimal",
+          romantic: "/dashboard/romantic",
+        };
+
+        const theme = (data.theme ?? "").toLowerCase();
+        const route = themeRoutes[theme] ?? "/dashboard";
+        router.push(route);
       } else {
         setError(data.error || "Date invalide. Verifică email-ul și parola.");
       }
@@ -385,6 +417,7 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
+
 
   return (
     <>

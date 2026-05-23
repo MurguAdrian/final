@@ -3,7 +3,7 @@
 "use client";
 import React, { useState } from 'react';
 
-export default function LuxRsvpForm({ orderId, showAccommodation, showTransport }: any) {
+export default function BohoRsvpForm({ orderId, showAccommodation, showTransport }: any) {
   const [submitted, setSubmitted] = useState(false);
   const [isComing, setIsComing] = useState("true");
 

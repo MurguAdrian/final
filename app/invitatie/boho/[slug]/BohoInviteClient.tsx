@@ -1,12 +1,13 @@
 
+
 'use client';
 
 import { useState, useEffect } from 'react';
-import LuxRsvpForm from './LuxRsvpForm';
+import BohoRsvpForm from './BohoRsvpForm';
 
 type Phase = 'envelope' | 'opening' | 'invite';
 
-export interface LuxInviteClientProps {
+export interface BohoInviteClientProps {
   slug: string;
   brideName: string;
   groomName: string;
@@ -378,7 +379,7 @@ function EnvelopeScreen({
   );
 }
 
-function InviteScreen({ props }: { props: LuxInviteClientProps }) {
+function InviteScreen({ props }: { props: BohoInviteClientProps }) {
   const { slug, brideName, groomName, nasiNames, parentsNames, weddingDateISO, weddingDateDisplay, weddingTime, locationName, wazeUrl, googleMapsUrl, isReligiousActive, religiousDateDisplay, religiousTime, religiousLocation, religiousWaze, ourStory, isMenuActive, menuDetails, isGalleryActive, isAccommodationActive, isTransportActive, contactPhoneBride, contactPhoneGroom, orderId } = props;
 
   const weddingDate = weddingDateISO ? new Date(weddingDateISO) : null;
@@ -663,7 +664,7 @@ function InviteScreen({ props }: { props: LuxInviteClientProps }) {
             <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontStyle: 'italic', fontWeight: 300, color: '#F5E6A8', marginBottom: 10 }}>Galerie Foto Live</h2>
             <div style={{ width: 36, height: 1, background: 'linear-gradient(90deg,transparent,rgba(212,175,55,.5),transparent)', margin: '0 auto 16px' }} />
             <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 15, fontStyle: 'italic', color: 'rgba(212,175,55,.6)', marginBottom: 24, lineHeight: 1.8 }}>Împărtășește momentele surprinse de tine cu mirii.<br />Apasă butonul de mai jos pentru a încărca pozele tale.</p>
-            <a href={`/invitatie/lux/${slug}/upload`} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '13px 32px', borderRadius: 4, background: 'linear-gradient(135deg,#8B6914 0%,#D4AF37 45%,#F5D678 55%,#D4AF37 70%,#8B6914 100%)', color: '#0A0803', textDecoration: 'none', fontFamily: "'Cinzel',serif", fontSize: 11, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', boxShadow: '0 8px 28px rgba(212,175,55,.3)', marginBottom: 16 }}>📷 Încarcă Pozele</a>
+            <a href={`/invitatie/boho/${slug}/upload`} style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '13px 32px', borderRadius: 4, background: 'linear-gradient(135deg,#8B6914 0%,#D4AF37 45%,#F5D678 55%,#D4AF37 70%,#8B6914 100%)', color: '#0A0803', textDecoration: 'none', fontFamily: "'Cinzel',serif", fontSize: 11, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', boxShadow: '0 8px 28px rgba(212,175,55,.3)', marginBottom: 16 }}>📷 Încarcă Pozele</a>
             <br />
             <button onClick={() => setGalleryModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Cormorant Garamond',serif", fontSize: 13, fontStyle: 'italic', color: 'rgba(212,175,55,.45)', textDecoration: 'underline' }}>Închide</button>
           </div>
@@ -679,7 +680,7 @@ function InviteScreen({ props }: { props: LuxInviteClientProps }) {
               <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(22px,3.5vw,30px)', fontStyle: 'italic', fontWeight: 300, color: '#F5E6A8', marginBottom: 8 }}>Confirmă Prezența</h2>
               <div style={{ width: 36, height: 1, background: 'linear-gradient(90deg,transparent,rgba(212,175,55,.5),transparent)', margin: '0 auto' }} />
             </div>
-            <LuxRsvpForm orderId={orderId} showAccommodation={isAccommodationActive} showTransport={isTransportActive} />
+            <BohoRsvpForm orderId={orderId} showAccommodation={isAccommodationActive} showTransport={isTransportActive} />
             <div style={{ textAlign: 'center', marginTop: 16 }}>
               <button onClick={() => setRsvpModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Cormorant Garamond',serif", fontSize: 13, fontStyle: 'italic', color: 'rgba(212,175,55,.45)', textDecoration: 'underline' }}>Închide</button>
             </div>
@@ -690,7 +691,7 @@ function InviteScreen({ props }: { props: LuxInviteClientProps }) {
   );
 }
 
-export default function LuxInviteClient(props: LuxInviteClientProps) {
+export default function BohoInviteClient(props: BohoInviteClientProps) {
   const [phase, setPhase] = useState<Phase>('envelope');
 
   function openEnvelope() {
