@@ -1,6 +1,3 @@
-
-
-
 "use client";
 import React, { useEffect, useState } from 'react';
 
@@ -58,48 +55,53 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '60px 20px', gap: 14,
-      fontFamily: "'Cinzel', serif",
-      fontSize: 11, letterSpacing: '.28em', textTransform: 'uppercase' as const,
-      color: 'rgba(212,175,55,.65)'
+      fontFamily: "'Playfair Display', serif",
+      fontSize: 11, letterSpacing: '.24em', textTransform: 'uppercase' as const,
+      color: 'rgba(196,120,90,.65)'
     }}>
       <div style={{
-        width: 18, height: 18, border: '1.5px solid rgba(212,175,55,.3)',
-        borderTopColor: '#D4AF37', borderRadius: '50%',
-        animation: 'lux-spin 1s linear infinite'
+        width: 18, height: 18, border: '1.5px solid rgba(196,120,90,.3)',
+        borderTopColor: '#C4785A', borderRadius: '50%',
+        animation: 'boho-spin 1s linear infinite'
       }} />
       Se încarcă...
-      <style>{`@keyframes lux-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes lux-fade-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}`}</style>
+      <style>{`@keyframes boho-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes boho-fade-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}`}</style>
     </div>
   );
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Lora:ital,wght@0,300;0,400;1,300;1,400&display=swap');
         *, *::before, *::after { box-sizing: border-box; }
-        @keyframes lux-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-        @keyframes lux-fade-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-        .lux-row:hover { background: rgba(212,175,55,.04) !important; }
-        .lux-export-btn:hover { background: rgba(212,175,55,.16) !important; border-color: rgba(212,175,55,.55) !important; color: #F5D678 !important; }
-        .lux-copy-btn:hover { background: linear-gradient(135deg,#8B6914,#D4AF37,#F5D678,#D4AF37,#8B6914) !important; }
+        @keyframes boho-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+        @keyframes boho-fade-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+        .boho-row:hover { background: rgba(196,120,90,.04) !important; }
+        .boho-export-btn:hover { background: rgba(196,120,90,.12) !important; border-color: rgba(196,120,90,.5) !important; color: #C4785A !important; }
+        .boho-copy-btn:hover { background: linear-gradient(135deg,#C4785A,#E8A48A,#F5C4A8,#E8A48A,#C4785A) !important; color: #FDF6EF !important; }
 
         .sum-wrap { width: 100%; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
         .sum-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
-.sum-link-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }        .sum-stats-grid {
+        .sum-link-row { display: flex; gap: 10px; flex-wrap: wrap; }
+        .sum-stats-grid {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
           gap: clamp(8px,1.5vw,14px);
           margin-bottom: 28px;
         }
 
-        /* Scroll orizontal tabel: conținut pe mobile */
         .sum-table-wrap {
           overflow-x: auto;
           -webkit-overflow-scrolling: auto;
           overscroll-behavior-x: contain;
         }
 
-        /* Link input — font-size 16px obligatoriu pentru a preveni zoom iOS */
+        .boho-share-btn:hover { background: rgba(196,120,90,.12) !important; border-color: rgba(196,120,90,.45) !important; color: #C4785A !important; }
+        @media (max-width: 600px) {
+          .share-label { display: none; }
+          .boho-share-btn { padding: 10px 12px !important; }
+        }
+
         .sum-link-input {
           font-size: 16px !important;
           -webkit-appearance: none;
@@ -115,7 +117,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
           .sum-link-row input { min-width: 0 !important; width: 100% !important; }
           .sum-link-row button { width: 100% !important; }
           .sum-header { flex-direction: column !important; align-items: flex-start !important; }
-          .lux-export-btn span { display: none; }
+          .boho-export-btn span { display: none; }
         }
         @media (max-width: 400px) {
           .sum-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
@@ -130,32 +132,25 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
         }
       `}</style>
 
-      <div className="sum-wrap" style={{ animation: 'lux-fade-in .55s ease both', fontFamily: "'Cormorant Garamond', serif" }}>
+      <div className="sum-wrap" style={{ animation: 'boho-fade-in .55s ease both', fontFamily: "'Lora', serif" }}>
 
-        {/* HEADER */}
         <div className="sum-header">
           <div>
-            <p style={{
-              fontFamily: "'Cinzel', serif", fontSize: 9, letterSpacing: '.36em',
-              textTransform: 'uppercase', color: 'rgba(212,175,55,.5)', marginBottom: 8
-            }}>Panou Principal</p>
-            <h2 style={{
-              fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(22px,4vw,38px)',
-              fontWeight: 300, fontStyle: 'italic', color: '#F5E6A8', margin: 0, lineHeight: 1.1
-            }}>Centrul de Comandă</h2>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 9, letterSpacing: '.32em', textTransform: 'uppercase', color: 'rgba(196,120,90,.55)', marginBottom: 8 }}>Panou Principal</p>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(22px,4vw,38px)', fontWeight: 400, fontStyle: 'italic', color: '#7A4A35', margin: 0, lineHeight: 1.1 }}>Centrul de Comandă</h2>
           </div>
           {data?.guests?.length > 0 && (
             <button
-              className="lux-export-btn"
+              className="boho-export-btn"
               onClick={exportToExcel}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 7,
-                padding: '9px 16px', borderRadius: 4,
-                background: 'rgba(212,175,55,.06)',
-                border: '1px solid rgba(212,175,55,.28)',
-                color: 'rgba(212,175,55,.8)',
-                fontFamily: "'Cinzel', serif", fontSize: 10,
-                fontWeight: 600, letterSpacing: '.16em', textTransform: 'uppercase',
+                padding: '9px 16px', borderRadius: 10,
+                background: 'rgba(196,120,90,.06)',
+                border: '1px solid rgba(196,120,90,.25)',
+                color: 'rgba(122,74,53,.8)',
+                fontFamily: "'Playfair Display', serif", fontSize: 10,
+                fontWeight: 600, letterSpacing: '.14em', textTransform: 'uppercase',
                 cursor: 'pointer', transition: 'all .2s',
                 whiteSpace: 'nowrap', flexShrink: 0
               }}>
@@ -167,162 +162,162 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
           )}
         </div>
 
-        <GoldDivider />
+        <BohoDivider />
 
-        {/* LINK CARD */}
         <div style={{
-          borderRadius: 14,
-          overflow: 'hidden',
-          border: `1px solid ${isComplete ? 'rgba(212,175,55,.28)' : 'rgba(255,165,0,.35)'}`,
+          borderRadius: 16, overflow: 'hidden',
+          border: `1px solid ${isComplete ? 'rgba(196,120,90,.25)' : 'rgba(220,140,60,.35)'}`,
           background: isComplete
-            ? 'linear-gradient(160deg,rgba(212,175,55,.07) 0%,rgba(212,175,55,.03) 100%)'
-            : 'linear-gradient(160deg,rgba(255,140,0,.1) 0%,rgba(255,140,0,.04) 100%)',
+            ? 'linear-gradient(160deg,rgba(255,245,235,.95) 0%,rgba(253,240,230,.98) 100%)'
+            : 'linear-gradient(160deg,rgba(255,220,180,.2) 0%,rgba(253,240,230,.9) 100%)',
           padding: 'clamp(16px,3vw,24px)',
           marginBottom: 28,
           position: 'relative',
-          boxShadow: '0 8px 40px rgba(0,0,0,.4),inset 0 1px 0 rgba(212,175,55,.08)'
+          boxShadow: '0 6px 28px rgba(196,120,90,.1),inset 0 1px 0 rgba(255,255,255,.9)'
         }}>
-          <div style={{
-            position: 'absolute', top: 0, left: '10%', right: '10%', height: 1,
-            background: `linear-gradient(90deg,transparent,${isComplete ? 'rgba(212,175,55,.4)' : 'rgba(255,165,0,.3)'},transparent)`
-          }} />
+          <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: 1, background: `linear-gradient(90deg,transparent,${isComplete ? 'rgba(196,120,90,.3)' : 'rgba(220,140,60,.25)'},transparent)` }} />
           {!isComplete ? (
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                <div style={{
-                  width: 34, height: 34, borderRadius: 8, flexShrink: 0,
-                  background: 'rgba(255,165,0,.12)', border: '1px solid rgba(255,165,0,.3)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
+                <div style={{ width: 34, height: 34, borderRadius: 10, flexShrink: 0, background: 'rgba(220,140,60,.1)', border: '1px solid rgba(220,140,60,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg viewBox="0 0 20 20" fill="none" style={{ width: 14, height: 14 }}>
-                    <path d="M10 6v4M10 14h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="rgba(255,165,0,.9)" strokeWidth="1.5" strokeLinecap="round" />
+                    <path d="M10 6v4M10 14h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="rgba(200,120,50,.9)" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
                 </div>
-                <h4 style={{
-                  fontFamily: "'Cinzel', serif", fontSize: 'clamp(10px,2.5vw,13px)',
-                  fontWeight: 600, letterSpacing: '.1em', color: 'rgba(255,165,0,.9)', margin: 0
-                }}>Pasul 1: Configurează Link-ul</h4>
+                <h4 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(10px,2.5vw,13px)', fontWeight: 600, letterSpacing: '.08em', color: 'rgba(180,100,40,.9)', margin: 0 }}>Pasul 1: Configurează Link-ul</h4>
               </div>
-              <p style={{
-                fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(13px,2vw,16px)',
-                fontStyle: 'italic', color: 'rgba(245,230,168,.5)', lineHeight: 1.7
-              }}>Mergi la Personalizare pentru a alege numele link-ului.</p>
+              <p style={{ fontFamily: "'Lora', serif", fontSize: 'clamp(13px,2vw,16px)', fontStyle: 'italic', color: 'rgba(122,74,53,.5)', lineHeight: 1.7 }}>Mergi la Personalizare pentru a alege numele link-ului.</p>
             </div>
           ) : (
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-                <div style={{
-                  width: 34, height: 34, borderRadius: 8, flexShrink: 0,
-                  background: 'rgba(212,175,55,.12)', border: '1px solid rgba(212,175,55,.3)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
+                <div style={{ width: 34, height: 34, borderRadius: 10, flexShrink: 0, background: 'rgba(196,120,90,.1)', border: '1px solid rgba(196,120,90,.25)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg viewBox="0 0 20 20" fill="none" style={{ width: 14, height: 14 }}>
-                    <path d="M10 2L10 6M13 5l-3 3-3-3M3 12h14M5 16h10" stroke="#D4AF37" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M10 2L10 6M13 5l-3 3-3-3M3 12h14M5 16h10" stroke="#C4785A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
-                <h4 style={{
-                  fontFamily: "'Cinzel', serif", fontSize: 'clamp(10px,2.5vw,13px)',
-                  fontWeight: 600, letterSpacing: '.1em', color: '#D4AF37', margin: 0
-                }}>Invitația ta este LIVE</h4>
+                <h4 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(10px,2.5vw,13px)', fontWeight: 600, letterSpacing: '.08em', color: '#C4785A', margin: 0 }}>Invitația ta este LIVE</h4>
               </div>
+
               <div className="sum-link-row">
                 <input
                   readOnly
                   className="sum-link-input"
-                  value={`https://vibeinvite.ro/invitatie/lux/${userSlug}`}
+                  value={`https://vibeinvite.ro/invitatie/boho/${userSlug}`}
                   style={{
                     flex: 1, minWidth: 0, padding: '10px 14px',
-                    background: 'rgba(0,0,0,.4)', border: '1px solid rgba(212,175,55,.2)',
-                    borderRadius: 8, color: '#D4AF37',
-                    fontFamily: "'Cinzel', serif",
+                    background: 'rgba(255,255,255,.7)', border: '1px solid rgba(196,120,90,.2)',
+                    borderRadius: 10, color: '#C4785A',
+                    fontFamily: "'Playfair Display', serif",
                     letterSpacing: '.06em',
-                    outline: 'none', width: '100%', boxSizing: 'border-box',
-                    WebkitAppearance: 'none',
+                    outline: 'none', width: '100%', boxSizing: 'border-box' as const,
+                    WebkitAppearance: 'none' as any,
                   }}
                 />
                 <button
-                  className="lux-copy-btn"
-                  onClick={() => { navigator.clipboard.writeText(`https://vibeinvite.ro/invitatie/lux/${userSlug}`); alert("Copiat!"); }}
+                  className="boho-copy-btn"
+                  onClick={() => {
+                    navigator.clipboard.writeText(`https://vibeinvite.ro/invitatie/boho/${userSlug}`);
+                    alert("Copiat!");
+                  }}
                   style={{
-                    padding: '10px 20px', borderRadius: 8,
-                    background: 'rgba(212,175,55,.15)',
-                    border: '1px solid rgba(212,175,55,.35)',
-                    color: '#D4AF37',
-                    fontFamily: "'Cinzel', serif", fontSize: 16, fontWeight: 700,
-                    letterSpacing: '.18em', textTransform: 'uppercase',
-                    cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap'
+                    padding: '10px 20px', borderRadius: 10,
+                    background: 'rgba(196,120,90,.12)',
+                    border: '1px solid rgba(196,120,90,.35)',
+                    color: '#C4785A',
+                    fontFamily: "'Playfair Display', serif", fontSize: 14, fontWeight: 600,
+                    letterSpacing: '.14em', textTransform: 'uppercase' as const,
+                    cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap' as const
                   }}>
                   Copiază
+                </button>
+                <button
+                  className="boho-share-btn"
+                  onClick={() => {
+                    const url = `https://vibeinvite.ro/invitatie/boho/${userSlug}`;
+                    if (navigator.share) {
+                      navigator.share({ title: 'Invitație Nuntă', text: 'Te invităm să fii alături de noi în ziua nunții noastre 🌿', url }).catch(() => {});
+                    } else {
+                      window.open(`https://wa.me/?text=${encodeURIComponent('Te invităm să fii alături de noi 🌿 ' + url)}`, '_blank');
+                    }
+                  }}
+                  style={{
+                    padding: '10px 16px', borderRadius: 10,
+                    background: 'rgba(196,120,90,.06)',
+                    border: '1px solid rgba(196,120,90,.25)',
+                    color: 'rgba(122,74,53,.8)',
+                    fontFamily: "'Playfair Display', serif", fontSize: 12, fontWeight: 600,
+                    letterSpacing: '.1em', textTransform: 'uppercase' as const,
+                    cursor: 'pointer', transition: 'all .2s',
+                    display: 'flex', alignItems: 'center', gap: 7,
+                    whiteSpace: 'nowrap' as const, flexShrink: 0
+                  }}>
+                  <svg viewBox="0 0 20 20" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
+                    <circle cx="15" cy="4" r="2" stroke="currentColor" strokeWidth="1.4" />
+                    <circle cx="15" cy="16" r="2" stroke="currentColor" strokeWidth="1.4" />
+                    <circle cx="5" cy="10" r="2" stroke="currentColor" strokeWidth="1.4" />
+                    <path d="M7 9l6-4M7 11l6 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+                  </svg>
+                  <span className="share-label">Share</span>
                 </button>
               </div>
             </div>
           )}
         </div>
 
-        {/* STATS GRID */}
         <div className="sum-stats-grid">
           <StatCard title="Vizualizări" value={data?.views} icon={
             <svg viewBox="0 0 20 20" fill="none" style={{ width: 15, height: 15 }}>
-              <path d="M1 10s4-6 9-6 9 6 9 6-4 6-9 6-9-6-9-6z" stroke="#D4AF37" strokeWidth="1.3" strokeLinecap="round" />
-              <circle cx="10" cy="10" r="2.5" stroke="#D4AF37" strokeWidth="1.3" />
+              <path d="M1 10s4-6 9-6 9 6 9 6-4 6-9 6-9-6-9-6z" stroke="#C4785A" strokeWidth="1.3" strokeLinecap="round" />
+              <circle cx="10" cy="10" r="2.5" stroke="#C4785A" strokeWidth="1.3" />
             </svg>
           } />
           <StatCard title="Confirmări (DA)" value={data?.stats?.da} icon={
             <svg viewBox="0 0 20 20" fill="none" style={{ width: 15, height: 15 }}>
-              <path d="M4 10l4 4 8-8" stroke="#D4AF37" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M4 10l4 4 8-8" stroke="#C4785A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           } />
           <StatCard title="Total Persoane" value={(data?.stats?.adulti || 0) + (data?.stats?.copii || 0)} icon={
             <svg viewBox="0 0 20 20" fill="none" style={{ width: 15, height: 15 }}>
-              <circle cx="8" cy="6" r="2.5" stroke="#D4AF37" strokeWidth="1.3" />
-              <path d="M3 17c0-3 2-5 5-5s5 2 5 5" stroke="#D4AF37" strokeWidth="1.3" strokeLinecap="round" />
-              <path d="M13 8c1.3.6 2 1.8 2 3M16 17c0-2.5-1-4.5-3-5.5" stroke="#D4AF37" strokeWidth="1.3" strokeLinecap="round" />
+              <circle cx="8" cy="6" r="2.5" stroke="#C4785A" strokeWidth="1.3" />
+              <path d="M3 17c0-3 2-5 5-5s5 2 5 5" stroke="#C4785A" strokeWidth="1.3" strokeLinecap="round" />
+              <path d="M13 8c1.3.6 2 1.8 2 3M16 17c0-2.5-1-4.5-3-5.5" stroke="#C4785A" strokeWidth="1.3" strokeLinecap="round" />
             </svg>
           } />
           <StatCard title="Cazare" value={data?.stats?.cazare} icon={
             <svg viewBox="0 0 20 20" fill="none" style={{ width: 15, height: 15 }}>
-              <path d="M3 17V8l7-5 7 5v9M8 17v-5h4v5" stroke="#D4AF37" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M3 17V8l7-5 7 5v9M8 17v-5h4v5" stroke="#C4785A" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           } />
           <StatCard title="Transport" value={data?.stats?.transport} icon={
             <svg viewBox="0 0 20 20" fill="none" style={{ width: 15, height: 15 }}>
-              <rect x="2" y="7" width="16" height="9" rx="2" stroke="#D4AF37" strokeWidth="1.3" />
-              <path d="M5 7V5a3 3 0 0 1 6 0v2M6 16v2M14 16v2" stroke="#D4AF37" strokeWidth="1.3" strokeLinecap="round" />
+              <rect x="2" y="7" width="16" height="9" rx="2" stroke="#C4785A" strokeWidth="1.3" />
+              <path d="M5 7V5a3 3 0 0 1 6 0v2M6 16v2M14 16v2" stroke="#C4785A" strokeWidth="1.3" strokeLinecap="round" />
             </svg>
           } />
         </div>
 
-        <GoldDivider />
+        <BohoDivider />
 
-        {/* GUEST TABLE */}
         <div style={{
-          background: 'rgba(212,175,55,.03)',
-          border: '1px solid rgba(212,175,55,.18)',
+          background: 'rgba(255,248,240,.9)',
+          border: '1px solid rgba(196,120,90,.18)',
           borderRadius: 16,
           overflow: 'hidden',
-          boxShadow: '0 8px 50px rgba(0,0,0,.5),inset 0 1px 0 rgba(212,175,55,.08)',
+          boxShadow: '0 6px 32px rgba(196,120,90,.1),inset 0 1px 0 rgba(255,255,255,.9)',
           position: 'relative'
         }}>
-          <div style={{
-            position: 'absolute', top: 0, left: '10%', right: '10%', height: 1,
-            background: 'linear-gradient(90deg,transparent,rgba(212,175,55,.4),transparent)'
-          }} />
+          <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: 1, background: 'linear-gradient(90deg,transparent,rgba(196,120,90,.3),transparent)' }} />
 
-          <div style={{ padding: 'clamp(16px,3vw,24px)', borderBottom: '1px solid rgba(212,175,55,.12)' }}>
-            <p style={{
-              fontFamily: "'Cinzel', serif", fontSize: 8, letterSpacing: '.32em',
-              textTransform: 'uppercase', color: 'rgba(212,175,55,.45)', marginBottom: 5
-            }}>Registrul Invitaților</p>
-            <h3 style={{
-              fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(16px,3vw,24px)',
-              fontStyle: 'italic', fontWeight: 300, color: '#F5E6A8', margin: 0
-            }}>Detalii Răspunsuri</h3>
+          <div style={{ padding: 'clamp(16px,3vw,24px)', borderBottom: '1px solid rgba(196,120,90,.1)' }}>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 8, letterSpacing: '.28em', textTransform: 'uppercase', color: 'rgba(196,120,90,.5)', marginBottom: 5 }}>Registrul Invitaților</p>
+            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(16px,3vw,24px)', fontStyle: 'italic', fontWeight: 400, color: '#7A4A35', margin: 0 }}>Detalii Răspunsuri</h3>
           </div>
 
           <div className="sum-table-wrap">
             <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 400 }}>
               <thead>
-                <tr style={{ background: 'rgba(212,175,55,.06)' }}>
+                <tr style={{ background: 'rgba(196,120,90,.06)' }}>
                   <th style={thStyle}>Nume</th>
                   <th style={thStyle}>Status</th>
                   <th style={thStyle}>Persoane</th>
@@ -334,94 +329,48 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
               <tbody>
                 {data?.guests?.length > 0 ? (
                   data.guests.map((guest: any) => (
-                    <tr
-                      key={guest.id}
-                      className="lux-row"
-                      style={{ borderBottom: '1px solid rgba(212,175,55,.07)', transition: 'background .2s' }}>
+                    <tr key={guest.id} className="boho-row" style={{ borderBottom: '1px solid rgba(196,120,90,.08)', transition: 'background .2s' }}>
                       <td style={tdStyle}>
-                        <span style={{
-                          fontFamily: "'Cormorant Garamond', serif",
-                          fontSize: 'clamp(13px,2vw,17px)', fontWeight: 600, color: '#F5E6A8'
-                        }}>{guest.guest_name}</span>
+                        <span style={{ fontFamily: "'Lora', serif", fontSize: 'clamp(13px,2vw,17px)', fontWeight: 600, color: '#7A4A35' }}>{guest.guest_name}</span>
                         {guest.partner_name && (
-                          <span style={{
-                            display: 'block', fontFamily: "'Cormorant Garamond', serif",
-                            fontSize: 11, fontStyle: 'italic', color: 'rgba(212,175,55,.45)', marginTop: 2
-                          }}>+ {guest.partner_name}</span>
+                          <span style={{ display: 'block', fontFamily: "'Lora', serif", fontSize: 11, fontStyle: 'italic', color: 'rgba(196,120,90,.5)', marginTop: 2 }}>+ {guest.partner_name}</span>
                         )}
                       </td>
                       <td style={tdStyle}>
                         {guest.is_coming ? (
-                          <span style={{
-                            display: 'inline-flex', alignItems: 'center', gap: 5,
-                            padding: '3px 10px', borderRadius: 100,
-                            background: 'rgba(74,222,128,.08)', border: '1px solid rgba(74,222,128,.25)',
-                            fontFamily: "'Cinzel', serif", fontSize: 8, letterSpacing: '.12em',
-                            color: 'rgba(134,239,172,.9)', whiteSpace: 'nowrap'
-                          }}>✦ VINE</span>
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: 100, background: 'rgba(100,160,80,.08)', border: '1px solid rgba(100,160,80,.25)', fontFamily: "'Playfair Display', serif", fontSize: 8, letterSpacing: '.1em', color: 'rgba(80,140,60,.9)', whiteSpace: 'nowrap' }}>✦ VINE</span>
                         ) : (
-                          <span style={{
-                            display: 'inline-flex', alignItems: 'center', gap: 5,
-                            padding: '3px 10px', borderRadius: 100,
-                            background: 'rgba(248,113,113,.08)', border: '1px solid rgba(248,113,113,.25)',
-                            fontFamily: "'Cinzel', serif", fontSize: 8, letterSpacing: '.12em',
-                            color: 'rgba(252,165,165,.9)', whiteSpace: 'nowrap'
-                          }}>◆ NU</span>
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: 100, background: 'rgba(200,80,60,.07)', border: '1px solid rgba(200,80,60,.22)', fontFamily: "'Playfair Display', serif", fontSize: 8, letterSpacing: '.1em', color: 'rgba(180,70,50,.9)', whiteSpace: 'nowrap' }}>◆ NU</span>
                         )}
                       </td>
                       <td style={tdStyle}>
-                        <span style={{
-                          fontFamily: "'Cinzel', serif", fontSize: 11,
-                          color: 'rgba(212,175,55,.7)', letterSpacing: '.06em'
-                        }}>{guest.adults_count}A / {guest.kids_count}C</span>
+                        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, color: 'rgba(122,74,53,.7)', letterSpacing: '.06em' }}>{guest.adults_count}A / {guest.kids_count}C</span>
                       </td>
                       <td style={tdStyle} className="td-cazare">
-                        <span style={{
-                          fontFamily: "'Cinzel', serif", fontSize: 11,
-                          color: guest.needs_accommodation ? 'rgba(212,175,55,.8)' : 'rgba(245,230,168,.25)',
-                          letterSpacing: '.06em'
-                        }}>
-                          {guest.needs_accommodation ? "◆ DA" : "—"}
+                        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, color: guest.needs_accommodation ? '#C4785A' : 'rgba(122,74,53,.25)', letterSpacing: '.06em' }}>
+                          {guest.needs_accommodation ? "✦ DA" : "—"}
                         </span>
                       </td>
                       <td style={tdStyle} className="td-transport">
-                        <span style={{
-                          fontFamily: "'Cinzel', serif", fontSize: 11,
-                          color: guest.needs_transport ? 'rgba(212,175,55,.8)' : 'rgba(245,230,168,.25)',
-                          letterSpacing: '.06em'
-                        }}>
-                          {guest.needs_transport ? "◆ DA" : "—"}
+                        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, color: guest.needs_transport ? '#C4785A' : 'rgba(122,74,53,.25)', letterSpacing: '.06em' }}>
+                          {guest.needs_transport ? "✦ DA" : "—"}
                         </span>
                       </td>
                       <td style={tdStyle} className="td-details">
                         {guest.dietary_preferences && (
                           <div style={{ marginBottom: guest.other_mentions ? 5 : 0 }}>
-                            <span style={{
-                              fontFamily: "'Cinzel', serif", fontSize: 7,
-                              letterSpacing: '.14em', textTransform: 'uppercase',
-                              color: 'rgba(212,175,55,.5)', display: 'block', marginBottom: 2
-                            }}>Dietă</span>
-                            <span style={{
-                              fontFamily: "'Cormorant Garamond', serif", fontSize: 13,
-                              fontStyle: 'italic', color: 'rgba(245,230,168,.7)'
-                            }}>{guest.dietary_preferences}</span>
+                            <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 7, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(196,120,90,.55)', display: 'block', marginBottom: 2 }}>Dietă</span>
+                            <span style={{ fontFamily: "'Lora', serif", fontSize: 13, fontStyle: 'italic', color: 'rgba(122,74,53,.7)' }}>{guest.dietary_preferences}</span>
                           </div>
                         )}
                         {guest.other_mentions && (
                           <div>
-                            <span style={{
-                              fontFamily: "'Cinzel', serif", fontSize: 7,
-                              letterSpacing: '.14em', textTransform: 'uppercase',
-                              color: 'rgba(212,175,55,.5)', display: 'block', marginBottom: 2
-                            }}>Mesaj</span>
-                            <span style={{
-                              fontFamily: "'Cormorant Garamond', serif", fontSize: 13,
-                              fontStyle: 'italic', color: 'rgba(245,230,168,.7)'
-                            }}>{guest.other_mentions}</span>
+                            <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 7, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(196,120,90,.55)', display: 'block', marginBottom: 2 }}>Mesaj</span>
+                            <span style={{ fontFamily: "'Lora', serif", fontSize: 13, fontStyle: 'italic', color: 'rgba(122,74,53,.7)' }}>{guest.other_mentions}</span>
                           </div>
                         )}
                         {!guest.dietary_preferences && !guest.other_mentions && (
-                          <span style={{ color: 'rgba(245,230,168,.2)', fontSize: 14 }}>—</span>
+                          <span style={{ color: 'rgba(122,74,53,.2)', fontSize: 14 }}>—</span>
                         )}
                       </td>
                     </tr>
@@ -431,19 +380,12 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                     <td colSpan={6} style={{ padding: 'clamp(32px,5vw,56px)', textAlign: 'center' }}>
                       <div style={{ marginBottom: 10, opacity: .3 }}>
                         <svg viewBox="0 0 48 48" fill="none" style={{ width: 36, height: 36, margin: '0 auto' }}>
-                          <rect x="8" y="8" width="32" height="36" rx="3" stroke="#D4AF37" strokeWidth="1.5" />
-                          <path d="M16 18h16M16 25h16M16 32h8" stroke="#D4AF37" strokeWidth="1.3" strokeLinecap="round" />
+                          <rect x="8" y="8" width="32" height="36" rx="3" stroke="#C4785A" strokeWidth="1.5" />
+                          <path d="M16 18h16M16 25h16M16 32h8" stroke="#C4785A" strokeWidth="1.3" strokeLinecap="round" />
                         </svg>
                       </div>
-                      <p style={{
-                        fontFamily: "'Cormorant Garamond', serif", fontSize: 17,
-                        fontStyle: 'italic', fontWeight: 300, color: 'rgba(212,175,55,.35)',
-                        marginBottom: 5
-                      }}>Niciun răspuns încă</p>
-                      <p style={{
-                        fontFamily: "'Cinzel', serif", fontSize: 8, letterSpacing: '.22em',
-                        textTransform: 'uppercase', color: 'rgba(212,175,55,.25)'
-                      }}>Distribuie invitația pentru a primi confirmări</p>
+                      <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 17, fontStyle: 'italic', fontWeight: 400, color: 'rgba(122,74,53,.35)', marginBottom: 5 }}>Niciun răspuns încă</p>
+                      <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 8, letterSpacing: '.2em', textTransform: 'uppercase', color: 'rgba(196,120,90,.3)' }}>Distribuie invitația pentru a primi confirmări</p>
                     </td>
                   </tr>
                 )}
@@ -459,10 +401,10 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
 
 const thStyle: React.CSSProperties = {
   padding: 'clamp(10px,1.5vw,14px) clamp(10px,1.5vw,14px)',
-  fontFamily: "'Cinzel', serif", fontSize: 7, letterSpacing: '.22em',
-  textTransform: 'uppercase', color: 'rgba(212,175,55,.55)',
+  fontFamily: "'Playfair Display', serif", fontSize: 7, letterSpacing: '.2em',
+  textTransform: 'uppercase', color: 'rgba(196,120,90,.6)',
   textAlign: 'left', fontWeight: 600,
-  borderBottom: '1px solid rgba(212,175,55,.15)',
+  borderBottom: '1px solid rgba(196,120,90,.12)',
   whiteSpace: 'nowrap',
 };
 
@@ -473,53 +415,36 @@ const tdStyle: React.CSSProperties = {
 
 const StatCard = ({ title, value, icon }: any) => (
   <div style={{
-    background: 'rgba(212,175,55,.04)',
-    border: '1px solid rgba(212,175,55,.18)',
-    borderRadius: 14,
+    background: 'rgba(255,248,240,.9)',
+    border: '1px solid rgba(196,120,90,.18)',
+    borderRadius: 16,
     padding: 'clamp(12px,2vw,20px) clamp(10px,1.5vw,16px)',
     textAlign: 'center' as const,
     position: 'relative',
     overflow: 'hidden',
-    boxShadow: '0 4px 30px rgba(0,0,0,.4),inset 0 1px 0 rgba(212,175,55,.08)',
+    boxShadow: '0 4px 20px rgba(196,120,90,.08),inset 0 1px 0 rgba(255,255,255,.9)',
     transition: 'transform .2s ease, box-shadow .2s ease'
   }}>
-    <div style={{
-      position: 'absolute', top: 0, left: '15%', right: '15%', height: 1,
-      background: 'linear-gradient(90deg,transparent,rgba(212,175,55,.35),transparent)'
-    }} />
+    <div style={{ position: 'absolute', top: 0, left: '15%', right: '15%', height: 1, background: 'linear-gradient(90deg,transparent,rgba(196,120,90,.25),transparent)' }} />
     {icon && (
-      <div style={{
-        width: 32, height: 32, borderRadius: 9,
-        background: 'rgba(212,175,55,.08)', border: '1px solid rgba(212,175,55,.2)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        margin: '0 auto 8px', flexShrink: 0
-      }}>{icon}</div>
+      <div style={{ width: 32, height: 32, borderRadius: 10, background: 'rgba(196,120,90,.08)', border: '1px solid rgba(196,120,90,.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 8px', flexShrink: 0 }}>{icon}</div>
     )}
-    <p style={{
-      fontFamily: "'Cinzel', serif", fontSize: 7, letterSpacing: '.2em',
-      textTransform: 'uppercase', color: 'rgba(212,175,55,.45)',
-      marginBottom: 6
-    }}>{title}</p>
-    <h4 style={{
-      fontFamily: "'Cormorant Garamond', serif",
-      fontSize: 'clamp(24px,3.5vw,38px)', fontWeight: 300,
-      color: '#F5E6A8', margin: 0, lineHeight: 1,
-      textShadow: '0 0 30px rgba(212,175,55,.2)'
-    }}>{value || 0}</h4>
+    <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 7, letterSpacing: '.18em', textTransform: 'uppercase', color: 'rgba(196,120,90,.5)', marginBottom: 6 }}>{title}</p>
+    <h4 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px,3.5vw,38px)', fontWeight: 400, color: '#7A4A35', margin: 0, lineHeight: 1 }}>{value || 0}</h4>
   </div>
 );
 
-const GoldDivider = () => (
+const BohoDivider = () => (
   <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: 24 }}>
-    <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,transparent,rgba(212,175,55,.35))' }} />
+    <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,transparent,rgba(196,120,90,.3))' }} />
     <svg viewBox="0 0 60 20" width="54" height="18" fill="none" style={{ flexShrink: 0 }}>
-      <path d="M5 10 L20 10" stroke="#D4AF37" strokeWidth=".8" strokeOpacity=".6" />
-      <path d="M40 10 L55 10" stroke="#D4AF37" strokeWidth=".8" strokeOpacity=".6" />
-      <rect x="25" y="5" width="10" height="10" transform="rotate(45 30 10)" fill="none" stroke="#D4AF37" strokeWidth="1" strokeOpacity=".9" />
-      <circle cx="30" cy="10" r="2" fill="#D4AF37" fillOpacity=".8" />
-      <circle cx="18" cy="10" r="1" fill="#D4AF37" fillOpacity=".5" />
-      <circle cx="42" cy="10" r="1" fill="#D4AF37" fillOpacity=".5" />
+      <path d="M5 10 C10 6, 15 6, 20 10" stroke="#C4785A" strokeWidth=".8" strokeOpacity=".6" fill="none" />
+      <path d="M40 10 C45 6, 50 6, 55 10" stroke="#C4785A" strokeWidth=".8" strokeOpacity=".6" fill="none" />
+      <circle cx="30" cy="10" r="3.5" fill="none" stroke="#C4785A" strokeWidth="1" strokeOpacity=".8" />
+      <circle cx="30" cy="10" r="1.5" fill="#C4785A" fillOpacity=".6" />
+      <circle cx="18" cy="10" r="1" fill="#C4785A" fillOpacity=".4" />
+      <circle cx="42" cy="10" r="1" fill="#C4785A" fillOpacity=".4" />
     </svg>
-    <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(212,175,55,.35),transparent)' }} />
+    <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(196,120,90,.3),transparent)' }} />
   </div>
 );

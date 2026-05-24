@@ -1,5 +1,3 @@
-
-
 "use client";
 import React, { useState, useEffect } from 'react';
 
@@ -35,8 +33,8 @@ export default function Countdown({ targetDate }: { targetDate: string }) {
 
   if (!timeLeft) return null;
   if (timeLeft === 0) return (
-    <div style={{ color: '#d4af37', fontFamily: "'Cinzel', serif", letterSpacing: '.2em', fontSize: 'clamp(12px,1.4vw,14px)', marginTop: 30 }}>
-      EVENIMENTUL A ÎNCEPUT! ✦
+    <div style={{ color: '#C17F3E', fontFamily: "'EB Garamond', serif", letterSpacing: '.2em', fontSize: 'clamp(12px,1.4vw,14px)', marginTop: 30, fontStyle: 'italic' }}>
+      EVENIMENTUL A ÎNCEPUT! ✿
     </div>
   );
 
@@ -51,26 +49,26 @@ export default function Countdown({ targetDate }: { targetDate: string }) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400&family=Cinzel:wght@400&display=swap');
-        .countdown-wrap { display: flex; gap: 0; justify-content: center; margin-top: 32px; background: rgba(212,175,55,.04); border: 1px solid rgba(212,175,55,.18); border-radius: 16px; padding: 20px 10px; max-width: 420px; margin-left: auto; margin-right: auto; position: relative; overflow: hidden; overscroll-behavior: contain; }
-        .countdown-top-line { position: absolute; top: 0; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,.4), transparent); }
-        .countdown-bottom-line { position: absolute; bottom: 0; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,.4), transparent); }
-        .countdown-unit { flex: 1; text-align: center; padding: 0 4px; border-right: 1px solid rgba(212,175,55,.12); }
-        .countdown-unit:last-child { border-right: none; }
-        .countdown-number { display: block; font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 6vw, 58px); font-weight: 300; line-height: 1; color: #D4AF37; transition: transform .15s ease, color .15s ease; }
-        .countdown-number.flip { transform: scale(1.08) translateY(-3px); color: #F5D678; text-shadow: 0 0 20px rgba(212,175,55,.4); }
-        .countdown-label { font-family: 'Cinzel', serif; font-size: clamp(6px, .8vw, 8px); letter-spacing: .18em; text-transform: uppercase; color: rgba(212,175,55,.45); display: block; margin-top: 4px; }
-        .countdown-eyebrow { font-family: 'Cinzel', serif; font-size: clamp(7px, .9vw, 9px); letter-spacing: .3em; text-transform: uppercase; color: rgba(212,175,55,.55); text-align: center; margin-bottom: 14px; display: block; }
+        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+        .bh-countdown-wrap { display: flex; gap: 0; justify-content: center; margin-top: 32px; background: rgba(255,250,240,.65); border: 1.5px solid rgba(193,127,62,.2); border-radius: 24px; padding: 20px 10px; max-width: 420px; margin-left: auto; margin-right: auto; position: relative; overflow: hidden; overscroll-behavior: contain; backdrop-filter: blur(8px); }
+        .bh-countdown-top-line { position: absolute; top: 0; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(193,127,62,.35), transparent); }
+        .bh-countdown-bottom-line { position: absolute; bottom: 0; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(193,127,62,.35), transparent); }
+        .bh-countdown-unit { flex: 1; text-align: center; padding: 0 4px; border-right: 1px solid rgba(193,127,62,.15); }
+        .bh-countdown-unit:last-child { border-right: none; }
+        .bh-countdown-number { display: block; font-family: 'Playfair Display', serif; font-size: clamp(36px, 6vw, 58px); font-weight: 400; line-height: 1; color: #4A3728; transition: transform .15s ease, color .15s ease; }
+        .bh-countdown-number.flip { transform: scale(1.08) translateY(-3px); color: #C17F3E; }
+        .bh-countdown-label { font-family: 'EB Garamond', serif; font-size: clamp(8px, .9vw, 10px); letter-spacing: .16em; text-transform: uppercase; font-style: italic; color: rgba(139,99,67,.6); display: block; margin-top: 4px; }
+        .bh-countdown-eyebrow { font-family: 'EB Garamond', serif; font-size: clamp(10px, 1.1vw, 12px); font-style: italic; letter-spacing: .1em; color: rgba(139,99,67,.7); text-align: center; margin-bottom: 14px; display: block; }
       `}</style>
       <div style={{ marginTop: 30 }}>
-        <span className="countdown-eyebrow">Timp Rămas Până La Marea Sărbătoare</span>
-        <div className="countdown-wrap">
-          <div className="countdown-top-line"/>
-          <div className="countdown-bottom-line"/>
+        <span className="bh-countdown-eyebrow">timp rămas până la marea sărbătoare...</span>
+        <div className="bh-countdown-wrap">
+          <div className="bh-countdown-top-line"/>
+          <div className="bh-countdown-bottom-line"/>
           {units.map(u => (
-            <div key={u.label} className="countdown-unit">
-              <span className={`countdown-number${u.flip ? ' flip' : ''}`}>{u.value}</span>
-              <span className="countdown-label">{u.label}</span>
+            <div key={u.label} className="bh-countdown-unit">
+              <span className={`bh-countdown-number${u.flip ? ' flip' : ''}`}>{u.value}</span>
+              <span className="bh-countdown-label">{u.label}</span>
             </div>
           ))}
         </div>

@@ -1,5 +1,3 @@
-
-
 "use client";
 import React, { useState, useEffect } from 'react';
 
@@ -80,7 +78,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         body: JSON.stringify({ orderId, ...formData }),
       });
       if (res.ok) {
-        alert('Personalizare salvată cu succes! ✨');
+        alert('Personalizare salvată cu succes! 🌿');
         onSave();
       } else {
         const err = await res.json();
@@ -92,7 +90,6 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
     setLoading(false);
   };
 
-  /* ── Date picker ── */
   const CustomDatePicker = ({ value, onChangeKey }: { value: string; onChangeKey: keyof FormData }) => {
     const parts = value ? value.split('-') : ['', '', ''];
     const year = parts[0];
@@ -109,31 +106,19 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
 
     return (
       <div style={{ display: 'flex', gap: 6, width: '100%' }}>
-        <select
-          className="ps-input ps-select"
-          value={day}
-          onChange={e => handleChange('day', e.target.value)}
-        >
+        <select className="ps-input ps-select" value={day} onChange={e => handleChange('day', e.target.value)}>
           <option value="">Zi</option>
           {Array.from({ length: 31 }, (_, i) => (
             <option key={i} value={String(i + 1).padStart(2, '0')}>{i + 1}</option>
           ))}
         </select>
-        <select
-          className="ps-input ps-select"
-          value={month}
-          onChange={e => handleChange('month', e.target.value)}
-        >
+        <select className="ps-input ps-select" value={month} onChange={e => handleChange('month', e.target.value)}>
           <option value="">Lună</option>
           {['Ian','Feb','Mar','Apr','Mai','Iun','Iul','Aug','Sep','Oct','Nov','Dec'].map((m, i) => (
             <option key={i} value={String(i + 1).padStart(2, '0')}>{m}</option>
           ))}
         </select>
-        <select
-          className="ps-input ps-select"
-          value={year}
-          onChange={e => handleChange('year', e.target.value)}
-        >
+        <select className="ps-input ps-select" value={year} onChange={e => handleChange('year', e.target.value)}>
           <option value="">An</option>
           {Array.from({ length: maxYear - currentYear + 1 }, (_, i) => (
             <option key={i} value={String(currentYear + i)}>{currentYear + i}</option>
@@ -143,7 +128,6 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
     );
   };
 
-  /* ── Time picker ── */
   const CustomTimePicker = ({ value, onChangeKey }: { value: string; onChangeKey: keyof FormData }) => {
     const [hours, minutes] = value ? value.split(':') : ['', ''];
 
@@ -156,22 +140,14 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
 
     return (
       <div style={{ display: 'flex', gap: 6, width: '100%', alignItems: 'center' }}>
-        <select
-          className="ps-input ps-select"
-          value={hours}
-          onChange={e => handleChange('h', e.target.value)}
-        >
+        <select className="ps-input ps-select" value={hours} onChange={e => handleChange('h', e.target.value)}>
           <option value="">Ora</option>
           {Array.from({ length: 24 }, (_, i) => (
             <option key={i} value={String(i).padStart(2, '0')}>{String(i).padStart(2, '0')}</option>
           ))}
         </select>
-        <span style={{ color: '#D4AF37', fontSize: 16, fontWeight: 300, flexShrink: 0, opacity: 0.7 }}>:</span>
-        <select
-          className="ps-input ps-select"
-          value={minutes}
-          onChange={e => handleChange('m', e.target.value)}
-        >
+        <span style={{ color: '#C4785A', fontSize: 16, fontWeight: 300, flexShrink: 0, opacity: 0.7 }}>:</span>
+        <select className="ps-input ps-select" value={minutes} onChange={e => handleChange('m', e.target.value)}>
           <option value="">Min</option>
           {Array.from({ length: 60 }, (_, i) => (
             <option key={i} value={String(i).padStart(2, '0')}>{String(i).padStart(2, '0')}</option>
@@ -181,65 +157,57 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
     );
   };
 
-  /* ════════════════════════════════════════════════════ RENDER ══ */
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Lora:ital,wght@0,300;0,400;1,300;1,400&display=swap');
         *, *::before, *::after { box-sizing: border-box; }
 
-        /* ── iOS: prevent zoom on focus — 16px obligatoriu ── */
         .ps-input { font-size: 16px !important; -webkit-text-size-adjust: 100%; }
-
-        /* ── Prevent overscroll/bounce ── */
         .ps-wrap { overscroll-behavior: contain; -webkit-overflow-scrolling: auto; }
 
-        /* ── Base input / select / textarea ── */
         .ps-input {
           width: 100%;
-          background: rgba(212,175,55,.04);
-          border: 1px solid rgba(212,175,55,.18);
-          color: #F5E6A8;
+          background: rgba(255,255,255,.8);
+          border: 1px solid rgba(196,120,90,.2);
+          color: #7A4A35;
           padding: 10px 12px;
-          border-radius: 6px;
+          border-radius: 10px;
           margin-bottom: 12px;
-          font-family: 'Cormorant Garamond', serif;
+          font-family: 'Lora', serif;
           transition: border-color .2s, box-shadow .2s;
           min-width: 0;
           -webkit-appearance: none;
           appearance: none;
         }
         .ps-input:focus {
-          border-color: rgba(212,175,55,.55) !important;
-          box-shadow: 0 0 0 3px rgba(212,175,55,.08) !important;
+          border-color: rgba(196,120,90,.5) !important;
+          box-shadow: 0 0 0 3px rgba(196,120,90,.08) !important;
           outline: none !important;
         }
-        .ps-input::placeholder { color: rgba(212,175,55,.2); }
-        .ps-input option { background: #0A0803; color: #F5E6A8; }
+        .ps-input::placeholder { color: rgba(122,74,53,.25); }
+        .ps-input option { background: #FDF6EF; color: #7A4A35; }
 
-        /* ── Select arrow override ── */
         .ps-select {
           flex: 1;
           padding: 10px 24px 10px 10px !important;
           cursor: pointer;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23D4AF37' stroke-opacity='.45' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23C4785A' stroke-opacity='.55' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
           background-repeat: no-repeat;
           background-position: right 8px center;
-          background-color: rgba(212,175,55,.04);
+          background-color: rgba(255,255,255,.8);
         }
 
-        /* ── Hover / states ── */
         .ps-card { transition: box-shadow .25s ease; }
-        .ps-card:hover { box-shadow: 0 12px 48px rgba(0,0,0,.6), 0 0 0 1px rgba(212,175,55,.18) !important; }
+        .ps-card:hover { box-shadow: 0 8px 32px rgba(196,120,90,.12), 0 0 0 1px rgba(196,120,90,.15) !important; }
         .ps-preview-btn { transition: all .2s ease; }
-        .ps-preview-btn:hover { background: rgba(212,175,55,.14) !important; border-color: rgba(212,175,55,.6) !important; color: #F5D678 !important; }
+        .ps-preview-btn:hover { background: rgba(196,120,90,.1) !important; border-color: rgba(196,120,90,.5) !important; color: #C4785A !important; }
         .ps-save-btn { transition: all .22s; }
-        .ps-save-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(212,175,55,.4) !important; }
+        .ps-save-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(196,120,90,.3) !important; }
         .ps-save-btn:disabled { opacity: .55; cursor: not-allowed; }
         .ps-toggle { transition: all .2s; }
-        .ps-toggle:hover { border-color: rgba(212,175,55,.45) !important; background: rgba(212,175,55,.1) !important; }
+        .ps-toggle:hover { border-color: rgba(196,120,90,.4) !important; background: rgba(196,120,90,.08) !important; }
 
-        /* ── Layout ── */
         .ps-wrap { width: 100%; max-width: 960px; box-sizing: border-box; overflow-x: hidden; }
         .ps-two-col       { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .ps-religious-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -261,25 +229,24 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         }
       `}</style>
 
-      <form onSubmit={handleSave} className="ps-wrap" style={{ paddingBottom: 80, fontFamily: "'Lato', sans-serif" }}>
+      <form onSubmit={handleSave} className="ps-wrap" style={{ paddingBottom: 80, fontFamily: "'Lora', sans-serif" }}>
 
-        {/* ── HEADER ── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 28, width: '100%' }}>
           <div>
-            <p style={{ fontFamily: "'Cinzel', serif", fontSize: 10, letterSpacing: '.32em', textTransform: 'uppercase', color: 'rgba(212,175,55,.5)', marginBottom: 6 }}>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 10, letterSpacing: '.28em', textTransform: 'uppercase', color: 'rgba(196,120,90,.6)', marginBottom: 6 }}>
               Dashboard
             </p>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(20px,5vw,30px)', fontWeight: 300, fontStyle: 'italic', color: '#F5E6A8', margin: 0, letterSpacing: '.02em', lineHeight: 1.2 }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(20px,5vw,30px)', fontWeight: 400, fontStyle: 'italic', color: '#7A4A35', margin: 0, letterSpacing: '.02em', lineHeight: 1.2 }}>
               Personalizare Detalii
             </h2>
           </div>
 
           <a
-            href={`/invitatie/lux/${formData.customSlug}`}
+            href={`/invitatie/boho/${formData.customSlug}`}
             target="_blank"
             rel="noreferrer"
             className="ps-preview-btn"
-            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '12px 18px', border: '1px solid rgba(212,175,55,.3)', borderRadius: 6, color: '#D4AF37', textDecoration: 'none', fontFamily: "'Cinzel', serif", fontSize: 10, fontWeight: 600, letterSpacing: '.18em', textTransform: 'uppercase', background: 'rgba(212,175,55,.06)', whiteSpace: 'nowrap', width: '100%' }}
+            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '12px 18px', border: '1px solid rgba(196,120,90,.3)', borderRadius: 10, color: '#C4785A', textDecoration: 'none', fontFamily: "'Playfair Display', serif", fontSize: 10, fontWeight: 600, letterSpacing: '.16em', textTransform: 'uppercase', background: 'rgba(196,120,90,.06)', whiteSpace: 'nowrap', width: '100%' }}
           >
             <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" style={{ width: 14, height: 14, flexShrink: 0 }}>
               <path d="M10 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
@@ -289,13 +256,12 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
           </a>
         </div>
 
-        <GoldDividerLine />
+        <BohoDividerLine />
 
-        {/* ── URL PERSONALIZAT ── */}
         <SectionCard title="🔗 URL Personalizat" style={{ marginTop: 24 }}>
           <label style={labS}>Slug personalizat</label>
-          <div style={{ display: 'flex', alignItems: 'stretch', borderRadius: 6, overflow: 'hidden', border: '1px solid rgba(212,175,55,.2)', background: '#080603' }}>
-            <span className="ps-slug-prefix" style={{ padding: '11px 12px', color: 'rgba(212,175,55,.35)', background: 'rgba(212,175,55,.04)', fontSize: 12, fontFamily: "'Cinzel', serif", letterSpacing: '.06em', borderRight: '1px solid rgba(212,175,55,.12)', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'stretch', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(196,120,90,.2)', background: '#FDF6EF' }}>
+            <span className="ps-slug-prefix" style={{ padding: '11px 12px', color: 'rgba(196,120,90,.45)', background: 'rgba(196,120,90,.05)', fontSize: 12, fontFamily: "'Playfair Display', serif", letterSpacing: '.06em', borderRight: '1px solid rgba(196,120,90,.12)', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center' }}>
               vibeinvite.ro/
             </span>
             <input
@@ -311,9 +277,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
           <p style={hintS}>Folosiți doar litere mici, cifre și cratimă.</p>
         </SectionCard>
 
-        {/* ── MIRI + RESTAURANT ── */}
         <div className="ps-two-col" style={{ marginTop: 16 }}>
-
           <SectionCard title="Miri & Familie" icon="💍">
             <FG>
               <label style={labS}>Nume Mireasă</label>
@@ -357,25 +321,24 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
           </SectionCard>
         </div>
 
-        {/* ── CUNUNIA RELIGIOASĂ ── */}
         <div style={{ ...cardBase, marginTop: 16, padding: 0 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', borderBottom: formData.isReligiousActive ? '1px solid rgba(212,175,55,.12)' : 'none', flexWrap: 'wrap', gap: 10 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', borderBottom: formData.isReligiousActive ? '1px solid rgba(196,120,90,.12)' : 'none', flexWrap: 'wrap', gap: 10 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <span style={{ fontSize: 16 }}>⛪</span>
               <div>
-                <p style={{ fontFamily: "'Cinzel', serif", fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', color: '#D4AF37', margin: 0 }}>Cununia Religioasă</p>
-                <p style={{ fontSize: 11, color: 'rgba(212,175,55,.4)', marginTop: 3, fontStyle: 'italic', fontFamily: "'Cormorant Garamond', serif", marginBottom: 0 }}>Secțiune opțională</p>
+                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 10, letterSpacing: '.2em', textTransform: 'uppercase', color: '#C4785A', margin: 0 }}>Cununia Religioasă</p>
+                <p style={{ fontSize: 11, color: 'rgba(196,120,90,.45)', marginTop: 3, fontStyle: 'italic', fontFamily: "'Lora', serif", marginBottom: 0 }}>Secțiune opțională</p>
               </div>
             </div>
             <label
               className="ps-toggle"
-              style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', padding: '7px 14px', borderRadius: 100, border: `1px solid ${formData.isReligiousActive ? 'rgba(212,175,55,.4)' : 'rgba(212,175,55,.18)'}`, background: formData.isReligiousActive ? 'rgba(212,175,55,.12)' : 'rgba(212,175,55,.04)', userSelect: 'none', flexShrink: 0 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', padding: '7px 14px', borderRadius: 100, border: `1px solid ${formData.isReligiousActive ? 'rgba(196,120,90,.4)' : 'rgba(196,120,90,.2)'}`, background: formData.isReligiousActive ? 'rgba(196,120,90,.1)' : 'rgba(196,120,90,.04)', userSelect: 'none', flexShrink: 0 }}
             >
               <input type="checkbox" checked={formData.isReligiousActive} onChange={e => set('isReligiousActive', e.target.checked)} style={{ display: 'none' }} />
-              <div style={{ width: 32, height: 18, borderRadius: 9, background: formData.isReligiousActive ? 'linear-gradient(90deg,#8B6914,#D4AF37)' : 'rgba(212,175,55,.15)', position: 'relative', transition: 'background .2s', flexShrink: 0, border: '1px solid rgba(212,175,55,.2)' }}>
-                <div style={{ position: 'absolute', top: 2, left: formData.isReligiousActive ? 14 : 2, width: 12, height: 12, borderRadius: '50%', background: formData.isReligiousActive ? '#0A0803' : 'rgba(212,175,55,.5)', transition: 'left .2s, background .2s' }} />
+              <div style={{ width: 32, height: 18, borderRadius: 9, background: formData.isReligiousActive ? 'linear-gradient(90deg,#C4785A,#E8A48A)' : 'rgba(196,120,90,.15)', position: 'relative', transition: 'background .2s', flexShrink: 0, border: '1px solid rgba(196,120,90,.2)' }}>
+                <div style={{ position: 'absolute', top: 2, left: formData.isReligiousActive ? 14 : 2, width: 12, height: 12, borderRadius: '50%', background: formData.isReligiousActive ? '#FDF6EF' : 'rgba(196,120,90,.5)', transition: 'left .2s, background .2s' }} />
               </div>
-              <span style={{ fontFamily: "'Cinzel', serif", fontSize: 9, letterSpacing: '.14em', textTransform: 'uppercase', color: formData.isReligiousActive ? '#D4AF37' : 'rgba(212,175,55,.45)', whiteSpace: 'nowrap' }}>
+              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 9, letterSpacing: '.12em', textTransform: 'uppercase', color: formData.isReligiousActive ? '#C4785A' : 'rgba(196,120,90,.45)', whiteSpace: 'nowrap' }}>
                 {formData.isReligiousActive ? 'Activă' : 'Inactivă'}
               </span>
             </label>
@@ -409,9 +372,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
           )}
         </div>
 
-        {/* ── CONTACT + RSVP ── */}
         <div className="ps-rsvp-grid" style={{ marginTop: 16 }}>
-
           <SectionCard title="Contact pentru Oaspeți" icon="📞">
             <FG>
               <label style={labS}>Telefon Mireasă</label>
@@ -424,27 +385,26 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
           </SectionCard>
 
           <SectionCard title="Opțiuni RSVP" icon="📋">
-            <p style={{ fontSize: 13, color: 'rgba(212,175,55,.4)', marginBottom: 16, lineHeight: 1.7, fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic' }}>
+            <p style={{ fontSize: 13, color: 'rgba(122,74,53,.5)', marginBottom: 16, lineHeight: 1.7, fontFamily: "'Lora', serif", fontStyle: 'italic' }}>
               Bifează dacă dorești ca invitații să specifice aceste detalii la confirmare:
             </p>
             <label style={checkboxLabel}>
-              <div style={{ ...checkboxBox, background: formData.isAccommodationActive ? 'rgba(212,175,55,.25)' : 'transparent', borderColor: formData.isAccommodationActive ? '#D4AF37' : 'rgba(212,175,55,.25)' }}>
-                {formData.isAccommodationActive && <span style={{ color: '#D4AF37', fontSize: 10, lineHeight: 1 }}>✓</span>}
+              <div style={{ ...checkboxBox, background: formData.isAccommodationActive ? 'rgba(196,120,90,.2)' : 'transparent', borderColor: formData.isAccommodationActive ? '#C4785A' : 'rgba(196,120,90,.25)' }}>
+                {formData.isAccommodationActive && <span style={{ color: '#C4785A', fontSize: 10, lineHeight: 1 }}>✓</span>}
               </div>
               <input type="checkbox" checked={formData.isAccommodationActive} onChange={e => set('isAccommodationActive', e.target.checked)} style={{ display: 'none' }} />
-              <span style={{ color: 'rgba(245,230,168,.8)', fontSize: 14, fontFamily: "'Cormorant Garamond', serif" }}>Întreabă dacă au nevoie de Cazare</span>
+              <span style={{ color: 'rgba(122,74,53,.8)', fontSize: 14, fontFamily: "'Lora', serif" }}>Întreabă dacă au nevoie de Cazare</span>
             </label>
             <label style={{ ...checkboxLabel, marginTop: 10 }}>
-              <div style={{ ...checkboxBox, background: formData.isTransportActive ? 'rgba(212,175,55,.25)' : 'transparent', borderColor: formData.isTransportActive ? '#D4AF37' : 'rgba(212,175,55,.25)' }}>
-                {formData.isTransportActive && <span style={{ color: '#D4AF37', fontSize: 10, lineHeight: 1 }}>✓</span>}
+              <div style={{ ...checkboxBox, background: formData.isTransportActive ? 'rgba(196,120,90,.2)' : 'transparent', borderColor: formData.isTransportActive ? '#C4785A' : 'rgba(196,120,90,.25)' }}>
+                {formData.isTransportActive && <span style={{ color: '#C4785A', fontSize: 10, lineHeight: 1 }}>✓</span>}
               </div>
               <input type="checkbox" checked={formData.isTransportActive} onChange={e => set('isTransportActive', e.target.checked)} style={{ display: 'none' }} />
-              <span style={{ color: 'rgba(245,230,168,.8)', fontSize: 14, fontFamily: "'Cormorant Garamond', serif" }}>Întreabă dacă au nevoie de Transport</span>
+              <span style={{ color: 'rgba(122,74,53,.8)', fontSize: 14, fontFamily: "'Lora', serif" }}>Întreabă dacă au nevoie de Transport</span>
             </label>
           </SectionCard>
         </div>
 
-        {/* ── POVESTEA NOASTRĂ ── */}
         <SectionCard title="Povestea Noastră" icon="📖" style={{ marginTop: 16 }}>
           <label style={labS}>Mesaj pentru invitați</label>
           <textarea
@@ -457,7 +417,6 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
           <p style={hintS}>Maxim 500 de caractere recomandat.</p>
         </SectionCard>
 
-        {/* ── SAVE ── */}
         <div style={{ marginTop: 28, position: 'relative' }}>
           <button
             type="submit"
@@ -466,23 +425,23 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
             style={{
               width: '100%', padding: '16px 0',
               background: loading
-                ? 'rgba(212,175,55,.25)'
-                : 'linear-gradient(135deg,#8B6914 0%,#D4AF37 45%,#F5D678 55%,#D4AF37 70%,#8B6914 100%)',
-              color: loading ? 'rgba(212,175,55,.6)' : '#0A0803',
-              fontFamily: "'Cinzel', serif",
-              fontSize: 'clamp(10px,2.5vw,12px)', fontWeight: 700,
-              letterSpacing: '.22em', textTransform: 'uppercase',
-              border: 'none', borderRadius: 6,
+                ? 'rgba(196,120,90,.2)'
+                : 'linear-gradient(135deg,#C4785A 0%,#E8A48A 45%,#F5C4A8 55%,#E8A48A 70%,#C4785A 100%)',
+              color: loading ? 'rgba(196,120,90,.6)' : '#FDF6EF',
+              fontFamily: "'Playfair Display', serif",
+              fontSize: 'clamp(10px,2.5vw,12px)', fontWeight: 600,
+              letterSpacing: '.18em', textTransform: 'uppercase',
+              border: 'none', borderRadius: 12,
               cursor: loading ? 'not-allowed' : 'pointer',
-              boxShadow: '0 8px 32px rgba(212,175,55,.25)',
+              boxShadow: '0 8px 28px rgba(196,120,90,.2)',
               position: 'relative', overflow: 'hidden',
             }}
           >
             {!loading && (
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent)', backgroundSize: '350px 100%', animation: 'shimmer-ps 3s linear infinite' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent)', backgroundSize: '350px 100%', animation: 'shimmer-ps 3s linear infinite' }} />
             )}
             <span style={{ position: 'relative', zIndex: 1 }}>
-              {loading ? '◆  Se salvează...  ◆' : '◆  Salvează Modificările  ◆'}
+              {loading ? '✦  Se salvează...  ✦' : '✦  Salvează Modificările  ✦'}
             </span>
           </button>
         </div>
@@ -492,26 +451,24 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
   );
 };
 
-/* ══════════════════════════════════════════ SUB-COMPONENTS ══ */
-
-const GoldDividerLine = () => (
+const BohoDividerLine = () => (
   <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: 8 }}>
-    <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,transparent,rgba(212,175,55,.35))' }} />
+    <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,transparent,rgba(196,120,90,.3))' }} />
     <svg viewBox="0 0 40 14" width="40" height="14" fill="none">
-      <path d="M3 7 L14 7" stroke="#D4AF37" strokeWidth=".8" strokeOpacity=".5" />
-      <path d="M26 7 L37 7" stroke="#D4AF37" strokeWidth=".8" strokeOpacity=".5" />
-      <rect x="15" y="3" width="8" height="8" transform="rotate(45 20 7)" fill="none" stroke="#D4AF37" strokeWidth="1" strokeOpacity=".8" />
-      <circle cx="20" cy="7" r="1.5" fill="#D4AF37" fillOpacity=".7" />
+      <path d="M3 7 C7 4, 11 4, 14 7" stroke="#C4785A" strokeWidth=".8" strokeOpacity=".5" fill="none" />
+      <path d="M26 7 C29 4, 33 4, 37 7" stroke="#C4785A" strokeWidth=".8" strokeOpacity=".5" fill="none" />
+      <circle cx="20" cy="7" r="2.5" fill="none" stroke="#C4785A" strokeWidth="1" strokeOpacity=".7" />
+      <circle cx="20" cy="7" r="1" fill="#C4785A" fillOpacity=".6" />
     </svg>
-    <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(212,175,55,.35),transparent)' }} />
+    <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(196,120,90,.3),transparent)' }} />
   </div>
 );
 
 const cardBase: React.CSSProperties = {
-  background: 'linear-gradient(160deg,rgba(26,20,8,.95) 0%,rgba(10,8,3,.98) 100%)',
-  borderRadius: 12,
-  border: '1px solid rgba(212,175,55,.15)',
-  boxShadow: '0 4px 24px rgba(0,0,0,.5),inset 0 1px 0 rgba(212,175,55,.08)',
+  background: 'linear-gradient(160deg,rgba(255,248,240,.98) 0%,rgba(253,246,239,1) 100%)',
+  borderRadius: 16,
+  border: '1px solid rgba(196,120,90,.18)',
+  boxShadow: '0 4px 20px rgba(196,120,90,.08),inset 0 1px 0 rgba(255,255,255,.9)',
   overflow: 'hidden',
 };
 
@@ -524,9 +481,9 @@ interface SectionCardProps {
 
 const SectionCard = ({ title, icon, children, style }: SectionCardProps) => (
   <div className="ps-card" style={{ ...cardBase, ...style }}>
-    <div style={{ padding: '14px 18px 10px', borderBottom: '1px solid rgba(212,175,55,.1)', display: 'flex', alignItems: 'center', gap: 8 }}>
+    <div style={{ padding: '14px 18px 10px', borderBottom: '1px solid rgba(196,120,90,.1)', display: 'flex', alignItems: 'center', gap: 8 }}>
       {icon && <span style={{ fontSize: 14, opacity: .85 }}>{icon}</span>}
-      <p style={{ fontFamily: "'Cinzel', serif", fontSize: 9, fontWeight: 600, letterSpacing: '.28em', textTransform: 'uppercase', color: 'rgba(212,175,55,.75)', margin: 0 }}>
+      <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 9, fontWeight: 600, letterSpacing: '.24em', textTransform: 'uppercase', color: 'rgba(196,120,90,.75)', margin: 0 }}>
         {title}
       </p>
     </div>
@@ -540,17 +497,17 @@ const FG = ({ children, noMargin }: { children: React.ReactNode; noMargin?: bool
 
 const labS: React.CSSProperties = {
   display: 'block',
-  fontFamily: "'Cinzel', serif",
+  fontFamily: "'Playfair Display', serif",
   fontSize: 8, fontWeight: 600,
-  letterSpacing: '.24em', textTransform: 'uppercase',
-  color: 'rgba(212,175,55,.5)',
+  letterSpacing: '.2em', textTransform: 'uppercase',
+  color: 'rgba(196,120,90,.6)',
   marginBottom: 6,
 };
 
 const hintS: React.CSSProperties = {
-  fontFamily: "'Cormorant Garamond', serif",
+  fontFamily: "'Lora', serif",
   fontStyle: 'italic', fontSize: 11,
-  color: 'rgba(212,175,55,.3)',
+  color: 'rgba(196,120,90,.4)',
   marginTop: -8, marginBottom: 4,
 };
 
@@ -560,8 +517,8 @@ const checkboxLabel: React.CSSProperties = {
 };
 
 const checkboxBox: React.CSSProperties = {
-  width: 18, height: 18, borderRadius: 4,
-  border: '1px solid rgba(212,175,55,.25)',
+  width: 18, height: 18, borderRadius: 5,
+  border: '1px solid rgba(196,120,90,.3)',
   display: 'flex', alignItems: 'center', justifyContent: 'center',
   flexShrink: 0, transition: 'all .18s',
 };

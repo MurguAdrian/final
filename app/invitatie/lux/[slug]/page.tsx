@@ -1,181 +1,4 @@
 
-// import { neon } from "@neondatabase/serverless";
-// import { notFound } from "next/navigation";
-// import LuxRsvpForm from "./LuxRsvpForm";
-// import Countdown from "./components/Countdown";
-
-// // Forțăm randarea dinamică pentru ca baza de date să fie interogată la fiecare vizită
-// export const dynamic = 'force-dynamic';
-// export const revalidate = 0;
-
-// export default async function InvitationPage({ params }: { params: { slug: string } }) {
-//   const sql = neon(process.env.DATABASE_URL!);
-  
-//   // 1. Căutăm nunta în baza de date
-//   const data = await sql`SELECT * FROM wedding_settings WHERE custom_slug = ${params.slug} LIMIT 1`;
-
-//   if (!data || data.length === 0) notFound();
-//   const s = data[0];
-
-//   // ============================================================
-//   // 2. AICI ESTE LINIA DE COD: Incrementăm vizualizările în DB
-//   // ============================================================
-//   await sql`UPDATE wedding_settings SET view_count = view_count + 1 WHERE id = ${s.id}`;
-
-//   return (
-//     <div style={publicWrapper}>
-//       {/* HEADER FULLSCREEN */}
-//       <section style={heroSection}>
-//         <h1 style={goldText}>VĂ INVITĂM</h1>
-//         <h2 style={namesText}>{s.bride_name} & {s.groom_name}</h2>
-//         <div style={{ opacity: 0.8 }}>
-//             <p>Alături de nașii: {s.nasi_names}</p>
-//             <p>Împreună cu părinții: {s.parents_names}</p>
-//         </div>
-
-//         {/* NUMĂRĂTOARE INVERSĂ (COUNTDOWN) */}
-//         {s.wedding_date && <Countdown targetDate={s.wedding_date} />}
-//       </section>
-
-//       {/* DETALII EVENIMENT */}
-//       <section style={detailSection}>
-//         <div style={infoBox}>
-//           <h3 style={goldText}>PETRECEREA</h3>
-//           <p style={{ fontSize: '1.5rem' }}>
-//             {s.wedding_date ? new Date(s.wedding_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Data nesetată'}
-//           </p>
-//           <p>Ora {s.wedding_time || '--:--'}</p>
-//           <p style={{ margin: '15px 0', fontWeight: 'bold' }}>{s.location_name}</p>
-//           <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-//             {s.waze_url && <a href={s.waze_url} target="_blank" style={btnGold}>WAZE</a>}
-//             {s.google_maps_url && <a href={s.google_maps_url} target="_blank" style={btnGold}>GOOGLE MAPS</a>}
-//           </div>
-//         </div>
-
-//         {/* CUNUNIA RELIGIOASĂ */}
-//         {s.is_religious_active && (
-//           <div style={infoBox}>
-//             <h3 style={goldText}>CUNUNIA RELIGIOASĂ</h3>
-//             <p>{s.religious_date ? new Date(s.religious_date).toLocaleDateString('ro-RO') : ''}</p>
-//             <p>Ora {s.religious_time}</p>
-//             <p>{s.religious_location}</p>
-//             {s.religious_waze && <a href={s.religious_waze} target="_blank" style={btnGold}>WAZE BISERICĂ</a>}
-//           </div>
-//         )}
-
-//         {/* POVESTEA NOASTRĂ */}
-//         {s.our_story && (
-//           <div style={{ padding: '60px 20px', maxWidth: '600px', margin: '0 auto' }}>
-//             <p style={{ fontStyle: 'italic', fontSize: '1.1rem', lineHeight: '1.8' }}>"{s.our_story}"</p>
-//           </div>
-//         )}
-
-// {/* ============================================================ */}
-//         {/* MENIU EVENIMENT (Actualizat pentru noul format pe categorii) */}
-//         {/* ============================================================ */}
-//         {s.is_menu_active && s.menu_details?.categories && (
-//           <div style={{ ...infoBox, padding: '50px 20px', maxWidth: '650px' }}>
-//             <h3 style={{ ...goldText, marginBottom: '40px' }}>MENIUL EVENIMENTULUI</h3>
-            
-//             {/* Filtrăm doar categoriile active care au cel puțin un item adăugat */}
-//             {s.menu_details.categories
-//               .filter((cat: any) => cat.active && cat.items && cat.items.length > 0)
-//               .map((cat: any, cIdx: number) => (
-//                 <div key={cIdx} style={{ marginBottom: '40px' }}>
-//                   <div style={{ display: 'inline-block', borderBottom: '1px solid rgba(212,175,55,0.3)', paddingBottom: '10px', marginBottom: '20px' }}>
-//                     <h4 style={{ color: '#fff', fontSize: '1.2rem', margin: 0, fontWeight: 300, letterSpacing: '2px' }}>
-//                       <span style={{ marginRight: '10px' }}>{cat.emoji}</span>
-//                       {cat.label}
-//                     </h4>
-//                   </div>
-                  
-//                   <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-//                     {cat.items.map((item: any, iIdx: number) => (
-//                       <div key={iIdx}>
-//                         <div style={{ color: '#d4af37', fontSize: '1.1rem' }}>{item.name}</div>
-//                         {item.description && (
-//                           <div style={{ fontSize: '0.85rem', opacity: 0.6, fontStyle: 'italic', marginTop: '4px' }}>
-//                             {item.description}
-//                           </div>
-//                         )}
-//                       </div>
-//                     ))}
-//                   </div>
-//                 </div>
-//               ))}
-//           </div>
-//         )}
-
-//         {/* ============================================================ */}
-//         {/* BUTON GALERIE FOTO LIVE - LOGICĂ ACTUALIZATĂ                 */}
-//         {/* ============================================================ */}
-//         {s.gallery_status === 'active' && s.photos_expires_at && new Date(s.photos_expires_at).getTime() > new Date().getTime() && (
-//           <div style={{ padding: '40px 20px', borderTop: '1px solid #d4af3711' }}>
-//             <h3 style={goldText}>📸 GALERIE FOTO LIVE</h3>
-//             <p style={{ fontSize: '0.8rem', opacity: 0.7, marginBottom: '20px' }}>
-//               Împarte momentele surprinse de tine cu noi!
-//             </p>
-//             <a 
-//               href={`/invitatie/lux/${params.slug}/upload`} 
-//               style={{ ...btnGold, padding: '15px 40px', fontSize: '1rem', background: '#d4af37', color: '#000', borderRadius: '4px', fontWeight: 'bold' }}
-//             >
-//               ÎNCARCĂ POZE
-//             </a>
-//           </div>
-//         )}
-
-//         {/* ICONIȚE CAZARE & TRANSPORT */}
-//         {(s.is_accommodation_active || s.is_transport_active) && (
-//           <div style={{ display: 'flex', gap: '30px', justifyContent: 'center', padding: '20px', marginTop: '20px' }}>
-//             {s.is_accommodation_active && <div style={{ fontSize: '2.5rem' }} title="Cazare disponibilă">🏠</div>}
-//             {s.is_transport_active && <div style={{ fontSize: '2.5rem' }} title="Transport asigurat">🚌</div>}
-//           </div>
-//         )}
-//       </section>
-
-//       {/* RSVP FORMULAR */}
-//       <section id="rsvp" style={{ padding: '100px 20px', background: '#080808' }}>
-//         <div style={{ maxWidth: '500px', margin: '0 auto' }}>
-//           <LuxRsvpForm 
-//              orderId={s.order_id} 
-//              showAccommodation={s.is_accommodation_active} 
-//              showTransport={s.is_transport_active} 
-//           />
-//         </div>
-//       </section>
-
-//       <footer style={{ padding: '50px', opacity: 0.4, fontSize: '0.7rem' }}>
-//         Contact: {s.contact_phone_bride} / {s.contact_phone_groom}
-//       </footer>
-//     </div>
-//   );
-// }
-
-// // STILURI PENTRU FULLSCREEN
-// const publicWrapper: React.CSSProperties = {
-//   position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-//   background: '#000', color: '#fff', textAlign: 'center', zIndex: 99999,
-//   fontFamily: 'serif', overflowY: 'auto', overflowX: 'hidden'
-// };
-
-// const heroSection: React.CSSProperties = { 
-//   minHeight: '100vh', display: 'flex', flexDirection: 'column', 
-//   justifyContent: 'center', padding: '20px', borderBottom: '1px solid #d4af3722' 
-// };
-
-// const detailSection: React.CSSProperties = { padding: '80px 20px' };
-
-// const infoBox: React.CSSProperties = { 
-//   border: '1px solid #d4af3733', padding: '40px 20px', maxWidth: '550px', 
-//   margin: '0 auto 40px auto', background: '#0a0a0a' 
-// };
-
-// const goldText = { color: '#d4af37', letterSpacing: '4px', marginBottom: '20px' };
-// const namesText = { fontSize: '4rem', margin: '30px 0', fontWeight: '300', color: '#fff' };
-// const btnGold = { 
-//   display: 'inline-block', padding: '12px 25px', border: '1px solid #d4af37', 
-//   color: '#d4af37', textDecoration: 'none', fontSize: '0.7rem', marginTop: '10px' 
-// };
 
 // import { neon } from "@neondatabase/serverless";
 // import { notFound } from "next/navigation";
@@ -185,9 +8,6 @@
 // export const dynamic = 'force-dynamic';
 // export const revalidate = 0;
 
-// /* ════════════════════════════════════════════════════════════════
-//    METADATA SSR — Open Graph pentru WhatsApp / Facebook / Telegram
-// ════════════════════════════════════════════════════════════════ */
 // export async function generateMetadata(
 //   { params }: { params: { slug: string } }
 // ): Promise<Metadata> {
@@ -202,11 +22,7 @@
 
 //   const s = data[0];
 //   const dateStr = s.wedding_date
-//     ? new Date(s.wedding_date).toLocaleDateString('ro-RO', {
-//         day: 'numeric',
-//         month: 'long',
-//         year: 'numeric',
-//       })
+//     ? new Date(s.wedding_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })
 //     : '';
 //   const title = `${s.bride_name} & ${s.groom_name} — Invitație de Nuntă`;
 //   const description = `Vă invităm cu drag la nunta noastră${dateStr ? `, pe ${dateStr}` : ''}${s.location_name ? `, la ${s.location_name}` : ''}. Confirmați prezența online.`;
@@ -224,24 +40,13 @@
 //       images: [{ url: '/og-lux.jpg', width: 1200, height: 630, alt: title }],
 //       locale: 'ro_RO',
 //     },
-//     twitter: {
-//       card: 'summary_large_image',
-//       title,
-//       description,
-//       images: ['/og-lux.jpg'],
-//     },
+//     twitter: { card: 'summary_large_image', title, description, images: ['/og-lux.jpg'] },
 //     alternates: { canonical: url },
+//     viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover',
 //   };
 // }
 
-// /* ════════════════════════════════════════════════════════════════
-//    SERVER COMPONENT — fetch date DB + return client component
-// ════════════════════════════════════════════════════════════════ */
-// export default async function InvitationPage({
-//   params,
-// }: {
-//   params: { slug: string };
-// }) {
+// export default async function InvitationPage({ params }: { params: { slug: string } }) {
 //   const sql = neon(process.env.DATABASE_URL!);
 
 //   const data = await sql`
@@ -254,46 +59,27 @@
 
 //   const s = data[0];
 
-//   // Incrementăm view_count async — nu blocăm render-ul
 //   await sql`
 //     UPDATE wedding_settings
 //     SET view_count = view_count + 1
 //     WHERE id = ${s.id}
 //   `;
 
-//   // Galeria e activă doar dacă status = 'active' ȘI nu a expirat
-//   const isGalleryActive =
-//     s.gallery_status === 'active' &&
-//     s.photos_expires_at &&
-//     new Date(s.photos_expires_at).getTime() > Date.now();
+// const isGalleryActive = s.gallery_status === 'active';
 
-//   // Formatări dată
-//   const weddingDateISO = s.wedding_date
-//     ? new Date(s.wedding_date).toISOString()
-//     : null;
+//   const weddingDateISO = s.wedding_date ? new Date(s.wedding_date).toISOString() : null;
 
 //   const weddingDateDisplay = s.wedding_date
-//     ? new Date(s.wedding_date).toLocaleDateString('ro-RO', {
-//         weekday: 'long',
-//         day: 'numeric',
-//         month: 'long',
-//         year: 'numeric',
-//       })
+//     ? new Date(s.wedding_date).toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
 //     : null;
 
 //   const religiousDateDisplay = s.religious_date
-//     ? new Date(s.religious_date).toLocaleDateString('ro-RO', {
-//         day: 'numeric',
-//         month: 'long',
-//         year: 'numeric',
-//       })
+//     ? new Date(s.religious_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })
 //     : null;
 
-//   // Inițiale sigiliu plic
 //   const brideInitial = s.bride_name ? s.bride_name.charAt(0) : '';
 //   const groomInitial = s.groom_name ? s.groom_name.charAt(0) : '';
-//   const initials =
-//     brideInitial && groomInitial ? `${brideInitial}&${groomInitial}` : '♦';
+//   const initials = brideInitial && groomInitial ? `${brideInitial}&${groomInitial}` : '♦';
 
 //   return (
 //     <LuxInviteClient
@@ -326,55 +112,81 @@
 //     />
 //   );
 // }
-
-
 import { neon } from "@neondatabase/serverless";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import LuxInviteClient from "./LuxInviteClient";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export async function generateMetadata(
   { params }: { params: { slug: string } }
 ): Promise<Metadata> {
   const sql = neon(process.env.DATABASE_URL!);
+
   const data = await sql`
     SELECT bride_name, groom_name, wedding_date, location_name
     FROM wedding_settings
     WHERE custom_slug = ${params.slug}
     LIMIT 1
   `;
+
   if (!data || data.length === 0) return {};
 
   const s = data[0];
+
   const dateStr = s.wedding_date
-    ? new Date(s.wedding_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })
-    : '';
+    ? new Date(s.wedding_date).toLocaleDateString("ro-RO", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : "";
+
   const title = `${s.bride_name} & ${s.groom_name} — Invitație de Nuntă`;
-  const description = `Vă invităm cu drag la nunta noastră${dateStr ? `, pe ${dateStr}` : ''}${s.location_name ? `, la ${s.location_name}` : ''}. Confirmați prezența online.`;
+
+  const description = `Vă invităm cu drag la nunta noastră${
+    dateStr ? `, pe ${dateStr}` : ""
+  }${s.location_name ? `, la ${s.location_name}` : ""}. Confirmați prezența online.`;
+
   const url = `https://vibeinvite.ro/invitatie/lux/${params.slug}`;
+
+  const ogImage = `/api/og/wedding?bride=${encodeURIComponent(
+    s.bride_name || ""
+  )}&groom=${encodeURIComponent(s.groom_name || "")}&date=${encodeURIComponent(
+    dateStr || ""
+  )}&location=${encodeURIComponent(s.location_name || "")}`;
 
   return {
     title,
     description,
     openGraph: {
-      type: 'website',
+      type: "website",
       url,
       title,
       description,
-      siteName: 'VibeInvite',
-      images: [{ url: '/og-lux.jpg', width: 1200, height: 630, alt: title }],
-      locale: 'ro_RO',
+      siteName: "VibeInvite",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: title }],
+      locale: "ro_RO",
     },
-    twitter: { card: 'summary_large_image', title, description, images: ['/og-lux.jpg'] },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
     alternates: { canonical: url },
-    viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover',
+    viewport:
+      "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover",
   };
 }
 
-export default async function InvitationPage({ params }: { params: { slug: string } }) {
+export default async function InvitationPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const sql = neon(process.env.DATABASE_URL!);
 
   const data = await sql`
@@ -383,6 +195,7 @@ export default async function InvitationPage({ params }: { params: { slug: strin
     WHERE custom_slug = ${params.slug}
     LIMIT 1
   `;
+
   if (!data || data.length === 0) notFound();
 
   const s = data[0];
@@ -393,49 +206,59 @@ export default async function InvitationPage({ params }: { params: { slug: strin
     WHERE id = ${s.id}
   `;
 
-const isGalleryActive = s.gallery_status === 'active';
-
-  const weddingDateISO = s.wedding_date ? new Date(s.wedding_date).toISOString() : null;
+  const weddingDateISO = s.wedding_date
+    ? new Date(s.wedding_date).toISOString()
+    : null;
 
   const weddingDateDisplay = s.wedding_date
-    ? new Date(s.wedding_date).toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+    ? new Date(s.wedding_date).toLocaleDateString("ro-RO", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
     : null;
 
   const religiousDateDisplay = s.religious_date
-    ? new Date(s.religious_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })
+    ? new Date(s.religious_date).toLocaleDateString("ro-RO", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
     : null;
 
-  const brideInitial = s.bride_name ? s.bride_name.charAt(0) : '';
-  const groomInitial = s.groom_name ? s.groom_name.charAt(0) : '';
-  const initials = brideInitial && groomInitial ? `${brideInitial}&${groomInitial}` : '♦';
+  const brideInitial = s.bride_name ? s.bride_name.charAt(0) : "";
+  const groomInitial = s.groom_name ? s.groom_name.charAt(0) : "";
+  const initials =
+    brideInitial && groomInitial ? `${brideInitial}&${groomInitial}` : "♦";
 
   return (
     <LuxInviteClient
       slug={params.slug}
-      brideName={s.bride_name || ''}
-      groomName={s.groom_name || ''}
+      brideName={s.bride_name || ""}
+      groomName={s.groom_name || ""}
       initials={initials}
-      nasiNames={s.nasi_names || ''}
-      parentsNames={s.parents_names || ''}
+      nasiNames={s.nasi_names || ""}
+      parentsNames={s.parents_names || ""}
       weddingDateISO={weddingDateISO}
       weddingDateDisplay={weddingDateDisplay}
-      weddingTime={s.wedding_time || ''}
-      locationName={s.location_name || ''}
-      wazeUrl={s.waze_url || ''}
-      googleMapsUrl={s.google_maps_url || ''}
+      weddingTime={s.wedding_time || ""}
+      locationName={s.location_name || ""}
+      wazeUrl={s.waze_url || ""}
+      googleMapsUrl={s.google_maps_url || ""}
       isReligiousActive={!!s.is_religious_active}
       religiousDateDisplay={religiousDateDisplay}
-      religiousTime={s.religious_time || ''}
-      religiousLocation={s.religious_location || ''}
-      religiousWaze={s.religious_waze || ''}
-      ourStory={s.our_story || ''}
+      religiousTime={s.religious_time || ""}
+      religiousLocation={s.religious_location || ""}
+      religiousWaze={s.religious_waze || ""}
+      ourStory={s.our_story || ""}
       isMenuActive={!!s.is_menu_active}
       menuDetails={s.menu_details || null}
-      isGalleryActive={!!isGalleryActive}
+      isGalleryActive={!!(s.gallery_status === "active")}
       isAccommodationActive={!!s.is_accommodation_active}
       isTransportActive={!!s.is_transport_active}
-      contactPhoneBride={s.contact_phone_bride || ''}
-      contactPhoneGroom={s.contact_phone_groom || ''}
+      contactPhoneBride={s.contact_phone_bride || ""}
+      contactPhoneGroom={s.contact_phone_groom || ""}
       orderId={s.order_id}
     />
   );

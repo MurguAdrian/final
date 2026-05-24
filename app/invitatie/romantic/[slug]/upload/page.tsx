@@ -184,7 +184,7 @@ export default function UploadPage({ params }: { params: { slug: string } }) {
             </>
           )}
 
-          <p className="upload-footer">VIBE INVITE · LUXURY EDITION</p>
+          <p className="upload-footer">VIBE INVITE · ROMANTIC EDITION</p>
         </div>
       </div>
     </>
