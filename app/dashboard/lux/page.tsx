@@ -1,8 +1,3 @@
-
-
-
-
-
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { SummarySection } from './components/SummarySection';
