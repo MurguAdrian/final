@@ -26,7 +26,7 @@ export async function generateMetadata(
     : '';
   const title = `${s.bride_name} & ${s.groom_name} — Invitație de Nuntă`;
   const description = `Vă invităm cu drag la nunta noastră${dateStr ? `, pe ${dateStr}` : ''}${s.location_name ? `, la ${s.location_name}` : ''}. Confirmați prezența online.`;
-  const url = `https://vibeinvite.ro/invitatie/lux/${params.slug}`;
+  const url = `https://www.vibeinvite.ro/invitatie/lux/${params.slug}`;
 
   return {
     title,
@@ -38,7 +38,7 @@ export async function generateMetadata(
       description,
       siteName: 'VibeInvite',
 images: [{
-  url: `https://vibeinvite.ro/api/og/lux/${params.slug}`,
+  url: `https://www.vibeinvite.ro/api/og/lux/${params.slug}`,
   width: 1200,
   height: 630,
   alt: title,
