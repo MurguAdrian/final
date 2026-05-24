@@ -182,15 +182,15 @@ export async function generateMetadata(
     alternates: {
       canonical: url,
     },
-    other: {
-      // Messenger / iMessage au nevoie de acestea explicit
-      'og:image': ogImage,
-      'og:image:secure_url': ogImage,
-      'og:image:type': 'image/png',
-      'og:image:width': '1200',
-      'og:image:height': '630',
-      'og:image:alt': title,
-    },
+other: {
+  'og:image': ogImage,
+  'og:image:secure_url': ogImage,
+  'og:image:type': 'image/png',
+  'og:image:width': '1200',
+  'og:image:height': '630',
+  'og:image:alt': title,
+  'fb:app_id': '1234567890123456', // ← App ID-ul tău aici
+},
   };
 }
 
