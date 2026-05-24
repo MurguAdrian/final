@@ -85,8 +85,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
 
         .sum-wrap { width: 100%; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
         .sum-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
-        .sum-link-row { display: flex; gap: 10px; flex-wrap: wrap; }
-        .sum-stats-grid {
+.sum-link-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }        .sum-stats-grid {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
           gap: clamp(8px,1.5vw,14px);
