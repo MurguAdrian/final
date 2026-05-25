@@ -565,8 +565,6 @@
 //   viewBtn: { display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 12px', borderRadius: 6, background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.12)', color: 'rgba(245,230,168,.7)', fontFamily: "'Cinzel',serif", fontSize: 9, letterSpacing: '.1em', textDecoration: 'none', width: '100%', justifyContent: 'center', transition: 'all .2s' } as React.CSSProperties,
 //   emptyState: { display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 20px', background: 'rgba(212,175,55,.04)', border: '1px dashed rgba(212,175,55,.2)', borderRadius: 14, textAlign: 'center' } as React.CSSProperties,
 // };
-
-
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 
