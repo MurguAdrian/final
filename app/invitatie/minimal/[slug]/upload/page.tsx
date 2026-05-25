@@ -1,6 +1,3 @@
-
-
-
 "use client";
 import React, { useState, useEffect } from 'react';
 
@@ -35,18 +32,18 @@ export default function UploadPage({ params }: { params: { slug: string } }) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html {
           height: 100%;
           min-height: 100dvh;
-          background: #000;
+          background: #F7F4F0;
           -webkit-font-smoothing: antialiased;
           overscroll-behavior: none;
         }
         body {
-          font-family: 'Cormorant Garamond', serif;
-          color: #fff;
+          font-family: 'DM Sans', sans-serif;
+          color: #111;
           height: 100%;
           min-height: 100dvh;
           overflow-x: hidden;
@@ -56,136 +53,104 @@ export default function UploadPage({ params }: { params: { slug: string } }) {
         }
         input, textarea, select { font-size: 16px !important; }
 
-        .upload-page {
+        .mn-upload-page {
           min-height: 100dvh; width: 100%;
-          background: radial-gradient(ellipse 90% 80% at 50% 40%, #1A1408 0%, #0A0803 55%, #040301 100%);
+          background: #F7F4F0;
           display: flex; align-items: center; justify-content: center;
-          padding: clamp(20px, 4vw, 40px) clamp(16px, 4vw, 24px);
+          padding: clamp(20px,4vw,40px) clamp(16px,4vw,24px);
           position: relative; overflow: hidden;
-          padding-bottom: max(clamp(20px, 4vw, 40px), env(safe-area-inset-bottom));
+          padding-bottom: max(clamp(20px,4vw,40px), env(safe-area-inset-bottom));
         }
 
-        .up-corner { position: absolute; width: min(160px, 20vw); height: min(160px, 20vw); opacity: .55; pointer-events: none; }
-        .up-corner.tl { top: 0; left: 0; }
-        .up-corner.tr { top: 0; right: 0; transform: scaleX(-1); }
-        .up-corner.bl { bottom: 0; left: 0; transform: scaleY(-1); }
-        .up-corner.br { bottom: 0; right: 0; transform: scale(-1); }
-        .up-line { position: absolute; left: 5%; right: 5%; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,.2), transparent); pointer-events: none; }
-        .up-line.top { top: 8%; }
-        .up-line.bottom { bottom: 8%; }
+        .mn-upload-accent-left { position: absolute; top: 0; left: 0; width: clamp(4px,.5vw,6px); height: 100%; background: #C8503A; z-index: 1; pointer-events: none; }
+        .mn-upload-accent-bottom { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg,#C8503A 0%,#E8C4B8 60%,transparent 100%); opacity: .6; pointer-events: none; }
 
-        .upload-card {
+        .mn-upload-card {
           position: relative; z-index: 10;
-          background: linear-gradient(170deg, #1A1408, #0A0803);
-          border: 1px solid rgba(212,175,55,.22);
-          border-radius: 20px;
-          padding: clamp(32px, 5vw, 52px) clamp(24px, 5vw, 44px);
+          background: #fff;
+          border-top: 4px solid #C8503A;
+          padding: clamp(32px,5vw,52px) clamp(24px,5vw,44px);
           max-width: 440px; width: 100%;
-          box-shadow: 0 30px 80px rgba(0,0,0,.8), 0 0 40px rgba(212,175,55,.06);
+          box-shadow: 0 8px 48px rgba(0,0,0,.07);
           text-align: center;
-          animation: cardReveal .6s cubic-bezier(.4,0,.2,1) both;
-          overflow: hidden;
+          animation: mn-cardReveal .6s cubic-bezier(.4,0,.2,1) both;
         }
-        .card-top-line { position: absolute; top: 0; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,.5), transparent); }
-        .card-corner { position: absolute; width: 14px; height: 14px; border-color: rgba(212,175,55,.3); }
-        .card-corner.tl { top: 10px; left: 10px; border-top: 1px solid; border-left: 1px solid; }
-        .card-corner.tr { top: 10px; right: 10px; border-top: 1px solid; border-right: 1px solid; }
-        .card-corner.bl { bottom: 10px; left: 10px; border-bottom: 1px solid; border-left: 1px solid; }
-        .card-corner.br { bottom: 10px; right: 10px; border-bottom: 1px solid; border-right: 1px solid; }
 
-        .camera-circle { width: clamp(64px, 12vw, 80px); height: clamp(64px, 12vw, 80px); border-radius: 50%; background: rgba(212,175,55,.1); border: 2px solid rgba(212,175,55,.28); display: flex; align-items: center; justify-content: center; margin: 0 auto clamp(16px, 3vw, 24px); }
-        .upload-eyebrow { font-family: 'Cinzel', serif; font-size: clamp(8px, 1vw, 10px); letter-spacing: .32em; text-transform: uppercase; color: rgba(212,175,55,.55); margin-bottom: 10px; }
-        .upload-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(26px, 4vw, 34px); font-style: italic; font-weight: 300; color: #F5E6A8; margin-bottom: 10px; line-height: 1.2; }
-        .upload-divider { width: 40px; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,.5), transparent); margin: 0 auto 18px; }
-        .upload-desc { font-size: clamp(13px, 1.6vw, 16px); font-style: italic; color: rgba(212,175,55,.55); line-height: 1.8; margin-bottom: 24px; }
+        .mn-upload-camera { width: clamp(64px,12vw,80px); height: clamp(64px,12vw,80px); border-radius: 50%; background: rgba(200,80,58,.08); border: 2px solid rgba(200,80,58,.2); display: flex; align-items: center; justify-content: center; margin: 0 auto clamp(16px,3vw,24px); }
+        .mn-upload-eyebrow { font-family: 'DM Sans', sans-serif; font-size: clamp(8px,1vw,10px); letter-spacing: .32em; text-transform: uppercase; color: #C8503A; margin-bottom: 10px; font-weight: 500; }
+        .mn-upload-title { font-family: 'Playfair Display', serif; font-size: clamp(24px,3.5vw,32px); font-style: italic; font-weight: 400; color: #111; margin-bottom: 10px; line-height: 1.2; }
+        .mn-upload-divider { width: 40px; height: 2px; background: #C8503A; margin: 0 auto 18px; }
+        .mn-upload-desc { font-size: clamp(13px,1.6vw,15px); color: #555; line-height: 1.85; margin-bottom: 24px; font-weight: 300; }
 
-        .consent-block { display: flex; align-items: flex-start; gap: 12px; background: rgba(212,175,55,.04); border: 1px solid rgba(212,175,55,.15); border-radius: 10px; padding: 14px 16px; margin-bottom: 24px; text-align: left; cursor: pointer; transition: border-color .2s, background .2s; }
-        .consent-block:hover { border-color: rgba(212,175,55,.3); background: rgba(212,175,55,.07); }
-        .consent-checkbox { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; accent-color: #D4AF37; cursor: pointer; }
-        .consent-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(12px, 1.5vw, 14px); font-style: italic; color: rgba(212,175,55,.6); line-height: 1.7; cursor: pointer; }
+        .mn-consent-block { display: flex; align-items: flex-start; gap: 12px; background: rgba(200,80,58,.04); border: 1px solid rgba(200,80,58,.15); padding: 14px 16px; margin-bottom: 24px; text-align: left; cursor: pointer; transition: border-color .2s, background .2s; }
+        .mn-consent-block:hover { border-color: rgba(200,80,58,.3); background: rgba(200,80,58,.07); }
+        .mn-consent-checkbox { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; accent-color: #C8503A; cursor: pointer; }
+        .mn-consent-text { font-family: 'DM Sans', sans-serif; font-size: clamp(12px,1.5vw,13px); color: #555; line-height: 1.7; cursor: pointer; }
 
-        .upload-label-btn { display: block; width: 100%; padding: clamp(14px, 2vw, 18px) 0; border-radius: 4px; background: linear-gradient(135deg, #8B6914 0%, #D4AF37 45%, #F5D678 55%, #D4AF37 70%, #8B6914 100%); color: #0A0803; font-family: 'Cinzel', serif; font-size: clamp(10px, 1.3vw, 13px); font-weight: 700; letter-spacing: .2em; text-transform: uppercase; cursor: pointer; border: none; text-align: center; box-shadow: 0 8px 32px rgba(212,175,55,.3); transition: transform .2s, box-shadow .2s, opacity .2s; position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; }
-        .upload-label-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent); background-size: 350px 100%; animation: shimmer 3s linear infinite; }
-        .upload-label-btn:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 14px 44px rgba(212,175,55,.5); }
-        .upload-label-btn:disabled { opacity: .3; cursor: not-allowed; background: rgba(212,175,55,.3); box-shadow: none; }
-        .upload-label-btn span { position: relative; z-index: 1; }
+        .mn-upload-btn { display: block; width: 100%; padding: clamp(14px,2vw,18px) 0; background: #111; color: #fff; font-family: 'DM Sans', sans-serif; font-size: clamp(10px,1.3vw,12px); font-weight: 500; letter-spacing: .2em; text-transform: uppercase; cursor: pointer; border: none; text-align: center; transition: background .2s, opacity .2s; position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+        .mn-upload-btn:not(:disabled):hover { background: #C8503A; }
+        .mn-upload-btn:disabled { opacity: .35; cursor: not-allowed; }
 
-        .upload-success-icon { display: flex; justify-content: center; margin-bottom: 16px; }
-        .upload-success-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(24px, 4vw, 32px); font-style: italic; font-weight: 300; color: #F5E6A8; margin-bottom: 10px; }
-        .upload-success-text { font-style: italic; font-size: clamp(14px, 1.7vw, 17px); color: rgba(212,175,55,.6); line-height: 1.8; }
-        .upload-footer { font-family: 'Cinzel', serif; font-size: clamp(7px, .9vw, 9px); letter-spacing: .2em; text-transform: uppercase; color: rgba(212,175,55,.25); margin-top: clamp(20px, 3vw, 28px); }
-        .upload-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(10,8,3,.3); border-top-color: #0A0803; border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-right: 8px; }
+        .mn-upload-success-icon { display: flex; justify-content: center; margin-bottom: 16px; }
+        .mn-upload-success-title { font-family: 'Playfair Display', serif; font-size: clamp(24px,4vw,30px); font-style: italic; font-weight: 400; color: #111; margin-bottom: 10px; }
+        .mn-upload-success-text { font-size: clamp(13px,1.5vw,15px); color: #555; line-height: 1.85; }
+        .mn-upload-footer { font-family: 'DM Sans', sans-serif; font-size: clamp(7px,.9vw,9px); letter-spacing: .2em; text-transform: uppercase; color: #AAAAAA; margin-top: clamp(20px,3vw,28px); }
+        .mn-upload-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: mn-spin .7s linear infinite; vertical-align: middle; margin-right: 8px; }
 
-        @keyframes cardReveal { from { opacity: 0; transform: translateY(24px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes shimmer { 0% { background-position: -350px 0; } 100% { background-position: 350px 0; } }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes mn-cardReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes mn-spin { to { transform: rotate(360deg); } }
       `}</style>
 
-      <div className="upload-page">
-        <svg className="up-corner tl" viewBox="0 0 160 160" fill="none"><path d="M8 8 L8 120 M8 8 L120 8" stroke="url(#upg1)" strokeWidth="1.2"/><path d="M18 18 L18 100 M18 18 L100 18" stroke="url(#upg1)" strokeWidth=".7" strokeOpacity=".6"/><rect x="3" y="3" width="10" height="10" transform="rotate(45 8 8)" fill="url(#upg1)" fillOpacity=".8"/><defs><linearGradient id="upg1" x1="0" y1="0" x2="160" y2="160" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#D4AF37"/><stop offset="100%" stopColor="#8B6914" stopOpacity=".3"/></linearGradient></defs></svg>
-        <svg className="up-corner tr" viewBox="0 0 160 160" fill="none"><path d="M8 8 L8 120 M8 8 L120 8" stroke="url(#upg2)" strokeWidth="1.2"/><path d="M18 18 L18 100 M18 18 L100 18" stroke="url(#upg2)" strokeWidth=".7" strokeOpacity=".6"/><rect x="3" y="3" width="10" height="10" transform="rotate(45 8 8)" fill="url(#upg2)" fillOpacity=".8"/><defs><linearGradient id="upg2" x1="0" y1="0" x2="160" y2="160" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#D4AF37"/><stop offset="100%" stopColor="#8B6914" stopOpacity=".3"/></linearGradient></defs></svg>
-        <svg className="up-corner bl" viewBox="0 0 160 160" fill="none"><path d="M8 8 L8 120 M8 8 L120 8" stroke="url(#upg3)" strokeWidth="1.2"/><path d="M18 18 L18 100 M18 18 L100 18" stroke="url(#upg3)" strokeWidth=".7" strokeOpacity=".6"/><rect x="3" y="3" width="10" height="10" transform="rotate(45 8 8)" fill="url(#upg3)" fillOpacity=".8"/><defs><linearGradient id="upg3" x1="0" y1="0" x2="160" y2="160" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#D4AF37"/><stop offset="100%" stopColor="#8B6914" stopOpacity=".3"/></linearGradient></defs></svg>
-        <svg className="up-corner br" viewBox="0 0 160 160" fill="none"><path d="M8 8 L8 120 M8 8 L120 8" stroke="url(#upg4)" strokeWidth="1.2"/><path d="M18 18 L18 100 M18 18 L100 18" stroke="url(#upg4)" strokeWidth=".7" strokeOpacity=".6"/><rect x="3" y="3" width="10" height="10" transform="rotate(45 8 8)" fill="url(#upg4)" fillOpacity=".8"/><defs><linearGradient id="upg4" x1="0" y1="0" x2="160" y2="160" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#D4AF37"/><stop offset="100%" stopColor="#8B6914" stopOpacity=".3"/></linearGradient></defs></svg>
-        <div className="up-line top"/>
-        <div className="up-line bottom"/>
+      <div className="mn-upload-page">
+        <div className="mn-upload-accent-left"/>
+        <div className="mn-upload-accent-bottom"/>
 
-        <div className="upload-card">
-          <div className="card-top-line"/>
-          <div className="card-corner tl"/><div className="card-corner tr"/>
-          <div className="card-corner bl"/><div className="card-corner br"/>
-
-          <div className="camera-circle">
-            <svg viewBox="0 0 48 48" fill="none" style={{width:'clamp(32px,6vw,42px)' as any,height:'clamp(32px,6vw,42px)' as any}}>
-              <rect x="4" y="14" width="40" height="28" rx="4" stroke="#D4AF37" strokeWidth="1.8" strokeOpacity=".7"/>
-              <path d="M14 14 L17 8 L31 8 L34 14" stroke="#D4AF37" strokeWidth="1.8" strokeOpacity=".7" strokeLinejoin="round"/>
-              <circle cx="24" cy="28" r="8" stroke="#D4AF37" strokeWidth="1.5" strokeOpacity=".7"/>
-              <circle cx="24" cy="28" r="4" fill="#D4AF37" fillOpacity=".25"/>
-              <circle cx="37" cy="20" r="2" fill="#D4AF37" fillOpacity=".5"/>
+        <div className="mn-upload-card">
+          <div className="mn-upload-camera">
+            <svg viewBox="0 0 48 48" fill="none" style={{ width: 'clamp(30px,5.5vw,38px)' as any, height: 'clamp(30px,5.5vw,38px)' as any }}>
+              <rect x="4" y="14" width="40" height="28" rx="3" stroke="#C8503A" strokeWidth="1.8" strokeOpacity=".8"/>
+              <path d="M14 14 L17 8 L31 8 L34 14" stroke="#C8503A" strokeWidth="1.8" strokeOpacity=".8" strokeLinejoin="round"/>
+              <circle cx="24" cy="28" r="8" stroke="#C8503A" strokeWidth="1.5" strokeOpacity=".8"/>
+              <circle cx="24" cy="28" r="4" fill="#C8503A" fillOpacity=".2"/>
+              <circle cx="37" cy="20" r="2" fill="#C8503A" fillOpacity=".5"/>
             </svg>
           </div>
 
           {uploaded ? (
             <>
-              <div className="upload-success-icon">
-                <svg viewBox="0 0 60 60" fill="none" style={{width:52,height:52}}>
-                  <circle cx="30" cy="30" r="28" stroke="url(#sucGrad)" strokeWidth="1.2"/>
-                  <path d="M18 30 L26 38 L42 22" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <defs>
-                    <linearGradient id="sucGrad" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
-                      <stop offset="0%" stopColor="#8B6914"/>
-                      <stop offset="50%" stopColor="#D4AF37"/>
-                      <stop offset="100%" stopColor="#8B6914"/>
-                    </linearGradient>
-                  </defs>
+              <div className="mn-upload-success-icon">
+                <svg viewBox="0 0 60 60" fill="none" style={{ width: 52, height: 52 }}>
+                  <circle cx="30" cy="30" r="28" stroke="#C8503A" strokeWidth="1.2"/>
+                  <path d="M18 30 L26 38 L42 22" stroke="#C8503A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
-              <p className="upload-eyebrow">◆ Trimis cu succes ◆</p>
-              <h2 className="upload-title">Mulțumim! ✦</h2>
-              <div className="upload-divider"/>
-              <p className="upload-success-text">Pozele au fost trimise cu succes mirilor.<br/>Abia așteptăm să le vedem!</p>
+              <p className="mn-upload-eyebrow">Trimis cu succes</p>
+              <h2 className="mn-upload-title">Mulțumim!</h2>
+              <div className="mn-upload-divider"/>
+              <p className="mn-upload-success-text">Pozele au fost trimise cu succes mirilor.<br/>Abia așteptăm să le vedem!</p>
             </>
           ) : (
             <>
-              <p className="upload-eyebrow">◆ Galerie Foto Live ◆</p>
-              <h2 className="upload-title">Încarcă Poze</h2>
-              <div className="upload-divider"/>
-<p className="upload-desc">Fotografiile sunt destinate exclusiv mirilor și vor fi disponibile în albumul online pe toată durata existenței evenimentului.</p>
-<label className="consent-block">
-  <input type="checkbox" id="consent" className="consent-checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}/>
-  <span className="consent-text">Confirm că am acordul persoanelor din fotografii și sunt de acord cu stocarea acestora în albumul privat al mirilor.</span>
-</label>
+              <p className="mn-upload-eyebrow">Galerie Foto Live</p>
+              <h2 className="mn-upload-title">Încarcă Poze</h2>
+              <div className="mn-upload-divider"/>
+              <p className="mn-upload-desc">Fotografiile sunt destinate exclusiv mirilor și vor fi disponibile în albumul online pe toată durata existenței evenimentului.</p>
+              <label className="mn-consent-block">
+                <input type="checkbox" className="mn-consent-checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}/>
+                <span className="mn-consent-text">Confirm că am acordul persoanelor din fotografii și sunt de acord cu stocarea acestora în albumul privat al mirilor.</span>
+              </label>
               {agreed ? (
-                <label className="upload-label-btn" style={{cursor:'pointer'}}>
-                  <span>{uploading ? (<><span className="upload-spinner"/>{' '}SE ÎNCARCĂ...</>) : ('◆ SELECTEAZĂ POZE ◆')}</span>
+                <label className="mn-upload-btn" style={{ cursor: 'pointer' }}>
+                  <span>{uploading ? (<><span className="mn-upload-spinner"/>{' '}Se încarcă...</>) : ('Selectează Poze')}</span>
                   <input type="file" multiple accept="image/*" disabled={uploading} style={{ display: 'none' }} onChange={handleFile}/>
                 </label>
               ) : (
-                <button className="upload-label-btn" disabled style={{cursor:'not-allowed'}}><span>◆ SELECTEAZĂ POZE ◆</span></button>
+                <button className="mn-upload-btn" disabled><span>Selectează Poze</span></button>
               )}
             </>
           )}
 
-          <p className="upload-footer">VIBE INVITE · MINIMAL EDITION</p>
+          <p className="mn-upload-footer">Vibe Invite · Tema Minimal</p>
         </div>
       </div>
     </>

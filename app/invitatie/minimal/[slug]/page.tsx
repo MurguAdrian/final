@@ -1,10 +1,7 @@
-
-
-
 import { neon } from "@neondatabase/serverless";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import MinimalInviteClient from "./MinimalClient";
+import MinimalClient from "./MinimalClient";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -23,31 +20,61 @@ export async function generateMetadata(
 
   const s = data[0];
   const dateStr = s.wedding_date
-    ? new Date(s.wedding_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })
+    ? new Date(s.wedding_date).toLocaleDateString('ro-RO', {
+        day: 'numeric', month: 'long', year: 'numeric'
+      })
     : '';
   const title = `${s.bride_name} & ${s.groom_name} — Invitație de Nuntă`;
   const description = `Vă invităm cu drag la nunta noastră${dateStr ? `, pe ${dateStr}` : ''}${s.location_name ? `, la ${s.location_name}` : ''}. Confirmați prezența online.`;
-  const url = `https://vibeinvite.ro/invitatie/minimal/${params.slug}`;
+
+  const baseUrl = 'https://www.vibeinvite.ro';
+  const url = `${baseUrl}/invitatie/minimal/${params.slug}`;
+  const ogImage = `${baseUrl}/api/og/minimal/${params.slug}`;
 
   return {
     title,
     description,
+    metadataBase: new URL(baseUrl),
     openGraph: {
       type: 'website',
       url,
       title,
       description,
       siteName: 'VibeInvite',
-      images: [{ url: '/og-minimal.jpg', width: 1200, height: 630, alt: title }],
       locale: 'ro_RO',
+      images: [
+        {
+          url: ogImage,
+          secureUrl: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+          type: 'image/png',
+        }
+      ],
     },
-    twitter: { card: 'summary_large_image', title, description, images: ['/og-minimal.jpg'] },
-    alternates: { canonical: url },
-    viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover',
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
+    },
+    alternates: {
+      canonical: url,
+    },
+    other: {
+      'og:image': ogImage,
+      'og:image:secure_url': ogImage,
+      'og:image:type': 'image/png',
+      'og:image:width': '1200',
+      'og:image:height': '630',
+      'og:image:alt': title,
+      'fb:app_id': '1234567890123456',
+    },
   };
 }
 
-export default async function InvitationPage({ params }: { params: { slug: string } }) {
+export default async function MinimalInvitationPage({ params }: { params: { slug: string } }) {
   const sql = neon(process.env.DATABASE_URL!);
 
   const data = await sql`
@@ -66,24 +93,25 @@ export default async function InvitationPage({ params }: { params: { slug: strin
     WHERE id = ${s.id}
   `;
 
-const isGalleryActive = s.gallery_status === 'active';
-
+  const isGalleryActive = s.gallery_status === 'active';
   const weddingDateISO = s.wedding_date ? new Date(s.wedding_date).toISOString() : null;
-
   const weddingDateDisplay = s.wedding_date
-    ? new Date(s.wedding_date).toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+    ? new Date(s.wedding_date).toLocaleDateString('ro-RO', {
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+      })
     : null;
-
   const religiousDateDisplay = s.religious_date
-    ? new Date(s.religious_date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })
+    ? new Date(s.religious_date).toLocaleDateString('ro-RO', {
+        day: 'numeric', month: 'long', year: 'numeric'
+      })
     : null;
 
   const brideInitial = s.bride_name ? s.bride_name.charAt(0) : '';
   const groomInitial = s.groom_name ? s.groom_name.charAt(0) : '';
-  const initials = brideInitial && groomInitial ? `${brideInitial}&${groomInitial}` : '♦';
+  const initials = brideInitial && groomInitial ? `${brideInitial}&${groomInitial}` : '◆';
 
   return (
-    <MinimalInviteClient
+    <MinimalClient
       slug={params.slug}
       brideName={s.bride_name || ''}
       groomName={s.groom_name || ''}
