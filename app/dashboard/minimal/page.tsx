@@ -5,7 +5,7 @@ import { PersonalizeSection } from './components/PersonalizeSection';
 import { MenuSection } from './components/MenuSection';
 import { PhotosSection } from './components/PhotosSection';
 
-export default function MinimalistDashboard() {
+export default function MinimalDashboard() {
   const [activeTab, setActiveTab] = useState('summary');
   const [loading, setLoading] = useState(true);
   const [weddingData, setWeddingData] = useState<any>(null);
