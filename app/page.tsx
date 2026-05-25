@@ -40,14 +40,21 @@ export const metadata: Metadata = {
     description:
       'Invitații digitale, meniu QR, upload poze invitați, organizare momente și export Excel. Link invitație free, RSVP instant. Pachet all-in-one pentru nuntă și botez.',
     siteName: 'VibeInvite',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'VibeInvite — Invitații Digitale Online' }],
+    images: [
+      {
+        url: '/social/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'VibeInvite — Invitații Digitale Online',
+      },
+    ],
     locale: 'ro_RO',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'VibeInvite — Pachet All-in-One pentru Nuntă',
     description: 'Invitații digitale, meniu QR, upload poze, export Excel. Link invitație free. Tot ce ai nevoie.',
-    images: ['/og-image.jpg'],
+    images: ['/social/twitter-card.png'],
   },
   robots: {
     index: true,
@@ -64,9 +71,11 @@ export const metadata: Metadata = {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
-  },
-  verification: {
-    google: 'PUNE_AICI_CODUL_GOOGLE_SEARCH_CONSOLE',
+    other: [
+      { rel: 'icon', url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { rel: 'mask-icon', url: '/icons/maskable-icon-512x512.png', color: '#FF6B00' },
+      { rel: 'manifest', url: '/manifest.webmanifest' },
+    ],
   },
 }
 

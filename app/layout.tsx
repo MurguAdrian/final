@@ -32,6 +32,7 @@ export const metadata: Metadata = {
   title: 'VibeInvite - Invitații Digitale Premium',
   description:
     'VibeInvite.ro oferă invitații digitale moderne pentru nunți, botezuri și evenimente speciale, cu design elegant și experiență premium.',
+  metadataBase: new URL('https://vibeinvite.ro'),
 }
 
 export default function RootLayout({
