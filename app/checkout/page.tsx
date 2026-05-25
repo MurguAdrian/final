@@ -185,10 +185,10 @@ import { useState } from "react";
 const THEME_STRIPE: Record<string, { productId: string; priceId: string }> = {
   lux:      { productId: "prod_TODO_LUX",       priceId: "price_1TQR40DLRG6cKGjIoripBApH" },
   nature:   { productId: "prod_TODO_NATURE",    priceId: "price_1TQR3UDLRG6cKGjIUYoD8nVZ" },
-  boho:     { productId: "prod_UWtAhTz7QpGP2m", priceId: "price_TODO_BOHO" },
-  royal:    { productId: "prod_UWtBLGTviFuhOP", priceId: "price_TODO_ROYAL" },
-  minimal:  { productId: "prod_UWtBC0f4i3qLIg", priceId: "price_TODO_MINIMAL" },
-  romantic: { productId: "prod_UWtCXrDQ6We3Du", priceId: "price_TODO_ROMANTIC" },
+  boho:     { productId: "prod_UWtAhTz7QpGP2m", priceId: "price_1TXpNtDLRG6cKGjIYlxLA2fP" },
+  royal:    { productId: "prod_UWtBLGTviFuhOP", priceId: "price_1TXpOfDLRG6cKGjIVMoiT6yB" },
+  minimal:  { productId: "prod_UWtBC0f4i3qLIg", priceId: "price_1TXpP8DLRG6cKGjIWTkmUYUn" },
+  romantic: { productId: "prod_UWtCXrDQ6We3Du", priceId: "price_1TXpPlDLRG6cKGjIGRosuloE" },
 };
 
 type Theme = {
