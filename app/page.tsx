@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { SITE_DOMAIN, DEFAULT_OG, OG_WIDTH, OG_HEIGHT } from '../constants/marketingDefaults'
 
 /* ═══════════════════════════════════════════════════════════════
    SEO METADATA
@@ -31,8 +32,8 @@ export const metadata: Metadata = {
   authors: [{ name: 'VibeInvite', url: 'https://vibeinvite.ro' }],
   creator: 'VibeInvite',
   publisher: 'VibeInvite',
-  metadataBase: new URL('https://vibeinvite.ro'),
-  alternates: { canonical: 'https://vibeinvite.ro' },
+  metadataBase: new URL(SITE_DOMAIN),
+  alternates: { canonical: SITE_DOMAIN },
   openGraph: {
     type: 'website',
     url: 'https://vibeinvite.ro',
@@ -42,9 +43,9 @@ export const metadata: Metadata = {
     siteName: 'VibeInvite',
     images: [
       {
-        url: new URL('/social/og-image.png', 'https://vibeinvite.ro').toString(),
-        width: 1200,
-        height: 630,
+        url: DEFAULT_OG,
+        width: OG_WIDTH,
+        height: OG_HEIGHT,
         alt: 'VibeInvite — Invitații Digitale Online',
       },
     ],
@@ -54,7 +55,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'VibeInvite — Pachet All-in-One pentru Nuntă',
     description: 'Invitații digitale, meniu QR, upload poze, export Excel. Link invitație free. Tot ce ai nevoie.',
-    images: [new URL('/social/twitter-card.png', 'https://vibeinvite.ro').toString()],
+    images: [SITE_DOMAIN + '/social/twitter-card.png'],
   },
   robots: {
     index: true,

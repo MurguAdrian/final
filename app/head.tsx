@@ -1,12 +1,13 @@
 import SOCIAL_LINKS from '../constants/socialLinks'
+import { SITE_DOMAIN } from '../constants/marketingDefaults'
 
 export default function Head() {
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'VibeInvite',
-    url: 'https://vibeinvite.ro',
-    logo: 'https://vibeinvite.ro/logo.svg',
+    url: SITE_DOMAIN,
+    logo: SITE_DOMAIN + '/logo.svg',
     sameAs: [
       SOCIAL_LINKS.facebook,
       SOCIAL_LINKS.instagram,

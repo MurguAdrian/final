@@ -28,11 +28,13 @@ import type { Metadata } from 'next'
 import Footer from '../components/layout/Footer'
 import HeaderWrapper from '../components/layout/HeaderWrapper'
 
+import { SITE_DOMAIN } from '../constants/marketingDefaults'
+
 export const metadata: Metadata = {
   title: 'VibeInvite - Invitații Digitale Premium',
   description:
     'VibeInvite.ro oferă invitații digitale moderne pentru nunți, botezuri și evenimente speciale, cu design elegant și experiență premium.',
-  metadataBase: new URL('https://vibeinvite.ro'),
+  metadataBase: new URL(SITE_DOMAIN),
 }
 
 export default function RootLayout({
