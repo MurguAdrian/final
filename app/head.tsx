@@ -1,3 +1,5 @@
+import SOCIAL_LINKS from '../constants/socialLinks'
+
 export default function Head() {
   const organizationSchema = {
     '@context': 'https://schema.org',
@@ -5,6 +7,12 @@ export default function Head() {
     name: 'VibeInvite',
     url: 'https://vibeinvite.ro',
     logo: 'https://vibeinvite.ro/logo.svg',
+    sameAs: [
+      SOCIAL_LINKS.facebook,
+      SOCIAL_LINKS.instagram,
+      SOCIAL_LINKS.tiktok,
+      SOCIAL_LINKS.x,
+    ],
   }
 
   return (

@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     siteName: 'VibeInvite',
     images: [
       {
-        url: '/social/og-image.png',
+        url: new URL('/social/og-image.png', 'https://vibeinvite.ro').toString(),
         width: 1200,
         height: 630,
         alt: 'VibeInvite — Invitații Digitale Online',
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'VibeInvite — Pachet All-in-One pentru Nuntă',
     description: 'Invitații digitale, meniu QR, upload poze, export Excel. Link invitație free. Tot ce ai nevoie.',
-    images: ['/social/twitter-card.png'],
+    images: [new URL('/social/twitter-card.png', 'https://vibeinvite.ro').toString()],
   },
   robots: {
     index: true,
