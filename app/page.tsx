@@ -650,7 +650,7 @@ export default function Page() {
                 <span aria-hidden="true">✨</span>
                 Creează Invitația — E Free
               </Link>
-              <Link href="/modele" className="vi-btns">
+              <Link href="/invitatii-digitale" className="vi-btns">
                 Vezi modele →
               </Link>
             </div>
