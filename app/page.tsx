@@ -6,11 +6,11 @@ import { SITE_DOMAIN, DEFAULT_OG, OG_WIDTH, OG_HEIGHT } from '../constants/marke
    SEO METADATA
 ═══════════════════════════════════════════════════════════════ */
 export const metadata: Metadata = {
-  title: 'VibeInvite | Invitații Digitale Online Ieftine — Link Invitație Free',
+  title: 'VibeInvite | Invitații Digitale Online Instant — Link Invitație Free',
   description:
     'Pachet all-in-one pentru nuntă: invitații digitale, meniu cu QR, upload poze invitați, organizare momente și export Excel. Link invitație online free, RSVP instant, listă invitați în timp real.',
   keywords: [
-    'invitații digitale online ieftine',
+    'invitații digitale online instant',
     'invitatie online free',
     'link invitatie online',
     'invitatie instant',
@@ -608,7 +608,7 @@ export default function Page() {
             </p>
 
             <h1 className="vi-h1">
-              Invitații digitale <em>ieftine</em>,{' '}
+              Invitații digitale <em>instant</em>,{' '}
               <strong>instant</strong> pentru toți invitații
             </h1>
 

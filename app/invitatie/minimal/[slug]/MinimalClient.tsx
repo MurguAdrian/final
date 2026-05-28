@@ -467,17 +467,6 @@ function InviteScreen({ props }: { props: MinimalInviteClientProps }) {
           </button>
         </div>
 
-        {/* Footer */}
-        <div style={{ ...a(.58), width: '100%', paddingTop: 28, borderTop: `2px solid ${DARK}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14 }}>
-          <div>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 9, letterSpacing: '.28em', textTransform: 'uppercase', color: LIGHT, marginBottom: 4, fontWeight: 400 }}>VibeInvite · Tema Minimal</p>
-            <p style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(14px,1.6vw,16px)', fontStyle: 'italic', color: MID }}>Îți place? Personalizează-o pentru nunta ta.</p>
-          </div>
-          <a href="/preturi?tema=minimal" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '12px 24px', background: ACCENT, color: '#fff', textDecoration: 'none', fontFamily: "'DM Sans',sans-serif", fontSize: 11, letterSpacing: '.2em', textTransform: 'uppercase', fontWeight: 500, transition: 'opacity .18s' }} onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.opacity = '.82'} onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.opacity = '1'}>
-            Alege Această Temă
-          </a>
-        </div>
-        <p style={{ ...a(.62), fontFamily: "'DM Sans',sans-serif", fontSize: 9, color: LIGHT, letterSpacing: '.2em', textTransform: 'uppercase', marginTop: 12 }}>VibeInvite © 2026</p>
       </div>
 
       {/* MENU MODAL */}
@@ -579,10 +568,6 @@ export default function MinimalClient(props: MinimalInviteClientProps) {
         <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 14, fontStyle: 'italic', color: LIGHT, letterSpacing: '.03em' }}>
           {phase === 'invite' ? `${props.brideName} & ${props.groomName}` : 'Invitație Minimal'}
         </div>
-        <a href="/invitatii-digitale" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '6px 14px', border: `1px solid ${DARK}`, color: DARK, fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '.14em', textTransform: 'uppercase', cursor: 'pointer', textDecoration: 'none', background: 'transparent', transition: 'all .18s' }} onMouseEnter={e => { const b = e.currentTarget as HTMLAnchorElement; b.style.background = DARK; b.style.color = '#fff'; }} onMouseLeave={e => { const b = e.currentTarget as HTMLAnchorElement; b.style.background = 'transparent'; b.style.color = DARK; }}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ width: 13, height: 13 }}><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-          Înapoi
-        </a>
       </header>
       {phase !== 'invite' && <EnvelopeScreen onOpen={openEnvelope} phase={phase} brideName={props.brideName} groomName={props.groomName} initials={props.initials} weddingDateDisplay={props.weddingDateDisplay}/>}
       {phase === 'invite' && <InviteScreen props={props}/>}
