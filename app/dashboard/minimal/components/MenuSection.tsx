@@ -96,9 +96,14 @@ const MinDivider = () => (
 const MinToggle = ({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) => (
   <label
     style={{ display: 'inline-flex', alignItems: 'center', gap: 7, cursor: 'pointer', flexShrink: 0 }}
-    onClick={e => { e.stopPropagation(); onChange(!checked); }}
   >
-    <input type="checkbox" checked={checked} onChange={() => {}} style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }} />
+    {/* Folosim onChange-ul nativ al checkbox-ului, eliminând onClick de pe label */}
+    <input 
+      type="checkbox" 
+      checked={checked} 
+      onChange={(e) => onChange(e.target.checked)} 
+      style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }} 
+    />
     <div style={{
       width: 40, height: 22, position: 'relative', flexShrink: 0,
       background: checked ? ACCENT : RULE,

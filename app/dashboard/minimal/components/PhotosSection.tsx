@@ -64,24 +64,32 @@ export const PhotosSection = ({ initialData: _initialData, orderId, onSave }: Ph
   }, [fetchPhotos, initialData]);
 
   /* ── Activate ── */
-  const handleActivate = async () => {
-    if (!consentChecked) { alert('Trebuie să accepți termenii pentru a activa.'); return; }
-    try {
-      await fetch('/api/dashboard/personalize', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          orderId,
-          isPhotosActive:         true,
-          gallery_status:         'active',
-          photos_activated_at:    new Date().toISOString(),
-          photo_consent_accepted: true,
-          is_unlock_paid:         false,
-        }),
-      });
+const handleActivate = async () => {
+  if (!consentChecked) { alert('Trebuie să accepți termenii pentru a activa.'); return; }
+  try {
+    const res = await fetch('/api/dashboard/personalize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        orderId,
+        gallery_status:         'active',
+        photos_activated_at:    new Date().toISOString(),
+        photo_consent_accepted: true,
+        is_unlock_paid:         false,
+      }),
+    });
+    
+    if (res.ok) {
       await fetchSettings();
-    } catch (e) { console.error(e); }
-  };
+      if (onSave) onSave(); // <--- Forțează page.tsx să reîmprospăteze datele din Neon
+    } else {
+      alert('Eroare la activare.');
+    }
+  } catch (e) { 
+    console.error(e); 
+    alert('Eroare la activare.');
+  }
+};
 
   /* ── Download single ── */
   const handleDownloadSingle = async (photo: Photo) => {
