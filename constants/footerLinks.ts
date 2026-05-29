@@ -1,5 +1,5 @@
 export const TICKER_ITEMS = [
-  '💍 Invitații Nelimitate', '🍽️ Meniu cu Cod QR', '📷 Upload Poze Invitați', 
+  '💍 Invitații Nelimitate', '🍽️ Meniu in  Invitatie', '📷 Upload Poze Invitați', 
   '✅ RSVP Instant', '📊 Export Excel', '🗺️ GPS Integrat', '💸 300 Lei · Plată Unică'
 ];
 

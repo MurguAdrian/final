@@ -1309,7 +1309,7 @@ const TICKER_ITEMS = [
   '✅ Confirmare participare',
   '📋 Gestionare invitați',
   '📷 Colectare poze live',
-  '🍽️ Meniu cu cod QR',
+  '🍽️ Meniu in Invitatie',
   '📊 Export Excel',
   '🗺️ GPS integrat',
   '📱 Mobile-ready',
@@ -1338,8 +1338,8 @@ const FEATURES_MAIN = [
   },
   {
     icon: '🍽️',
-    name: 'Meniu cu QR',
-    desc: 'Afișezi meniul nunții direct în invitație sau pe un cod QR scanabil la masă.',
+    name: 'Meniu in Invitatie',
+    desc: 'Afișezi meniul nunții direct în invitație ',
   },
   {
     icon: '📊',
@@ -1499,9 +1499,13 @@ export default function Page() {
                     <div className="vi-card-label">Meniu</div>
                     <div className="vi-card-val">Scanează codul QR</div>
                   </div>
-                </div>
-                <button className="vi-confirm-btn">CONFIRMĂ PARTICIPAREA ♥</button>
-              </div>
+             </div>
+<Link href="/invitatii-digitale" className="vi-cta-ghost">
+  <button className="vi-confirm-btn">
+    CONFIRMĂ PARTICIPAREA ♥
+  </button>
+</Link>
+</div>
             </div>
 
             {/* URL slug */}

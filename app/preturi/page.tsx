@@ -381,7 +381,7 @@ const FEATURES = [
   },
   {
     icon: '🍽️',
-    name: 'Meniu nuntă cu cod QR',
+    name: 'Meniu nuntă in invitatie',
     sub: 'Invitații scanează meniul direct de pe telefon, la masă',
   },
   {
@@ -440,7 +440,7 @@ const FAQ = [
 
 const TICKER = [
   '💍 Invitații Nelimitate',
-  '🍽️ Meniu cu Cod QR',
+  '🍽️ Meniu in  Invitatie',
   '📷 Upload Poze Invitați',
   '✅ RSVP Instant',
   '📊 Export Excel',

@@ -773,12 +773,12 @@ export default function InvitatiiDigitalePage() {
             <h1 className="vid-h1">6 teme <em>premium</em>, fiecare <strong>unică</strong></h1>
             <p className="vid-lead">
               Explorează cele 6 designuri exclusive VibeInvite. Fiecare include invitație digitală,
-              dashboard invitați, meniu QR și album foto colectiv cu cod QR — adaptate perfect stilului tău.
+              dashboard invitați, meniu in invitatie — adaptate perfect stilului tău.
             </p>
             <div className="vid-lead-pills">
               {[
                 { ico: '💌', txt: 'Invitații nelimitate' },
-                { ico: '🍽️', txt: 'Meniu QR' },
+                { ico: '🍽️', txt: 'Meniu in Invitatie' },
                 { ico: '📷', txt: 'Poze live de la invitați' },
                 { ico: '🗂️', txt: 'Momente organizate' },
                 { ico: '📊', txt: 'Export Excel' },

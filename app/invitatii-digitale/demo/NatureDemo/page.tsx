@@ -40,7 +40,7 @@ function useSEO() {
           { '@type':'Question',name:'Cum creez o invitație de nuntă online?',acceptedAnswer:{ '@type':'Answer',text:'Pe VibeInvite poți crea o invitație digitală în 3 minute. Alegi stilul, completezi detaliile și primești un link personalizat gratuit.'}},
           { '@type':'Question',name:'Invitațiile digitale de nuntă sunt gratuite?',acceptedAnswer:{ '@type':'Answer',text:'Da, linkul de invitație online este gratuit. Pachetele premium includ RSVP, meniu QR, upload poze invitați și export Excel.'}},
           { '@type':'Question',name:'Ce este stilul Nature pentru invitații de nuntă?',acceptedAnswer:{ '@type':'Answer',text:'Stilul Nature folosește elemente botanice, florale și verzi. Este elegant, natural și rafinat — potrivit pentru nunți în aer liber sau cu tematică ecologică.'}},
-          { '@type':'Question',name:'Pot adăuga un cod QR la invitația de nuntă?',acceptedAnswer:{ '@type':'Answer',text:'Da! VibeInvite include cod QR pentru meniu și pentru confirmarea prezenței. Invitații scanează codul și accesează instant informațiile nunții.'}},
+          { '@type':'Question',name:'Pot adăuga un Meniu la invitația de nuntă?',acceptedAnswer:{ '@type':'Answer',text:'Da! VibeInvite include si meniu și pentru confirmarea prezenței. Invitații intra in link și accesează instant informațiile nunții.'}},
         ]},
       ])
       document.head.appendChild(ld)
@@ -633,7 +633,7 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
       {qrModal && (
         <div onClick={() => setQrModal(false)} style={{ position:'fixed', inset:0, zIndex:300, background:'rgba(18,26,16,.55)', backdropFilter:'blur(10px)', display:'flex', alignItems:'center', justifyContent:'center', padding:20, animation:'fadeIn .28s ease' }}>
           <div onClick={e => e.stopPropagation()} style={{ background:'linear-gradient(165deg,#FEFCF7,#F5F0E2)', borderRadius:26, padding:'36px 32px', maxWidth:340, width:'100%', border:'1px solid rgba(154,123,63,.2)', boxShadow:'0 40px 100px rgba(0,0,0,.3)', textAlign:'center', animation:'slideUp .32s cubic-bezier(.4,0,.2,1)' }}>
-            <p style={{ fontFamily:"'Cinzel',serif", fontSize:10, letterSpacing:'.22em', textTransform:'uppercase', color:'#9A7B3F', marginBottom:14 }}>Cod QR Invitație</p>
+            <p style={{ fontFamily:"'Cinzel',serif", fontSize:10, letterSpacing:'.22em', textTransform:'uppercase', color:'#9A7B3F', marginBottom:14 }}>Meniu in Invitație</p>
             <div style={{ display:'flex', justifyContent:'center', marginBottom:16 }}>
               <div style={{ padding:12, background:'white', borderRadius:16, boxShadow:'0 4px 20px rgba(0,0,0,.1)', border:'1px solid rgba(154,123,63,.15)' }}>
                 <QRCodeSVG size={200}/>

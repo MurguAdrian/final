@@ -388,7 +388,7 @@ const CSS = `
 
 const TICKER = [
   "💌 Invitații Nelimitate",
-  "🍽️ Meniu cu Cod QR",
+  "🍽️ Meniu in  Invitatie",
   "📷 Upload Poze Invitați",
   "✅ RSVP Instant",
   "📊 Export Excel",

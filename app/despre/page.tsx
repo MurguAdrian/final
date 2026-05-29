@@ -398,7 +398,7 @@ const CSS = `
 ───────────────────────────────────────────────────────────── */
 const PACK_FEATURES = [
   { icon: '💌', text: 'Invitații digitale nelimitate' },
-  { icon: '🍽️', text: 'Meniu nuntă cu cod QR' },
+  { icon: '🍽️', text: 'Meniu nuntă in invitatie' },
   { icon: '📷', text: 'Upload poze de la invitați' },
   { icon: '🗂️', text: 'Organizare poze pe momente' },
   { icon: '📊', text: 'Export Excel invitați' },
@@ -444,7 +444,7 @@ const WHY = [
 
 const TICKER = [
   '💍 Invitații Nelimitate',
-  '🍽️ Meniu cu Cod QR',
+  '🍽️ Meniu in Invitatie',
   '📷 Upload Poze Invitați',
   '✅ RSVP Instant',
   '📊 Export Excel',
