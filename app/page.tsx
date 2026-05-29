@@ -783,7 +783,7 @@ export const metadata: Metadata = {
     'dashboard miri',
     'meniu nunta QR cod',
     'export excel invitatii',
-    'invitații online România',
+    'invitații PDF România',
   ],
   authors: [{ name: 'VibeInvite', url: 'https://vibeinvite.ro' }],
   creator: 'VibeInvite',
@@ -1552,7 +1552,7 @@ export default function Page() {
         <div className="vi-section">
           <span className="vi-section-label">
             <span aria-hidden="true">💌</span>
-            Invitații Online
+            Invitații PDF
           </span>
           <h2 className="vi-section-title" id="inv-title">
             Tot ce ai nevoie pentru <em>organizarea nunții</em>,<br />
