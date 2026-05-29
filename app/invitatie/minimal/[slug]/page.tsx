@@ -1,3 +1,4 @@
+
 import { neon } from "@neondatabase/serverless";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -74,7 +75,7 @@ export async function generateMetadata(
   };
 }
 
-export default async function MinimalInvitationPage({ params }: { params: { slug: string } }) {
+export default async function InvitationPage({ params }: { params: { slug: string } }) {
   const sql = neon(process.env.DATABASE_URL!);
 
   const data = await sql`
@@ -108,7 +109,7 @@ export default async function MinimalInvitationPage({ params }: { params: { slug
 
   const brideInitial = s.bride_name ? s.bride_name.charAt(0) : '';
   const groomInitial = s.groom_name ? s.groom_name.charAt(0) : '';
-  const initials = brideInitial && groomInitial ? `${brideInitial}&${groomInitial}` : '◆';
+  const initials = brideInitial && groomInitial ? `${brideInitial}&${groomInitial}` : '♦';
 
   return (
     <MinimalClient

@@ -34,15 +34,17 @@ export default function MinimalRsvpForm({ orderId, showAccommodation, showTransp
     return (
       <>
         <style>{FONTS_CSS}</style>
-        <div style={{ textAlign: 'center', padding: 'clamp(24px,4vw,40px) clamp(16px,3vw,28px)' }}>
-          <svg viewBox="0 0 60 60" fill="none" style={{ width: 52, height: 52, display: 'block', margin: '0 auto 16px' }}>
-            <circle cx="30" cy="30" r="28" stroke="#C8503A" strokeWidth="1.2"/>
-            <path d="M18 30 L26 38 L42 22" stroke="#C8503A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, letterSpacing: '.3em', textTransform: 'uppercase', color: '#C8503A', fontWeight: 600, marginBottom: 10 }}>Confirmat</p>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px,3.5vw,30px)', fontStyle: 'italic', fontWeight: 400, color: '#111', marginBottom: 10 }}>Mulțumim!</h2>
-          <div style={{ width: 32, height: 2, background: '#C8503A', margin: '0 auto 14px' }}/>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 'clamp(13px,1.6vw,15px)', color: '#555', lineHeight: 1.8 }}>
+        <div style={confirmationBox}>
+          <div style={{ marginBottom: 20 }}>
+            <svg viewBox="0 0 60 60" fill="none" style={{ width: 48, height: 48, display: 'block', margin: '0 auto' }}>
+              <circle cx="30" cy="30" r="28" stroke="#111111" strokeWidth="1.2"/>
+              <path d="M18 30 L26 38 L42 22" stroke="#C8503A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(22px,3.5vw,28px)', fontStyle: 'italic', fontWeight: 400, color: '#111111', marginBottom: 10 }}>
+            Mulțumim!
+          </h2>
+          <p style={{ fontFamily: "'DM Sans', serif", fontSize: 'clamp(13px,1.5vw,15px)', color: '#555555', lineHeight: 1.8 }}>
             Confirmarea a fost înregistrată cu succes.<br/>Abia așteptăm să vă avem alături!
           </p>
         </div>
@@ -55,6 +57,18 @@ export default function MinimalRsvpForm({ orderId, showAccommodation, showTransp
       <style>{FORM_CSS}</style>
       <form onSubmit={handleSubmit} style={{ width: '100%' }}>
         <div style={{ position: 'relative', zIndex: 1, animation: 'mn-formReveal 0.5s ease both', width: '100%' }}>
+          <div style={{ textAlign: 'center', marginBottom: 24 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'center', marginBottom: 8 }}>
+              <div style={{ width: 20, height: 2, background: '#C8503A' }} />
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, letterSpacing: '.36em', textTransform: 'uppercase', color: '#C8503A', fontWeight: 600 }}>
+                Confirmare Prezență
+              </p>
+              <div style={{ width: 20, height: 2, background: '#C8503A' }} />
+            </div>
+            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px,3.5vw,30px)', fontStyle: 'italic', fontWeight: 400, color: '#111111', marginBottom: 4 }}>
+              R.S.V.P.
+            </h3>
+          </div>
 
           <div className="mn-field-block">
             <label className="mn-field-label">Nume și Prenume</label>
@@ -78,8 +92,8 @@ export default function MinimalRsvpForm({ orderId, showAccommodation, showTransp
           </div>
 
           <select onChange={e => setIsComing(e.target.value)} value={isComing} style={{ display: 'none' }}>
-            <option value="true">Particip</option>
-            <option value="false">Nu Particip</option>
+            <option value="true">VIN CU DRAG</option>
+            <option value="false">NU POT</option>
           </select>
 
           {isComing === "true" && (
@@ -159,10 +173,10 @@ const FORM_CSS = `
 
   .mn-input {
     width: 100%;
-    background: #F7F4F0;
+    background: #fff;
     border: none;
     border-bottom: 1px solid #E2E2E2;
-    color: #111;
+    color: #111111;
     padding: 11px 0;
     margin-bottom: 4px;
     font-family: 'Playfair Display', serif;
@@ -176,13 +190,17 @@ const FORM_CSS = `
     display: block;
     min-height: 44px;
     border-radius: 0;
-    background: transparent;
   }
+
   .mn-input::placeholder { color: #AAAAAA; }
-  .mn-input:focus { border-bottom-color: #C8503A; }
+
+  .mn-input:focus {
+    border-bottom-color: #C8503A;
+  }
+
   .mn-input--narrow { max-width: 140px; }
 
-  .mn-radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+  .mn-radio-group { display: flex; gap: 8px; flex-wrap: wrap; }
 
   .mn-radio-label {
     flex: 1;
@@ -191,7 +209,7 @@ const FORM_CSS = `
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 11px 10px;
+    padding: 11px 14px;
     min-height: 44px;
     border: 1px solid #E2E2E2;
     background: #fff;
@@ -199,34 +217,39 @@ const FORM_CSS = `
     font-family: 'DM Sans', sans-serif;
     font-size: 12px;
     letter-spacing: .08em;
-    color: #555;
+    text-transform: uppercase;
+    color: #555555;
     transition: all 0.18s;
     user-select: none;
     -webkit-user-select: none;
     white-space: nowrap;
   }
-  .mn-radio-label:hover { border-color: #C8503A; color: #111; background: rgba(200,80,58,.04); }
+
+  .mn-radio-label:hover { border-color: #C8503A; color: #111111; background: rgba(200,80,58,.06); }
+  .mn-radio-label:active { background: rgba(200,80,58,.1); }
 
   .mn-radio-label input[type="radio"] {
     accent-color: #C8503A;
     width: 15px; height: 15px;
-    flex-shrink: 0; margin: 0;
+    flex-shrink: 0;
+    margin: 0;
   }
 
   .mn-field-label {
     display: block;
     font-family: 'DM Sans', sans-serif;
-    font-size: clamp(9px,1vw,10px);
+    font-size: clamp(9px, 1vw, 10px);
     letter-spacing: .26em;
     text-transform: uppercase;
     color: #AAAAAA;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     font-weight: 500;
   }
 
   .mn-field-hint {
-    font-family: 'DM Sans', sans-serif;
-    font-size: clamp(11px,1.2vw,12px);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(12px, 1.3vw, 13px);
+    font-style: italic;
     color: #AAAAAA;
     margin-top: 6px;
     display: block;
@@ -239,25 +262,26 @@ const FORM_CSS = `
     display: block;
     width: 100%;
     padding: 14px 0;
-    min-height: 50px;
-    background: #111;
+    min-height: 48px;
+    background: #111111;
     color: #fff;
     text-align: center;
     font-family: 'DM Sans', sans-serif;
-    font-size: clamp(11px,1.3vw,13px);
+    font-size: clamp(11px, 1.3vw, 13px);
     font-weight: 500;
-    letter-spacing: .24em;
+    letter-spacing: .22em;
     text-transform: uppercase;
     cursor: pointer;
     border: none;
-    transition: background .2s;
+    transition: background .18s;
     position: relative;
     overflow: hidden;
     margin-top: 8px;
     -webkit-tap-highlight-color: transparent;
   }
+
   .mn-submit-btn:hover { background: #C8503A; }
-  .mn-submit-btn:active { background: #A03828; }
+  .mn-submit-btn:active { background: #a83f2b; }
 
   @keyframes mn-formReveal { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -266,9 +290,14 @@ const FORM_CSS = `
     .mn-input { font-size: 16px; padding: 12px 0; }
     .mn-input--narrow { max-width: 100%; }
     .mn-radio-group { gap: 8px; flex-wrap: wrap; }
-    .mn-radio-label { flex: 1 1 calc(50% - 4px); min-width: 0; font-size: 11px; padding: 12px 8px; white-space: normal; text-align: center; }
+    .mn-radio-label { flex: 1 1 calc(50% - 4px); min-width: 0; font-size: 11px; padding: 11px 8px; letter-spacing: .04em; white-space: normal; text-align: center; }
     .mn-field-label { font-size: 10px; letter-spacing: .18em; margin-bottom: 6px; }
     .mn-field-hint { font-size: 12px; margin-top: 5px; }
-    .mn-submit-btn { font-size: 12px; letter-spacing: .18em; min-height: 52px; }
+    .mn-submit-btn { font-size: 12px; letter-spacing: .16em; min-height: 50px; }
   }
 `;
+
+const confirmationBox: React.CSSProperties = {
+  textAlign: 'center',
+  padding: 'clamp(24px,4vw,40px) clamp(16px,3vw,28px)',
+};
