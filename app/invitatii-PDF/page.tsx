@@ -316,8 +316,8 @@ const CSS = `
 
 const TICKER = [
   '💌 40+ Teme în pregătire', '✨ Design Premium', '📲 Trimite prin link sau QR',
-  '🎊 Nunți · Botezuri · Petreceri', '💸 300 Lei · Plată Unică',
-  '⭐ 4.9 Rating · 12K+ Invitații', '🔒 Plată securizată', '🛠️ Suport inclus',
+  '🎊 Nunți · Botezuri · Petreceri', '💸  Plată Unică',
+  '⭐ 4.9 Rating · Nelimitat Invitații', '🔒 Plată securizată', '🛠️ Suport inclus',
 ]
 
 const FILTERS = [

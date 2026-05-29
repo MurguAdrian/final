@@ -378,8 +378,8 @@ const EVENTS = [
 
 const TICKER = [
   '💌 Răspundem în 24h', '📞 WhatsApp disponibil', '✅ Suport inclus în pachet',
-  '🎊 Nunți, Botezuri, Petreceri', '💸 300 Lei · Plată Unică', '⭐ 4.9 Rating',
-  '12K+ Invitații create', '🔒 Plată securizată',
+  '🎊 Nunți, Botezuri, Petreceri', '💸  Plată Unică', '⭐ Poze Incarcate',
+  'Invitatii Nelimitate', '🔒 Plată securizată',
 ]
 
 const FAQ = [
@@ -670,8 +670,8 @@ export default function ContactPage() {
                 <p className="vc-trust-h"><span aria-hidden="true">⭐</span>De ce aleg VibeInvite</p>
                 <div className="vc-trust-grid">
                   {[
-                    { num: '12K+', label: 'Invitații create' },
-                    { num: '98%',  label: 'Clienți mulțumiți' },
+                    { num: 'Nelimitat', label: 'Invitații create' },
+                    { num: '25 GB',  label: 'Poze Incarcate' },
                     { num: '4.9★', label: 'Rating mediu' },
                     { num: '<24h', label: 'Timp răspuns' },
                   ].map(t => (

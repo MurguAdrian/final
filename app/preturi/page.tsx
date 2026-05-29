@@ -607,8 +607,8 @@ export default function PricingPage() {
                 </p>
                 <div className="vp-trust-grid">
                   {[
-                    { num: '12K+', label: 'Invitații create' },
-                    { num: '98%',  label: 'Clienți mulțumiți' },
+                    { num: 'Nelimitat', label: 'Invitații create' },
+                    { num: '25 GB',  label: 'Poze Incarcate' },
                     { num: '3 min', label: 'Timp de setup' },
                     { num: '4.9★', label: 'Rating mediu' },
                   ].map((t) => (

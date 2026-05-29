@@ -1449,17 +1449,17 @@ export default function Page() {
 
             <div className="vi-stats" aria-label="Statistici VibeInvite">
               <div className="vi-stat">
-                <span className="vi-sn">12K+</span>
-                <span className="vi-sl">Invitații create</span>
+                <span className="vi-sn">Nelimitat</span>
+                <span className="vi-sl">Invitatii Trimise</span>
               </div>
               <div className="vi-sd" aria-hidden="true" />
               <div className="vi-stat">
-                <span className="vi-sn">98%</span>
-                <span className="vi-sl">Clienți mulțumiți</span>
+                <span className="vi-sn">25 GB</span>
+                <span className="vi-sl">Poze Incarcate</span>
               </div>
               <div className="vi-sd" aria-hidden="true" />
               <div className="vi-stat">
-                <span className="vi-sn">3 min</span>
+                <span className="vi-sn">5 min</span>
                 <span className="vi-sl">Timp de creare</span>
               </div>
             </div>

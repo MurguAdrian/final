@@ -551,7 +551,7 @@ export default function DesprePage() {
                     până la albumul foto creat de invitații tăi în timp real.
                   </p>
                   <p>
-                    Astăzi, <strong>12.000+ cupluri</strong> au ales VibeInvite pentru nunta sau botezul lor.
+                    Astăzi, <strong>Multe cupluri</strong> au ales VibeInvite pentru nunta sau botezul lor.
                     Fiecare eveniment ne motivează să facem platforma și mai bună.
                   </p>
                 </div>
@@ -561,10 +561,10 @@ export default function DesprePage() {
               <div className="vd-story-right">
                 <div className="vd-stat-grid" aria-label="Statistici VibeInvite">
                   {[
-                    { num: '12K+',  label: 'Evenimente organizate' },
-                    { num: '98%',   label: 'Clienți mulțumiți' },
+                    { num: 'Nelimitat',  label: 'Invitatii' },
+                    { num: '25 GB',   label: 'Poze Incarcate' },
                     { num: '4.9★', label: 'Rating mediu' },
-                    { num: '3 min', label: 'Setup invitație' },
+                    { num: '5 min', label: 'Setup invitație' },
                   ].map((s) => (
                     <div key={s.label} className="vd-stat-box">
                       <p className="vd-stat-num">{s.num}</p>
