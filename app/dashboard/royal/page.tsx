@@ -5,6 +5,20 @@ import { PersonalizeSection } from './components/PersonalizeSection';
 import { MenuSection } from './components/MenuSection';
 import { PhotosSection } from './components/PhotosSection';
 
+const R = {
+  navy: '#0B1929',
+  navy2: '#0F2040',
+  royalBg: '#071220',
+  silver: '#C8D8E8',
+  silver2: '#A8BDD0',
+  silver3: '#E8F0F8',
+  silver4: '#6888A8',
+  velvet2: '#243870',
+  accent: '#7CA8D8',
+  text: '#E0EAF5',
+  textlt: '#8AAAC8',
+};
+
 export default function RoyalDashboard() {
   const [activeTab, setActiveTab] = useState('summary');
   const [loading, setLoading] = useState(true);
@@ -34,22 +48,21 @@ export default function RoyalDashboard() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&display=swap');
-        @keyframes rm-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-        html,body{height:100%;overflow:hidden;overscroll-behavior:none;}
+        @keyframes ry-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
       `}</style>
       <div style={{
-        background: '#FDF5F6', color: '#7B1A2E', height: '100dvh', width: '100vw',
+        background: R.royalBg, color: R.silver, height: '100dvh', width: '100vw',
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16
       }}>
         <div style={{
-          width: 36, height: 36, border: '1.5px solid rgba(166,50,72,.2)',
-          borderTopColor: '#A63248', borderRadius: '50%',
-          animation: 'rm-spin 1s linear infinite'
+          width: 36, height: 36, border: `1.5px solid rgba(200,216,232,.25)`,
+          borderTopColor: R.silver, borderRadius: '50%',
+          animation: 'ry-spin 1s linear infinite'
         }} />
         <span style={{
-          fontFamily: "'Cinzel', serif", fontSize: 10, letterSpacing: '.32em',
-          textTransform: 'uppercase', color: 'rgba(166,50,72,.55)'
-        }}>Se încarcă...</span>
+          fontFamily: "'Cinzel', serif", fontSize: 10, letterSpacing: '.36em',
+          textTransform: 'uppercase', color: R.silver4
+        }}>Sincronizare Date Royal...</span>
       </div>
     </>
   );
@@ -127,42 +140,42 @@ export default function RoyalDashboard() {
           height: 100%;
           overscroll-behavior: none;
           font-family: 'Lato', sans-serif;
-          background: #FDF5F6;
-          color: #3D1520;
+          background: ${R.royalBg};
+          color: ${R.text};
           -webkit-font-smoothing: antialiased;
           overflow: hidden;
         }
 
-        @keyframes rm-spin    { from { transform: rotate(0deg) }   to { transform: rotate(360deg) } }
-        @keyframes rm-fade-in { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: translateY(0) } }
-        @keyframes rm-pulse   { 0%,100% { opacity: 1 } 50% { opacity: .5 } }
+        @keyframes ry-spin    { from { transform: rotate(0deg) }   to { transform: rotate(360deg) } }
+        @keyframes ry-fade-in { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: translateY(0) } }
+        @keyframes ry-pulse   { 0%,100% { opacity: 1 } 50% { opacity: .5 } }
 
-        .rm-tab { transition: background .2s, color .2s, border-color .2s; }
-        .rm-tab:hover  { background: rgba(196,80,106,.07) !important; color: #A63248 !important; }
-        .rm-tab-active { background: linear-gradient(135deg,rgba(196,80,106,.12) 0%,rgba(196,80,106,.05) 100%) !important; color: #7B1A2E !important; border-color: rgba(196,80,106,.3) !important; }
+        .ry-tab { transition: background .2s, color .2s, border-color .2s; }
+        .ry-tab:hover  { background: rgba(124,168,216,.08) !important; color: ${R.silver} !important; }
+        .ry-tab-active { background: rgba(124,168,216,.12) !important; color: ${R.silver3} !important; border-color: rgba(200,216,232,.3) !important; }
 
-        .rm-signout { transition: background .2s, border-color .2s, color .2s; }
-        .rm-signout:hover { background: rgba(255,60,60,.1) !important; border-color: rgba(255,80,80,.45) !important; color: #e05555 !important; }
+        .ry-signout { transition: background .2s, border-color .2s, color .2s; }
+        .ry-signout:hover { background: rgba(255,60,60,.12) !important; border-color: rgba(255,80,80,.45) !important; color: #ff6b6b !important; }
 
-        .rm-mobile-tab { transition: color .2s, background .2s; }
-        .rm-mobile-tab:hover { background: rgba(196,80,106,.06) !important; }
+        .ry-mobile-tab { transition: color .2s, background .2s; }
+        .ry-mobile-tab:hover { background: rgba(124,168,216,.08) !important; }
 
-        .rm-app-shell {
+        .ry-app-shell {
           position: fixed;
           top: 0; left: 0;
           width: 100%;
           height: 100dvh;
           display: flex;
-          background: #FDF5F6;
+          background: ${R.royalBg};
           overflow: hidden;
         }
 
-        .rm-sidebar { display: flex !important; }
-        .rm-mobile-header { display: none !important; }
-        .rm-mobile-nav { display: none !important; }
-        .rm-tablet-nav { display: none !important; }
+        .ry-sidebar { display: flex !important; }
+        .ry-mobile-header { display: none !important; }
+        .ry-mobile-nav { display: none !important; }
+        .ry-tablet-nav { display: none !important; }
 
-        .rm-main {
+        .ry-main {
           flex: 1;
           height: 100dvh;
           overflow-y: auto;
@@ -172,14 +185,13 @@ export default function RoyalDashboard() {
           padding: clamp(28px,4vw,52px) clamp(20px,4vw,64px);
           position: relative;
           z-index: 5;
-          background: #FDF5F6;
         }
 
         @media (max-width: 1023px) {
-          .rm-sidebar { display: none !important; }
-          .rm-mobile-header { display: flex !important; }
-          .rm-tablet-nav { display: flex !important; }
-          .rm-main {
+          .ry-sidebar { display: none !important; }
+          .ry-mobile-header { display: flex !important; }
+          .ry-tablet-nav { display: flex !important; }
+          .ry-main {
             padding-top: 116px !important;
             padding-left: 16px !important;
             padding-right: 16px !important;
@@ -188,9 +200,9 @@ export default function RoyalDashboard() {
         }
 
         @media (max-width: 767px) {
-          .rm-tablet-nav { display: none !important; }
-          .rm-mobile-nav { display: flex !important; }
-          .rm-main {
+          .ry-tablet-nav { display: none !important; }
+          .ry-mobile-nav { display: flex !important; }
+          .ry-main {
             padding-top: 72px !important;
             padding-left: 12px !important;
             padding-right: 12px !important;
@@ -200,16 +212,16 @@ export default function RoyalDashboard() {
         }
 
         @media (max-width: 379px) {
-          .rm-main {
+          .ry-main {
             padding-left: 8px !important;
             padding-right: 8px !important;
           }
         }
 
-        .rm-main > * { max-width: 100%; box-sizing: border-box; }
+        .ry-main > * { max-width: 100%; box-sizing: border-box; }
         img, svg { max-width: 100%; }
 
-        .rm-mobile-nav {
+        .ry-mobile-nav {
           padding-bottom: env(safe-area-inset-bottom, 0px) !important;
           height: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
         }
@@ -219,44 +231,41 @@ export default function RoyalDashboard() {
         }
       `}</style>
 
-      <div className="rm-app-shell">
+      <div className="ry-app-shell">
 
         {/* BG ATMOSPHERE */}
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0,
           background: `
-            radial-gradient(ellipse 70% 60% at 15% 50%, rgba(232,160,168,.1) 0%, transparent 55%),
-            radial-gradient(ellipse 50% 40% at 85% 80%, rgba(196,80,106,.06) 0%, transparent 50%)
+            radial-gradient(ellipse 70% 60% at 20% 50%, rgba(124,168,216,.04) 0%, transparent 60%),
+            radial-gradient(ellipse 50% 40% at 80% 80%, rgba(124,168,216,.03) 0%, transparent 55%)
           `
         }} />
 
-        {/* MOBILE / TABLET HEADER */}
-        <header className="rm-mobile-header" style={{
+        {/* ══ MOBILE / TABLET HEADER (≤ 1023px) ══ */}
+        <header className="ry-mobile-header" style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200,
           height: 56,
           display: 'none',
           alignItems: 'center', justifyContent: 'space-between',
           padding: '0 14px',
-          background: 'rgba(253,245,246,.97)',
-          borderBottom: '1px solid rgba(196,80,106,.15)',
+          background: `rgba(7,18,32,.97)`,
+          borderBottom: `1px solid rgba(200,216,232,.15)`,
           backdropFilter: 'blur(20px)',
           gap: 8,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 7, flexShrink: 0 }}>
-            <svg viewBox="0 0 24 22" fill="#A63248" style={{ width: 18, height: 17 }}>
-              <path d="M12 21C12 21 1 13.5 1 7.5C1 4.5 3.5 2 6.5 2C8.5 2 10.5 3 12 5C13.5 3 15.5 2 17.5 2C20.5 2 23 4.5 23 7.5C23 13.5 12 21 12 21Z" />
-            </svg>
             <span style={{
               fontFamily: "'Cinzel', serif", fontSize: 11, fontWeight: 600,
-              letterSpacing: '.2em', color: '#7B1A2E'
+              letterSpacing: '.2em', color: R.silver
             }}>
-              VIBE<span style={{ color: 'rgba(166,50,72,.4)' }}>INVITE</span>
+              VIBE<span style={{ color: R.silver4 }}>INVITE</span>
             </span>
           </div>
 
           <span style={{
             fontFamily: "'Cormorant Garamond', serif", fontSize: 13,
-            fontStyle: 'italic', color: 'rgba(166,50,72,.5)',
+            fontStyle: 'italic', color: R.silver4,
             flex: 1, textAlign: 'center',
             overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
             padding: '0 6px'
@@ -268,31 +277,30 @@ export default function RoyalDashboard() {
             <div style={{
               display: 'flex', alignItems: 'center', gap: 4,
               padding: '4px 9px', borderRadius: 100,
-              background: isProfileComplete ? 'rgba(196,80,106,.07)' : 'rgba(255,165,0,.08)',
-              border: `1px solid ${isProfileComplete ? 'rgba(196,80,106,.25)' : 'rgba(255,165,0,.25)'}`,
+              background: isProfileComplete ? `rgba(124,168,216,.08)` : 'rgba(255,165,0,.08)',
+              border: `1px solid ${isProfileComplete ? `rgba(200,216,232,.25)` : 'rgba(255,165,0,.25)'}`,
               fontFamily: "'Cinzel', serif", fontSize: 8, letterSpacing: '.12em',
-              color: isProfileComplete ? 'rgba(166,50,72,.85)' : 'rgba(255,165,0,.8)',
+              color: isProfileComplete ? R.silver2 : 'rgba(255,165,0,.8)',
               whiteSpace: 'nowrap'
             }}>
               <div style={{
                 width: 5, height: 5, borderRadius: '50%', flexShrink: 0,
-                background: isProfileComplete ? '#A63248' : '#ffa500',
-                boxShadow: `0 0 6px ${isProfileComplete ? 'rgba(166,50,72,.6)' : 'rgba(255,165,0,.6)'}`,
-                animation: 'rm-pulse 2s ease-in-out infinite'
+                background: isProfileComplete ? R.accent : '#ffa500',
+                animation: 'ry-pulse 2s ease-in-out infinite'
               }} />
               {isProfileComplete ? 'LIVE' : 'SETUP'}
             </div>
 
             <button
-              className="rm-signout"
+              className="ry-signout"
               onClick={() => window.location.href = '/login'}
               title="Ieșire"
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
                 padding: '6px 10px', borderRadius: 8,
-                background: 'rgba(255,60,60,.06)',
-                border: '1px solid rgba(255,60,60,.2)',
-                color: 'rgba(200,80,80,.75)',
+                background: 'rgba(255,60,60,.07)',
+                border: '1px solid rgba(255,60,60,.22)',
+                color: 'rgba(255,100,100,.75)',
                 fontFamily: "'Cinzel', serif", fontSize: 8, fontWeight: 600,
                 letterSpacing: '.14em', textTransform: 'uppercase',
                 cursor: 'pointer', whiteSpace: 'nowrap'
@@ -303,49 +311,44 @@ export default function RoyalDashboard() {
           </div>
         </header>
 
-        {/* DESKTOP SIDEBAR */}
-        <aside className="rm-sidebar" style={{
+        {/* ══ DESKTOP SIDEBAR (≥ 1024px) ══ */}
+        <aside className="ry-sidebar" style={{
           width: 248, flexShrink: 0,
-          background: 'linear-gradient(180deg,#FEF8F8 0%,#FAF0F2 100%)',
-          borderRight: '1px solid rgba(196,80,106,.15)',
+          background: `linear-gradient(180deg,${R.navy2} 0%,${R.navy} 100%)`,
+          borderRight: `1px solid rgba(200,216,232,.15)`,
           flexDirection: 'column',
           padding: '28px 0',
           position: 'relative', zIndex: 10,
-          boxShadow: '4px 0 30px rgba(123,26,46,.06)'
+          boxShadow: '4px 0 30px rgba(0,0,0,.35)'
         }}>
           <div style={{
             position: 'absolute', top: 0, left: '15%', right: '15%', height: 1,
-            background: 'linear-gradient(90deg,transparent,rgba(196,80,106,.4),transparent)'
+            background: `linear-gradient(90deg,transparent,rgba(200,216,232,.4),transparent)`
           }} />
 
           {/* Logo */}
-          <div style={{ textAlign: 'center', padding: '0 20px 24px', borderBottom: '1px solid rgba(196,80,106,.1)' }}>
-            <div style={{ marginBottom: 10 }}>
-              <svg viewBox="0 0 24 22" fill="#A63248" style={{ width: 32, height: 30, margin: '0 auto', filter: 'drop-shadow(0 2px 8px rgba(166,50,72,.2))' }}>
-                <path d="M12 21C12 21 1 13.5 1 7.5C1 4.5 3.5 2 6.5 2C8.5 2 10.5 3 12 5C13.5 3 15.5 2 17.5 2C20.5 2 23 4.5 23 7.5C23 13.5 12 21 12 21Z" />
-              </svg>
-            </div>
+          <div style={{ textAlign: 'center', padding: '0 20px 24px', borderBottom: `1px solid rgba(200,216,232,.1)` }}>
             <h1 style={{
               fontFamily: "'Cinzel', serif", fontSize: 13, fontWeight: 600,
-              letterSpacing: '.28em', color: '#7B1A2E', margin: '0 0 4px'
-            }}>VIBE<span style={{ color: 'rgba(166,50,72,.4)' }}>INVITE</span></h1>
+              letterSpacing: '.28em', color: R.silver, margin: '0 0 4px'
+            }}>VIBE<span style={{ color: R.silver4 }}>INVITE</span></h1>
             <span style={{
               fontFamily: "'Cinzel', serif", fontSize: 7, letterSpacing: '.22em',
-              textTransform: 'uppercase', color: 'rgba(166,50,72,.35)'
-            }}>Romantic Edition</span>
+              textTransform: 'uppercase', color: R.silver4
+            }}>Premium Royal Edition</span>
           </div>
 
           {/* Nav */}
           <nav style={{ flex: 1, padding: '18px 14px', display: 'flex', flexDirection: 'column', gap: 4 }}>
             <p style={{
               fontFamily: "'Cinzel', serif", fontSize: 7, letterSpacing: '.28em',
-              textTransform: 'uppercase', color: 'rgba(166,50,72,.3)',
+              textTransform: 'uppercase', color: R.silver4,
               padding: '0 10px', marginBottom: 8
             }}>Navigare</p>
             {tabs.map(tab => (
               <button
                 key={tab.id}
-                className={`rm-tab ${activeTab === tab.id ? 'rm-tab-active' : ''}`}
+                className={`ry-tab ${activeTab === tab.id ? 'ry-tab-active' : ''}`}
                 onClick={() => setActiveTab(tab.id)}
                 style={{
                   width: '100%', padding: '11px 14px',
@@ -353,7 +356,7 @@ export default function RoyalDashboard() {
                   background: 'transparent',
                   border: '1px solid transparent',
                   borderRadius: 10,
-                  color: activeTab === tab.id ? '#7B1A2E' : 'rgba(166,50,72,.5)',
+                  color: activeTab === tab.id ? R.silver3 : R.silver4,
                   cursor: 'pointer', textAlign: 'left',
                   fontFamily: "'Cinzel', serif",
                   fontSize: 10, fontWeight: 600, letterSpacing: '.1em',
@@ -361,7 +364,7 @@ export default function RoyalDashboard() {
                 <span style={{ opacity: activeTab === tab.id ? 1 : .7, flexShrink: 0 }}>{tab.icon}</span>
                 {tab.label}
                 {activeTab === tab.id && (
-                  <div style={{ marginLeft: 'auto', width: 4, height: 4, borderRadius: '50%', background: '#A63248', boxShadow: '0 0 8px rgba(166,50,72,.5)', flexShrink: 0 }} />
+                  <div style={{ marginLeft: 'auto', width: 4, height: 4, borderRadius: '50%', background: R.accent, flexShrink: 0 }} />
                 )}
               </button>
             ))}
@@ -371,54 +374,53 @@ export default function RoyalDashboard() {
           <div style={{ padding: '0 14px' }}>
             <div style={{
               padding: '12px 14px', marginBottom: 10,
-              background: isProfileComplete ? 'rgba(196,80,106,.05)' : 'rgba(255,140,0,.05)',
-              border: `1px solid ${isProfileComplete ? 'rgba(196,80,106,.2)' : 'rgba(255,140,0,.22)'}`,
+              background: isProfileComplete ? `rgba(124,168,216,.06)` : 'rgba(255,140,0,.06)',
+              border: `1px solid ${isProfileComplete ? `rgba(200,216,232,.2)` : 'rgba(255,140,0,.25)'}`,
               borderRadius: 12, position: 'relative', overflow: 'hidden'
             }}>
               <div style={{
                 position: 'absolute', top: 0, left: '10%', right: '10%', height: 1,
-                background: `linear-gradient(90deg,transparent,${isProfileComplete ? 'rgba(196,80,106,.35)' : 'rgba(255,140,0,.28)'},transparent)`
+                background: `linear-gradient(90deg,transparent,${isProfileComplete ? `rgba(200,216,232,.3)` : 'rgba(255,140,0,.25)'},transparent)`
               }} />
               <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: isProfileComplete ? 7 : 0 }}>
                 <div style={{
                   width: 6, height: 6, borderRadius: '50%', flexShrink: 0,
-                  background: isProfileComplete ? '#A63248' : '#ffa500',
-                  boxShadow: `0 0 8px ${isProfileComplete ? 'rgba(166,50,72,.6)' : 'rgba(255,165,0,.6)'}`,
-                  animation: 'rm-pulse 2s ease-in-out infinite',
+                  background: isProfileComplete ? R.accent : '#ffa500',
+                  animation: 'ry-pulse 2s ease-in-out infinite',
                 }} />
                 <span style={{
                   fontFamily: "'Cinzel', serif", fontSize: 7, letterSpacing: '.2em',
                   textTransform: 'uppercase',
-                  color: isProfileComplete ? 'rgba(166,50,72,.8)' : 'rgba(255,165,0,.8)'
+                  color: isProfileComplete ? R.silver2 : 'rgba(255,165,0,.8)'
                 }}>{isProfileComplete ? 'Link Activ' : 'Configurare Necesară'}</span>
               </div>
               {isProfileComplete && (
                 <p style={{
                   fontFamily: "'Cormorant Garamond', serif", fontSize: 11,
-                  fontStyle: 'italic', color: 'rgba(166,50,72,.5)',
+                  fontStyle: 'italic', color: R.silver4,
                   wordBreak: 'break-all', lineHeight: 1.5
                 }}>
-                  vibeinvite.ro/invitatie/romantic/<strong style={{ color: 'rgba(166,50,72,.8)', fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
+                  vibeinvite.ro/invitatie/royal/<strong style={{ color: R.silver2, fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
                 </p>
               )}
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
-              <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,transparent,rgba(196,80,106,.2))' }} />
-              <div style={{ width: 4, height: 4, background: 'rgba(196,80,106,.35)', transform: 'rotate(45deg)', margin: '0 6px' }} />
-              <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(196,80,106,.2),transparent)' }} />
+              <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg,transparent,rgba(200,216,232,.2))` }} />
+              <div style={{ width: 4, height: 4, background: `rgba(200,216,232,.3)`, transform: 'rotate(45deg)', margin: '0 6px' }} />
+              <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg,rgba(200,216,232,.2),transparent)` }} />
             </div>
 
             <button
-              className="rm-signout"
+              className="ry-signout"
               onClick={() => window.location.href = '/login'}
               style={{
                 width: '100%',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                 padding: '9px 14px', borderRadius: 8,
-                background: 'rgba(255,60,60,.05)',
-                border: '1px solid rgba(255,60,60,.18)',
-                color: 'rgba(200,80,80,.7)',
+                background: 'rgba(255,60,60,.06)',
+                border: '1px solid rgba(255,60,60,.2)',
+                color: 'rgba(255,100,100,.7)',
                 fontFamily: "'Cinzel', serif", fontSize: 9, fontWeight: 600,
                 letterSpacing: '.18em', textTransform: 'uppercase',
                 cursor: 'pointer',
@@ -429,28 +431,20 @@ export default function RoyalDashboard() {
 
             <p style={{
               fontFamily: "'Cinzel', serif", fontSize: 7, letterSpacing: '.18em',
-              textTransform: 'uppercase', color: 'rgba(166,50,72,.2)',
-              textAlign: 'center', marginTop: 14
+              textTransform: 'uppercase', color: R.silver4,
+              textAlign: 'center', marginTop: 14, opacity: .4
             }}>VibeInvite © 2026</p>
           </div>
 
           <div style={{
             position: 'absolute', bottom: 0, left: '15%', right: '15%', height: 1,
-            background: 'linear-gradient(90deg,transparent,rgba(196,80,106,.25),transparent)'
+            background: `linear-gradient(90deg,transparent,rgba(200,216,232,.25),transparent)`
           }} />
         </aside>
 
-        {/* MAIN CONTENT */}
-        <main className="rm-main">
-          <div style={{ position: 'fixed', top: 0, right: 0, width: 'min(120px,12vw)', height: 'min(120px,12vw)', opacity: .18, pointerEvents: 'none', zIndex: 4 }}>
-            <svg viewBox="0 0 160 160" fill="none" style={{ transform: 'scale(-1,1)', width: '100%', height: '100%' }}>
-              <path d="M8 8 L8 120 M8 8 L120 8" stroke="rgba(196,80,106,.6)" strokeWidth="1.2" />
-              <path d="M18 18 L18 100 M18 18 L100 18" stroke="rgba(196,80,106,.4)" strokeWidth=".7" />
-              <ellipse cx="8" cy="8" rx="6" ry="6" fill="rgba(196,80,106,.3)" />
-            </svg>
-          </div>
-
-          <div style={{ animation: 'rm-fade-in .5s ease both', position: 'relative', zIndex: 5, width: '100%' }}>
+        {/* ══ MAIN CONTENT ══ */}
+        <main className="ry-main">
+          <div style={{ animation: 'ry-fade-in .5s ease both', position: 'relative', zIndex: 5, width: '100%' }}>
             {activeTab === 'summary' && <SummarySection isComplete={isProfileComplete} />}
             {activeTab === 'personalize' && (
               <PersonalizeSection
@@ -476,12 +470,12 @@ export default function RoyalDashboard() {
           </div>
         </main>
 
-        {/* TABLET HORIZONTAL NAV */}
-        <nav className="rm-tablet-nav" style={{
+        {/* ══ TABLET HORIZONTAL NAV (768–1023px) ══ */}
+        <nav className="ry-tablet-nav" style={{
           position: 'fixed', top: 56, left: 0, right: 0, zIndex: 150,
           height: 48,
-          background: 'rgba(253,245,246,.97)',
-          borderBottom: '1px solid rgba(196,80,106,.12)',
+          background: `rgba(11,25,41,.97)`,
+          borderBottom: `1px solid rgba(200,216,232,.12)`,
           backdropFilter: 'blur(16px)',
           alignItems: 'stretch',
           display: 'none',
@@ -491,7 +485,7 @@ export default function RoyalDashboard() {
           {tabs.map(tab => (
             <button
               key={tab.id}
-              className={`rm-tab ${activeTab === tab.id ? 'rm-tab-active' : ''}`}
+              className={`ry-tab ${activeTab === tab.id ? 'ry-tab-active' : ''}`}
               onClick={() => setActiveTab(tab.id)}
               style={{
                 display: 'flex', alignItems: 'center', gap: 7,
@@ -499,7 +493,7 @@ export default function RoyalDashboard() {
                 background: 'transparent',
                 border: '1px solid transparent',
                 borderRadius: 8,
-                color: activeTab === tab.id ? '#7B1A2E' : 'rgba(166,50,72,.45)',
+                color: activeTab === tab.id ? R.silver3 : R.silver4,
                 cursor: 'pointer',
                 fontFamily: "'Cinzel', serif",
                 fontSize: 9, fontWeight: 600, letterSpacing: '.1em',
@@ -508,39 +502,39 @@ export default function RoyalDashboard() {
               <span style={{ opacity: activeTab === tab.id ? 1 : .65, flexShrink: 0 }}>{tab.icon}</span>
               {tab.label}
               {activeTab === tab.id && (
-                <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#A63248', boxShadow: '0 0 6px rgba(166,50,72,.5)', marginLeft: 2, flexShrink: 0 }} />
+                <div style={{ width: 4, height: 4, borderRadius: '50%', background: R.accent, marginLeft: 2, flexShrink: 0 }} />
               )}
             </button>
           ))}
         </nav>
 
-        {/* PHONE BOTTOM NAV */}
-        <nav className="rm-mobile-nav" style={{
+        {/* ══ PHONE BOTTOM NAV (< 768px) ══ */}
+        <nav className="ry-mobile-nav" style={{
           position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200,
           minHeight: 68,
-          background: 'rgba(253,245,246,.98)',
-          borderTop: '1px solid rgba(196,80,106,.15)',
+          background: `rgba(7,18,32,.98)`,
+          borderTop: `1px solid rgba(200,216,232,.15)`,
           backdropFilter: 'blur(20px)',
           display: 'none',
           alignItems: 'flex-start',
           justifyContent: 'stretch',
-          boxShadow: '0 -4px 30px rgba(123,26,46,.08)'
+          boxShadow: '0 -4px 24px rgba(0,0,0,.4)'
         }}>
           <div style={{
             position: 'absolute', top: 0, left: '10%', right: '10%', height: 1,
-            background: 'linear-gradient(90deg,transparent,rgba(196,80,106,.3),transparent)'
+            background: `linear-gradient(90deg,transparent,rgba(200,216,232,.3),transparent)`
           }} />
           {tabs.map(tab => (
             <button
               key={tab.id}
-              className="rm-mobile-tab"
+              className="ry-mobile-tab"
               onClick={() => setActiveTab(tab.id)}
               style={{
                 flex: 1, display: 'flex', flexDirection: 'column',
                 alignItems: 'center', justifyContent: 'center', gap: 4,
                 background: 'transparent', border: 'none', cursor: 'pointer',
-                borderTop: activeTab === tab.id ? '2px solid #A63248' : '2px solid transparent',
-                color: activeTab === tab.id ? '#A63248' : 'rgba(166,50,72,.35)',
+                borderTop: activeTab === tab.id ? `2px solid ${R.accent}` : '2px solid transparent',
+                color: activeTab === tab.id ? R.silver : R.silver4,
                 padding: '10px 4px 8px',
                 minWidth: 0,
                 minHeight: 56,
@@ -555,7 +549,7 @@ export default function RoyalDashboard() {
               <span style={{
                 fontFamily: "'Cinzel', serif", fontSize: 7, letterSpacing: '.08em',
                 textTransform: 'uppercase', fontWeight: 600,
-                color: activeTab === tab.id ? '#A63248' : 'rgba(166,50,72,.3)',
+                color: activeTab === tab.id ? R.silver : R.silver4,
                 overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                 maxWidth: '100%'
               }}>

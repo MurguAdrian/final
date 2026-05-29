@@ -808,25 +808,25 @@ export default function InvitatiiDigitalePage() {
                       <em>{theme.name}</em>
                     </h2>
                     <p className="vid-theme-sub">{theme.desc}</p>
-                  <div className="vid-btns">
-  {['nature', 'lux', 'boho', 'royal','minimal', 'romantic'].includes(theme.id) ? (
-    <Link href={theme.demoPath} className="vid-btn-demo">
-      Vezi demo
-    </Link>
-  ) : (
-    <span className="vid-btn-demo-soon">
-      Vezi demo
-    </span>
-  )}
+<div className="vid-btns">
+                    {['nature', 'lux', 'boho', 'royal','minimal', 'romantic'].includes(theme.id) ? (
+                      <Link href={theme.demoPath} className="vid-btn-demo">
+                        Vezi demo
+                      </Link>
+                    ) : (
+                      <span className="vid-btn-demo-soon">
+                        Vezi demo
+                      </span>
+                    )}
 
-  <Link
-    href={`/invitatii-digitale/alege/${theme.id}`}
-    className="vid-btn-choose"
-    style={{ background: theme.accent }}
-  >
-    Alege această temă
-  </Link>
-</div>
+                    <Link
+                      href="/checkout"
+                      className="vid-btn-choose"
+                      style={{ background: theme.accent }}
+                    >
+                      Alege această temă
+                    </Link>
+                  </div>
                   </div>
 
                   {/* devices — 4 mockups */}
