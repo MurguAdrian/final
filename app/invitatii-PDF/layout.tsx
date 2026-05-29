@@ -6,14 +6,14 @@ export const metadata = {
   openGraph: {
     type: 'website',
     siteName: 'VibeInvite',
-    url: SITE_DOMAIN + '/invitatii-online',
-    title: 'Invitatii Online — VibeInvite',
-    description: 'Creează invitații online moderne și ușor de distribuit pentru evenimentele tale.',
+    url: SITE_DOMAIN + '/invitatii-PDF',
+    title: 'Invitatii PDF — VibeInvite',
+    description: 'Creează invitații PDF moderne și ușor de distribuit pentru evenimentele tale.',
     images: [
       { url: DEFAULT_OG, width: OG_WIDTH, height: OG_HEIGHT, alt: 'VibeInvite — Invitații Online' },
     ],
   },
-  alternates: { canonical: SITE_DOMAIN + '/invitatii-online' },
+  alternates: { canonical: SITE_DOMAIN + '/invitatii-PDF' },
 }
 
 export default function InvitatiiOnlineLayout({ children }: { children: React.ReactNode }) {

@@ -65,19 +65,56 @@ export async function POST(req: Request) {
             to: email as string,
             subject: 'Setează parola pentru invitația ta Vibe Invite',
             html: `
-              <div style="font-family: sans-serif; padding: 20px;">
-                <h2>Bun venit! ✨</h2>
-                <p>Apasă pe butonul de mai jos pentru a-ți seta parola:</p>
-                <a href="https://www.vibeinvite.ro/setup-password?token=${setupToken}" 
-                   style="background: black; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
-                  Setează Parola
-                </a>
-              </div>
+  <div style="background-color:#f4f6f8;padding:40px 0;">
+    <table align="center" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06);">
+      <tr>
+        <td style="padding:32px 32px 24px 32px;font-family:Arial,Helvetica,sans-serif;color:#111;">
+          
+          <h2 style="margin:0 0 12px 0;font-size:22px;font-weight:600;">
+            Bun venit pe Vibe Invite
+          </h2>
+
+          <p style="margin:0 0 20px 0;font-size:15px;line-height:1.6;color:#444;">
+            Ai primit o invitație care necesită configurarea unei parole pentru a-ți accesa contul.
+          </p>
+
+          <p style="margin:0 0 28px 0;font-size:15px;color:#444;">
+            Apasă pe butonul de mai jos pentru a continua:
+          </p>
+
+                      <a href="https://www.vibeinvite.ro/setup-password?token=${setupToken}" 
+             style="
+               display:inline-block;
+               background:#111;
+               color:#ffffff;
+               padding:14px 28px;
+               font-size:14px;
+               font-weight:600;
+               text-decoration:none;
+               border-radius:6px;
+             ">
+            Setează parola
+          </a>
+
+          <p style="margin:32px 0 0 0;font-size:13px;color:#777;">
+            Dacă nu ai solicitat această acțiune, poți ignora acest email în siguranță.
+          </p>
+
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:16px 32px;background:#fafafa;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#999;text-align:center;border-top:1px solid #eee;">
+          © ${new Date().getFullYear()} VibeInvite.ro · Toate drepturile rezervate
+        </td>
+      </tr>
+    </table>
+  </div>
             `
           });
           if (error) console.error("❌ EROARE RESEND:", error);
       } 
-      
+
 // CAZUL B: MODUL FOTO
   else if (metadata.orderId && metadata.paymentType === 'reactivate') {
     const orderId = parseInt(metadata.orderId);
@@ -100,5 +137,4 @@ export async function POST(req: Request) {
 }
 
 
-//Etalon
 

@@ -53,7 +53,7 @@ function Logo() {
    NAV ITEMS
 ═══════════════════════════════════════════════════════════════ */
 const NAV_ITEMS = [
-  { label: 'Invitații Online',   href: '/invitatii-online' },
+  { label: 'Invitații Online',   href: '/invitatii-PDF' },
   { label: 'Invitații Digitale', href: '/invitatii-digitale' },
   { label: 'Prețuri',            href: '/preturi' },
   { label: 'Despre',             href: '/despre' },

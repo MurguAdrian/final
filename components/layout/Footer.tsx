@@ -47,7 +47,7 @@ export default function Footer() {
             {[
               { label: 'Prețuri',                   href: '/preturi' },
               { label: 'Modele Invitații Digitale', href: '/invitatii-digitale' },
-              { label: 'Modele Invitații Instant',  href: '/invitatii-online' },
+              { label: 'Modele Invitații Instant',  href: '/invitatii-PDF' },
               { label: 'Despre VibeInvite',         href: '/despre' },
             ].map((item) => (
               <Link key={item.href} href={item.href} style={{ display: 'block', fontSize: '13px', color: 'rgba(26,18,8,.6)', textDecoration: 'none', marginBottom: '8px' }}>
