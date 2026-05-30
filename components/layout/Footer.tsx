@@ -63,6 +63,7 @@ export default function Footer() {
             </p>
             {[
               { label: 'Termeni și Condiții', href: '/termeni' },
+                            { label: 'GDPR', href: '/gdpr' },
               { label: 'Politica Cookie',     href: '/politica' },
             ].map((item) => (
               <Link key={item.href} href={item.href} style={{ display: 'block', fontSize: '13px', color: 'rgba(26,18,8,.6)', textDecoration: 'none', marginBottom: '8px' }}>
