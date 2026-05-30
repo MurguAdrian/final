@@ -4,9 +4,17 @@ import React, { useState } from 'react';
 export default function MinimalRsvpForm({ orderId, showAccommodation, showTransport }: any) {
   const [submitted, setSubmitted] = useState(false);
   const [isComing, setIsComing] = useState("true");
+  const [gdprConsent, setGdprConsent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Validate GDPR consent
+    if (!gdprConsent) {
+      alert('Vă rugăm să acceptați colectarea datelor personale pentru a continua.');
+      return;
+    }
+
     const formData = new FormData(e.currentTarget);
     const payload = {
       orderId,
@@ -155,7 +163,31 @@ export default function MinimalRsvpForm({ orderId, showAccommodation, showTransp
             </>
           )}
 
-          <button type="submit" className="mn-submit-btn">
+          {/* GDPR Consent Section */}
+          <div style={{ background: 'rgba(200,80,58,.06)', border: '1.5px solid rgba(200,80,58,.15)', borderRadius: '8px', padding: '12px 14px', marginBottom: '16px', marginTop: '20px' }}>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '11px', color: 'rgba(200,80,58,.65)', lineHeight: '1.5', marginBottom: '10px', fontStyle: 'italic' }}>
+              <strong>🔒 Date Protejate:</strong> Datele tale (nume, preferințe) se vor colecta și șterge după 12 luni. <strong>NU colectăm date medicale.</strong>
+              <a href="https://vibeinvite.ro/politica" target="_blank" rel="noopener" style={{ color: '#C8503A', textDecoration: 'underline', marginLeft: '4px' }}>Citire completă</a>
+            </p>
+            <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer', userSelect: 'none' }}>
+              <input 
+                type="checkbox" 
+                checked={gdprConsent}
+                onChange={(e) => setGdprConsent(e.target.checked)}
+                style={{ marginTop: '2px', width: '15px', height: '15px', cursor: 'pointer', accentColor: '#C8503A' }}
+              />
+              <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: '#111111', fontStyle: 'italic', lineHeight: '1.4' }}>
+                Accept colectarea datelor conform Politicii de Confidențialitate. *
+              </span>
+            </label>
+          </div>
+
+          <button 
+            type="submit" 
+            className="mn-submit-btn"
+            disabled={!gdprConsent}
+            style={{ opacity: !gdprConsent ? 0.55 : 1, cursor: !gdprConsent ? 'not-allowed' : 'pointer' }}
+          >
             <span style={{ position: 'relative', zIndex: 1 }}>Confirmă Prezența →</span>
           </button>
         </div>

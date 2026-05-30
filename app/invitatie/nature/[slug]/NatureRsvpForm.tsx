@@ -4,9 +4,17 @@ import React, { useState } from 'react';
 export default function NatureRsvpForm({ orderId, showAccommodation, showTransport }: any) {
   const [submitted, setSubmitted] = useState(false);
   const [isComing, setIsComing] = useState("true");
+  const [gdprConsent, setGdprConsent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Validate GDPR consent
+    if (!gdprConsent) {
+      alert('Vă rugăm să acceptați colectarea datelor personale pentru a continua.');
+      return;
+    }
+
     const formData = new FormData(e.currentTarget);
     const payload = {
       orderId,
@@ -150,7 +158,31 @@ export default function NatureRsvpForm({ orderId, showAccommodation, showTranspo
             </>
           )}
 
-          <button type="submit" className="nat-submit-btn">
+          {/* GDPR Consent Section */}
+          <div style={{ background: 'rgba(154,123,63,.06)', border: '1.5px solid rgba(154,123,63,.15)', borderRadius: '10px', padding: '12px 14px', marginBottom: '18px', marginTop: '22px' }}>
+            <p style={{ fontFamily: "'Cormorant', serif", fontSize: '12px', color: 'rgba(107,122,94,.65)', lineHeight: '1.5', marginBottom: '10px', fontStyle: 'italic' }}>
+              <strong>🔒 Date Protejate:</strong> Datele tale se colectează și șterg după 12 luni. <strong>NU colectăm date medicale.</strong>
+              <a href="https://vibeinvite.ro/politica" target="_blank" rel="noopener" style={{ color: '#3A5E33', textDecoration: 'underline', marginLeft: '4px' }}>Citire completă</a>
+            </p>
+            <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer', userSelect: 'none' }}>
+              <input 
+                type="checkbox" 
+                checked={gdprConsent}
+                onChange={(e) => setGdprConsent(e.target.checked)}
+                style={{ marginTop: '3px', width: '16px', height: '16px', cursor: 'pointer', accentColor: '#3A5E33' }}
+              />
+              <span style={{ fontFamily: "'Cormorant', serif", fontSize: '12px', color: '#1C2218', fontStyle: 'italic', lineHeight: '1.5' }}>
+                Accept colectarea datelor conform Politicii de Confidențialitate. *
+              </span>
+            </label>
+          </div>
+
+          <button 
+            type="submit" 
+            className="nat-submit-btn"
+            disabled={!gdprConsent}
+            style={{ opacity: !gdprConsent ? 0.55 : 1, cursor: !gdprConsent ? 'not-allowed' : 'pointer' }}
+          >
             <span style={{ position: 'relative', zIndex: 1 }}>✦ Confirmă Prezența ✦</span>
           </button>
         </div>

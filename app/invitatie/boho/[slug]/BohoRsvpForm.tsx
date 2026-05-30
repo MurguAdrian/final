@@ -4,9 +4,17 @@ import React, { useState } from 'react';
 export default function BohoRsvpForm({ orderId, showAccommodation, showTransport }: any) {
   const [submitted, setSubmitted] = useState(false);
   const [isComing, setIsComing] = useState("true");
+  const [gdprConsent, setGdprConsent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Validate GDPR consent
+    if (!gdprConsent) {
+      alert('Vă rugăm să acceptați colectarea datelor personale pentru a continua.');
+      return;
+    }
+
     const formData = new FormData(e.currentTarget);
     const payload = {
       orderId,
@@ -160,7 +168,33 @@ export default function BohoRsvpForm({ orderId, showAccommodation, showTransport
             </>
           )}
 
-          <button type="submit" className="bh-submit-btn">
+          {/* GDPR Consent Section */}
+          <div style={{ background: 'rgba(193,127,62,.06)', border: '1.5px solid rgba(193,127,62,.15)', borderRadius: '12px', padding: '14px 16px', marginBottom: '20px', marginTop: '24px' }}>
+            <p style={{ fontFamily: "'EB Garamond', serif", fontSize: '12px', color: 'rgba(107,78,42,.7)', lineHeight: '1.6', marginBottom: '12px', fontStyle: 'italic' }}>
+              <strong>🔒 Protecția Datelor:</strong> Datele tale personale (nume, preferințe) vor fi colectate și stocate pentru gestionarea acestui eveniment. <strong>NU vom colecta date medicale sau numere de minori.</strong> Datele se vor șterge automat după 12 luni. 
+              <a href="https://vibeinvite.ro/politica" target="_blank" rel="noopener noreferrer" style={{ color: '#C17F3E', textDecoration: 'underline', marginLeft: '4px' }}>
+                Citire completă
+              </a>
+            </p>
+            <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer', userSelect: 'none' }}>
+              <input 
+                type="checkbox" 
+                checked={gdprConsent}
+                onChange={(e) => setGdprConsent(e.target.checked)}
+                style={{ marginTop: '3px', width: '16px', height: '16px', cursor: 'pointer', accentColor: '#C17F3E' }}
+              />
+              <span style={{ fontFamily: "'EB Garamond', serif", fontSize: '12px', color: '#4A3728', fontStyle: 'italic', lineHeight: '1.5' }}>
+                Sunt de acord cu colectarea și prelucrarea datelor mele personale conform Politicii de Confidențialitate. *
+              </span>
+            </label>
+          </div>
+
+          <button 
+            type="submit" 
+            className="bh-submit-btn"
+            disabled={!gdprConsent}
+            style={{ opacity: !gdprConsent ? 0.6 : 1, cursor: !gdprConsent ? 'not-allowed' : 'pointer' }}
+          >
             <span style={{ position:'relative', zIndex:1 }}>✦ Confirmă Prezența ✦</span>
           </button>
         </div>
