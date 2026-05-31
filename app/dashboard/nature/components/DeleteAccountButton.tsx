@@ -49,9 +49,17 @@ export const DeleteAccountButton = () => {
         <div
           onClick={() => !loading && setOpen(false)}
           style={{
-            position: 'fixed', inset: 0, zIndex: 9999,
-            background: 'rgba(30,20,15,.5)', backdropFilter: 'blur(5px)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16,
+            position: 'fixed',
+            top: 0, left: 0, right: 0, bottom: 0,
+            zIndex: 99999,
+            background: 'rgba(30,20,15,.5)',
+            backdropFilter: 'blur(5px)',
+            WebkitBackdropFilter: 'blur(5px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 16,
+            margin: 0,
           }}>
           <div
             onClick={e => e.stopPropagation()}
@@ -62,6 +70,8 @@ export const DeleteAccountButton = () => {
               maxWidth: 400, width: '100%',
               boxShadow: '0 24px 64px rgba(80,40,20,.2)',
               fontFamily: "'Lora', serif",
+              position: 'relative',
+              zIndex: 100000,
             }}>
 
             <div style={{
