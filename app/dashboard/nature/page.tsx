@@ -296,8 +296,7 @@ export default function NatureDashboard() {
               {isProfileComplete ? 'LIVE' : 'SETUP'}
             </div>
                  <div style={{ marginBottom: 8 }}>
-              <DeleteAccountButton fullWidth />
-            </div>
+   <DeleteAccountButton />            </div>
             <button
               className="nat-signout"
               onClick={() => window.location.href = '/login'}
@@ -402,8 +401,7 @@ export default function NatureDashboard() {
               <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(154,123,63,.22),transparent)' }} />
             </div>
      <div style={{ marginBottom: 8 }}>
-              <DeleteAccountButton fullWidth />
-            </div>
+   <DeleteAccountButton />            </div>
             <button
               className="nat-signout"
               onClick={() => window.location.href = '/login'}
