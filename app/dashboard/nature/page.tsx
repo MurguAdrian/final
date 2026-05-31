@@ -230,6 +230,8 @@ export default function NatureDashboard() {
       `}</style>
 
       <div className="nat-app-shell">
+        {/* PORTAL TARGET */}
+        <div id="modal-root" style={{ position: 'fixed', top: 0, left: 0, zIndex: 999999, pointerEvents: 'none' }} />
 
         {/* BG botanical corners */}
         <div style={{ position: 'absolute', top: 0, left: 0, width: 'min(160px,18vw)', height: 'min(160px,18vw)', opacity: .55, pointerEvents: 'none', zIndex: 0 }}>

@@ -7,10 +7,12 @@ export const DeleteAccountButton = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [portalTarget, setPortalTarget] = useState<Element | null>(null);
   const router = useRouter();
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setPortalTarget(document.getElementById('modal-root'));
+  }, []);
 
   const handleDelete = async () => {
     if (!confirmed) return;
@@ -35,6 +37,7 @@ export const DeleteAccountButton = () => {
       style={{
         position: 'fixed',
         top: 0, left: 0, right: 0, bottom: 0,
+        width: '100vw', height: '100vh',
         zIndex: 999999,
         background: 'rgba(30,20,15,.55)',
         backdropFilter: 'blur(6px)',
@@ -43,6 +46,7 @@ export const DeleteAccountButton = () => {
         alignItems: 'center',
         justifyContent: 'center',
         padding: 20,
+        pointerEvents: 'all',
       }}>
       <div
         onClick={e => e.stopPropagation()}
@@ -153,7 +157,7 @@ export const DeleteAccountButton = () => {
         </svg>
       </button>
 
-      {mounted && open && createPortal(modal, document.body)}
+      {open && portalTarget && createPortal(modal, portalTarget)}
     </>
   );
 };
