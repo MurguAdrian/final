@@ -61,18 +61,15 @@ export const DeleteAccountButton = ({ fullWidth = false }: { fullWidth?: boolean
           onClick={() => { setOpen(true); setConfirmed(false); }}
           title="Șterge cont"
           style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
-            padding: '6px 10px', borderRadius: 8,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '6px 8px', borderRadius: 8,
             background: 'rgba(200,80,60,.05)',
             border: '1px solid rgba(200,80,60,.18)',
             color: 'rgba(180,60,40,.7)',
-            fontFamily: "'Cinzel', serif", fontSize: 8, fontWeight: 600,
-            letterSpacing: '.14em', textTransform: 'uppercase' as const,
-            cursor: 'pointer', whiteSpace: 'nowrap' as const,
-            transition: 'all .2s',
+            cursor: 'pointer', transition: 'all .2s',
+            height: '100%',
           }}>
           <TrashIcon />
-          <span>Ștergere</span>
         </button>
       )}
 
