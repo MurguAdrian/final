@@ -4,6 +4,7 @@ import { SummarySection } from './components/SummarySection';
 import { PersonalizeSection } from './components/PersonalizeSection';
 import { MenuSection } from './components/MenuSection';
 import { PhotosSection } from './components/PhotosSection';
+import { DeleteAccountButton } from './components/DeleteAccountButton';
 
 export default function RomanticDashboard() {
   const [activeTab, setActiveTab] = useState('summary');
@@ -218,7 +219,8 @@ export default function RomanticDashboard() {
           font-size: 16px !important;
         }
       `}</style>
-
+{/* PORTAL TARGET */}
+        <div id="modal-root" style={{ position: 'fixed', top: 0, left: 0, zIndex: 999999, pointerEvents: 'none' }} />
       <div className="rm-app-shell">
 
         {/* BG ATMOSPHERE */}
@@ -282,7 +284,7 @@ export default function RomanticDashboard() {
               }} />
               {isProfileComplete ? 'LIVE' : 'SETUP'}
             </div>
-
+<DeleteAccountButton />
             <button
               className="rm-signout"
               onClick={() => window.location.href = '/login'}
@@ -408,7 +410,7 @@ export default function RomanticDashboard() {
               <div style={{ width: 4, height: 4, background: 'rgba(196,80,106,.35)', transform: 'rotate(45deg)', margin: '0 6px' }} />
               <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(196,80,106,.2),transparent)' }} />
             </div>
-
+<DeleteAccountButton />
             <button
               className="rm-signout"
               onClick={() => window.location.href = '/login'}

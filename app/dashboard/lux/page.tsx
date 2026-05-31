@@ -4,6 +4,7 @@ import { SummarySection } from './components/SummarySection';
 import { PersonalizeSection } from './components/PersonalizeSection';
 import { MenuSection } from './components/MenuSection';
 import { PhotosSection } from './components/PhotosSection';
+import { DeleteAccountButton } from './components/DeleteAccountButton';
 
 export default function LuxDashboard() {
   const [activeTab, setActiveTab] = useState('summary');
@@ -223,7 +224,8 @@ export default function LuxDashboard() {
           font-size: 16px !important;
         }
       `}</style>
-
+{/* PORTAL TARGET */}
+        <div id="modal-root" style={{ position: 'fixed', top: 0, left: 0, zIndex: 999999, pointerEvents: 'none' }} />
       <div className="lux-app-shell">
 
         {/* BG ATMOSPHERE */}
@@ -302,7 +304,7 @@ export default function LuxDashboard() {
               }} />
               {isProfileComplete ? 'LIVE' : 'SETUP'}
             </div>
-
+<DeleteAccountButton />
             <button
               className="lux-signout"
               onClick={() => window.location.href = '/login'}
@@ -440,7 +442,7 @@ export default function LuxDashboard() {
               <div style={{ width: 4, height: 4, background: 'rgba(212,175,55,.3)', transform: 'rotate(45deg)', margin: '0 6px' }} />
               <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(212,175,55,.2),transparent)' }} />
             </div>
-
+<DeleteAccountButton />
             <button
               className="lux-signout"
               onClick={() => window.location.href = '/login'}

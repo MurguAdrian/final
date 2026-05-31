@@ -4,6 +4,7 @@ import { SummarySection }     from './components/SummarySection';
 import { PersonalizeSection } from './components/PersonalizeSection';
 import { MenuSection }        from './components/MenuSection';
 import { PhotosSection }      from './components/PhotosSection';
+import { DeleteAccountButton } from './components/DeleteAccountButton';
 
 /* ── Design tokens – module-level (nu se recreează la fiecare render) ── */
 const ACCENT = '#C8503A';
@@ -214,7 +215,8 @@ export default function MinimalDashboard() {
         /* iOS: prevent zoom on input focus */
         input, textarea, select { font-size: 16px !important; }
       `}</style>
-
+{/* PORTAL TARGET */}
+        <div id="modal-root" style={{ position: 'fixed', top: 0, left: 0, zIndex: 999999, pointerEvents: 'none' }} />
       <div className="mn-app-shell">
 
         {/* BG subtle radial */}
@@ -244,6 +246,7 @@ export default function MinimalDashboard() {
               <div style={{ width: 5, height: 5, borderRadius: '50%', flexShrink: 0, background: isProfileComplete ? '#5a9a6a' : ACCENT, animation: 'mn-pulse 2s ease-in-out infinite' }} />
               {isProfileComplete ? 'LIVE' : 'SETUP'}
             </div>
+            <DeleteAccountButton />
             <button
               className="mn-signout"
               onClick={() => window.location.href = '/login'}
@@ -311,7 +314,7 @@ export default function MinimalDashboard() {
             </div>
 
             <div style={{ height: 1, background: RULE, marginBottom: 10 }} />
-
+<DeleteAccountButton />
             <button
               className="mn-signout"
               onClick={() => window.location.href = '/login'}

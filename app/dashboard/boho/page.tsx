@@ -4,6 +4,7 @@ import { SummarySection } from './components/SummarySection';
 import { PersonalizeSection } from './components/PersonalizeSection';
 import { MenuSection } from './components/MenuSection';
 import { PhotosSection } from './components/PhotosSection';
+import { DeleteAccountButton } from './components/DeleteAccountButton';
 
 export default function BohoDashboard() {
   const [activeTab, setActiveTab] = useState('summary');
@@ -216,7 +217,8 @@ export default function BohoDashboard() {
           font-size: 16px !important;
         }
       `}</style>
-
+{/* PORTAL TARGET */}
+        <div id="modal-root" style={{ position: 'fixed', top: 0, left: 0, zIndex: 999999, pointerEvents: 'none' }} />
       <div className="boho-app-shell">
 
         {/* BG TEXTURE */}
@@ -281,7 +283,7 @@ export default function BohoDashboard() {
               }} />
               {isProfileComplete ? 'LIVE' : 'SETUP'}
             </div>
-
+<DeleteAccountButton />
             <button
               className="boho-signout"
               onClick={() => window.location.href = '/login'}
@@ -398,7 +400,7 @@ export default function BohoDashboard() {
               </svg>
               <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(196,120,90,.2),transparent)' }} />
             </div>
-
+<DeleteAccountButton />
             <button
               className="boho-signout"
               onClick={() => window.location.href = '/login'}
