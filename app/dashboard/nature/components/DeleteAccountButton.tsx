@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export const DeleteAccountButton = ({ fullWidth = false }: { fullWidth?: boolean }) => {
+export const DeleteAccountButton = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
@@ -27,61 +27,31 @@ export const DeleteAccountButton = ({ fullWidth = false }: { fullWidth?: boolean
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lora:ital,wght@0,300;0,400;1,300&display=swap');
-        @keyframes del-fade-in { from { opacity:0; transform:scale(.97) } to { opacity:1; transform:scale(1) } }
-        .del-btn-icon:hover { background: rgba(200,80,60,.12) !important; border-color: rgba(200,80,60,.35) !important; color: rgba(180,60,40,.9) !important; }
-        .del-btn-full:hover { background: rgba(200,80,60,.1) !important; border-color: rgba(200,80,60,.35) !important; color: rgba(180,60,40,.85) !important; }
-        .del-cancel:hover { background: rgba(58,94,51,.12) !important; }
-        .del-confirm-btn:enabled:hover { background: rgba(180,55,35,.95) !important; }
-      `}</style>
+      <button
+        onClick={() => { setOpen(true); setConfirmed(false); }}
+        title="Șterge cont"
+        style={{
+          background: 'none', border: 'none',
+          cursor: 'pointer', padding: 6, borderRadius: 6,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: 'rgba(180,60,40,.5)', flexShrink: 0,
+        }}
+        onMouseEnter={e => { e.currentTarget.style.color = 'rgba(180,60,40,.9)'; e.currentTarget.style.background = 'rgba(200,80,60,.08)'; }}
+        onMouseLeave={e => { e.currentTarget.style.color = 'rgba(180,60,40,.5)'; e.currentTarget.style.background = 'none'; }}
+      >
+        <svg viewBox="0 0 20 20" fill="none" width="16" height="16">
+          <path d="M4 6h12M9 6V4h2v2M8 9v6M12 9v6M5 6l1 10h8l1-10"
+            stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
 
-      {/* ── BUTON: icon (header) sau full-width (sidebar) ── */}
-      {fullWidth ? (
-        <button
-          className="del-btn-full"
-          onClick={() => { setOpen(true); setConfirmed(false); }}
-          style={{
-            width: '100%',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-            padding: '9px 14px', borderRadius: 8,
-            background: 'rgba(200,80,60,.05)',
-            border: '1px solid rgba(200,80,60,.15)',
-            color: 'rgba(180,60,40,.55)',
-            fontFamily: "'Cinzel', serif", fontSize: 9, fontWeight: 600,
-            letterSpacing: '.18em', textTransform: 'uppercase',
-            cursor: 'pointer', transition: 'all .2s',
-          }}>
-          <TrashIcon />
-          Șterge Cont
-        </button>
-      ) : (
-<button
-          className="del-btn-icon"
-          onClick={() => { setOpen(true); setConfirmed(false); }}
-          title="Șterge cont"
-          style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: '6px 8px', borderRadius: 8,
-            background: 'rgba(200,80,60,.05)',
-            border: '1px solid rgba(200,80,60,.18)',
-            color: 'rgba(180,60,40,.7)',
-            cursor: 'pointer', transition: 'all .2s',
-            height: '100%',
-          }}>
-          <TrashIcon />
-        </button>
-      )}
-
-      {/* ── POPUP ── */}
       {open && (
         <div
           onClick={() => !loading && setOpen(false)}
           style={{
             position: 'fixed', inset: 0, zIndex: 9999,
             background: 'rgba(30,20,15,.5)', backdropFilter: 'blur(5px)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: 16,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16,
           }}>
           <div
             onClick={e => e.stopPropagation()}
@@ -92,17 +62,8 @@ export const DeleteAccountButton = ({ fullWidth = false }: { fullWidth?: boolean
               maxWidth: 400, width: '100%',
               boxShadow: '0 24px 64px rgba(80,40,20,.2)',
               fontFamily: "'Lora', serif",
-              position: 'relative',
-              animation: 'del-fade-in .22s ease both',
             }}>
 
-            {/* Linie decorativă */}
-            <div style={{
-              position: 'absolute', top: 0, left: '12%', right: '12%', height: 1,
-              background: 'linear-gradient(90deg,transparent,rgba(200,80,60,.35),transparent)'
-            }} />
-
-            {/* Icon */}
             <div style={{
               width: 48, height: 48, borderRadius: 14, margin: '0 auto 16px',
               background: 'rgba(200,80,60,.08)', border: '1px solid rgba(200,80,60,.2)',
@@ -115,35 +76,27 @@ export const DeleteAccountButton = ({ fullWidth = false }: { fullWidth?: boolean
             </div>
 
             <h3 style={{
-              fontFamily: "'Playfair Display', serif", fontSize: 22,
-              fontWeight: 400, fontStyle: 'italic', color: '#5A3020',
-              textAlign: 'center', margin: '0 0 10px'
+              fontFamily: "'Cinzel', serif", fontSize: 18,
+              fontWeight: 500, color: '#5A3020',
+              textAlign: 'center', margin: '0 0 10px', letterSpacing: '.06em'
             }}>Șterge Contul</h3>
 
-            <p style={{
-              fontSize: 14, color: 'rgba(90,48,32,.65)', textAlign: 'center',
-              lineHeight: 1.75, margin: '0 0 8px'
-            }}>
+            <p style={{ fontSize: 14, color: 'rgba(90,48,32,.65)', textAlign: 'center', lineHeight: 1.75, margin: '0 0 8px' }}>
               Această acțiune este{' '}
               <strong style={{ color: 'rgba(180,60,40,.85)' }}>permanentă și ireversibilă.</strong>
-              {' '}Se vor șterge invitația, confirmările invitaților, pozele și toate setările tale.
+              {' '}Se vor șterge invitația, confirmările, pozele și toate setările.
             </p>
 
-            <p style={{
-              fontSize: 13, color: 'rgba(180,60,40,.7)', textAlign: 'center',
-              lineHeight: 1.6, margin: '0 0 20px', fontStyle: 'italic',
-            }}>
+            <p style={{ fontSize: 13, color: 'rgba(180,60,40,.7)', textAlign: 'center', lineHeight: 1.6, margin: '0 0 20px', fontStyle: 'italic' }}>
               Nu vei primi nicio rambursare pentru suma plătită.
             </p>
 
-            {/* Checkbox */}
             <label style={{
               display: 'flex', alignItems: 'flex-start', gap: 10,
               cursor: 'pointer', marginBottom: 22,
               background: 'rgba(200,80,60,.04)',
               border: `1px solid ${confirmed ? 'rgba(200,80,60,.35)' : 'rgba(200,80,60,.15)'}`,
-              borderRadius: 10, padding: '10px 13px',
-              transition: 'border-color .2s',
+              borderRadius: 10, padding: '10px 13px', transition: 'border-color .2s',
             }}>
               <input
                 type="checkbox"
@@ -156,10 +109,8 @@ export const DeleteAccountButton = ({ fullWidth = false }: { fullWidth?: boolean
               </span>
             </label>
 
-            {/* Butoane */}
             <div style={{ display: 'flex', gap: 8 }}>
               <button
-                className="del-cancel"
                 onClick={() => setOpen(false)}
                 disabled={loading}
                 style={{
@@ -167,12 +118,11 @@ export const DeleteAccountButton = ({ fullWidth = false }: { fullWidth?: boolean
                   background: 'rgba(58,94,51,.07)', border: '1px solid rgba(58,94,51,.18)',
                   color: 'rgba(58,94,51,.75)', fontFamily: "'Cinzel', serif",
                   fontSize: 9, fontWeight: 600, letterSpacing: '.14em',
-                  textTransform: 'uppercase', cursor: 'pointer', transition: 'all .2s',
+                  textTransform: 'uppercase', cursor: 'pointer',
                 }}>
                 Anulează
               </button>
               <button
-                className="del-confirm-btn"
                 onClick={handleDelete}
                 disabled={!confirmed || loading}
                 style={{
@@ -183,7 +133,6 @@ export const DeleteAccountButton = ({ fullWidth = false }: { fullWidth?: boolean
                   fontFamily: "'Cinzel', serif", fontSize: 9, fontWeight: 600,
                   letterSpacing: '.14em', textTransform: 'uppercase',
                   cursor: confirmed && !loading ? 'pointer' : 'not-allowed',
-                  transition: 'all .2s',
                 }}>
                 {loading ? 'Se șterge...' : 'Șterge Definitiv'}
               </button>
@@ -194,10 +143,3 @@ export const DeleteAccountButton = ({ fullWidth = false }: { fullWidth?: boolean
     </>
   );
 };
-
-const TrashIcon = () => (
-  <svg viewBox="0 0 20 20" fill="none" width="14" height="14" style={{ flexShrink: 0 }}>
-    <path d="M4 6h12M9 6V4h2v2M8 9v6M12 9v6M5 6l1 11h8l1-11"
-      stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);

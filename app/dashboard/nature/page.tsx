@@ -295,7 +295,7 @@ export default function NatureDashboard() {
               }} />
               {isProfileComplete ? 'LIVE' : 'SETUP'}
             </div>
-<DeleteAccountButton fullWidth />
+<DeleteAccountButton />
             <button
               className="nat-signout"
               onClick={() => window.location.href = '/login'}
