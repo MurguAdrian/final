@@ -516,7 +516,7 @@ export default function Header() {
           >
             <div className="vh-mobile-badge">
               <span className="vh-mbdot" aria-hidden="true" />
-              Link invitație free · 3 minute
+              Link invitație · 5 minute
             </div>
 
             <ul className="vh-mobile-nav" style={{ marginTop: 12 }}>
@@ -542,7 +542,7 @@ export default function Header() {
               </Link>
               <Link href="/preturi" className="vh-mobile-cta" onClick={() => setOpen(false)}>
                 <span aria-hidden="true">✨</span>
-                Creează Invitația — E Free
+                Creează Invitația
               </Link>
             </div>
           </div>

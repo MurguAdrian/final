@@ -682,7 +682,7 @@ export default function DesprePage() {
             </p>
             <Link href="/preturi" className="vd-cta-btn">
               <span aria-hidden="true">✨</span>
-              Creează Invitația — E Free să Testezi
+              Creează Invitația
             </Link>
             <p className="vd-cta-note">Activare instant · Invitați nelimitați · Acces 12 luni</p>
           </div>

@@ -888,7 +888,7 @@ export default function InvitatiiDigitalePage() {
             <div><p className="vid-cta-pill"><span aria-hidden="true">💸</span>300 Lei · Plată Unică · Toate Temele Incluse</p></div>
             <div style={{ marginTop: 8 }}>
               <Link href="/preturi" className="vid-cta-btn">
-                <span aria-hidden="true">✨</span>Creează Invitația — E Free să Testezi
+                <span aria-hidden="true">✨</span>Creează Invitația
               </Link>
             </div>
           </div>
