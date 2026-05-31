@@ -4,6 +4,7 @@ import { SummarySection } from './components/SummarySection';
 import { PersonalizeSection } from './components/PersonalizeSection';
 import { MenuSection } from './components/MenuSection';
 import { PhotosSection } from './components/PhotosSection';
+import { DeleteAccountButton } from './components/DeleteAccountButton';
 
 export default function NatureDashboard() {
   const [activeTab, setActiveTab] = useState('summary');
@@ -294,7 +295,9 @@ export default function NatureDashboard() {
               }} />
               {isProfileComplete ? 'LIVE' : 'SETUP'}
             </div>
-
+                 <div style={{ marginBottom: 8 }}>
+              <DeleteAccountButton fullWidth />
+            </div>
             <button
               className="nat-signout"
               onClick={() => window.location.href = '/login'}
@@ -398,7 +401,9 @@ export default function NatureDashboard() {
               <div style={{ width: 4, height: 4, background: 'rgba(154,123,63,.35)', transform: 'rotate(45deg)', margin: '0 6px' }} />
               <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(154,123,63,.22),transparent)' }} />
             </div>
-
+     <div style={{ marginBottom: 8 }}>
+              <DeleteAccountButton fullWidth />
+            </div>
             <button
               className="nat-signout"
               onClick={() => window.location.href = '/login'}

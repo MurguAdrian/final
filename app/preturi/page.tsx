@@ -521,8 +521,7 @@ export default function PricingPage() {
             </p>
 
             <h1 className="vp-h1">
-              Tot ce ai nevoie, <em>într-un singur</em>{' '}
-              <strong>pachet</strong>
+              Prețuri invitații digitale pentru nuntă
             </h1>
 
             <p className="vp-lead">
