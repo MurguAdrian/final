@@ -1070,7 +1070,7 @@ export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) 
         }
       `}</style>
 
-      <div className="menu-section-wrap" style={{ animation: 'rm-fade-in .55s ease both', fontFamily: F.body }}>
+      <div className="menu-section-wrap" style={{ animation: 'rm-fade-in .55s ease both', fontFamily: F.body, paddingBottom: '30vh', }}>
 
         {/* HEADER */}
         <div style={{ marginBottom: SP.xs, textAlign: 'center' }}>

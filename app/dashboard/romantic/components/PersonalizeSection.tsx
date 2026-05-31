@@ -1334,8 +1334,14 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         }
       `}</style>
 
-      <form onSubmit={handleSave} className="ps-wrap" style={{ paddingBottom: 80, fontFamily: F.ui }}>
-
+<form
+  onSubmit={handleSave}
+  className="ps-wrap"
+  style={{
+    paddingBottom: '30vh', // CHEIA
+    fontFamily: F.ui,
+  }}
+>
         {/* HEADER */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: SP.xl, marginBottom: SP.xxxl, width: '100%' }}>
           <div>
