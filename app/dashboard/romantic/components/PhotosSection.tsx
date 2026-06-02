@@ -778,6 +778,10 @@
 //   );
 // };
 
+
+
+
+
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { C, F, FS, SP, BR, IS, SH, GR, KEYFRAMES } from '../romanticTokens';
@@ -949,17 +953,14 @@ export const PhotosSection = ({ initialData: _initialData, orderId, onSave }: Ph
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&display=swap');
         ${KEYFRAMES}
         *, *::before, *::after { box-sizing: border-box; }
-        /* Prevent iOS zoom */
         input, textarea, select { font-size: ${FS.input}px !important; -webkit-text-size-adjust: 100%; }
 
-        /* Hover states */
         .photo-card:hover .photo-overlay { opacity: 1 !important; }
         .photo-card:hover img            { transform: scale(1.06); }
         .rose-btn:hover                  { transform: translateY(-2px); box-shadow: ${SH.btnRoseHover} !important; }
         .ghost-btn:hover                 { background: rgba(196,80,106,.1) !important; border-color: rgba(196,80,106,.45) !important; }
         .dl-btn:hover                    { background: rgba(196,80,106,.12) !important; }
 
-        /* Layout */
         .gallery-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -967,7 +968,6 @@ export const PhotosSection = ({ initialData: _initialData, orderId, onSave }: Ph
         }
         .photos-section-wrap { width: 100%; max-width: 900px; box-sizing: border-box; overflow-x: hidden; }
 
-        /* Responsive */
         @media (max-width: 600px) {
           .gallery-header-row  { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
           .gallery-header-btns { width: 100% !important; }

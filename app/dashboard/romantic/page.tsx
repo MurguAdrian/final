@@ -1273,6 +1273,11 @@
 // }
 
 
+
+
+
+
+
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { SummarySection }     from './components/SummarySection';
@@ -1287,52 +1292,20 @@ import {
 // ─── GOOGLE FONTS ────────────────────────────────────────
 const FONTS_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,300;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&family=Lato:wght@300;400;700&display=swap');`;
 
-/**
- * GLOBAL_CSS — stiluri globale STRICT pentru zona de aplicație.
- *
- * De ce nu punem asta în globals.css?
- * → Vrem izolare completă. Aceste reguli se aplică NUMAI când
- *   utilizatorul este în dashboard. Nu interferează cu site-ul.
- *
- * Principii de scroll:
- * ─────────────────────────────────────────────────────────
- * 1. html + body = height:100%, overflow:hidden.
- *    Body NU scrollează. Niciodată.
- *
- * 2. .rm-app-shell = position:fixed, inset:0.
- *    Prinde aplicația de viewport — chiar dacă layout-ul
- *    părinte ar adăuga padding sau margin accidental.
- *    height:100dvh cu fallback 100vh.
- *
- * 3. .rm-sidebar = propriul overflow-y:auto (dacă conținutul
- *    depășește înălțimea).
- *
- * 4. .rm-main = SINGURUL scroll vizibil pentru utilizator.
- *    overflow-y:auto + -webkit-overflow-scrolling:touch +
- *    touch-action:pan-y = scroll fluid pe iOS/Android.
- *
- * 5. Navbarele (mobile header, tablet nav, mobile bottom nav)
- *    sunt position:fixed față de viewport, NU față de shell.
- *    Astfel nu interferează cu scroll-ul din .rm-main.
- */
 const GLOBAL_CSS = `
 ${FONTS_IMPORT}
 ${KEYFRAMES}
 
-/* ─── RESET MINIMAL ─────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* ─── HTML + BODY: cadru rigid, fără scroll propriu ──────── */
 html {
   height: 100%;
-  /* Previne resize automat al textului pe iOS la rotire */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  /* Previne pinch-zoom */
   touch-action: manipulation;
 }
 
@@ -1342,18 +1315,9 @@ body {
   background: ${C.cream};
   color: ${C.text};
   -webkit-font-smoothing: antialiased;
-  /*
-    overflow:hidden pe body = CORECT și NECESAR.
-    Scroll-ul se face exclusiv în .rm-main.
-    Previne double-scrollbar și scroll accidental al paginii.
-  */
   overflow: hidden;
 }
 
-/*
-  Previne zoom pe focus pe iOS (font-size < 16px triggereaza zoom).
-  16px este minimul OBLIGATORIU pentru inputuri pe mobil.
-*/
 input, textarea, select {
   font-size: ${FS.input}px !important;
   -webkit-text-size-adjust: 100%;
@@ -1361,29 +1325,18 @@ input, textarea, select {
 
 img, svg { max-width: 100%; }
 
-/* ─── APP SHELL ──────────────────────────────────────────────
-   position:fixed + inset:0 = ancorare absolută la viewport.
-   Mai robustă decât display:flex + height:100dvh singur,
-   pentru că nu depinde de ce face layout-ul părinte.
-   
-   Folosim AMBELE: fixed pentru ancorare + dvh pentru înălțime
-   corectă pe browsere care suportă dynamic viewport height.
-──────────────────────────────────────────────────────────── */
 .rm-app-shell {
   position: fixed;
   inset: 0;
   width: 100%;
   height: 100dvh;
-  height: 100vh; /* fallback */
+  height: 100vh;
   display: flex;
   overflow: hidden;
   background: ${C.cream};
   z-index: 0;
 }
 
-/* ─── SIDEBAR ────────────────────────────────────────────────
-   Lățime fixă, scroll intern dacă e necesar.
-──────────────────────────────────────────────────────────── */
 .rm-sidebar {
   width: ${LY.sidebarWidth}px;
   flex-shrink: 0;
@@ -1394,16 +1347,6 @@ img, svg { max-width: 100%; }
   overscroll-behavior-y: contain;
 }
 
-/* ─── MAIN SCROLL CONTAINER ──────────────────────────────────
-   Acesta este SINGURUL element scrollabil vizibil.
-   
-   flex:1           = ocupă tot spațiul rămas după sidebar
-   height:100%      = nu depășește shell-ul
-   overflow-y:auto  = scroll natural, apare doar când e nevoie
-   touch-action:pan-y = iOS/Android recunosc gestul vertical
-   overscroll-behavior-y:contain = previne pull-to-refresh
-                                   și propagarea scroll-ului
-──────────────────────────────────────────────────────────── */
 .rm-main {
   flex: 1;
   min-width: 0;
@@ -1417,14 +1360,9 @@ img, svg { max-width: 100%; }
   z-index: 5;
   background: ${C.cream};
   padding: ${SP.mainPad} ${SP.mainPadH};
-  /* Scroll smooth pentru UX mai bun */
   scroll-behavior: smooth;
 }
 
-/* ─── MOBILE HEADER ──────────────────────────────────────────
-   position:fixed față de VIEWPORT (nu față de shell).
-   z-index mai mare decât shell-ul (200 > 0).
-──────────────────────────────────────────────────────────── */
 .rm-mobile-header {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -1439,13 +1377,11 @@ img, svg { max-width: 100%; }
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   gap: 8px;
-  /* GPU layer pentru performanță */
   will-change: transform;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
 }
 
-/* ─── TABLET HORIZONTAL NAV ──────────────────────────────── */
 .rm-tablet-nav {
   position: fixed;
   top: ${LY.mobileHeaderH}px;
@@ -1467,13 +1403,11 @@ img, svg { max-width: 100%; }
   transform: translateZ(0);
 }
 
-/* ─── MOBILE BOTTOM NAV ──────────────────────────────────── */
 .rm-mobile-nav {
   position: fixed;
   bottom: 0; left: 0; right: 0;
   z-index: 200;
   min-height: ${LY.mobileNavH}px;
-  /* Safe area pentru iPhone cu notch / Dynamic Island */
   padding-bottom: env(safe-area-inset-bottom, 0px);
   height: calc(${LY.mobileNavH}px + env(safe-area-inset-bottom, 0px));
   background: rgba(253,245,246,0.98);
@@ -1489,16 +1423,11 @@ img, svg { max-width: 100%; }
   transform: translateZ(0);
 }
 
-/* ─── RESPONSIVE BREAKPOINTS ─────────────────────────────────
-   Tablet  ≤1023px: ascunde sidebar, afișează header+tablet nav
-   Mobile  ≤767px:  ascunde tablet nav, afișează bottom nav
-──────────────────────────────────────────────────────────── */
 @media (max-width: ${LY.bpTablet}px) {
   .rm-sidebar       { display: none !important; }
   .rm-mobile-header { display: flex !important; }
   .rm-tablet-nav    { display: flex !important; }
   .rm-main {
-    /* Header 56px + tablet nav 48px + breathing room 16px */
     padding-top: ${LY.mobileHeaderH + LY.tabletNavH + 16}px !important;
     padding-left: 16px !important;
     padding-right: 16px !important;
@@ -1510,7 +1439,6 @@ img, svg { max-width: 100%; }
   .rm-tablet-nav { display: none !important; }
   .rm-mobile-nav { display: flex !important; }
   .rm-main {
-    /* Header 56px + bottom nav 68px + safe area + breathing room */
     padding-top: ${LY.mobileHeaderH + 16}px !important;
     padding-left: 12px !important;
     padding-right: 12px !important;
@@ -1529,7 +1457,6 @@ img, svg { max-width: 100%; }
   }
 }
 
-/* ─── INTERACTIVITATE ────────────────────────────────────── */
 .rm-tab {
   transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
@@ -1635,7 +1562,6 @@ const LoadingScreen = () => (
     <style>{`
       ${FONTS_IMPORT}
       ${KEYFRAMES}
-      /* Resetăm orice overflow moștenit pentru loading screen */
       html, body { height: 100%; overflow: hidden; }
     `}</style>
     <div style={{
@@ -1816,17 +1742,10 @@ export default function RomanticDashboard() {
     <>
       <style>{GLOBAL_CSS}</style>
 
-      {/* PORTAL TARGET pentru modals — z-index maxim */}
       <div id="modal-root" style={{ position: 'fixed', top: 0, left: 0, zIndex: 999999, pointerEvents: 'none' }} />
 
-      {/*
-        .rm-app-shell:
-        position:fixed + inset:0 = ancorare absolută la viewport.
-        Chiar dacă layout-ul párinte adaugă ceva, shell-ul rămâne fixat.
-      */}
       <div className="rm-app-shell">
 
-        {/* BG ATMOSPHERE — pointer-events:none, nu interfereaza cu scroll */}
         <div style={{
           position: 'absolute', inset: 0,
           pointerEvents: 'none', zIndex: 0,
@@ -1961,13 +1880,7 @@ export default function RomanticDashboard() {
         </aside>
 
         {/* ── MAIN CONTENT ────────────────────────────── */}
-        {/*
-          .rm-main este SINGURUL element care scrollează.
-          Conținutul din interior poate fi oricât de lung —
-          scroll-ul se face intern, body-ul NU se mișcă.
-        */}
         <main className="rm-main">
-          {/* Corner decoration — position:fixed, nu interfereaza cu scroll */}
           <div style={{
             position: 'fixed', top: 0, right: 0,
             width: 'min(120px,12vw)', height: 'min(120px,12vw)',
@@ -1980,7 +1893,6 @@ export default function RomanticDashboard() {
             </svg>
           </div>
 
-          {/* Tab content */}
           <div style={{ animation: 'rm-fade-in .5s ease both', position: 'relative', zIndex: 5, width: '100%' }}>
             {activeTab === 'summary' && (
               <SummarySection isComplete={isProfileComplete} />

@@ -564,6 +564,10 @@
 //   </div>
 // );
 
+
+
+
+
 "use client";
 import React, { useEffect, useState } from 'react';
 
@@ -649,18 +653,15 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
         @keyframes rm-spin    { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
         @keyframes rm-fade-in { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
 
-        /* Hover states */
         .rm-row:hover        { background: rgba(196,80,106,.03) !important; }
         .rm-export-btn:hover { background: rgba(196,80,106,.1) !important; border-color: rgba(196,80,106,.45) !important; color: #7B1A2E !important; }
         .rm-copy-btn:hover   { background: linear-gradient(135deg,#7B1A2E,#A63248,#C4506A,#A63248,#7B1A2E) !important; }
         .rm-share-btn:hover  { background: rgba(196,80,106,.1) !important; border-color: rgba(196,80,106,.45) !important; color: #7B1A2E !important; }
 
-        /* Layout wrappers */
         .sum-wrap  { width: 100%; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
         .sum-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
         .sum-link-row { display: flex; gap: 10px; flex-wrap: wrap; }
 
-        /* Stats grid — responsive */
         .sum-stats-grid {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
@@ -668,17 +669,14 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
           margin-bottom: 28px;
         }
 
-        /* Table scroll — touch-friendly */
         .sum-table-wrap {
           overflow-x: auto;
           -webkit-overflow-scrolling: auto;
           overscroll-behavior-x: contain;
         }
 
-        /* Prevent iOS zoom pe input */
         .sum-link-input { font-size: 16px !important; -webkit-appearance: none; appearance: none; }
 
-        /* Responsive adjustments */
         @media (max-width: 900px) { .sum-stats-grid { grid-template-columns: repeat(3, 1fr) !important; } }
         @media (max-width: 600px) {
           .sum-stats-grid   { grid-template-columns: repeat(2, 1fr) !important; }
@@ -692,7 +690,6 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
         }
         @media (max-width: 400px) { .sum-stats-grid { grid-template-columns: repeat(2, 1fr) !important; } }
 
-        /* Responsive table columns */
         @media (max-width: 640px) { .th-cazare, .td-cazare, .th-transport, .td-transport { display: none !important; } }
         @media (max-width: 480px) { .th-details, .td-details { display: none !important; } }
       `}</style>

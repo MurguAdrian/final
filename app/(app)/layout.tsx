@@ -14,17 +14,6 @@ export const metadata: Metadata = {
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    /*
-      Acest div învelitor forțează:
-        - 100% width & height față de viewport
-        - Nicio moștenire de padding/margin din RootLayout
-        - overflow:hidden la nivel de shell
-          (scroll-ul propriu-zis este controlat în interiorul componentelor)
-      
-      IMPORTANT: RootLayout (app/layout.tsx) NU trebuie să rendeze
-      header/footer global în interiorul acestui layout.
-      Dacă le redă, mută-le în propriul lor (site)/layout.tsx.
-    */
     <div
       style={{
         position: 'fixed',

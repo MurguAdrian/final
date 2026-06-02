@@ -1024,6 +1024,10 @@
 //   );
 // };
 
+
+
+
+
 "use client";
 import React, { useState, useEffect } from 'react';
 import { C, F, FS, SP, BR, IS, SH, GR, KEYFRAMES } from '../romanticTokens';
@@ -1255,7 +1259,6 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         ${KEYFRAMES}
         *, *::before, *::after { box-sizing: border-box; }
 
-        /* Prevent iOS zoom — OBLIGATORIU ≥16px */
         .ps-input {
           font-size: ${FS.input}px !important;
           -webkit-text-size-adjust: 100%;
@@ -1313,7 +1316,6 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         .ps-toggle { transition: all .2s; }
         .ps-toggle:hover { border-color: rgba(196,80,106,.4) !important; background: rgba(196,80,106,.08) !important; }
 
-        /* Grid layouts */
         .ps-two-col        { display: grid; grid-template-columns: 1fr 1fr; gap: ${SP.lg}px; }
         .ps-religious-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         .ps-rsvp-grid      { display: grid; grid-template-columns: 1fr 1fr; gap: ${SP.lg}px; }
@@ -1334,14 +1336,14 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         }
       `}</style>
 
-<form
-  onSubmit={handleSave}
-  className="ps-wrap"
-  style={{
-    paddingBottom: '30vh', // CHEIA
-    fontFamily: F.ui,
-  }}
->
+      <form
+        onSubmit={handleSave}
+        className="ps-wrap"
+        style={{
+          paddingBottom: '30vh',
+          fontFamily: F.ui,
+        }}
+      >
         {/* HEADER */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: SP.xl, marginBottom: SP.xxxl, width: '100%' }}>
           <div>

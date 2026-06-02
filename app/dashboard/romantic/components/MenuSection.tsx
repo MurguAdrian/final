@@ -662,6 +662,13 @@
 // };
 
 
+
+
+
+
+
+
+
 "use client";
 import React, { useState, useEffect } from 'react';
 import { C, F, FS, SP, BR, IS, SH, GR, KEYFRAMES } from '../romanticTokens';
@@ -712,7 +719,7 @@ const inputStyle: React.CSSProperties = {
   border: `1px solid rgba(196,80,106,.22)`,
   borderRadius: BR.md,
   fontFamily: F.body,
-  fontSize: FS.input, // ≥16px — previne zoom iOS
+  fontSize: FS.input,
   color: C.dark,
   outline: 'none',
   transition: 'all .2s',
@@ -1025,7 +1032,6 @@ export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) 
         ${KEYFRAMES}
         *, *::before, *::after { box-sizing: border-box; }
 
-        /* Prevent iOS zoom on input focus */
         .rm-inp {
           font-size: ${FS.input}px !important;
           -webkit-text-size-adjust: 100%;
@@ -1033,17 +1039,14 @@ export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) 
           appearance: none;
         }
 
-        /* Focus / placeholder */
         .rm-inp:focus        { border-color: rgba(196,80,106,.55) !important; background: rgba(255,240,242,.85) !important; outline: none; }
         .rm-inp::placeholder { color: rgba(138,74,88,.35) !important; font-style: italic; }
 
-        /* Hovers */
         .rm-del-btn:hover { background: rgba(196,80,106,.12) !important; border-color: rgba(196,80,106,.4) !important; color: ${C.crimson} !important; }
         .rm-add-btn:hover { background: rgba(247,221,226,.45) !important; border-color: rgba(196,80,106,.5) !important; color: ${C.crimson} !important; }
         .rm-save-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 18px 50px rgba(123,26,46,.48) !important; }
         .rm-save-btn:disabled { opacity: .6; cursor: not-allowed; }
 
-        /* Scroll wrapper — previne overflow lateral */
         .menu-section-wrap {
           width: 100%;
           max-width: 780px;
@@ -1051,7 +1054,6 @@ export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) 
           overflow-x: hidden;
         }
 
-        /* Responsive */
         @media (max-width: 600px) {
           .menu-col-labels { display: none !important; }
           .menu-item-row {
@@ -1070,7 +1072,7 @@ export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) 
         }
       `}</style>
 
-      <div className="menu-section-wrap" style={{ animation: 'rm-fade-in .55s ease both', fontFamily: F.body, paddingBottom: '30vh', }}>
+      <div className="menu-section-wrap" style={{ animation: 'rm-fade-in .55s ease both', fontFamily: F.body, paddingBottom: '30vh' }}>
 
         {/* HEADER */}
         <div style={{ marginBottom: SP.xs, textAlign: 'center' }}>
