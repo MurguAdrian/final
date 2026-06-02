@@ -860,6 +860,12 @@ const thStyle: React.CSSProperties = {
   textAlign: 'left', fontWeight: 600,
   borderBottom: '1px solid rgba(196,80,106,.12)',
   whiteSpace: 'nowrap',
+  
+  // Adaugă astea două linii pentru a bloca capul de tabel sus:
+  position: 'sticky',
+  top: 0,
+  background: '#FFF8F9', // E important să aibă un fundal solid, altfel textul din tabel se va suprapune urât pe sub el când dai scroll
+  zIndex: 2
 };
 
 const tdStyle: React.CSSProperties = {

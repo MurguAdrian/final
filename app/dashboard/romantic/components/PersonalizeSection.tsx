@@ -1340,7 +1340,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         onSubmit={handleSave}
         className="ps-wrap"
         style={{
-          paddingBottom: '30vh',
+          paddingBottom: '10vh',
           fontFamily: F.ui,
         }}
       >
