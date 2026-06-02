@@ -58,54 +58,54 @@
 
 
 export const C = {
-  // Roșuri / Rose (Saturate și întunecate pentru butoane/acțiuni)
-  crimson:        '#5C0E1E', // Mai închis, contrast excelent pe fundal deschis
-  rose:           '#8A2539',
-  peony:          '#A63B52',
-  blush:          '#CD7784',
-  blush2:         '#E3AAB3',
-  blush3:         '#F7E6E8',
-  petal:          '#F4D2D7',
+  // Roșuri / Rose
+  crimson:        '#7B1A2E',
+  rose:           '#A63248',
+  peony:          '#C4506A',
+  blush:          '#E8A0A8',
+  blush2:         '#F2C8CE',
+  blush3:         '#FAF0F2',
+  petal:          '#F7DDE2',
  
-  // Creme / Ivory (Curățate de tentă gălbuie/murdară pentru fundaluri curate)
-  cream:          '#FDF8F9',
-  cream2:         '#F4E4E6',
-  creamBg:        '#FFFBFB',
-  creamDeep:      '#F5E6E8',
+  // Creme / Ivory
+  cream:          '#FCF9F9',
+  cream2:         '#F5ECEE',
+  creamBg:        '#FFFFFF',
+  creamDeep:      '#F7ECEF',
  
-  // Aur (Accentuat pentru a nu părea un maro șters)
-  gold:           '#A3804E', // Direcționat spre un bronz cu contrast ridicat
-  gold2:          '#D4B98B',
+  // Aur
+  gold:           '#B59461',
+  gold2:          '#E3CDA6',
  
-  // Texte (AICI E SCHIMBAREA MAJORĂ: Contrast maxim, lizibile instant)
-  dark:           '#1A0509', // Aproape negru pentru titluri mari
-  text:           '#261115', // Textul principal (lizibilitate 100%)
-  textLight:      '#5C4045', // Text secundar / Labels
-  textMuted:      '#7D6065', // Text dezactivat/sugestii (fără opacități care blurează pe mobile)
+  // Texte (Trecere pe bleumarin-închis – rețeta secretă a dashboard-urilor premium)
+  dark:           '#0F172A', // Slate 900
+  text:           '#1E293B', // Slate 800 (Cel mai odihnitor contrast pentru tabele lungi)
+  textLight:      '#475569', // Slate 600
+  textMuted:      '#64748B', // Slate 500
  
-  // Borduri & Overlay (Întărite pentru a delimita clar tabelele și cardurile)
-  borderFaint:    'rgba(138,37,57,0.15)',
-  borderLight:    'rgba(138,37,57,0.25)',
-  borderMed:      'rgba(138,37,57,0.4)',
-  borderStrong:   'rgba(138,37,57,0.6)',
-  roseFaint:      'rgba(138,37,57,0.06)',
-  roseDim:        'rgba(138,37,57,0.65)',
-  roseAlpha08:    'rgba(138,37,57,0.08)',
-  roseAlpha12:    'rgba(138,37,57,0.14)',
+  // Borduri & Overlay
+  borderFaint:    'rgba(30,41,59,0.08)',
+  borderLight:    'rgba(30,41,59,0.15)',
+  borderMed:      'rgba(30,41,59,0.25)',
+  borderStrong:   'rgba(30,41,59,0.45)',
+  roseFaint:      'rgba(166,50,72,0.05)',
+  roseDim:        'rgba(166,50,72,0.6)',
+  roseAlpha08:    'rgba(166,50,72,0.08)',
+  roseAlpha12:    'rgba(166,50,72,0.12)',
  
   // Overlay modal
-  overlayBg:      'rgba(26,5,9,0.7)',
+  overlayBg:      'rgba(15,23,42,0.6)',
  
-  // Status (Culori standard de Dashboard: aprinse și clare pentru decizii rapide)
-  successGreen:   '#166534', // Verde închis, lizibil ca text (Tailwind green-800)
-  successBg:      '#F0FDF4', // Fundal curat pentru badge
-  successBorder:  '#BBF7D0',
-  errorRed:       '#991B1B', // Roșu alertă
-  warningOrange:  '#9A3412', // Portocaliu ars pentru contrast
+  // Status
+  successGreen:   '#15803D',
+  successBg:      '#DCFCE7',
+  successBorder:  '#86EFAC',
+  errorRed:       '#B91C1C',
+  warningOrange:  '#C2410C',
  
   // White
   white:          '#FFFFFF',
-  whiteSoft:      '#FAFAFA',
+  whiteSoft:      '#F8FAFC',
 } as const;
 
 
