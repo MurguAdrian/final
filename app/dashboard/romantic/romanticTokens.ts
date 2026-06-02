@@ -1,55 +1,114 @@
+// export const C = {
+//   // Roșuri / Rose
+//   crimson:        '#7B1A2E',
+//   rose:           '#A63248',
+//   peony:          '#C4506A',
+//   blush:          '#E8A0A8',
+//   blush2:         '#F2C8CE',
+//   blush3:         '#FAF0F2',
+//   petal:          '#F7DDE2',
+ 
+//   // Creme / Ivory
+//   cream:          '#FDF5F6',
+//   cream2:         '#F5E8EA',
+//   creamBg:        '#FEF8F8',
+//   creamDeep:      '#FAF0F2',
+ 
+//   // Aur
+//   gold:           '#C8A87A',
+//   gold2:          '#E8CEAA',
+ 
+//   // Texte
+//   dark:           '#2A0A12',
+//   text:           '#3D1520',
+//   textLight:      '#8A4A58',
+//   textMuted:      'rgba(61,21,32,0.5)',
+ 
+//   // Borduri & Overlay
+//   borderFaint:    'rgba(196,80,106,0.1)',
+//   borderLight:    'rgba(196,80,106,0.15)',
+//   borderMed:      'rgba(196,80,106,0.22)',
+//   borderStrong:   'rgba(196,80,106,0.35)',
+//   roseFaint:      'rgba(196,80,106,0.05)',
+//   roseDim:        'rgba(166,50,72,0.5)',
+//   roseAlpha08:    'rgba(196,80,106,0.08)',
+//   roseAlpha12:    'rgba(196,80,106,0.12)',
+ 
+//   // Overlay modal
+//   overlayBg:      'rgba(30,20,15,0.55)',
+ 
+//   // Status
+//   successGreen:   '#5a9e5d',
+//   successBg:      'rgba(76,175,80,0.09)',
+//   successBorder:  'rgba(76,175,80,0.28)',
+//   errorRed:       'rgba(200,80,60,0.82)',
+//   warningOrange:  'rgba(255,165,0,0.8)',
+ 
+//   // White
+//   white:          '#FFFBFB',
+//   whiteSoft:      '#FDF8F0',
+// } as const;
+ 
+
+
+
+
+// ─── FONTURI ─────────────────────────────────────────────
+
+
+
 export const C = {
-  // Roșuri / Rose
-  crimson:        '#7B1A2E',
-  rose:           '#A63248',
-  peony:          '#C4506A',
-  blush:          '#E8A0A8',
-  blush2:         '#F2C8CE',
-  blush3:         '#FAF0F2',
-  petal:          '#F7DDE2',
+  // Roșuri / Rose (Saturate și întunecate pentru butoane/acțiuni)
+  crimson:        '#5C0E1E', // Mai închis, contrast excelent pe fundal deschis
+  rose:           '#8A2539',
+  peony:          '#A63B52',
+  blush:          '#CD7784',
+  blush2:         '#E3AAB3',
+  blush3:         '#F7E6E8',
+  petal:          '#F4D2D7',
  
-  // Creme / Ivory
-  cream:          '#FDF5F6',
-  cream2:         '#F5E8EA',
-  creamBg:        '#FEF8F8',
-  creamDeep:      '#FAF0F2',
+  // Creme / Ivory (Curățate de tentă gălbuie/murdară pentru fundaluri curate)
+  cream:          '#FDF8F9',
+  cream2:         '#F4E4E6',
+  creamBg:        '#FFFBFB',
+  creamDeep:      '#F5E6E8',
  
-  // Aur
-  gold:           '#C8A87A',
-  gold2:          '#E8CEAA',
+  // Aur (Accentuat pentru a nu părea un maro șters)
+  gold:           '#A3804E', // Direcționat spre un bronz cu contrast ridicat
+  gold2:          '#D4B98B',
  
-  // Texte
-  dark:           '#2A0A12',
-  text:           '#3D1520',
-  textLight:      '#8A4A58',
-  textMuted:      'rgba(61,21,32,0.5)',
+  // Texte (AICI E SCHIMBAREA MAJORĂ: Contrast maxim, lizibile instant)
+  dark:           '#1A0509', // Aproape negru pentru titluri mari
+  text:           '#261115', // Textul principal (lizibilitate 100%)
+  textLight:      '#5C4045', // Text secundar / Labels
+  textMuted:      '#7D6065', // Text dezactivat/sugestii (fără opacități care blurează pe mobile)
  
-  // Borduri & Overlay
-  borderFaint:    'rgba(196,80,106,0.1)',
-  borderLight:    'rgba(196,80,106,0.15)',
-  borderMed:      'rgba(196,80,106,0.22)',
-  borderStrong:   'rgba(196,80,106,0.35)',
-  roseFaint:      'rgba(196,80,106,0.05)',
-  roseDim:        'rgba(166,50,72,0.5)',
-  roseAlpha08:    'rgba(196,80,106,0.08)',
-  roseAlpha12:    'rgba(196,80,106,0.12)',
+  // Borduri & Overlay (Întărite pentru a delimita clar tabelele și cardurile)
+  borderFaint:    'rgba(138,37,57,0.15)',
+  borderLight:    'rgba(138,37,57,0.25)',
+  borderMed:      'rgba(138,37,57,0.4)',
+  borderStrong:   'rgba(138,37,57,0.6)',
+  roseFaint:      'rgba(138,37,57,0.06)',
+  roseDim:        'rgba(138,37,57,0.65)',
+  roseAlpha08:    'rgba(138,37,57,0.08)',
+  roseAlpha12:    'rgba(138,37,57,0.14)',
  
   // Overlay modal
-  overlayBg:      'rgba(30,20,15,0.55)',
+  overlayBg:      'rgba(26,5,9,0.7)',
  
-  // Status
-  successGreen:   '#5a9e5d',
-  successBg:      'rgba(76,175,80,0.09)',
-  successBorder:  'rgba(76,175,80,0.28)',
-  errorRed:       'rgba(200,80,60,0.82)',
-  warningOrange:  'rgba(255,165,0,0.8)',
+  // Status (Culori standard de Dashboard: aprinse și clare pentru decizii rapide)
+  successGreen:   '#166534', // Verde închis, lizibil ca text (Tailwind green-800)
+  successBg:      '#F0FDF4', // Fundal curat pentru badge
+  successBorder:  '#BBF7D0',
+  errorRed:       '#991B1B', // Roșu alertă
+  warningOrange:  '#9A3412', // Portocaliu ars pentru contrast
  
   // White
-  white:          '#FFFBFB',
-  whiteSoft:      '#FDF8F0',
+  white:          '#FFFFFF',
+  whiteSoft:      '#FAFAFA',
 } as const;
- 
-// ─── FONTURI ─────────────────────────────────────────────
+
+
 export const F = {
   display:   "'Playfair Display', serif",
   heading:   "'Cinzel', serif",
