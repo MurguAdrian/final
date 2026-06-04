@@ -569,7 +569,7 @@
 
 
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 interface SummaryProps {
   isComplete: boolean;
@@ -578,6 +578,7 @@ interface SummaryProps {
 export const SummarySection = ({ isComplete }: SummaryProps) => {
   const [data, setData]       = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const tableWrapRef          = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -592,6 +593,47 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
       }
     }
     fetchData();
+  }, []);
+
+  /*
+    Fix iOS scroll propagation.
+    
+    Pe iOS, `overscroll-behavior: none` nu e suficient — Safari îl ignoră
+    în anumite cazuri când un scroll container copil ajunge la capăt.
+    
+    Soluția robustă: interceptăm touchmove și prevenim propagarea
+    DOAR când scroll-ul ar depăși limitele container-ului.
+    Astfel scroll-ul rămâne "captiv" în .sum-table-wrap.
+  */
+  useEffect(() => {
+    const el = tableWrapRef.current;
+    if (!el) return;
+
+    let startY = 0;
+
+    const onTouchStart = (e: TouchEvent) => {
+      startY = e.touches[0].clientY;
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      const deltaY    = e.touches[0].clientY - startY;
+      const atTop     = el.scrollTop === 0;
+      const atBottom  = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+
+      // Dacă e la capătul de sus și încearcă să mai urce → blochează
+      // Dacă e la capătul de jos și încearcă să mai coboare → blochează
+      if ((atTop && deltaY > 0) || (atBottom && deltaY < 0)) {
+        e.preventDefault();
+      }
+    };
+
+    el.addEventListener('touchstart', onTouchStart, { passive: true });
+    el.addEventListener('touchmove',  onTouchMove,  { passive: false });
+
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchmove',  onTouchMove);
+    };
   }, []);
 
   const exportToExcel = () => {
@@ -670,19 +712,22 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
         }
 
         /*
-          Wrapper-ul tabelului:
-          - overflow-x: auto  → scroll orizontal când coloanele nu încap
-          - overflow-y: auto  → scroll vertical pentru 300+ rânduri
-          - max-height fluid  → ocupă spațiul disponibil fără să depășească viewport-ul
-          - -webkit-overflow-scrolling: touch → scroll cu momentum pe iOS
-          - overscroll-behavior: contain → previne propagarea scroll-ului spre .rm-main
+          Scroll container pentru tabel.
+          
+          overscroll-behavior: none → dezactivează bounce/propagare pe Chrome/Android.
+          Pe iOS Safari overscroll-behavior e ignorat, de aceea avem și
+          listener-ul de touchmove din useEffect de mai sus.
+          
+          touch-action: pan-y → îi spune browser-ului că acceptăm scroll vertical,
+          ceea ce permite evenimentele pasive și îmbunătățește performanța.
         */
         .sum-table-wrap {
           overflow-x: auto;
           overflow-y: auto;
           max-height: clamp(300px, 55vh, 620px);
           -webkit-overflow-scrolling: touch;
-          overscroll-behavior: contain;
+          overscroll-behavior: none;
+          touch-action: pan-y;
           border-radius: 0 0 16px 16px;
         }
 
@@ -690,16 +735,15 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
 
         @media (max-width: 900px) { .sum-stats-grid { grid-template-columns: repeat(3, 1fr) !important; } }
         @media (max-width: 600px) {
-          .sum-stats-grid   { grid-template-columns: repeat(2, 1fr) !important; }
-          .sum-link-row     { flex-direction: column !important; }
+          .sum-stats-grid      { grid-template-columns: repeat(2, 1fr) !important; }
+          .sum-link-row        { flex-direction: column !important; }
           .sum-link-row input  { min-width: 0 !important; width: 100% !important; }
           .sum-link-row button { width: 100% !important; }
           .sum-header          { flex-direction: column !important; align-items: flex-start !important; }
           .rm-export-btn span  { display: none; }
           .share-label         { display: none; }
           .rm-share-btn        { padding: 10px 12px !important; }
-          /* Pe mobile max-height mai mic — keyboard + safe area reduc spațiul */
-          .sum-table-wrap { max-height: clamp(240px, 45vh, 480px) !important; }
+          .sum-table-wrap      { max-height: clamp(240px, 45vh, 480px) !important; }
         }
         @media (max-width: 400px) {
           .sum-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
@@ -804,7 +848,6 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
         <div style={{ background: 'rgba(196,80,106,.02)', border: '1px solid rgba(196,80,106,.15)', borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 24px rgba(123,26,46,.05),inset 0 1px 0 rgba(196,80,106,.05)', position: 'relative' }}>
           <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: 1, background: 'linear-gradient(90deg,transparent,rgba(196,80,106,.35),transparent)' }} />
 
-          {/* Table header — în afara scroll-ului, mereu vizibil */}
           <div style={{ padding: 'clamp(16px,3vw,24px)', borderBottom: '1px solid rgba(196,80,106,.1)' }}>
             <p style={{ fontFamily: "'Cinzel', serif", fontSize: 8, letterSpacing: '.32em', textTransform: 'uppercase', color: 'rgba(166,50,72,.4)', marginBottom: 5 }}>Registrul Invitaților</p>
             <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(16px,3vw,24px)', fontStyle: 'italic', fontWeight: 300, color: '#3D1520', margin: 0 }}>
@@ -817,13 +860,8 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
             </h3>
           </div>
 
-          {/*
-            .sum-table-wrap are overflow-y: auto + max-height fluid.
-            Scroll-ul se face DOAR aici, nu propagă spre .rm-main.
-            thead sticky funcționează corect pentru că poziția sticky
-            e relativă la acest scroll container, nu la viewport.
-          */}
-          <div className="sum-table-wrap">
+          {/* ref atașat aici — useEffect adaugă listeners pe acest element */}
+          <div className="sum-table-wrap" ref={tableWrapRef}>
             <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 400 }}>
               <thead>
                 <tr style={{ background: '#FFF8F9' }}>
@@ -878,7 +916,6 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
           </div>
         </div>
 
-        {/* Spațiu respirabil jos */}
         <div style={{ height: 32 }} />
       </div>
     </>
@@ -893,7 +930,6 @@ const thStyle: React.CSSProperties = {
   textAlign: 'left', fontWeight: 600,
   borderBottom: '1px solid rgba(196,80,106,.12)',
   whiteSpace: 'nowrap',
-  /* Sticky față de .sum-table-wrap (scroll container-ul imediat) */
   position: 'sticky',
   top: 0,
   background: '#FFF8F9',
@@ -908,11 +944,11 @@ const tdStyle: React.CSSProperties = {
 // ─── SUB-COMPONENTS ──────────────────────────────────────
 const StatCard = ({ title, value, icon }: any) => (
   <div style={{ background: 'rgba(196,80,106,.03)', border: '1px solid rgba(196,80,106,.15)', borderRadius: 14, padding: 'clamp(12px,2vw,20px) clamp(10px,1.5vw,16px)', textAlign: 'center' as const, position: 'relative', overflow: 'hidden', boxShadow: '0 2px 16px rgba(123,26,46,.04),inset 0 1px 0 rgba(196,80,106,.06)' }}>
-    <div style={{ position: 'absolute', top: 0, left: '15%', right: '15%', height: 1, background: 'linear-gradient(90deg,transparent,rgba(196,80,106,.3),transparent)' }} />
-    {icon && <div style={{ width: 32, height: 32, borderRadius: 9, background: 'rgba(196,80,106,.07)', border: '1px solid rgba(196,80,106,.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 8px', flexShrink: 0 }}>{icon}</div>}
-    <p style={{ fontFamily: "'Cinzel', serif", fontSize: 7, letterSpacing: '.2em', textTransform: 'uppercase', color: 'rgba(166,50,72,.4)', marginBottom: 6 }}>{title}</p>
-    <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(24px,3.5vw,38px)', fontWeight: 300, color: '#3D1520', margin: 0, lineHeight: 1 }}>{value || 0}</h4>
-  </div>
+  <div style={{ position: 'absolute', top: 0, left: '15%', right: '15%', height: 1, background: 'linear-gradient(90deg,transparent,rgba(196,80,106,.3),transparent)' }} />
+  {icon && <div style={{ width: 32, height: 32, borderRadius: 9, background: 'rgba(196,80,106,.07)', border: '1px solid rgba(196,80,106,.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 8px', flexShrink: 0 }}>{icon}</div>}
+  <p style={{ fontFamily: "'Cinzel', serif", fontSize: 7, letterSpacing: '.2em', textTransform: 'uppercase', color: 'rgba(166,50,72,.4)', marginBottom: 6 }}>{title}</p>
+  <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(24px,3.5vw,38px)', fontWeight: 300, color: '#3D1520', margin: 0, lineHeight: 1 }}>{value || 0}</h4>
+</div>
 );
 
 const RoseDivider = () => (
