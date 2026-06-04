@@ -232,7 +232,7 @@
 //                 <input
 //                   readOnly
 //                   className="sum-link-input"
-//                   value={`https://vibeinvite.ro/invitatie/romantic/${userSlug}`}
+//                   value={`https://www.vibeinvite.ro/invitatie/romantic/${userSlug}`}
 //                   style={{
 //                     flex: 1, minWidth: 0, padding: '10px 14px',
 //                     background: 'rgba(253,245,246,.8)', border: '1px solid rgba(196,80,106,.18)',
@@ -246,7 +246,7 @@
 //                 <button
 //                   className="rm-copy-btn"
 //                   onClick={() => {
-//                     navigator.clipboard.writeText(`https://vibeinvite.ro/invitatie/romantic/${userSlug}`);
+//                     navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/romantic/${userSlug}`);
 //                     alert("Copiat!");
 //                   }}
 //                   style={{
@@ -263,7 +263,7 @@
 //                 <button
 //                   className="rm-share-btn"
 //                   onClick={() => {
-//                     const url = `https://vibeinvite.ro/invitatie/romantic/${userSlug}`;
+//                     const url = `https://www.vibeinvite.ro/invitatie/romantic/${userSlug}`;
 //                     if (navigator.share) {
 //                       navigator.share({
 //                         title: 'Invitație Nuntă',
@@ -813,13 +813,13 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                 <input
                   readOnly
                   className="sum-link-input"
-                  value={`https://vibeinvite.ro/invitatie/romantic/${userSlug}`}
+                  value={`https://www.vibeinvite.ro/invitatie/romantic/${userSlug}`}
                   style={{ flex: 1, minWidth: 0, padding: '10px 14px', background: 'rgba(253,245,246,.8)', border: '1px solid rgba(196,80,106,.18)', borderRadius: 8, color: '#A63248', fontFamily: "'Cinzel', serif", letterSpacing: '.06em', outline: 'none', width: '100%', boxSizing: 'border-box' as const, WebkitAppearance: 'none' as any }}
                 />
-                <button className="rm-copy-btn" onClick={() => { navigator.clipboard.writeText(`https://vibeinvite.ro/invitatie/romantic/${userSlug}`); alert("Copiat!"); }} style={{ padding: '10px 20px', borderRadius: 8, background: 'rgba(196,80,106,.12)', border: '1px solid rgba(196,80,106,.3)', color: '#7B1A2E', fontFamily: "'Cinzel', serif", fontSize: 16, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap' as const }}>
+                <button className="rm-copy-btn" onClick={() => { navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/romantic/${userSlug}`); alert("Copiat!"); }} style={{ padding: '10px 20px', borderRadius: 8, background: 'rgba(196,80,106,.12)', border: '1px solid rgba(196,80,106,.3)', color: '#7B1A2E', fontFamily: "'Cinzel', serif", fontSize: 16, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap' as const }}>
                   Copiază
                 </button>
-                <button className="rm-share-btn" onClick={() => { const url = `https://vibeinvite.ro/invitatie/romantic/${userSlug}`; if (navigator.share) { navigator.share({ title: 'Invitație Nuntă', text: 'Te invităm să fii alături de noi în ziua nunții noastre 💍', url }).catch(() => {}); } else { window.open(`https://wa.me/?text=${encodeURIComponent('Te invităm să fii alături de noi 💍 ' + url)}`, '_blank'); } }} style={{ padding: '10px 16px', borderRadius: 8, background: 'rgba(196,80,106,.06)', border: '1px solid rgba(196,80,106,.22)', color: 'rgba(166,50,72,.75)', fontFamily: "'Cinzel', serif", fontSize: 13, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', display: 'flex', alignItems: 'center', gap: 7, whiteSpace: 'nowrap' as const, flexShrink: 0 }}>
+                <button className="rm-share-btn" onClick={() => { const url = `https://www.vibeinvite.ro/invitatie/romantic/${userSlug}`; if (navigator.share) { navigator.share({ title: 'Invitație Nuntă', text: 'Te invităm să fii alături de noi în ziua nunții noastre 💍', url }).catch(() => {}); } else { window.open(`https://wa.me/?text=${encodeURIComponent('Te invităm să fii alături de noi 💍 ' + url)}`, '_blank'); } }} style={{ padding: '10px 16px', borderRadius: 8, background: 'rgba(196,80,106,.06)', border: '1px solid rgba(196,80,106,.22)', color: 'rgba(166,50,72,.75)', fontFamily: "'Cinzel', serif", fontSize: 13, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', display: 'flex', alignItems: 'center', gap: 7, whiteSpace: 'nowrap' as const, flexShrink: 0 }}>
                   <svg viewBox="0 0 20 20" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
                     <circle cx="15" cy="4" r="2" stroke="currentColor" strokeWidth="1.4" />
                     <circle cx="15" cy="16" r="2" stroke="currentColor" strokeWidth="1.4" />

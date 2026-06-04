@@ -203,7 +203,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                 <input
                   readOnly
                   className="sum-link-input"
-                  value={`https://vibeinvite.ro/invitatie/boho/${userSlug}`}
+                  value={`https://www.vibeinvite.ro/invitatie/boho/${userSlug}`}
                   style={{
                     flex: 1, minWidth: 0, padding: '10px 14px',
                     background: 'rgba(255,255,255,.7)', border: '1px solid rgba(196,120,90,.2)',
@@ -217,7 +217,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                 <button
                   className="boho-copy-btn"
                   onClick={() => {
-                    navigator.clipboard.writeText(`https://vibeinvite.ro/invitatie/boho/${userSlug}`);
+                    navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/boho/${userSlug}`);
                     alert("Copiat!");
                   }}
                   style={{
@@ -234,7 +234,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                 <button
                   className="boho-share-btn"
                   onClick={() => {
-                    const url = `https://vibeinvite.ro/invitatie/boho/${userSlug}`;
+                    const url = `https://www.vibeinvite.ro/invitatie/boho/${userSlug}`;
                     if (navigator.share) {
                       navigator.share({ title: 'Invitație Nuntă', text: 'Te invităm să fii alături de noi în ziua nunții noastre 🌿', url }).catch(() => {});
                     } else {

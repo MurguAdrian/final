@@ -172,7 +172,7 @@ export default function BohoRsvpForm({ orderId, showAccommodation, showTransport
           <div style={{ background: 'rgba(193,127,62,.06)', border: '1.5px solid rgba(193,127,62,.15)', borderRadius: '12px', padding: '14px 16px', marginBottom: '20px', marginTop: '24px' }}>
             <p style={{ fontFamily: "'EB Garamond', serif", fontSize: '12px', color: 'rgba(107,78,42,.7)', lineHeight: '1.6', marginBottom: '12px', fontStyle: 'italic' }}>
               <strong>🔒 Protecția Datelor:</strong> Datele tale personale (nume, preferințe) vor fi colectate și stocate pentru gestionarea acestui eveniment. <strong>NU vom colecta date medicale sau numere de minori.</strong> Datele se vor șterge automat după 12 luni. 
-              <a href="https://vibeinvite.ro/politica" target="_blank" rel="noopener noreferrer" style={{ color: '#C17F3E', textDecoration: 'underline', marginLeft: '4px' }}>
+              <a href="https://www.vibeinvite.ro/politica" target="_blank" rel="noopener noreferrer" style={{ color: '#C17F3E', textDecoration: 'underline', marginLeft: '4px' }}>
                 Citire completă
               </a>
             </p>

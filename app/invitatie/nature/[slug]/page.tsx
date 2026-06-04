@@ -24,7 +24,7 @@ export async function generateMetadata(
     : '';
   const title = `${s.bride_name} & ${s.groom_name} — Invitație de Nuntă`;
   const description = `Vă invităm cu drag la nunta noastră${dateStr ? `, pe ${dateStr}` : ''}${s.location_name ? `, la ${s.location_name}` : ''}. Confirmați prezența online.`;
-  const url = `https://vibeinvite.ro/invitatie/nature/${params.slug}`;
+  const url = `https://www.vibeinvite.ro/invitatie/nature/${params.slug}`;
 
   return {
     title,

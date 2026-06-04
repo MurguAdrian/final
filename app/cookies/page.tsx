@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Politica Cookie | VibeInvite',
   description:
     'Politica de cookie-uri a VibeInvite.ro. Scopuri, tipuri de cookie-uri și cum le poți gestiona. Transparență completă privind tracking-ul și analytics.',
-  alternates: { canonical: 'https://vibeinvite.ro/cookies' },
+  alternates: { canonical: 'https://www.vibeinvite.ro/cookies' },
   robots: { index: true, follow: true },
 }
 
@@ -364,7 +364,7 @@ export default function CookiesPage() {
               <p style={{ fontWeight: '600', marginTop: '14px', marginBottom: '8px' }}>📱 GOOGLE CHROME:</p>
               <ol style={{ marginLeft: '20px', color: 'rgba(26,18,8,.68)', fontSize: '13px' }}>
                 <li>Settings → Privacy and security → Cookies and other site data</li>
-                <li>Caută "vibeinvite.ro"</li>
+                <li>Caută "www.vibeinvite.ro"</li>
                 <li>Apasă Delete</li>
               </ol>
 
@@ -372,20 +372,20 @@ export default function CookiesPage() {
               <ol style={{ marginLeft: '20px', color: 'rgba(26,18,8,.68)', fontSize: '13px' }}>
                 <li>Preferences → Privacy & Security</li>
                 <li>Cookies and Site Data → Manage Data</li>
-                <li>Caută "vibeinvite.ro" → Remove</li>
+                <li>Caută "www.vibeinvite.ro" → Remove</li>
               </ol>
 
               <p style={{ fontWeight: '600', marginTop: '14px', marginBottom: '8px' }}>🧭 SAFARI:</p>
               <ol style={{ marginLeft: '20px', color: 'rgba(26,18,8,.68)', fontSize: '13px' }}>
                 <li>Preferences → Privacy → Manage Website Data</li>
-                <li>Caută "vibeinvite.ro"</li>
+                <li>Caută "www.vibeinvite.ro"</li>
                 <li>Apasă Remove</li>
               </ol>
 
               <p style={{ fontWeight: '600', marginTop: '14px', marginBottom: '8px' }}>🔵 EDGE:</p>
               <ol style={{ marginLeft: '20px', color: 'rgba(26,18,8,.68)', fontSize: '13px' }}>
                 <li>Settings → Privacy, search, and services → Cookies and other site data</li>
-                <li>Manage and delete cookies and site data → Caută "vibeinvite.ro"</li>
+                <li>Manage and delete cookies and site data → Caută "www.vibeinvite.ro"</li>
                 <li>Apasă Delete</li>
               </ol>
             </div>

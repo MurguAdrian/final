@@ -1,19 +1,23 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+const CANONICAL_HOSTNAME = 'www.vibeinvite.ro';
+const CANONICAL_PROTOCOL = 'https:';
+
 export function middleware(request: NextRequest) {
-  const ua = request.headers.get('user-agent') || '';
+  const url = request.nextUrl.clone();
+  const host = request.nextUrl.hostname;
+  const protocol = request.nextUrl.protocol;
 
-  const isScraper = /facebookexternalhit|Twitterbot|WhatsApp|LinkedInBot|Slackbot|TelegramBot|Discordbot|iframely|preview/i.test(ua);
-
-  if (isScraper) {
-    return NextResponse.next();
+  if (host !== CANONICAL_HOSTNAME || protocol !== CANONICAL_PROTOCOL) {
+    url.hostname = CANONICAL_HOSTNAME;
+    url.protocol = CANONICAL_PROTOCOL;
+    return NextResponse.redirect(url, 308);
   }
 
-  // dacă ai altă logică de auth, o pui aici
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/invitatie/:path*', '/api/og/:path*'],
+  matcher: ['/:path*'],
 };

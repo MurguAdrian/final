@@ -101,7 +101,7 @@ export async function GET(request: Request) {
                   <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,.2),transparent);margin:32px 0 20px;"></div>
 
                   <p style="font-family:Arial,sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(212,175,55,.25);text-align:center;margin:0;">
-                    VIBEINVITE · vibeinvite.ro
+                    VIBEINVITE · www.vibeinvite.ro
                   </p>
                 </div>
               </body>
@@ -155,7 +155,7 @@ export async function GET(request: Request) {
                   <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,.2),transparent);margin:32px 0 20px;"></div>
 
                   <p style="font-family:Arial,sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(212,175,55,.25);text-align:center;margin:0;">
-                    VIBEINVITE · vibeinvite.ro
+                    VIBEINVITE · www.vibeinvite.ro
                   </p>
                 </div>
               </body>
@@ -251,7 +251,7 @@ export async function GET(request: Request) {
                 <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,.2),transparent);margin:32px 0 20px;"></div>
 
                 <p style="font-family:Arial,sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(212,175,55,.25);text-align:center;margin:0;">
-                  VIBEINVITE · vibeinvite.ro
+                  VIBEINVITE · www.vibeinvite.ro
                 </p>
               </div>
             </body>

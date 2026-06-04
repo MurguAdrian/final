@@ -270,7 +270,7 @@
 //           <label style={labS}>Slug personalizat</label>
 //           <div style={{ display: 'flex', alignItems: 'stretch', borderRadius: 6, overflow: 'hidden', border: `1px solid rgba(200,216,232,.2)`, background: R.navy }}>
 //             <span className="ps-slug-prefix" style={{ padding: '11px 12px', color: R.silver4, background: `rgba(124,168,216,.06)`, fontSize: 12, fontFamily: "'Cinzel', serif", letterSpacing: '.06em', borderRight: `1px solid rgba(200,216,232,.12)`, whiteSpace: 'nowrap', display: 'flex', alignItems: 'center' }}>
-//               vibeinvite.ro/
+//               www.vibeinvite.ro/
 //             </span>
 //             <input
 //               className="ps-input"
@@ -826,7 +826,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
               borderRight: `1px solid rgba(200,216,232,.12)`,
               whiteSpace: 'nowrap', display: 'flex', alignItems: 'center',
             }}>
-              vibeinvite.ro/
+              www.vibeinvite.ro/
             </span>
             <input
               className="ps-input"

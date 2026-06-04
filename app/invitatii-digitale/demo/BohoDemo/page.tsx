@@ -17,11 +17,11 @@
 //     'invitatie nunta cu QR','upload poze nunta','meniu nunta QR cod',
 //     'vibeinvite','invitatii nunta moderne','invitatie nunta naturala',
 //   ],
-//   alternates: { canonical: 'https://vibeinvite.ro/invitatii-digitale/demo/BahoDemo' },
+//   alternates: { canonical: 'https://www.vibeinvite.ro/invitatii-digitale/demo/BahoDemo' },
 //   openGraph: {
 //     title: 'Invitații Nuntă Online — Stil Boho | VibeInvite Demo',
 //     description: 'Demo invitație digitală de nuntă în stil Boho. Caldă, naturală, cu elemente handcrafted. RSVP instant, GPS, upload poze invitați.',
-//     url: 'https://vibeinvite.ro/invitatii-digitale/demo/BahoDemo',
+//     url: 'https://www.vibeinvite.ro/invitatii-digitale/demo/BahoDemo',
 //     siteName: 'VibeInvite',
 //     images: [{ url: '/og-baho.jpg', width: 1200, height: 630, alt: 'VibeInvite Invitație Boho' }],
 //     locale: 'ro_RO', type: 'website',
@@ -626,9 +626,9 @@ export default function App() {
       'og:title': 'Invitații Nuntă Online — Stil Boho | VibeInvite Demo',
       'og:description': 'Demo invitație digitală de nuntă în stil Boho. Caldă, naturală, handcrafted. RSVP instant, GPS, upload poze invitați.',
       'og:type': 'website',
-      'og:url': 'https://vibeinvite.ro/invitatii-digitale/demo/BahoDemo',
+      'og:url': 'https://www.vibeinvite.ro/invitatii-digitale/demo/BahoDemo',
       'og:site_name': 'VibeInvite',
-      'og:image': 'https://vibeinvite.ro/og-baho.jpg',
+      'og:image': 'https://www.vibeinvite.ro/og-baho.jpg',
       'og:locale': 'ro_RO',
     }
     Object.entries(ogTags).forEach(([prop,content]) => {
@@ -642,7 +642,7 @@ export default function App() {
       'twitter:card': 'summary_large_image',
       'twitter:title': 'Invitații Nuntă Online Boho — VibeInvite',
       'twitter:description': 'Invitație digitală de nuntă în stil Boho. Naturală, caldă, artistică. RSVP, GPS, upload poze.',
-      'twitter:image': 'https://vibeinvite.ro/og-baho.jpg',
+      'twitter:image': 'https://www.vibeinvite.ro/og-baho.jpg',
     }
     Object.entries(twTags).forEach(([name,content]) => {
       let el = document.querySelector(`meta[name="${name}"]`)
@@ -653,7 +653,7 @@ export default function App() {
     // Canonical
     let canon = document.querySelector('link[rel="canonical"]')
     if (!canon) { canon = document.createElement('link'); canon.setAttribute('rel','canonical'); document.head.appendChild(canon) }
-    canon.setAttribute('href','https://vibeinvite.ro/invitatii-digitale/demo/BahoDemo')
+    canon.setAttribute('href','https://www.vibeinvite.ro/invitatii-digitale/demo/BahoDemo')
 
     // JSON-LD structured data
     const existingLd = document.querySelector('script[data-ld="baho"]')
@@ -667,15 +667,15 @@ export default function App() {
           '@type': 'WebPage',
           name: 'Invitații Nuntă Online — Demo Stil Boho',
           description: 'Demo invitație digitală de nuntă în stil Boho. Naturală, caldă, cu elemente handcrafted. RSVP instant, GPS, upload poze invitați.',
-          url: 'https://vibeinvite.ro/invitatii-digitale/demo/BahoDemo',
+          url: 'https://www.vibeinvite.ro/invitatii-digitale/demo/BahoDemo',
           inLanguage: 'ro',
-          isPartOf: { '@type': 'WebSite', name: 'VibeInvite', url: 'https://vibeinvite.ro' },
+          isPartOf: { '@type': 'WebSite', name: 'VibeInvite', url: 'https://www.vibeinvite.ro' },
           breadcrumb: {
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'Acasă', item: 'https://vibeinvite.ro' },
-              { '@type': 'ListItem', position: 2, name: 'Invitații Digitale', item: 'https://vibeinvite.ro/invitatii-digitale' },
-              { '@type': 'ListItem', position: 3, name: 'Demo Stil Boho', item: 'https://vibeinvite.ro/invitatii-digitale/demo/BahoDemo' },
+              { '@type': 'ListItem', position: 1, name: 'Acasă', item: 'https://www.vibeinvite.ro' },
+              { '@type': 'ListItem', position: 2, name: 'Invitații Digitale', item: 'https://www.vibeinvite.ro/invitatii-digitale' },
+              { '@type': 'ListItem', position: 3, name: 'Demo Stil Boho', item: 'https://www.vibeinvite.ro/invitatii-digitale/demo/BahoDemo' },
             ],
           },
         },
@@ -686,7 +686,7 @@ export default function App() {
           applicationCategory: 'LifestyleApplication',
           operatingSystem: 'Web, iOS, Android',
           description: 'Platformă de creare invitații digitale pentru nuntă și botez. RSVP online, GPS, meniu QR, upload poze invitați, export Excel.',
-          url: 'https://vibeinvite.ro',
+          url: 'https://www.vibeinvite.ro',
           offers: { '@type': 'Offer', price: '0', priceCurrency: 'RON', description: 'Link invitație online gratuit' },
           aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', ratingCount: '1240' },
         },

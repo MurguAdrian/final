@@ -400,7 +400,7 @@
 // //                   fontStyle: 'italic', color: 'rgba(166,50,72,.5)',
 // //                   wordBreak: 'break-all', lineHeight: 1.5
 // //                 }}>
-// //                   vibeinvite.ro/invitatie/romantic/<strong style={{ color: 'rgba(166,50,72,.8)', fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
+// //                   www.vibeinvite.ro/invitatie/romantic/<strong style={{ color: 'rgba(166,50,72,.8)', fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
 // //                 </p>
 // //               )}
 // //             </div>
@@ -1172,7 +1172,7 @@
 //               </div>
 //               {isProfileComplete && (
 //                 <p style={{ fontFamily: F.body, fontSize: FS.base, fontStyle: 'italic', color: 'rgba(166,50,72,0.5)', wordBreak: 'break-all', lineHeight: 1.5 }}>
-//                   vibeinvite.ro/invitatie/romantic/<strong style={{ color: 'rgba(166,50,72,0.8)', fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
+//                   www.vibeinvite.ro/invitatie/romantic/<strong style={{ color: 'rgba(166,50,72,0.8)', fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
 //                 </p>
 //               )}
 //             </div>
@@ -1842,7 +1842,7 @@ export default function RomanticDashboard() {
               </div>
               {isProfileComplete && (
                 <p style={{ fontFamily: F.body, fontSize: FS.base, fontStyle: 'italic', color: 'rgba(166,50,72,0.5)', wordBreak: 'break-all', lineHeight: 1.5 }}>
-                  vibeinvite.ro/invitatie/romantic/<strong style={{ color: 'rgba(166,50,72,0.8)', fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
+                  www.vibeinvite.ro/invitatie/romantic/<strong style={{ color: 'rgba(166,50,72,0.8)', fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
                 </p>
               )}
             </div>

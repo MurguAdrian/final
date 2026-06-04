@@ -14,12 +14,12 @@ export const metadata: Metadata = {
     'ANSPDCP',
     'date personale nunta',
   ],
-  authors: [{ name: 'VibeInvite', url: 'https://vibeinvite.ro' }],
-  metadataBase: new URL('https://vibeinvite.ro'),
-  alternates: { canonical: 'https://vibeinvite.ro/gdpr' },
+  authors: [{ name: 'VibeInvite', url: 'https://www.vibeinvite.ro' }],
+  metadataBase: new URL('https://www.vibeinvite.ro'),
+  alternates: { canonical: 'https://www.vibeinvite.ro/gdpr' },
   openGraph: {
     type: 'website',
-    url: 'https://vibeinvite.ro/gdpr',
+    url: 'https://www.vibeinvite.ro/gdpr',
     title: 'GDPR — Drepturile Tale | VibeInvite',
     description: 'Cum îți protejăm datele și cum îți exerciți drepturile GDPR pe VibeInvite.',
     siteName: 'VibeInvite',
@@ -441,9 +441,9 @@ export default function GdprPage() {
             '@context': 'https://schema.org',
             '@type': 'WebPage',
             name: 'GDPR — Drepturile Tale | VibeInvite',
-            url: 'https://vibeinvite.ro/gdpr',
+            url: 'https://www.vibeinvite.ro/gdpr',
             description: 'Drepturile tale GDPR pe VibeInvite.ro — acces, ștergere, export, rectificare.',
-            publisher: { '@type': 'Organization', name: 'VibeInvite', url: 'https://vibeinvite.ro' },
+            publisher: { '@type': 'Organization', name: 'VibeInvite', url: 'https://www.vibeinvite.ro' },
           }),
         }}
       />
@@ -795,7 +795,7 @@ export default function GdprPage() {
                 <div className="gd-contact-box">
                   <p className="gd-contact-box-title">Contact VibeInvite</p>
                   <div className="gd-cinfo"><span className="gd-cico">📧</span><span className="gd-ctxt"><a href="mailto:office@vibeinvite.ro">office@vibeinvite.ro</a></span></div>
-                  <div className="gd-cinfo"><span className="gd-cico">🌐</span><span className="gd-ctxt"><a href="https://vibeinvite.ro">vibeinvite.ro</a></span></div>
+                  <div className="gd-cinfo"><span className="gd-cico">🌐</span><span className="gd-ctxt"><a href="https://www.vibeinvite.ro">www.vibeinvite.ro</a></span></div>
                   <div className="gd-cinfo"><span className="gd-cico">📍</span><span className="gd-ctxt">România (UE)</span></div>
                   <div className="gd-cinfo"><span className="gd-cico">⏱️</span><span className="gd-ctxt">Răspuns: max 30 zile</span></div>
                 </div>

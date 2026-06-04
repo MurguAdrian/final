@@ -262,7 +262,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
           <label style={labS}>Slug personalizat</label>
           <div style={{ display: 'flex', alignItems: 'stretch', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(196,120,90,.2)', background: '#FDF6EF' }}>
             <span className="ps-slug-prefix" style={{ padding: '11px 12px', color: 'rgba(196,120,90,.45)', background: 'rgba(196,120,90,.05)', fontSize: 12, fontFamily: "'Playfair Display', serif", letterSpacing: '.06em', borderRight: '1px solid rgba(196,120,90,.12)', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center' }}>
-              vibeinvite.ro/
+              www.vibeinvite.ro/
             </span>
             <input
               className="ps-input"

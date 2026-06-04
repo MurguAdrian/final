@@ -18,24 +18,24 @@ function useSEO() {
     m('meta[property="og:title"]','property','og:title','Invitații Nuntă Online Royal — VibeInvite Demo')
     m('meta[property="og:description"]','property','og:description','Demo invitație digitală de nuntă în stil Royal. Albastru regal, argint, catifea, palate europene. RSVP instant, GPS, upload poze invitați.')
     m('meta[property="og:type"]','property','og:type','website')
-    m('meta[property="og:url"]','property','og:url','https://vibeinvite.ro/invitatii-digitale/demo/RoyalDemo')
+    m('meta[property="og:url"]','property','og:url','https://www.vibeinvite.ro/invitatii-digitale/demo/RoyalDemo')
     m('meta[property="og:site_name"]','property','og:site_name','VibeInvite')
-    m('meta[property="og:image"]','property','og:image','https://vibeinvite.ro/og-royal.jpg')
+    m('meta[property="og:image"]','property','og:image','https://www.vibeinvite.ro/og-royal.jpg')
     m('meta[property="og:locale"]','property','og:locale','ro_RO')
     m('meta[name="twitter:card"]','name','twitter:card','summary_large_image')
     m('meta[name="twitter:title"]','name','twitter:title','Invitații Nuntă Online Royal — VibeInvite')
     m('meta[name="twitter:description"]','name','twitter:description','Invitație digitală de nuntă Royal. Albastru regal, argint, catifea. RSVP, GPS, upload poze.')
-    m('meta[name="twitter:image"]','name','twitter:image','https://vibeinvite.ro/og-royal.jpg')
+    m('meta[name="twitter:image"]','name','twitter:image','https://www.vibeinvite.ro/og-royal.jpg')
     let canon = document.querySelector('link[rel="canonical"]')
     if (!canon) { canon=document.createElement('link'); canon.setAttribute('rel','canonical'); document.head.appendChild(canon) }
-    canon.setAttribute('href','https://vibeinvite.ro/invitatii-digitale/demo/RoyalDemo')
+    canon.setAttribute('href','https://www.vibeinvite.ro/invitatii-digitale/demo/RoyalDemo')
     if (!document.querySelector('script[data-ld="royal"]')) {
       const ld = document.createElement('script')
       ld.setAttribute('type','application/ld+json')
       ld.setAttribute('data-ld','royal')
       ld.textContent = JSON.stringify([
-        { '@context':'https://schema.org','@type':'WebPage', name:'Invitații Nuntă Online — Demo Stil Royal', description:'Demo invitație digitală de nuntă în stil Royal. Albastru regal, argint, catifea, palatele europene.', url:'https://vibeinvite.ro/invitatii-digitale/demo/RoyalDemo', inLanguage:'ro', isPartOf:{ '@type':'WebSite',name:'VibeInvite',url:'https://vibeinvite.ro'}, breadcrumb:{ '@type':'BreadcrumbList', itemListElement:[{ '@type':'ListItem',position:1,name:'Acasă',item:'https://vibeinvite.ro'},{ '@type':'ListItem',position:2,name:'Invitații Digitale',item:'https://vibeinvite.ro/invitatii-digitale'},{ '@type':'ListItem',position:3,name:'Demo Stil Royal',item:'https://vibeinvite.ro/invitatii-digitale/demo/RoyalDemo'}]}},
-        { '@context':'https://schema.org','@type':'SoftwareApplication', name:'VibeInvite — Invitații Digitale', applicationCategory:'LifestyleApplication', operatingSystem:'Web, iOS, Android', description:'Platformă de creare invitații digitale pentru nuntă și botez. RSVP online, GPS, meniu QR, upload poze invitați, export Excel.', url:'https://vibeinvite.ro', offers:{ '@type':'Offer',price:'0',priceCurrency:'RON',description:'Link invitație online gratuit'}, aggregateRating:{ '@type':'AggregateRating',ratingValue:'4.9',ratingCount:'1240'}},
+        { '@context':'https://schema.org','@type':'WebPage', name:'Invitații Nuntă Online — Demo Stil Royal', description:'Demo invitație digitală de nuntă în stil Royal. Albastru regal, argint, catifea, palatele europene.', url:'https://www.vibeinvite.ro/invitatii-digitale/demo/RoyalDemo', inLanguage:'ro', isPartOf:{ '@type':'WebSite',name:'VibeInvite',url:'https://www.vibeinvite.ro'}, breadcrumb:{ '@type':'BreadcrumbList', itemListElement:[{ '@type':'ListItem',position:1,name:'Acasă',item:'https://www.vibeinvite.ro'},{ '@type':'ListItem',position:2,name:'Invitații Digitale',item:'https://www.vibeinvite.ro/invitatii-digitale'},{ '@type':'ListItem',position:3,name:'Demo Stil Royal',item:'https://www.vibeinvite.ro/invitatii-digitale/demo/RoyalDemo'}]}},
+        { '@context':'https://schema.org','@type':'SoftwareApplication', name:'VibeInvite — Invitații Digitale', applicationCategory:'LifestyleApplication', operatingSystem:'Web, iOS, Android', description:'Platformă de creare invitații digitale pentru nuntă și botez. RSVP online, GPS, meniu QR, upload poze invitați, export Excel.', url:'https://www.vibeinvite.ro', offers:{ '@type':'Offer',price:'0',priceCurrency:'RON',description:'Link invitație online gratuit'}, aggregateRating:{ '@type':'AggregateRating',ratingValue:'4.9',ratingCount:'1240'}},
         { '@context':'https://schema.org','@type':'FAQPage', mainEntity:[
           { '@type':'Question',name:'Ce este stilul Royal pentru invitații de nuntă?',acceptedAnswer:{ '@type':'Answer',text:'Stilul Royal folosește albastru regal profund, argint și detalii de catifea. Este inspirat din palatele europene și potrivit pentru nunți elegante care vor fi povești transmise din generație în generație.'}},
           { '@type':'Question',name:'Cum creez o invitație de nuntă elegantă online?',acceptedAnswer:{ '@type':'Answer',text:'Pe VibeInvite poți crea o invitație digitală elegantă în 3 minute. Alegi tema Royal, completezi detaliile și primești un link personalizat gratuit, gata de trimis pe WhatsApp sau email.'}},

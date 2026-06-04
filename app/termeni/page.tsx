@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: 'Termeni și Condiții | VibeInvite',
   description:
     'Termenii și condițiile de utilizare ale platformei VibeInvite.ro — invitații digitale pentru nuntă și botez. Citește condițiile înainte de utilizare.',
-  alternates: { canonical: 'https://vibeinvite.ro/termeni' },
+  alternates: { canonical: 'https://www.vibeinvite.ro/termeni' },
   robots: { index: true, follow: true },
 }
 
@@ -202,7 +202,7 @@ export default function TermeniPage() {
             <p>
               <strong>MURGU ADRIAN PERSOANĂ FIZICĂ AUTORIZATĂ</strong><br />
               Sediu profesional: Aleea Parcului nr. 7, et. 9, Ap. 1, Municipiul Onești, Județul Bacău, România<br />
-              Domeniu: vibeinvite.ro<br />
+              Domeniu: www.vibeinvite.ro<br />
               Contact: office@vibeinvite.ro
             </p>
             <p>
@@ -373,7 +373,7 @@ export default function TermeniPage() {
               VibeInvite prelucrează datele personale ale Utilizatorilor în calitate de Operator, în
               conformitate cu Regulamentul (UE) 2016/679 (GDPR) și Legea nr. 190/2018.
               Detaliile complete privind prelucrarea datelor sunt disponibile în <strong>Politica de
-              Confidențialitate</strong>, accesibilă la vibeinvite.ro/politica.
+              Confidențialitate</strong>, accesibilă la www.vibeinvite.ro/politica.
             </p>
             <p>
               <strong>Responsabilitatea Mirilor ca Operatori secundari:</strong> Prin utilizarea funcționalității
@@ -420,7 +420,7 @@ export default function TermeniPage() {
             </p>
             <p>
               Detaliile complete privind tipurile de cookie-uri utilizate, scopul și opțiunile de gestionare
-              sunt disponibile în <strong>Politica Cookie</strong>, accesibilă la vibeinvite.ro/politica.
+              sunt disponibile în <strong>Politica Cookie</strong>, accesibilă la www.vibeinvite.ro/politica.
             </p>
           </Card>
 
@@ -428,7 +428,7 @@ export default function TermeniPage() {
           <Card no="11" label="Modificarea Termenilor" title={<>Actualizarea <em>Documentului</em></>}>
             <p>
               VibeInvite își rezervă dreptul de a modifica prezentele Termeni și Condiții în orice moment,
-              fără notificare prealabilă. Versiunea actualizată va fi publicată pe vibeinvite.ro/termeni și
+              fără notificare prealabilă. Versiunea actualizată va fi publicată pe www.vibeinvite.ro/termeni și
               va indica data intrării în vigoare.
             </p>
             <p>
@@ -502,7 +502,7 @@ export default function TermeniPage() {
             <strong>MURGU ADRIAN PERSOANĂ FIZICĂ AUTORIZATĂ</strong>
             Aleea Parcului nr. 7, et. 9, Ap. 1, Municipiul Onești, Județul Bacău, România
             <br />
-            Email: office@vibeinvite.ro &nbsp;·&nbsp; Web: vibeinvite.ro
+            Email: office@vibeinvite.ro &nbsp;·&nbsp; Web: www.vibeinvite.ro
             <br /><br />
             Document intrat în vigoare la data de <strong>20.05.2026</strong>.
             Orice versiune anterioară este înlocuită integral de prezentul document.

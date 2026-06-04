@@ -15,21 +15,21 @@ function useSEO() {
     m('meta[property="og:title"]','property','og:title','Invitații Nuntă Online Romantic — VibeInvite Demo')
     m('meta[property="og:description"]','property','og:description','Demo invitație digitală de nuntă în stil Romantic. Roșu trandafiriu, roz pudrat, bujori. RSVP instant, GPS, upload poze.')
     m('meta[property="og:type"]','property','og:type','website')
-    m('meta[property="og:url"]','property','og:url','https://vibeinvite.ro/invitatii-digitale/demo/RomanticDemo')
-    m('meta[property="og:image"]','property','og:image','https://vibeinvite.ro/og-romantic.jpg')
+    m('meta[property="og:url"]','property','og:url','https://www.vibeinvite.ro/invitatii-digitale/demo/RomanticDemo')
+    m('meta[property="og:image"]','property','og:image','https://www.vibeinvite.ro/og-romantic.jpg')
     m('meta[property="og:locale"]','property','og:locale','ro_RO')
     m('meta[name="twitter:card"]','name','twitter:card','summary_large_image')
     m('meta[name="twitter:title"]','name','twitter:title','Invitații Nuntă Online Romantic — VibeInvite')
     m('meta[name="twitter:description"]','name','twitter:description','Invitație digitală de nuntă romantică. Roșu, roz, bujori. RSVP, GPS, upload poze.')
     let canon = document.querySelector('link[rel="canonical"]')
     if (!canon) { canon=document.createElement('link'); canon.setAttribute('rel','canonical'); document.head.appendChild(canon) }
-    canon.setAttribute('href','https://vibeinvite.ro/invitatii-digitale/demo/RomanticDemo')
+    canon.setAttribute('href','https://www.vibeinvite.ro/invitatii-digitale/demo/RomanticDemo')
     if (!document.querySelector('script[data-ld="romantic"]')) {
       const ld = document.createElement('script')
       ld.setAttribute('type','application/ld+json')
       ld.setAttribute('data-ld','romantic')
       ld.textContent = JSON.stringify([
-        { '@context':'https://schema.org','@type':'WebPage', name:'Invitații Nuntă Online — Demo Stil Romantic', description:'Demo invitație digitală de nuntă romantică. Roșu trandafiriu, roz pudrat, bujori.', url:'https://vibeinvite.ro/invitatii-digitale/demo/RomanticDemo', inLanguage:'ro', isPartOf:{ '@type':'WebSite',name:'VibeInvite',url:'https://vibeinvite.ro'}, breadcrumb:{ '@type':'BreadcrumbList', itemListElement:[{ '@type':'ListItem',position:1,name:'Acasă',item:'https://vibeinvite.ro'},{ '@type':'ListItem',position:2,name:'Invitații Digitale',item:'https://vibeinvite.ro/invitatii-digitale'},{ '@type':'ListItem',position:3,name:'Demo Stil Romantic',item:'https://vibeinvite.ro/invitatii-digitale/demo/RomanticDemo'}]}},
+        { '@context':'https://schema.org','@type':'WebPage', name:'Invitații Nuntă Online — Demo Stil Romantic', description:'Demo invitație digitală de nuntă romantică. Roșu trandafiriu, roz pudrat, bujori.', url:'https://www.vibeinvite.ro/invitatii-digitale/demo/RomanticDemo', inLanguage:'ro', isPartOf:{ '@type':'WebSite',name:'VibeInvite',url:'https://www.vibeinvite.ro'}, breadcrumb:{ '@type':'BreadcrumbList', itemListElement:[{ '@type':'ListItem',position:1,name:'Acasă',item:'https://www.vibeinvite.ro'},{ '@type':'ListItem',position:2,name:'Invitații Digitale',item:'https://www.vibeinvite.ro/invitatii-digitale'},{ '@type':'ListItem',position:3,name:'Demo Stil Romantic',item:'https://www.vibeinvite.ro/invitatii-digitale/demo/RomanticDemo'}]}},
         { '@context':'https://schema.org','@type':'FAQPage', mainEntity:[
           { '@type':'Question',name:'Ce este o invitație de nuntă romantică?',acceptedAnswer:{ '@type':'Answer',text:'O invitație de nuntă romantică folosește culori calde — roșu trandafiriu, roz pudrat — și elemente florale ca bujori și trandafiri. Este caldă, senzorială și transmite emoție profundă.'}},
           { '@type':'Question',name:'Pot face o invitație de nuntă online cu trandafiri?',acceptedAnswer:{ '@type':'Answer',text:'Da! Tema Romantic de pe VibeInvite include elemente florale premium — bujori, trandafiri, petale — totul personalizabil în 3 minute.'}},

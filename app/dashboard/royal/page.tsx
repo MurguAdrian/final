@@ -402,7 +402,7 @@
 //                   fontStyle: 'italic', color: R.silver4,
 //                   wordBreak: 'break-all', lineHeight: 1.5
 //                 }}>
-//                   vibeinvite.ro/invitatie/royal/<strong style={{ color: R.silver2, fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
+//                   www.vibeinvite.ro/invitatie/royal/<strong style={{ color: R.silver2, fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
 //                 </p>
 //               )}
 //             </div>
@@ -1075,7 +1075,7 @@ export default function RoyalDashboard() {
                   fontStyle: 'italic', color: C.silver4,
                   wordBreak: 'break-all', lineHeight: 1.5,
                 }}>
-                  vibeinvite.ro/invitatie/royal/
+                  www.vibeinvite.ro/invitatie/royal/
                   <strong style={{ color: C.silver2, fontStyle: 'normal' }}>
                     {weddingData.custom_slug}
                   </strong>

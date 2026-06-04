@@ -167,7 +167,7 @@ export default function MinimalRsvpForm({ orderId, showAccommodation, showTransp
           <div style={{ background: 'rgba(200,80,58,.06)', border: '1.5px solid rgba(200,80,58,.15)', borderRadius: '8px', padding: '12px 14px', marginBottom: '16px', marginTop: '20px' }}>
             <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '11px', color: 'rgba(200,80,58,.65)', lineHeight: '1.5', marginBottom: '10px', fontStyle: 'italic' }}>
               <strong>🔒 Date Protejate:</strong> Datele tale (nume, preferințe) se vor colecta și șterge după 12 luni. <strong>NU colectăm date medicale.</strong>
-              <a href="https://vibeinvite.ro/politica" target="_blank" rel="noopener" style={{ color: '#C8503A', textDecoration: 'underline', marginLeft: '4px' }}>Citire completă</a>
+              <a href="https://www.vibeinvite.ro/politica" target="_blank" rel="noopener" style={{ color: '#C8503A', textDecoration: 'underline', marginLeft: '4px' }}>Citire completă</a>
             </p>
             <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer', userSelect: 'none' }}>
               <input 

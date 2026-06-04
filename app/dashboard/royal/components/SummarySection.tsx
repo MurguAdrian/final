@@ -236,7 +236,7 @@
 //                 <input
 //                   readOnly
 //                   className="sum-link-input"
-//                   value={`https://vibeinvite.ro/invitatie/royal/${userSlug}`}
+//                   value={`https://www.vibeinvite.ro/invitatie/royal/${userSlug}`}
 //                   style={{
 //                     flex: 1, minWidth: 0, padding: '10px 14px',
 //                     background: 'rgba(0,0,0,.4)', border: `1px solid rgba(200,216,232,.2)`,
@@ -250,7 +250,7 @@
 //                 <button
 //                   className="ry-copy-btn"
 //                   onClick={() => {
-//                     navigator.clipboard.writeText(`https://vibeinvite.ro/invitatie/royal/${userSlug}`);
+//                     navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/royal/${userSlug}`);
 //                     alert("Copiat!");
 //                   }}
 //                   style={{
@@ -267,7 +267,7 @@
 //                 <button
 //                   className="ry-share-btn"
 //                   onClick={() => {
-//                     const url = `https://vibeinvite.ro/invitatie/royal/${userSlug}`;
+//                     const url = `https://www.vibeinvite.ro/invitatie/royal/${userSlug}`;
 //                     if (navigator.share) {
 //                       navigator.share({
 //                         title: 'Invitație Nuntă',
@@ -835,7 +835,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                 <input
                   readOnly
                   className="sum-link-input"
-                  value={`https://vibeinvite.ro/invitatie/royal/${userSlug}`}
+                  value={`https://www.vibeinvite.ro/invitatie/royal/${userSlug}`}
                   style={{
                     flex: 1, minWidth: 0, padding: '10px 14px',
                     background: 'rgba(0,0,0,.4)', border: `1px solid rgba(200,216,232,.2)`,
@@ -847,7 +847,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                 <button
                   className="ry-copy-btn"
                   onClick={() => {
-                    navigator.clipboard.writeText(`https://vibeinvite.ro/invitatie/royal/${userSlug}`);
+                    navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/royal/${userSlug}`);
                     alert('Copiat!');
                   }}
                   style={{
@@ -864,7 +864,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                 <button
                   className="ry-share-btn"
                   onClick={() => {
-                    const url = `https://vibeinvite.ro/invitatie/royal/${userSlug}`;
+                    const url = `https://www.vibeinvite.ro/invitatie/royal/${userSlug}`;
                     if (navigator.share) {
                       navigator.share({ title: 'Invitație Nuntă', text: 'Te invităm 💍', url }).catch(() => {});
                     } else {

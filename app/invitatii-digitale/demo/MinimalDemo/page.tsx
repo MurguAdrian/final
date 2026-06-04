@@ -15,24 +15,24 @@ function useSEO() {
     m('meta[property="og:title"]','property','og:title','Invitații Nuntă Online Minimal — VibeInvite Demo')
     m('meta[property="og:description"]','property','og:description','Demo invitație digitală de nuntă în stil Minimal Editorial. Alb, negru, accente îndrăznețe. RSVP instant, GPS, upload poze.')
     m('meta[property="og:type"]','property','og:type','website')
-    m('meta[property="og:url"]','property','og:url','https://vibeinvite.ro/invitatii-digitale/demo/MinimalDemo')
+    m('meta[property="og:url"]','property','og:url','https://www.vibeinvite.ro/invitatii-digitale/demo/MinimalDemo')
     m('meta[property="og:site_name"]','property','og:site_name','VibeInvite')
-    m('meta[property="og:image"]','property','og:image','https://vibeinvite.ro/og-minimal.jpg')
+    m('meta[property="og:image"]','property','og:image','https://www.vibeinvite.ro/og-minimal.jpg')
     m('meta[property="og:locale"]','property','og:locale','ro_RO')
     m('meta[name="twitter:card"]','name','twitter:card','summary_large_image')
     m('meta[name="twitter:title"]','name','twitter:title','Invitații Nuntă Online Minimal — VibeInvite')
     m('meta[name="twitter:description"]','name','twitter:description','Invitație digitală de nuntă minimalistă editorial. Alb negru cu accente. RSVP, GPS.')
-    m('meta[name="twitter:image"]','name','twitter:image','https://vibeinvite.ro/og-minimal.jpg')
+    m('meta[name="twitter:image"]','name','twitter:image','https://www.vibeinvite.ro/og-minimal.jpg')
     let canon = document.querySelector('link[rel="canonical"]')
     if (!canon) { canon=document.createElement('link'); canon.setAttribute('rel','canonical'); document.head.appendChild(canon) }
-    canon.setAttribute('href','https://vibeinvite.ro/invitatii-digitale/demo/MinimalDemo')
+    canon.setAttribute('href','https://www.vibeinvite.ro/invitatii-digitale/demo/MinimalDemo')
     if (!document.querySelector('script[data-ld="minimal"]')) {
       const ld = document.createElement('script')
       ld.setAttribute('type','application/ld+json')
       ld.setAttribute('data-ld','minimal')
       ld.textContent = JSON.stringify([
-        { '@context':'https://schema.org','@type':'WebPage', name:'Invitații Nuntă Online — Demo Stil Minimal', description:'Demo invitație digitală de nuntă în stil Minimal Editorial.', url:'https://vibeinvite.ro/invitatii-digitale/demo/MinimalDemo', inLanguage:'ro', isPartOf:{ '@type':'WebSite',name:'VibeInvite',url:'https://vibeinvite.ro'}, breadcrumb:{ '@type':'BreadcrumbList', itemListElement:[{ '@type':'ListItem',position:1,name:'Acasă',item:'https://vibeinvite.ro'},{ '@type':'ListItem',position:2,name:'Invitații Digitale',item:'https://vibeinvite.ro/invitatii-digitale'},{ '@type':'ListItem',position:3,name:'Demo Stil Minimal',item:'https://vibeinvite.ro/invitatii-digitale/demo/MinimalDemo'}]}},
-        { '@context':'https://schema.org','@type':'SoftwareApplication', name:'VibeInvite', applicationCategory:'LifestyleApplication', operatingSystem:'Web', url:'https://vibeinvite.ro', offers:{ '@type':'Offer',price:'0',priceCurrency:'RON'}, aggregateRating:{ '@type':'AggregateRating',ratingValue:'4.9',ratingCount:'1240'}},
+        { '@context':'https://schema.org','@type':'WebPage', name:'Invitații Nuntă Online — Demo Stil Minimal', description:'Demo invitație digitală de nuntă în stil Minimal Editorial.', url:'https://www.vibeinvite.ro/invitatii-digitale/demo/MinimalDemo', inLanguage:'ro', isPartOf:{ '@type':'WebSite',name:'VibeInvite',url:'https://www.vibeinvite.ro'}, breadcrumb:{ '@type':'BreadcrumbList', itemListElement:[{ '@type':'ListItem',position:1,name:'Acasă',item:'https://www.vibeinvite.ro'},{ '@type':'ListItem',position:2,name:'Invitații Digitale',item:'https://www.vibeinvite.ro/invitatii-digitale'},{ '@type':'ListItem',position:3,name:'Demo Stil Minimal',item:'https://www.vibeinvite.ro/invitatii-digitale/demo/MinimalDemo'}]}},
+        { '@context':'https://schema.org','@type':'SoftwareApplication', name:'VibeInvite', applicationCategory:'LifestyleApplication', operatingSystem:'Web', url:'https://www.vibeinvite.ro', offers:{ '@type':'Offer',price:'0',priceCurrency:'RON'}, aggregateRating:{ '@type':'AggregateRating',ratingValue:'4.9',ratingCount:'1240'}},
         { '@context':'https://schema.org','@type':'FAQPage', mainEntity:[
           { '@type':'Question',name:'Ce înseamnă o invitație de nuntă minimalistă?',acceptedAnswer:{ '@type':'Answer',text:'O invitație de nuntă minimalistă folosește spațiu alb, tipografie clară și un limbaj esențial. Eleganța vine din simplitate — fiecare element are un scop.'}},
           { '@type':'Question',name:'Invitațiile digitale minimaliste sunt elegante?',acceptedAnswer:{ '@type':'Answer',text:'Absolut. Stilul Minimal Editorial de pe VibeInvite combină tipografie puternică cu accente de culoare îndrăznețe — potrivit pentru cuplurile moderne și rafinate.'}},

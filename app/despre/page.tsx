@@ -22,14 +22,14 @@ export const metadata: Metadata = {
     'invitatii digitale elegante',
     'invitatii online premium botez nunta',
   ],
-  authors: [{ name: 'VibeInvite', url: 'https://vibeinvite.ro' }],
+  authors: [{ name: 'VibeInvite', url: 'https://www.vibeinvite.ro' }],
   creator: 'VibeInvite',
   publisher: 'VibeInvite',
-  metadataBase: new URL('https://vibeinvite.ro'),
-  alternates: { canonical: 'https://vibeinvite.ro/despre' },
+  metadataBase: new URL('https://www.vibeinvite.ro'),
+  alternates: { canonical: 'https://www.vibeinvite.ro/despre' },
   openGraph: {
     type: 'website',
-    url: 'https://vibeinvite.ro/despre',
+    url: 'https://www.vibeinvite.ro/despre',
     title: 'Despre VibeInvite — Platforma Română de Invitații Digitale Premium',
     description:
       'Invitații digitale all-in-one pentru nuntă și botez: nelimitate, meniu QR, upload poze invitați, export Excel. Află povestea VibeInvite.',
@@ -469,8 +469,8 @@ export default function DesprePage() {
             '@context': 'https://schema.org',
             '@type': 'Organization',
             name: 'VibeInvite',
-            url: 'https://vibeinvite.ro',
-            logo: 'https://vibeinvite.ro/logo.svg',
+            url: 'https://www.vibeinvite.ro',
+            logo: 'https://www.vibeinvite.ro/logo.svg',
             description:
               'Platformă românească de invitații digitale all-in-one pentru nuntă și botez. Invitații nelimitate, meniu QR, upload poze invitați, export Excel. 300 lei, plată unică.',
             foundingLocation: { '@type': 'Place', name: 'România' },
@@ -486,7 +486,7 @@ export default function DesprePage() {
               '@type': 'ContactPoint',
               contactType: 'customer support',
               availableLanguage: 'Romanian',
-              url: 'https://vibeinvite.ro/contact',
+              url: 'https://www.vibeinvite.ro/contact',
             },
           }),
         }}

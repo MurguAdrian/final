@@ -187,7 +187,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                 <input
                   readOnly
                   className="sum-link-input"
-                  value={`https://vibeinvite.ro/invitatie/nature/${userSlug}`}
+                  value={`https://www.vibeinvite.ro/invitatie/nature/${userSlug}`}
                   style={{
                     flex: 1, minWidth: 0, padding: '10px 14px',
                     background: 'rgba(255,255,255,.7)', border: '1.5px solid rgba(58,94,51,.2)',
@@ -200,7 +200,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                 />
                 <button
                   className="nat-copy-btn"
-                  onClick={() => { navigator.clipboard.writeText(`https://vibeinvite.ro/invitatie/nature/${userSlug}`); alert("Copiat!"); }}
+                  onClick={() => { navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/nature/${userSlug}`); alert("Copiat!"); }}
                   style={{
                     padding: '10px 20px', borderRadius: 100,
                     background: 'rgba(58,94,51,.1)',

@@ -198,7 +198,7 @@ export async function GET(
                 fontFamily: 'Cinzel', fontSize: 10, letterSpacing: 6,
                 color: 'rgba(138,74,88,0.35)', textTransform: 'uppercase', display: 'flex',
               }}>
-                vibeinvite.ro
+                www.vibeinvite.ro
               </div>
               <div style={{ width: 32, height: 1, background: 'rgba(196,80,106,0.2)', display: 'flex' }}/>
             </div>

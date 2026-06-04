@@ -20,7 +20,7 @@
 //     description: 'Răspundem în 24h. Email: office@vibeinvite.ro · WhatsApp: +40752954258',
 //     images: [{ url: '/og-contact.jpg', width: 1200, height: 630 }],
 //   },
-//   alternates: { canonical: 'https://vibeinvite.ro/contact' },
+//   alternates: { canonical: 'https://www.vibeinvite.ro/contact' },
 // }
 
 // export default function Layout({ children }: { children: React.ReactNode }) {

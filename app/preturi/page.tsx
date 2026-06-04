@@ -480,7 +480,7 @@ export default function PricingPage() {
               priceCurrency: 'RON',
               priceValidUntil: '2026-12-31',
               availability: 'https://schema.org/InStock',
-              url: 'https://vibeinvite.ro/preturi',
+              url: 'https://www.vibeinvite.ro/preturi',
             },
             aggregateRating: {
               '@type': 'AggregateRating',

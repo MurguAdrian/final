@@ -308,7 +308,7 @@ export default function MinimalDashboard() {
               </div>
               {isProfileComplete && (
                 <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, color: LIGHT, wordBreak: 'break-all', lineHeight: 1.5 }}>
-                  vibeinvite.ro/…/<strong style={{ color: MID }}>{weddingData.custom_slug}</strong>
+                  www.vibeinvite.ro/…/<strong style={{ color: MID }}>{weddingData.custom_slug}</strong>
                 </p>
               )}
             </div>

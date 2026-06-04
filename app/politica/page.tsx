@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: 'Politica de Confidențialitate & Cookie | VibeInvite',
   description:
     'Politica de confidențialitate și cookie-uri a platformei VibeInvite.ro — cum colectăm, utilizăm și protejăm datele tale personale.',
-  alternates: { canonical: 'https://vibeinvite.ro/politica' },
+  alternates: { canonical: 'https://www.vibeinvite.ro/politica' },
   robots: { index: true, follow: true },
 }
 
@@ -209,7 +209,7 @@ export default function PoliticaPage() {
             <p>
               <strong>MURGU ADRIAN PERSOANĂ FIZICĂ AUTORIZATĂ</strong><br />
               Aleea Parcului nr. 7, et. 9, Ap. 1, Municipiul Onești, Județul Bacău, România<br />
-              Email: office@vibeinvite.ro &nbsp;·&nbsp; Web: vibeinvite.ro
+              Email: office@vibeinvite.ro &nbsp;·&nbsp; Web: www.vibeinvite.ro
             </p>
             <p>
               Pentru orice întrebări legate de prelucrarea datelor tale personale, ne poți contacta
@@ -420,7 +420,7 @@ export default function PoliticaPage() {
             <p>
               Această politică poate fi actualizată periodic pentru a reflecta modificările legislative,
               tehnice sau organizatorice. Versiunea curentă este întotdeauna disponibilă la
-              vibeinvite.ro/politica, cu data intrării în vigoare afișată în antet.
+              www.vibeinvite.ro/politica, cu data intrării în vigoare afișată în antet.
             </p>
             <p>
               Continuarea utilizării platformei după publicarea modificărilor constituie acceptarea
@@ -434,7 +434,7 @@ export default function PoliticaPage() {
             <strong>MURGU ADRIAN PERSOANĂ FIZICĂ AUTORIZATĂ</strong>
             Aleea Parcului nr. 7, et. 9, Ap. 1, Municipiul Onești, Județul Bacău, România
             <br />
-            Email: office@vibeinvite.ro &nbsp;·&nbsp; Web: vibeinvite.ro
+            Email: office@vibeinvite.ro &nbsp;·&nbsp; Web: www.vibeinvite.ro
             <br /><br />
             Document intrat în vigoare la data de <strong>20.05.2026</strong>.
             Orice versiune anterioară este înlocuită integral de prezentul document.

@@ -432,7 +432,7 @@ export default function LuxDashboard() {
                   fontStyle: 'italic', color: 'rgba(212,175,55,.5)',
                   wordBreak: 'break-all', lineHeight: 1.5
                 }}>
-                  vibeinvite.ro/invitatie/lux/<strong style={{ color: 'rgba(212,175,55,.75)', fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
+                  www.vibeinvite.ro/invitatie/lux/<strong style={{ color: 'rgba(212,175,55,.75)', fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
                 </p>
               )}
             </div>

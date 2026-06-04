@@ -235,7 +235,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
   <input
     readOnly
     className="sum-link-input"
-    value={`https://vibeinvite.ro/invitatie/lux/${userSlug}`}
+    value={`https://www.vibeinvite.ro/invitatie/lux/${userSlug}`}
     style={{
       flex: 1, minWidth: 0, padding: '10px 14px',
       background: 'rgba(0,0,0,.4)', border: '1px solid rgba(212,175,55,.2)',
@@ -249,7 +249,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
   <button
     className="lux-copy-btn"
     onClick={() => {
-      navigator.clipboard.writeText(`https://vibeinvite.ro/invitatie/lux/${userSlug}`);
+      navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/lux/${userSlug}`);
       alert("Copiat!");
     }}
     style={{
@@ -266,7 +266,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
   <button
     className="lux-share-btn"
     onClick={() => {
-      const url = `https://vibeinvite.ro/invitatie/lux/${userSlug}`;
+      const url = `https://www.vibeinvite.ro/invitatie/lux/${userSlug}`;
       if (navigator.share) {
         navigator.share({
           title: 'Invitație Nuntă',
@@ -305,7 +305,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                 <input
                   readOnly
                   className="sum-link-input"
-                  value={`https://vibeinvite.ro/invitatie/lux/${userSlug}`}
+                  value={`https://www.vibeinvite.ro/invitatie/lux/${userSlug}`}
                   style={{
                     flex: 1, minWidth: 0, padding: '10px 14px',
                     background: 'rgba(0,0,0,.4)', border: '1px solid rgba(212,175,55,.2)',
@@ -318,7 +318,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                 />
                 <button
                   className="lux-copy-btn"
-                  onClick={() => { navigator.clipboard.writeText(`https://vibeinvite.ro/invitatie/lux/${userSlug}`); alert("Copiat!"); }}
+                  onClick={() => { navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/lux/${userSlug}`); alert("Copiat!"); }}
                   style={{
                     padding: '10px 20px', borderRadius: 8,
                     background: 'rgba(212,175,55,.15)',

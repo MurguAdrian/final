@@ -162,7 +162,7 @@ export default function NatureRsvpForm({ orderId, showAccommodation, showTranspo
           <div style={{ background: 'rgba(154,123,63,.06)', border: '1.5px solid rgba(154,123,63,.15)', borderRadius: '10px', padding: '12px 14px', marginBottom: '18px', marginTop: '22px' }}>
             <p style={{ fontFamily: "'Cormorant', serif", fontSize: '12px', color: 'rgba(107,122,94,.65)', lineHeight: '1.5', marginBottom: '10px', fontStyle: 'italic' }}>
               <strong>🔒 Date Protejate:</strong> Datele tale se colectează și șterg după 12 luni. <strong>NU colectăm date medicale.</strong>
-              <a href="https://vibeinvite.ro/politica" target="_blank" rel="noopener" style={{ color: '#3A5E33', textDecoration: 'underline', marginLeft: '4px' }}>Citire completă</a>
+              <a href="https://www.vibeinvite.ro/politica" target="_blank" rel="noopener" style={{ color: '#3A5E33', textDecoration: 'underline', marginLeft: '4px' }}>Citire completă</a>
             </p>
             <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer', userSelect: 'none' }}>
               <input 

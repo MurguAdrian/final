@@ -674,9 +674,9 @@ export default function SetupPasswordPage() {
             "@context": "https://schema.org",
             "@type": "WebPage",
             name: "Setează Parola | VibeInvite",
-            url: "https://vibeinvite.ro/setup-password",
+            url: "https://www.vibeinvite.ro/setup-password",
             description: "Setează parola contului tău VibeInvite pentru a accesa dashboard-ul nunții.",
-            isPartOf: { "@type": "WebSite", name: "VibeInvite", url: "https://vibeinvite.ro" },
+            isPartOf: { "@type": "WebSite", name: "VibeInvite", url: "https://www.vibeinvite.ro" },
           }),
         }}
       />

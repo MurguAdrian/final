@@ -431,13 +431,13 @@ export default function LoginPage() {
             "@context": "https://schema.org",
             "@type": "WebPage",
             name: "Autentificare VibeInvite",
-            url: "https://vibeinvite.ro/auth/login",
+            url: "https://www.vibeinvite.ro/auth/login",
             description:
               "Autentifică-te în contul tău VibeInvite pentru a gestiona invitațiile digitale, RSVP-urile și albumul foto.",
             isPartOf: {
               "@type": "WebSite",
               name: "VibeInvite",
-              url: "https://vibeinvite.ro",
+              url: "https://www.vibeinvite.ro",
             },
           }),
         }}

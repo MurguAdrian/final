@@ -167,20 +167,20 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                 </h4>
               </div>
               <div className="sum-link-row">
-                <input readOnly className="sum-link-input" value={`https://vibeinvite.ro/invitatie/minimal/${userSlug}`} style={{
+                <input readOnly className="sum-link-input" value={`https://www.vibeinvite.ro/invitatie/minimal/${userSlug}`} style={{
                   flex: 1, minWidth: 0, padding: '10px 14px',
                   background: BG, border: `1px solid ${RULE}`, color: MID,
                   fontFamily: "'DM Sans', sans-serif", letterSpacing: '.04em',
                   outline: 'none', width: '100%', boxSizing: 'border-box' as const,
                   WebkitAppearance: 'none' as any,
                 }} />
-                <button className="mn-copy-btn" onClick={() => { navigator.clipboard.writeText(`https://vibeinvite.ro/invitatie/minimal/${userSlug}`); alert("Copiat!"); }} style={{
+                <button className="mn-copy-btn" onClick={() => { navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/minimal/${userSlug}`); alert("Copiat!"); }} style={{
                   padding: '10px 20px', background: DARK, border: `1px solid ${DARK}`, color: '#fff',
                   fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: '.14em', textTransform: 'uppercase',
                   cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap'
                 }}>Copiază</button>
                 <button className="mn-share-btn" onClick={() => {
-                  const url = `https://vibeinvite.ro/invitatie/minimal/${userSlug}`;
+                  const url = `https://www.vibeinvite.ro/invitatie/minimal/${userSlug}`;
                   if (navigator.share) {
                     navigator.share({ title: 'Invitație Nuntă', text: 'Te invităm să fii alături de noi 💍', url }).catch(() => {});
                   } else {

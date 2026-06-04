@@ -391,7 +391,7 @@ export default function NatureDashboard() {
               </div>
               {isProfileComplete && (
                 <p style={{ fontFamily: "'Cormorant', serif", fontSize: 11, fontStyle: 'italic', color: 'rgba(58,94,51,.55)', wordBreak: 'break-all', lineHeight: 1.5 }}>
-                  vibeinvite.ro/invitatie/nature/<strong style={{ color: 'rgba(58,94,51,.8)', fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
+                  www.vibeinvite.ro/invitatie/nature/<strong style={{ color: 'rgba(58,94,51,.8)', fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
                 </p>
               )}
             </div>

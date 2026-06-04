@@ -262,7 +262,7 @@
 // //           <label style={labS}>Slug personalizat</label>
 // //           <div style={{ display: 'flex', alignItems: 'stretch', borderRadius: 6, overflow: 'hidden', border: '1px solid rgba(196,80,106,.18)', background: '#FDF5F6' }}>
 // //             <span className="ps-slug-prefix" style={{ padding: '11px 12px', color: 'rgba(166,50,72,.35)', background: 'rgba(196,80,106,.04)', fontSize: 12, fontFamily: "'Cinzel', serif", letterSpacing: '.06em', borderRight: '1px solid rgba(196,80,106,.12)', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center' }}>
-// //               vibeinvite.ro/
+// //               www.vibeinvite.ro/
 // //             </span>
 // //             <input
 // //               className="ps-input"
@@ -879,7 +879,7 @@
 //           <label style={labS}>Slug personalizat</label>
 //           <div style={{ display: 'flex', alignItems: 'stretch', borderRadius: BR.sm, overflow: 'hidden', border: `1px solid rgba(196,80,106,.18)`, background: C.cream }}>
 //             <span className="ps-slug-prefix" style={{ padding: `11px 12px`, color: 'rgba(166,50,72,.35)', background: 'rgba(196,80,106,.04)', fontSize: FS.base, fontFamily: F.heading, letterSpacing: '.06em', borderRight: `1px solid rgba(196,80,106,.12)`, whiteSpace: 'nowrap' as const, display: 'flex', alignItems: 'center' }}>
-//               vibeinvite.ro/
+//               www.vibeinvite.ro/
 //             </span>
 //             <input
 //               className="ps-input"
@@ -1413,7 +1413,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
           <label style={labS}>Slug personalizat</label>
           <div style={{ display: 'flex', alignItems: 'stretch', borderRadius: BR.sm, overflow: 'hidden', border: `1px solid rgba(196,80,106,.18)`, background: C.cream }}>
             <span className="ps-slug-prefix" style={{ padding: `11px 12px`, color: 'rgba(166,50,72,.35)', background: 'rgba(196,80,106,.04)', fontSize: FS.base, fontFamily: F.heading, letterSpacing: '.06em', borderRight: `1px solid rgba(196,80,106,.12)`, whiteSpace: 'nowrap' as const, display: 'flex', alignItems: 'center' }}>
-              vibeinvite.ro/
+              www.vibeinvite.ro/
             </span>
             <input
               className="ps-input"

@@ -190,7 +190,7 @@ export default function LuxRsvpForm({ orderId, showAccommodation, showTransport 
           <div style={{ background: 'rgba(212,175,55,.06)', border: '1.5px solid rgba(212,175,55,.15)', borderRadius: '8px', padding: '13px 15px', marginBottom: '18px', marginTop: '22px' }}>
             <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '12px', color: 'rgba(212,175,55,.55)', lineHeight: '1.5', marginBottom: '10px', fontStyle: 'italic' }}>
               <strong>🔒 Date Protejate:</strong> Datele tale se colectează și șterg după 12 luni. <strong>NU colectăm date medicale.</strong>
-              <a href="https://vibeinvite.ro/politica" target="_blank" rel="noopener" style={{ color: '#D4AF37', textDecoration: 'underline', marginLeft: '4px' }}>Citire completă</a>
+              <a href="https://www.vibeinvite.ro/politica" target="_blank" rel="noopener" style={{ color: '#D4AF37', textDecoration: 'underline', marginLeft: '4px' }}>Citire completă</a>
             </p>
             <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer', userSelect: 'none' }}>
               <input 

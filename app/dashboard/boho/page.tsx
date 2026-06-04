@@ -388,7 +388,7 @@ export default function BohoDashboard() {
               </div>
               {isProfileComplete && (
                 <p style={{ fontFamily: "'Lora', serif", fontSize: 11, fontStyle: 'italic', color: 'rgba(122,74,53,.55)', wordBreak: 'break-all', lineHeight: 1.5 }}>
-                  vibeinvite.ro/invitatie/boho/<strong style={{ color: '#C4785A', fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
+                  www.vibeinvite.ro/invitatie/boho/<strong style={{ color: '#C4785A', fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
                 </p>
               )}
             </div>

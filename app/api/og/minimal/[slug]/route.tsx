@@ -111,7 +111,7 @@ export async function GET(
             <div style={{ marginTop: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
               <div style={{ width: 24, height: 2, background: '#C8503A', display: 'flex' }} />
               <div style={{ fontFamily: 'DMSans', fontSize: 11, letterSpacing: 6, color: '#AAAAAA', textTransform: 'uppercase', display: 'flex' }}>
-                vibeinvite.ro
+                www.vibeinvite.ro
               </div>
             </div>
           </div>

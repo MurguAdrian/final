@@ -28,14 +28,14 @@ export const metadata: Metadata = {
     'export excel invitatii',
     'invitații PDF România',
   ],
-  authors: [{ name: 'VibeInvite', url: 'https://vibeinvite.ro' }],
+  authors: [{ name: 'VibeInvite', url: 'https://www.vibeinvite.ro' }],
   creator: 'VibeInvite',
   publisher: 'VibeInvite',
   metadataBase: new URL(SITE_DOMAIN),
   alternates: { canonical: SITE_DOMAIN },
   openGraph: {
     type: 'website',
-    url: 'https://vibeinvite.ro',
+    url: 'https://www.vibeinvite.ro',
     title: 'VibeInvite — Invitații Nuntă Online, Platformă Completă pentru Miri',
     description:
       'Invitații digitale pentru nuntă prin link personalizat, confirmare participare, gestionare invitați și experiență digitală completă. Simplu, modern, fără hârtie.',
@@ -562,7 +562,7 @@ const FEATURES_MAIN = [
   {
     icon: '💌',
     name: 'Invitație prin link',
-    desc: 'URL personalizat de forma vibeinvite.ro/nunta-mea. Trimiți unui invitat sau tuturor deodată.',
+    desc: 'URL personalizat de forma www.vibeinvite.ro/nunta-mea. Trimiți unui invitat sau tuturor deodată.',
   },
   {
     icon: '✅',
@@ -614,12 +614,12 @@ export default function Page() {
             '@context': 'https://schema.org',
             '@type': 'WebSite',
             name: 'VibeInvite',
-            url: 'https://vibeinvite.ro',
+            url: 'https://www.vibeinvite.ro',
             description:
               'Platformă completă de invitații nuntă online prin link personalizat, confirmare participare, gestionare invitați și experiență digitală completă.',
             potentialAction: {
               '@type': 'SearchAction',
-              target: 'https://vibeinvite.ro/cautare?q={search_term_string}',
+              target: 'https://www.vibeinvite.ro/cautare?q={search_term_string}',
               'query-input': 'required name=search_term_string',
             },
           }),
@@ -672,7 +672,7 @@ export default function Page() {
             </p>
 
             <ul className="vi-flist" aria-label="Ce include platforma">
-              <li className="vi-fitem"><strong>URL personalizat</strong> — vibeinvite.ro/nunta-ta</li>
+              <li className="vi-fitem"><strong>URL personalizat</strong> — www.vibeinvite.ro/nunta-ta</li>
               <li className="vi-fitem"><strong>Confirmare participare</strong> cu copii, transport și observații</li>
               <li className="vi-fitem"><strong>Tracking</strong> deschidere link, în timp real</li>
               <li className="vi-fitem"><strong>Meniu</strong> și <strong>GPS</strong> integrate în invitație</li>
@@ -756,7 +756,7 @@ export default function Page() {
               <div className="vi-slug-icon">🔗</div>
               <div>
                 <div className="vi-slug-label">Link personalizat</div>
-                <div className="vi-slug-val">vibeinvite.ro/nunta-ana-si-mihai</div>
+                <div className="vi-slug-val">www.vibeinvite.ro/nunta-ana-si-mihai</div>
               </div>
             </div>
 
@@ -861,7 +861,7 @@ export default function Page() {
             </p>
 
             <ul className="vi-photo-list" aria-label="Ce include colaborarea">
-              <li className="vi-photo-item">Pagină proprie de portofoliu pe vibeinvite.ro</li>
+              <li className="vi-photo-item">Pagină proprie de portofoliu pe www.vibeinvite.ro</li>
               <li className="vi-photo-item">Optimizare SEO locală pentru Google (manual, fără automatizări)</li>
               <li className="vi-photo-item">Vizibilitate direct în fața mirilor care creează invitații</li>
               <li className="vi-photo-item">Zero costuri — complet gratuit pe durata pilotului</li>
