@@ -562,7 +562,7 @@ const FEATURES_MAIN = [
   {
     icon: '💌',
     name: 'Invitație prin link',
-    desc: 'URL personalizat de forma www.vibeinvite.ro/nunta-mea. Trimiți unui invitat sau tuturor deodată.',
+    desc: 'URL personalizat de forma vibeinvite.ro/nunta-mea. Trimiți unui invitat sau tuturor deodată.',
   },
   {
     icon: '✅',
@@ -672,7 +672,7 @@ export default function Page() {
             </p>
 
             <ul className="vi-flist" aria-label="Ce include platforma">
-              <li className="vi-fitem"><strong>URL personalizat</strong> — www.vibeinvite.ro/nunta-ta</li>
+              <li className="vi-fitem"><strong>URL personalizat</strong> — vibeinvite.ro/nunta-ta</li>
               <li className="vi-fitem"><strong>Confirmare participare</strong> cu copii, transport și observații</li>
               <li className="vi-fitem"><strong>Tracking</strong> deschidere link, în timp real</li>
               <li className="vi-fitem"><strong>Meniu</strong> și <strong>GPS</strong> integrate în invitație</li>
