@@ -925,11 +925,21 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
 // ─── STYLES ──────────────────────────────────────────────
 const thStyle: React.CSSProperties = {
   padding: 'clamp(10px,1.5vw,14px) clamp(10px,1.5vw,14px)',
-  fontFamily: "'Cinzel', serif", fontSize: 7, letterSpacing: '.22em',
-  textTransform: 'uppercase', color: 'rgba(166,50,72,.5)',
-  textAlign: 'left', fontWeight: 600,
+  fontFamily: "'Cinzel', serif",
+
+  // FIX: mai mare și responsive
+  fontSize: 'clamp(9px, 1.8vw, 11px)',
+
+  letterSpacing: '.16em',
+  textTransform: 'uppercase',
+  color: 'rgba(166,50,72,.55)',
+
+  textAlign: 'left',
+  fontWeight: 600,
+
   borderBottom: '1px solid rgba(196,80,106,.12)',
   whiteSpace: 'nowrap',
+
   position: 'sticky',
   top: 0,
   background: '#FFF8F9',

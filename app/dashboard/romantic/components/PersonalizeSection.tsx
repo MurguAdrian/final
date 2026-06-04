@@ -1065,9 +1065,15 @@ interface FormData {
 const labS: React.CSSProperties = {
   display: 'block',
   fontFamily: F.heading,
-  fontSize: FS.tiny, fontWeight: 600,
-  letterSpacing: '.24em', textTransform: 'uppercase',
-  color: 'rgba(166,50,72,.45)',
+
+  // FIX: de la FS.tiny (8px) → mai lizibil responsive
+  fontSize: 'clamp(9px, 1.8vw, 11px)',
+
+  fontWeight: 600,
+  letterSpacing: '.16em',
+  textTransform: 'uppercase',
+
+  color: 'rgba(166,50,72,.55)',
   marginBottom: 6,
 };
 
@@ -1119,18 +1125,50 @@ interface SectionCardProps {
 
 const SectionCard = ({ title, icon, children, style }: SectionCardProps) => (
   <div className="ps-card" style={{ ...cardBase, ...style }}>
-    <div style={{ padding: `14px 18px 10px`, borderBottom: `1px solid rgba(196,80,106,.08)`, display: 'flex', alignItems: 'center', gap: SP.sm }}>
-      {icon && <span style={{ fontSize: 14, opacity: .85 }}>{icon}</span>}
-      <p style={{ fontFamily: F.heading, fontSize: FS.tiny, fontWeight: 600, letterSpacing: '.28em', textTransform: 'uppercase' as const, color: 'rgba(166,50,72,.65)', margin: 0 }}>
+    
+    <div
+      style={{
+        padding: `14px 18px 10px`,
+        borderBottom: `1px solid rgba(196,80,106,.08)`,
+        display: 'flex',
+        alignItems: 'center',
+        gap: SP.sm,
+      }}
+    >
+      {icon && (
+        <span style={{ fontSize: 14, opacity: 0.85 }}>
+          {icon}
+        </span>
+      )}
+
+      {/* TITLE FIX */}
+      <p
+        style={{
+          fontFamily: F.heading,
+
+          // FIX: mai mare + responsive
+          fontSize: 'clamp(9px, 1.8vw, 11px)',
+
+          fontWeight: 600,
+          letterSpacing: '.16em',
+          textTransform: 'uppercase',
+
+          color: 'rgba(166,50,72,.7)',
+          margin: 0,
+        }}
+      >
         {title}
       </p>
     </div>
-    <div style={{ padding: `${SP.lg}px 18px` }}>{children}</div>
+
+    <div style={{ padding: `${SP.lg}px 18px` }}>
+      {children}
+    </div>
   </div>
 );
 
 const FG = ({ children, noMargin }: { children: React.ReactNode; noMargin?: boolean }) => (
-  <div style={{ marginBottom: noMargin ? 0 : SP.xs }}>{children}</div>
+  <div style={{ marginBottom: noMargin ? 0 : SP.md }}>{children}</div>
 );
 
 // ─── MAIN COMPONENT ──────────────────────────────────────
