@@ -943,12 +943,79 @@ const tdStyle: React.CSSProperties = {
 
 // ─── SUB-COMPONENTS ──────────────────────────────────────
 const StatCard = ({ title, value, icon }: any) => (
-  <div style={{ background: 'rgba(196,80,106,.03)', border: '1px solid rgba(196,80,106,.15)', borderRadius: 14, padding: 'clamp(12px,2vw,20px) clamp(10px,1.5vw,16px)', textAlign: 'center' as const, position: 'relative', overflow: 'hidden', boxShadow: '0 2px 16px rgba(123,26,46,.04),inset 0 1px 0 rgba(196,80,106,.06)' }}>
-  <div style={{ position: 'absolute', top: 0, left: '15%', right: '15%', height: 1, background: 'linear-gradient(90deg,transparent,rgba(196,80,106,.3),transparent)' }} />
-  {icon && <div style={{ width: 32, height: 32, borderRadius: 9, background: 'rgba(196,80,106,.07)', border: '1px solid rgba(196,80,106,.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 8px', flexShrink: 0 }}>{icon}</div>}
-  <p style={{ fontFamily: "'Cinzel', serif", fontSize: 7, letterSpacing: '.2em', textTransform: 'uppercase', color: 'rgba(166,50,72,.4)', marginBottom: 6 }}>{title}</p>
-  <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(24px,3.5vw,38px)', fontWeight: 300, color: '#3D1520', margin: 0, lineHeight: 1 }}>{value || 0}</h4>
-</div>
+  <div
+    style={{
+      background: 'rgba(196,80,106,.03)',
+      border: '1px solid rgba(196,80,106,.15)',
+      borderRadius: 14,
+      padding: 'clamp(12px,2vw,20px) clamp(10px,1.5vw,16px)',
+      textAlign: 'center' as const,
+      position: 'relative',
+      overflow: 'hidden',
+      boxShadow:
+        '0 2px 16px rgba(123,26,46,.04), inset 0 1px 0 rgba(196,80,106,.06)',
+    }}
+  >
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: '15%',
+        right: '15%',
+        height: 1,
+        background:
+          'linear-gradient(90deg,transparent,rgba(196,80,106,.3),transparent)',
+      }}
+    />
+
+    {icon && (
+      <div
+        style={{
+          width: 34,
+          height: 34,
+          borderRadius: 10,
+          background: 'rgba(196,80,106,.07)',
+          border: '1px solid rgba(196,80,106,.18)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          margin: '0 auto 10px',
+          flexShrink: 0,
+        }}
+      >
+        {icon}
+      </div>
+    )}
+
+    {/* TITLE - FIX IMPORTANT (mai mare + lizibil pe mobil) */}
+    <p
+      style={{
+        fontFamily: "'Cinzel', serif",
+        fontSize: 'clamp(9px, 2.2vw, 11px)',
+        letterSpacing: '.14em',
+        textTransform: 'uppercase',
+        color: 'rgba(166,50,72,.55)',
+        marginBottom: 6,
+        fontWeight: 500,
+      }}
+    >
+      {title}
+    </p>
+
+    {/* VALUE - ușor ajustat pentru echilibru vizual */}
+    <h4
+      style={{
+        fontFamily: "'Cormorant Garamond', serif",
+        fontSize: 'clamp(26px, 4vw, 40px)',
+        fontWeight: 300,
+        color: '#3D1520',
+        margin: 0,
+        lineHeight: 1,
+      }}
+    >
+      {value || 0}
+    </h4>
+  </div>
 );
 
 const RoseDivider = () => (
