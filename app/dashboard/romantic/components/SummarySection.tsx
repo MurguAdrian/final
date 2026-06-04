@@ -658,7 +658,7 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
         .rm-copy-btn:hover   { background: linear-gradient(135deg,#7B1A2E,#A63248,#C4506A,#A63248,#7B1A2E) !important; }
         .rm-share-btn:hover  { background: rgba(196,80,106,.1) !important; border-color: rgba(196,80,106,.45) !important; color: #7B1A2E !important; }
 
-        .sum-wrap  { width: 100%; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
+        .sum-wrap   { width: 100%; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
         .sum-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
         .sum-link-row { display: flex; gap: 10px; flex-wrap: wrap; }
 
@@ -669,10 +669,21 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
           margin-bottom: 28px;
         }
 
+        /*
+          Wrapper-ul tabelului:
+          - overflow-x: auto  → scroll orizontal când coloanele nu încap
+          - overflow-y: auto  → scroll vertical pentru 300+ rânduri
+          - max-height fluid  → ocupă spațiul disponibil fără să depășească viewport-ul
+          - -webkit-overflow-scrolling: touch → scroll cu momentum pe iOS
+          - overscroll-behavior: contain → previne propagarea scroll-ului spre .rm-main
+        */
         .sum-table-wrap {
           overflow-x: auto;
-          -webkit-overflow-scrolling: auto;
-          overscroll-behavior-x: contain;
+          overflow-y: auto;
+          max-height: clamp(300px, 55vh, 620px);
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior: contain;
+          border-radius: 0 0 16px 16px;
         }
 
         .sum-link-input { font-size: 16px !important; -webkit-appearance: none; appearance: none; }
@@ -681,14 +692,18 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
         @media (max-width: 600px) {
           .sum-stats-grid   { grid-template-columns: repeat(2, 1fr) !important; }
           .sum-link-row     { flex-direction: column !important; }
-          .sum-link-row input { min-width: 0 !important; width: 100% !important; }
+          .sum-link-row input  { min-width: 0 !important; width: 100% !important; }
           .sum-link-row button { width: 100% !important; }
-          .sum-header       { flex-direction: column !important; align-items: flex-start !important; }
-          .rm-export-btn span { display: none; }
-          .share-label      { display: none; }
-          .rm-share-btn     { padding: 10px 12px !important; }
+          .sum-header          { flex-direction: column !important; align-items: flex-start !important; }
+          .rm-export-btn span  { display: none; }
+          .share-label         { display: none; }
+          .rm-share-btn        { padding: 10px 12px !important; }
+          /* Pe mobile max-height mai mic — keyboard + safe area reduc spațiul */
+          .sum-table-wrap { max-height: clamp(240px, 45vh, 480px) !important; }
         }
-        @media (max-width: 400px) { .sum-stats-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+        @media (max-width: 400px) {
+          .sum-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
 
         @media (max-width: 640px) { .th-cazare, .td-cazare, .th-transport, .td-transport { display: none !important; } }
         @media (max-width: 480px) { .th-details, .td-details { display: none !important; } }
@@ -788,15 +803,30 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
         {/* GUEST TABLE */}
         <div style={{ background: 'rgba(196,80,106,.02)', border: '1px solid rgba(196,80,106,.15)', borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 24px rgba(123,26,46,.05),inset 0 1px 0 rgba(196,80,106,.05)', position: 'relative' }}>
           <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: 1, background: 'linear-gradient(90deg,transparent,rgba(196,80,106,.35),transparent)' }} />
+
+          {/* Table header — în afara scroll-ului, mereu vizibil */}
           <div style={{ padding: 'clamp(16px,3vw,24px)', borderBottom: '1px solid rgba(196,80,106,.1)' }}>
             <p style={{ fontFamily: "'Cinzel', serif", fontSize: 8, letterSpacing: '.32em', textTransform: 'uppercase', color: 'rgba(166,50,72,.4)', marginBottom: 5 }}>Registrul Invitaților</p>
-            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(16px,3vw,24px)', fontStyle: 'italic', fontWeight: 300, color: '#3D1520', margin: 0 }}>Detalii Răspunsuri</h3>
+            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(16px,3vw,24px)', fontStyle: 'italic', fontWeight: 300, color: '#3D1520', margin: 0 }}>
+              Detalii Răspunsuri
+              {data?.guests?.length > 0 && (
+                <span style={{ fontFamily: "'Cinzel', serif", fontSize: 9, letterSpacing: '.18em', color: 'rgba(166,50,72,.4)', marginLeft: 12, fontStyle: 'normal', fontWeight: 400 }}>
+                  {data.guests.length} {data.guests.length === 1 ? 'răspuns' : 'răspunsuri'}
+                </span>
+              )}
+            </h3>
           </div>
 
+          {/*
+            .sum-table-wrap are overflow-y: auto + max-height fluid.
+            Scroll-ul se face DOAR aici, nu propagă spre .rm-main.
+            thead sticky funcționează corect pentru că poziția sticky
+            e relativă la acest scroll container, nu la viewport.
+          */}
           <div className="sum-table-wrap">
             <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 400 }}>
               <thead>
-                <tr style={{ background: 'rgba(196,80,106,.04)' }}>
+                <tr style={{ background: '#FFF8F9' }}>
                   <th style={thStyle}>Nume</th>
                   <th style={thStyle}>Status</th>
                   <th style={thStyle}>Persoane</th>
@@ -847,6 +877,9 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
             </table>
           </div>
         </div>
+
+        {/* Spațiu respirabil jos */}
+        <div style={{ height: 32 }} />
       </div>
     </>
   );
@@ -860,12 +893,11 @@ const thStyle: React.CSSProperties = {
   textAlign: 'left', fontWeight: 600,
   borderBottom: '1px solid rgba(196,80,106,.12)',
   whiteSpace: 'nowrap',
-  
-  // Adaugă astea două linii pentru a bloca capul de tabel sus:
+  /* Sticky față de .sum-table-wrap (scroll container-ul imediat) */
   position: 'sticky',
   top: 0,
-  background: '#FFF8F9', // E important să aibă un fundal solid, altfel textul din tabel se va suprapune urât pe sub el când dai scroll
-  zIndex: 2
+  background: '#FFF8F9',
+  zIndex: 2,
 };
 
 const tdStyle: React.CSSProperties = {
