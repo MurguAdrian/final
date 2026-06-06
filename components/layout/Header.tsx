@@ -555,19 +555,12 @@
 
 
 
-
-
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-/* ═══════════════════════════════════════════════════════════════
-   LOGO SVG inline — /app/public/logo.svg
-   Folosim direct SVG-ul ca să evităm un <img> extra și să
-   controlăm culorile prin CSS (tematică alb + #FF6B00)
-═══════════════════════════════════════════════════════════════ */
 function Logo() {
   return (
     <svg
@@ -608,9 +601,6 @@ function Logo() {
   )
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   NAV ITEMS
-═══════════════════════════════════════════════════════════════ */
 const NAV_ITEMS = [
   { label: 'Invitații PDF',      href: '/invitatii-PDF' },
   { label: 'Invitații Digitale', href: '/invitatii-digitale' },
@@ -619,30 +609,16 @@ const NAV_ITEMS = [
   { label: 'Contact',            href: '/contact' },
 ]
 
-/* ═══════════════════════════════════════════════════════════════
-   STYLES — scoped cu prefix vh- (no Tailwind dependency)
-   MODIFICĂRI RESPONSIVITATE:
-   - Rescris toate media queries la min-width (mobile-first)
-   - Bar height fluid cu clamp()
-   - Logo font-size fluid cu clamp()
-   - Nav font-size fluid
-   - touch-action: manipulation + -webkit-tap-highlight-color pe toate elementele interactive
-   - Min-height 44px pe toate touch targets din mobile menu
-   - Mobile menu: left/right fluid cu clamp()
-   - overflow-wrap: break-word pe toate textele de navigare
-═══════════════════════════════════════════════════════════════ */
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
 
 .vh-header *{box-sizing:border-box;margin:0;padding:0}
 
-/* ── keyframes ── */
 @keyframes vh-slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes vh-shimmer{0%{background-position:-300px 0}100%{background-position:300px 0}}
 @keyframes vh-dotPulse{0%,100%{opacity:.4;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
 @keyframes vh-mobileIn{from{opacity:0;transform:translateY(-12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 
-/* ── wrapper ── */
 .vh-header{
   position:sticky;
   top:0;
@@ -652,17 +628,13 @@ const CSS = `
   animation:vh-slideDown .5s ease both;
 }
 
-/* ── glass bar ──
-   BASE (mobile): height fluid, padding fluid
-   Trecem la valori mai mari prin min-width
-── */
 .vh-bar{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:clamp(12px, 3vw, 32px);
-  padding:0 clamp(16px, 4vw, 48px);
-  height:clamp(54px, 8vw, 68px);
+  padding:0 clamp(20px, 5vw, 48px);
+  height:68px;
   background:rgba(253,250,246,.92);
   backdrop-filter:blur(18px);
   -webkit-backdrop-filter:blur(18px);
@@ -675,7 +647,6 @@ const CSS = `
   box-shadow:0 4px 32px rgba(0,0,0,.07);
 }
 
-/* accent line top */
 .vh-bar::before{
   content:'';
   position:absolute;
@@ -687,11 +658,10 @@ const CSS = `
 }
 .vh-bar.scrolled::before{opacity:1}
 
-/* ── logo ── */
 .vh-logo{
   display:flex;
   align-items:center;
-  gap:9px;
+  gap:10px;
   text-decoration:none;
   flex-shrink:0;
   touch-action:manipulation;
@@ -699,16 +669,14 @@ const CSS = `
 }
 .vh-logo-text{
   font-family:'DM Sans',sans-serif;
-  font-size:clamp(15px, 3.5vw, 18px);
+  font-size:20px;
   font-weight:700;
   color:#1A1208;
   letter-spacing:-.4px;
   line-height:1;
-  overflow-wrap:break-word;
 }
 .vh-logo-text span{color:#FF6B00}
 
-/* ── desktop nav ── hidden on mobile base ── */
 .vh-nav{
   display:none;
   align-items:center;
@@ -719,9 +687,9 @@ const CSS = `
   position:relative;
   display:inline-flex;
   align-items:center;
-  padding:7px 14px;
+  padding:8px 15px;
   border-radius:100px;
-  font-size:clamp(12px, 1.5vw, 13.5px);
+  font-size:15px;
   font-weight:400;
   color:rgba(26,18,8,.7);
   text-decoration:none;
@@ -733,7 +701,7 @@ const CSS = `
 .vh-nav li a::after{
   content:'';
   position:absolute;
-  bottom:4px;left:14px;right:14px;
+  bottom:4px;left:15px;right:15px;
   height:1.5px;
   background:#FF6B00;
   border-radius:2px;
@@ -746,7 +714,6 @@ const CSS = `
 .vh-nav li a.active{color:#FF6B00;font-weight:500}
 .vh-nav li a.active::after{transform:scaleX(1)}
 
-/* ── right actions ── hidden on mobile base ── */
 .vh-actions{
   display:none;
   align-items:center;
@@ -757,10 +724,10 @@ const CSS = `
   display:inline-flex;
   align-items:center;
   gap:6px;
-  padding:8px 18px;
+  padding:9px 20px;
   border-radius:100px;
   border:1px solid rgba(26,18,8,.15);
-  font-size:13px;
+  font-size:15px;
   font-weight:500;
   color:#1A1208;
   text-decoration:none;
@@ -775,10 +742,10 @@ const CSS = `
   display:inline-flex;
   align-items:center;
   gap:8px;
-  padding:9px 22px;
+  padding:10px 24px;
   border-radius:100px;
   background:#FF6B00;
-  font-size:13px;
+  font-size:15px;
   font-weight:600;
   color:#fff;
   text-decoration:none;
@@ -800,24 +767,22 @@ const CSS = `
 }
 .vh-cta:hover{background:#FF8C35;transform:translateY(-1px);box-shadow:0 8px 26px rgba(255,107,0,.42)}
 
-/* ── badge on CTA (optional "nou" / "free") ── */
 .vh-cta-badge{
   background:rgba(255,255,255,.28);
   border-radius:100px;
-  padding:1px 7px;
-  font-size:10px;
+  padding:2px 8px;
+  font-size:11px;
   font-weight:700;
   letter-spacing:.05em;
   text-transform:uppercase;
 }
 
-/* ── hamburger ── visible on mobile base ── */
 .vh-burger{
   display:flex;
   align-items:center;
   justify-content:center;
-  width:44px;
-  height:44px;
+  width:48px;
+  height:48px;
   border-radius:50%;
   border:1px solid rgba(26,18,8,.12);
   background:#fff;
@@ -832,25 +797,23 @@ const CSS = `
 .vh-burger:hover{border-color:rgba(255,107,0,.35);background:#FFF4ED}
 .vh-burger-icon{
   display:flex;flex-direction:column;justify-content:center;
-  align-items:center;width:18px;height:14px;gap:4px;
+  align-items:center;width:20px;height:15px;gap:5px;
 }
 .vh-bline{
-  width:18px;height:1.5px;background:#1A1208;border-radius:2px;
+  width:20px;height:2px;background:#1A1208;border-radius:2px;
   transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .3s,width .3s;
   transform-origin:center;
 }
-/* open state */
-.vh-burger.open .vh-bline:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
+.vh-burger.open .vh-bline:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .vh-burger.open .vh-bline:nth-child(2){opacity:0;width:0}
-.vh-burger.open .vh-bline:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
+.vh-burger.open .vh-bline:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
-/* ── mobile menu ── */
 .vh-mobile{
   display:none;
   position:absolute;
   top:calc(100% + 8px);
-  left:clamp(10px, 3vw, 16px);
-  right:clamp(10px, 3vw, 16px);
+  left:clamp(12px, 3vw, 16px);
+  right:clamp(12px, 3vw, 16px);
   background:#fff;
   border-radius:24px;
   border:1px solid rgba(255,107,0,.14);
@@ -872,22 +835,21 @@ const CSS = `
   display:flex;
   align-items:center;
   justify-content:space-between;
-  min-height:48px;
-  padding:12px 16px;
+  min-height:56px;
+  padding:14px 18px;
   border-radius:14px;
-  font-size:clamp(14px, 3.5vw, 15px);
-  font-weight:400;
+  font-size:17px;
+  font-weight:500;
   color:#1A1208;
   text-decoration:none;
   transition:background .18s, color .18s;
   touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;
-  overflow-wrap:break-word;
 }
 .vh-mobile-nav li a:hover{background:#FFF4ED;color:#FF6B00}
-.vh-mobile-nav li a.active{background:#FFF4ED;color:#FF6B00;font-weight:500}
+.vh-mobile-nav li a.active{background:#FFF4ED;color:#FF6B00;font-weight:600}
 .vh-mobile-nav li a .vh-arrow{
-  font-size:12px;
+  font-size:14px;
   color:rgba(26,18,8,.35);
   transition:transform .2s;
   flex-shrink:0;
@@ -897,22 +859,23 @@ const CSS = `
 .vh-mobile-divider{
   height:1px;
   background:rgba(255,107,0,.1);
-  margin:14px 0;
+  margin:16px 0;
 }
 .vh-mobile-actions{
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:12px;
 }
 .vh-mobile-login{
   display:flex;
   align-items:center;
   justify-content:center;
-  min-height:48px;
-  padding:12px;
+  gap:8px;
+  min-height:56px;
+  padding:14px;
   border-radius:14px;
-  border:1px solid rgba(26,18,8,.12);
-  font-size:clamp(14px, 3.5vw, 14px);
+  border:1.5px solid rgba(26,18,8,.15);
+  font-size:16px;
   font-weight:500;
   color:#1A1208;
   text-decoration:none;
@@ -920,18 +883,18 @@ const CSS = `
   touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;
 }
-.vh-mobile-login:hover{border-color:#FF6B00;color:#FF6B00}
+.vh-mobile-login:hover{border-color:#FF6B00;color:#FF6B00;background:#FFF4ED}
 .vh-mobile-cta{
   display:flex;
   align-items:center;
   justify-content:center;
   gap:8px;
-  min-height:48px;
-  padding:13px;
+  min-height:56px;
+  padding:15px;
   border-radius:14px;
   background:#FF6B00;
-  font-size:clamp(14px, 3.5vw, 14px);
-  font-weight:600;
+  font-size:16px;
+  font-weight:700;
   color:#fff;
   text-decoration:none;
   box-shadow:0 4px 16px rgba(255,107,0,.35);
@@ -940,6 +903,7 @@ const CSS = `
   overflow:hidden;
   touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;
+  letter-spacing:.01em;
 }
 .vh-mobile-cta::after{
   content:'';
@@ -951,15 +915,13 @@ const CSS = `
 }
 .vh-mobile-cta:hover{background:#FF8C35;box-shadow:0 8px 24px rgba(255,107,0,.42)}
 
-/* mobile badge indicator */
 .vh-mobile-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:11px;color:rgba(26,18,8,.45);
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:13px;font-weight:500;color:rgba(26,18,8,.5);
   padding:6px 0 0 4px;
 }
-.vh-mbdot{width:6px;height:6px;background:#FF6B00;border-radius:50%;animation:vh-dotPulse 1.8s ease-in-out infinite}
+.vh-mbdot{width:7px;height:7px;background:#FF6B00;border-radius:50%;animation:vh-dotPulse 1.8s ease-in-out infinite}
 
-/* ── overlay backdrop ── */
 .vh-overlay{
   display:none;
   position:fixed;
@@ -970,12 +932,7 @@ const CSS = `
 }
 .vh-overlay.open{display:block}
 
-/* ═══════════════════════════════════════════════════════════
-   RESPONSIVE — MOBILE-FIRST (min-width additive)
-   Base CSS (fără media query) = mobile 320-768px
-═══════════════════════════════════════════════════════════ */
-
-/* ── tabletă 768px+ — afișează nav desktop, ascunde burger ── */
+/* ── tablet 769px+ ── */
 @media(min-width:769px){
   .vh-nav{display:flex}
   .vh-actions{display:flex}
@@ -984,40 +941,34 @@ const CSS = `
   .vh-overlay{display:none !important}
 }
 
-/* ── tabletă medie 769–1024px — nav mai compact ── */
+/* ── tablet 769–1024px ── */
 @media(min-width:769px) and (max-width:1024px){
   .vh-nav{gap:0}
-  .vh-nav li a{padding:7px 10px;font-size:13px}
-  .vh-cta{padding:8px 18px}
+  .vh-nav li a{padding:8px 11px;font-size:14px}
+  .vh-cta{padding:9px 18px;font-size:14px}
   .vh-login{display:none}
 }
 
-/* ── desktop 1025px+ — layout complet ── */
+/* ── desktop 1025px+ ── */
 @media(min-width:1025px){
   .vh-login{display:inline-flex}
 }
 `
 
-/* ═══════════════════════════════════════════════════════════════
-   HEADER COMPONENT
-═══════════════════════════════════════════════════════════════ */
 export default function Header() {
   const [open, setOpen]         = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname                = usePathname()
   const menuRef                 = useRef<HTMLDivElement>(null)
 
-  /* scroll listener — add shadow + accent line */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  /* close menu on route change */
   useEffect(() => { setOpen(false) }, [pathname])
 
-  /* close menu on outside click */
   useEffect(() => {
     if (!open) return
     const handler = (e: MouseEvent) => {
@@ -1029,7 +980,6 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', handler)
   }, [open])
 
-  /* lock body scroll on mobile menu open */
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
@@ -1039,7 +989,6 @@ export default function Header() {
     <>
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
-      {/* backdrop overlay */}
       <div
         className={`vh-overlay${open ? ' open' : ''}`}
         onClick={() => setOpen(false)}
@@ -1049,7 +998,6 @@ export default function Header() {
       <header className="vh-header" role="banner">
         <div className={`vh-bar${scrolled ? ' scrolled' : ''}`} ref={menuRef}>
 
-          {/* ── LOGO ── */}
           <Link href="/" className="vh-logo" aria-label="VibeInvite — pagina principală">
             <Logo />
             <span className="vh-logo-text">
@@ -1057,7 +1005,6 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* ── DESKTOP NAV ── */}
           <nav aria-label="Navigare principală">
             <ul className="vh-nav">
               {NAV_ITEMS.map((item) => (
@@ -1073,7 +1020,6 @@ export default function Header() {
             </ul>
           </nav>
 
-          {/* ── DESKTOP ACTIONS ── */}
           <div className="vh-actions">
             <Link href="/login" className="vh-login">
               <span aria-hidden="true">👤</span>
@@ -1086,7 +1032,6 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* ── HAMBURGER ── */}
           <button
             type="button"
             className={`vh-burger${open ? ' open' : ''}`}
@@ -1102,7 +1047,6 @@ export default function Header() {
             </div>
           </button>
 
-          {/* ── MOBILE MENU ── */}
           <div
             id="vh-mobile-menu"
             className={`vh-mobile${open ? ' open' : ''}`}
@@ -1115,7 +1059,7 @@ export default function Header() {
               Link invitație · 5 minute
             </div>
 
-            <ul className="vh-mobile-nav" style={{ marginTop: 12 }}>
+            <ul className="vh-mobile-nav" style={{ marginTop: 14 }}>
               {NAV_ITEMS.map((item) => (
                 <li key={item.href}>
                   <Link
@@ -1134,7 +1078,7 @@ export default function Header() {
 
             <div className="vh-mobile-actions">
               <Link href="/login" className="vh-mobile-login" onClick={() => setOpen(false)}>
-                <span aria-hidden="true">👤</span>&nbsp; Intră în cont
+                <span aria-hidden="true">👤</span> Intră în cont
               </Link>
               <Link href="/preturi" className="vh-mobile-cta" onClick={() => setOpen(false)}>
                 <span aria-hidden="true">✨</span>
