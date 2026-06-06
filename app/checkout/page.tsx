@@ -492,8 +492,6 @@
 
 
 
-
-
 'use client'
 
 import { useState } from 'react'
@@ -667,32 +665,192 @@ export default function CheckoutPage() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=DM+Sans:wght@300;400;500;600&display=swap');
-        .co-root { font-family: 'DM Sans', sans-serif; background: #FDFAF6; color: #1A1208; min-height: 100dvh; display: flex; flex-direction: column; }
-        .co-scroll { flex: 1; overflow-y: auto; }
-        .co-inner { max-width: 720px; margin: 0 auto; padding: 40px 20px 80px; }
-        .co-input { display: block; width: 100%; padding: 14px 16px; border-radius: 12px; font-size: 16px !important; line-height: 1.5; font-family: inherit; color: #1A1208; background: #FDFAF6; box-sizing: border-box; caret-color: #FF6B00; -webkit-appearance: none; appearance: none; transition: border-color 0.2s, box-shadow 0.2s; }
+
+        /* ── ROOT ── */
+        .co-root {
+          font-family: 'DM Sans', sans-serif;
+          background: #FDFAF6;
+          color: #1A1208;
+          min-height: 100dvh;
+          display: flex;
+          flex-direction: column;
+          overflow-x: hidden;
+        }
+        .co-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        .co-inner {
+          max-width: 720px;
+          margin: 0 auto;
+          padding: clamp(24px, 5vw, 40px) clamp(16px, 5vw, 20px) clamp(60px, 10vw, 80px);
+        }
+
+        /* ── INPUT ── */
+        .co-input {
+          display: block;
+          width: 100%;
+          padding: 14px 16px;
+          border-radius: 12px;
+          font-size: max(16px, 1em) !important; /* anti-zoom iOS */
+          line-height: 1.5;
+          font-family: inherit;
+          color: #1A1208;
+          background: #FDFAF6;
+          box-sizing: border-box;
+          caret-color: #FF6B00;
+          -webkit-appearance: none;
+          appearance: none;
+          transition: border-color 0.2s, box-shadow 0.2s;
+          scroll-margin-top: 16px;
+          scroll-margin-bottom: 16px;
+        }
         .co-input:focus { outline: none; }
         @media (hover: none) and (pointer: coarse) {
           .co-input:focus { outline: none !important; box-shadow: none !important; }
           button:focus { outline: none !important; }
         }
+
+        /* ── TABS ── */
         .co-tabs::-webkit-scrollbar { display: none; }
-        .co-tab { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; padding: 9px 16px; border-radius: 100px; font-size: 13px; font-family: inherit; cursor: pointer; transition: background 0.18s, color 0.18s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; min-height: 44px; outline: none; }
-        .co-tab-active { border: 1.5px solid #1A1208; background: #1A1208; color: #fff; font-weight: 600; box-shadow: 0 2px 8px rgba(26,18,8,0.15); }
+        .co-tab {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          flex-shrink: 0;
+          padding: 9px clamp(12px, 3vw, 16px);
+          border-radius: 100px;
+          font-size: clamp(12px, 3.2vw, 13px);
+          font-family: inherit;
+          cursor: pointer;
+          transition: background 0.18s, color 0.18s;
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+          min-height: 44px;
+          outline: none;
+        }
+        .co-tab-active   { border: 1.5px solid #1A1208; background: #1A1208; color: #fff; font-weight: 600; box-shadow: 0 2px 8px rgba(26,18,8,0.15); }
         .co-tab-inactive { border: 1.5px solid rgba(0,0,0,0.12); background: #fff; color: rgba(26,18,8,0.6); font-weight: 500; }
-        .co-pay-btn { display: inline-flex; align-items: center; justify-content: center; padding: 11px 22px; border-radius: 100px; border: none; outline: none; font-size: 13px; font-weight: 600; font-family: inherit; white-space: nowrap; transition: opacity 0.2s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+
+        /* ── PAY BUTTON ── */
+        .co-pay-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 11px 22px;
+          border-radius: 100px;
+          border: none;
+          outline: none;
+          font-size: clamp(12px, 3.2vw, 13px);
+          font-weight: 600;
+          font-family: inherit;
+          white-space: nowrap;
+          transition: opacity 0.2s;
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+          min-height: 44px;
+        }
+
+        /* ── CHECKBOX ROWS ── */
         .co-check-row { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
         .co-check-row + .co-check-row { margin-top: 14px; }
+
+        /* ── THEME CARD LAYOUT ── */
+        /* Mobile-first: stacked */
+        .co-card-body {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          padding: clamp(14px, 4vw, 20px);
+        }
+        .co-card-top {
+          display: flex;
+          align-items: flex-start;
+          gap: clamp(12px, 3vw, 16px);
+        }
+        .co-card-bottom {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+        }
+        .co-pay-btn-mobile {
+          flex: 1;
+        }
+
+        /* Tablet+: side-by-side (original layout) */
+        @media (min-width: 480px) {
+          .co-card-body {
+            flex-direction: row;
+            align-items: center;
+            gap: clamp(12px, 3vw, 16px);
+            padding: clamp(16px, 4vw, 20px);
+          }
+          .co-card-top {
+            flex: 1;
+            min-width: 0;
+          }
+          .co-card-bottom {
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: flex-start;
+            flex-shrink: 0;
+            gap: 10px;
+          }
+          .co-pay-btn-mobile {
+            flex: unset;
+          }
+        }
+
+        /* ── TAGLINE PILL ── */
+        .co-tagline {
+          font-size: clamp(10px, 2.5vw, 11px);
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.07em;
+          overflow-wrap: break-word;
+          word-break: break-word;
+        }
+
+        /* ── THEME DESC ── */
+        .co-desc {
+          font-size: clamp(12px, 3.2vw, 12.5px);
+          line-height: 1.5;
+          margin: 0;
+          overflow-wrap: break-word;
+          word-break: break-word;
+        }
+
+        /* ── THEME NAME ── */
+        .co-theme-name {
+          font-size: clamp(17px, 4.5vw, 21px);
+          font-weight: 600;
+          line-height: 1.2;
+          overflow-wrap: break-word;
+          word-break: break-word;
+        }
+
+        /* ── TOP BAR ── */
+        .co-topbar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-shrink: 0;
+          padding: clamp(10px, 2.5vw, 14px) clamp(16px, 5vw, 24px);
+          background: #1A1208;
+        }
+        .co-topbar-lock {
+          font-size: clamp(10px, 2.5vw, 11px);
+          font-weight: 500;
+          color: rgba(255,255,255,0.5);
+        }
       `}</style>
 
       <div className="co-root">
 
         {/* Top bar */}
-        <div className="flex items-center justify-between flex-shrink-0 px-6 py-3.5 bg-[#1A1208]">
+        <div className="co-topbar">
           <span className="font-serif text-xl font-semibold text-white tracking-wide" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Vibe<em className="italic" style={{ color: '#C9A84C' }}>Invite</em>
           </span>
-          <span className="text-[11px] font-medium text-white/50">🔒 Plată securizată Stripe</span>
+          <span className="co-topbar-lock">🔒 Plată securizată Stripe</span>
         </div>
 
         {/* Scroll area */}
@@ -701,15 +859,15 @@ export default function CheckoutPage() {
 
             {/* Title */}
             <div className="text-center mb-9">
-              <div className="inline-flex items-center gap-1.5 bg-[#FFF4ED] border border-orange-200 rounded-full px-3.5 py-1 text-[11px] font-semibold text-[#FF6B00] uppercase tracking-widest mb-4">
+              <div className="inline-flex items-center gap-1.5 bg-[#FFF4ED] border border-orange-200 rounded-full px-3.5 py-1 mb-4" style={{ fontSize: 'clamp(10px,2.5vw,11px)', fontWeight: 700, color: '#FF6B00', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
                 💌 Invitații digitale nuntă
               </div>
-              <h1 className="font-light leading-tight text-[#1A1208] mb-2.5" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(26px, 5vw, 42px)' }}>
+              <h1 className="font-light leading-tight text-[#1A1208] mb-2.5" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(26px, 5vw, 42px)', overflowWrap: 'break-word', wordBreak: 'break-word' }}>
                 Alege tema{' '}
                 <em className="italic" style={{ color: '#FF6B00' }}>invitației</em>
                 {' '}tale
               </h1>
-              <p className="text-sm text-[#1A1208]/55 leading-relaxed max-w-md mx-auto">
+              <p className="leading-relaxed max-w-md mx-auto" style={{ fontSize: 'clamp(13px, 3.5vw, 14px)', color: 'rgba(26,18,8,0.55)', overflowWrap: 'break-word' }}>
                 Introdu email-ul, alege o temă și finalizează comanda.
                 Accesul la invitația ta de nuntă online sosește imediat după plată.
               </p>
@@ -717,7 +875,7 @@ export default function CheckoutPage() {
 
             {/* Email + Terms card */}
             <div className="bg-white border border-black/[0.07] rounded-2xl p-6 mb-9 shadow-sm">
-              <label htmlFor="co-email" className="block text-[12px] font-semibold text-[#1A1208] uppercase tracking-widest mb-2">
+              <label htmlFor="co-email" className="block font-semibold text-[#1A1208] uppercase tracking-widest mb-2" style={{ fontSize: 'clamp(11px, 2.8vw, 12px)' }}>
                 Email pentru acces
               </label>
               <input
@@ -754,7 +912,7 @@ export default function CheckoutPage() {
                   className="mt-0.5 flex-shrink-0"
                   style={{ width: 18, height: 18, minWidth: 18, accentColor: '#1A1208', cursor: 'pointer' }}
                 />
-                <span className="text-[13px] text-[#1A1208]/60 leading-relaxed">
+                <span className="leading-relaxed" style={{ fontSize: 'clamp(12px, 3.2vw, 13px)', color: 'rgba(26,18,8,0.6)' }}>
                   Sunt de acord cu{' '}
                   <a
                     href="/termeni"
@@ -781,7 +939,7 @@ export default function CheckoutPage() {
                   className="mt-0.5 flex-shrink-0"
                   style={{ width: 18, height: 18, minWidth: 18, accentColor: '#1A1208', cursor: 'pointer' }}
                 />
-                <span className="text-[13px] text-[#1A1208]/60 leading-relaxed">
+                <span className="leading-relaxed" style={{ fontSize: 'clamp(12px, 3.2vw, 13px)', color: 'rgba(26,18,8,0.6)' }}>
                   Am citit și accept Politica de Confidențialitate și prelucrarea datelor conform GDPR.
                 </span>
               </div>
@@ -789,7 +947,7 @@ export default function CheckoutPage() {
 
             {/* Tabs */}
             <div className="mb-5">
-              <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#1A1208]/40 mb-3.5">
+              <p className="font-bold uppercase text-[#1A1208]/40 mb-3.5" style={{ fontSize: 'clamp(10px, 2.5vw, 11px)', letterSpacing: '0.08em' }}>
                 Teme disponibile · 300 Lei fiecare
               </p>
               <div
@@ -803,7 +961,7 @@ export default function CheckoutPage() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`co-tab ${activeTab === tab.id ? 'co-tab-active' : 'co-tab-inactive'}`}
                   >
-                    <span className="text-sm">{tab.icon}</span>
+                    <span style={{ fontSize: 14 }}>{tab.icon}</span>
                     {tab.label}
                   </button>
                 ))}
@@ -813,9 +971,9 @@ export default function CheckoutPage() {
             {/* Theme cards */}
             <div className="flex flex-col gap-3.5">
               {filteredThemes.length === 0 ? (
-                <div className="text-center py-12 px-6 bg-white rounded-2xl border border-black/[0.07] text-sm text-[#1A1208]/40 leading-relaxed">
+                <div className="text-center py-12 px-6 bg-white rounded-2xl border border-black/[0.07] leading-relaxed" style={{ fontSize: 'clamp(13px, 3.5vw, 14px)', color: 'rgba(26,18,8,0.4)' }}>
                   <div className="text-3xl mb-3">🚧</div>
-                  <strong className="block text-[#1A1208]/65 mb-1">În curând</strong>
+                  <strong className="block mb-1" style={{ color: 'rgba(26,18,8,0.65)' }}>În curând</strong>
                   Temele pentru această categorie sunt în pregătire.
                 </div>
               ) : (
@@ -830,36 +988,39 @@ export default function CheckoutPage() {
                     >
                       <div style={{ height: 3, background: theme.barGrad }} />
 
-                      <div className="flex items-center gap-4 p-5">
-                        {/* Icon */}
-                        <div
-                          className="flex-shrink-0 flex items-center justify-center rounded-2xl text-2xl"
-                          style={{ width: 52, height: 52, background: theme.pillBg }}
-                        >
-                          {theme.icon}
+                      <div className="co-card-body">
+                        {/* Top section: icon + info */}
+                        <div className="co-card-top">
+                          {/* Icon */}
+                          <div
+                            className="flex-shrink-0 flex items-center justify-center rounded-2xl"
+                            style={{ width: 52, height: 52, minWidth: 52, background: theme.pillBg, fontSize: 24 }}
+                          >
+                            {theme.icon}
+                          </div>
+
+                          {/* Info */}
+                          <div className="flex-1 min-w-0">
+                            <div
+                              className="co-tagline inline-flex items-center rounded-full mb-1.5 px-2.5 py-0.5"
+                              style={{ background: theme.pillBg, color: theme.pillText }}
+                            >
+                              {theme.tagline}
+                            </div>
+                            <div
+                              className="co-theme-name mb-1"
+                              style={{ fontFamily: "'Cormorant Garamond', serif", color: theme.accent }}
+                            >
+                              {theme.name}
+                            </div>
+                            <p className="co-desc" style={{ color: 'rgba(26,18,8,0.55)' }}>
+                              {theme.desc}
+                            </p>
+                          </div>
                         </div>
 
-                        {/* Info */}
-                        <div className="flex-1 min-w-0">
-                          <div
-                            className="inline-flex items-center rounded-full text-[10px] font-bold uppercase tracking-wider mb-1.5 px-2.5 py-0.5"
-                            style={{ background: theme.pillBg, color: theme.pillText }}
-                          >
-                            {theme.tagline}
-                          </div>
-                          <div
-                            className="text-xl font-semibold leading-tight mb-1"
-                            style={{ fontFamily: "'Cormorant Garamond', serif", color: theme.accent }}
-                          >
-                            {theme.name}
-                          </div>
-                          <p className="text-[12.5px] leading-snug m-0" style={{ color: 'rgba(26,18,8,0.55)' }}>
-                            {theme.desc}
-                          </p>
-                        </div>
-
-                        {/* Price + CTA */}
-                        <div className="flex flex-col items-end gap-2.5 flex-shrink-0">
+                        {/* Bottom section: price + CTA */}
+                        <div className="co-card-bottom">
                           <span className="text-lg font-bold text-[#1A1208] whitespace-nowrap">
                             300 Lei
                           </span>
@@ -867,7 +1028,7 @@ export default function CheckoutPage() {
                             type="button"
                             onClick={() => handlePayment(theme)}
                             disabled={anyLoading || !isReady}
-                            className="co-pay-btn"
+                            className="co-pay-btn co-pay-btn-mobile"
                             style={{
                               background: isLoading ? '#ccc' : theme.accent,
                               color: isLoading ? '#666' : theme.accentText,
@@ -885,8 +1046,8 @@ export default function CheckoutPage() {
               )}
             </div>
 
-            <p className="text-center mt-7 text-xs text-[#1A1208]/40 leading-relaxed">
-              <strong className="text-[#1A1208]/65">Plată unică · Acces permanent.</strong>{' '}
+            <p className="text-center mt-7 leading-relaxed" style={{ fontSize: 'clamp(11px, 2.8vw, 12px)', color: 'rgba(26,18,8,0.4)' }}>
+              <strong style={{ color: 'rgba(26,18,8,0.65)' }}>Plată unică · Acces permanent.</strong>{' '}
               Invitațiile personalizate nuntă includ dashboard invitați, meniu QR și album foto colectiv.
             </p>
 
