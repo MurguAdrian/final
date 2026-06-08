@@ -407,8 +407,8 @@ function InviteScreen({ props }: { props: RomanticInviteClientProps }) {
                 <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 20, height: 20 }}><path d="M8 18c0 1.65-1.35 3-3 3s-3-1.35-3-3c0-2 3-6 3-6s3 4 3 6z"/><path d="M5 12V4"/><path d="M19 14c0 1.1-.9 2-2 2s-2-.9-2-2c0-1.5 2-4 2-4s2 2.5 2 4z"/><path d="M17 10V6"/><path d="M12 8l2-2M12 8l-2-2M12 8v4"/><circle cx="12" cy="14" r=".7" fill="#fff" stroke="none"/></svg>
               </div>
               <div>
-                <span style={{ fontFamily: "'Cinzel',serif", fontSize: 8, letterSpacing: '.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,.65)', display: 'block', marginBottom: 2 }}>Recepție</span>
-                <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(15px,1.8vw,19px)', fontStyle: 'italic', fontWeight: 300, color: '#fff', lineHeight: 1.2 }}>Banchetul Nupțial</p>
+                <span style={{ fontFamily: "'Cinzel',serif", fontSize: 8, letterSpacing: '.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,.65)', display: 'block', marginBottom: 2 }}>Locatie</span>
+                <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(15px,1.8vw,19px)', fontStyle: 'italic', fontWeight: 300, color: '#fff', lineHeight: 1.2 }}>Petrecerea</p>
               </div>
             </div>
             <div style={{ padding: '14px 18px 16px' }}>

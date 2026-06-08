@@ -81,9 +81,6 @@ export default function RomanticRsvpForm({ orderId, showAccommodation, showTrans
             <p style={{ fontFamily: "'Cinzel', serif", fontSize: 'clamp(9px,1.1vw,11px)', letterSpacing: '0.38em', textTransform: 'uppercase', color: 'rgba(138,74,88,.6)', marginBottom: 8 }}>
               ♥ Confirmare Prezență ♥
             </p>
-            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px,4vw,36px)', fontStyle: 'italic', fontWeight: 400, color: '#7B1A2E', marginBottom: 4 }}>
-              R.S.V.P.
-            </h3>
             <div style={{ width: 40, height: 1, background: 'linear-gradient(90deg, transparent, rgba(196,80,106,.5), transparent)', margin: '8px auto 0' }}/>
           </div>
 
@@ -175,7 +172,7 @@ export default function RomanticRsvpForm({ orderId, showAccommodation, showTrans
           {/* GDPR Consent Section */}
           <div style={{ background: 'rgba(196,80,106,.06)', border: '1.5px solid rgba(196,80,106,.15)', borderRadius: '10px', padding: '13px 15px', marginBottom: '18px', marginTop: '22px' }}>
             <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '12px', color: 'rgba(138,74,88,.55)', lineHeight: '1.5', marginBottom: '10px', fontStyle: 'italic' }}>
-              <strong>🔒 Date Protejate:</strong> Datele tale se colectează și șterg după 12 luni. <strong>NU colectăm date medicale.</strong>
+              <strong>🔒 Date Protejate:</strong> Datele tale se colectează și se șterg după 12 luni. <strong>NU colectăm date medicale.</strong>
               <a href="https://www.vibeinvite.ro/politica" target="_blank" rel="noopener" style={{ color: '#A63248', textDecoration: 'underline', marginLeft: '4px' }}>Citire completă</a>
             </p>
             <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer', userSelect: 'none' }}>
