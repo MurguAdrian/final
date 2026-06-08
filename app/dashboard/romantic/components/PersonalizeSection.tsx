@@ -525,6 +525,7 @@
 //     </>
 //   );
 // };
+
 "use client";
 import React, { useState, useEffect } from 'react';
 import { C, F, FS, SP, BR, IS, SH, GR, KEYFRAMES } from '../romanticTokens';
@@ -549,6 +550,7 @@ interface FormData {
   religiousDate:          string;
   religiousTime:          string;
   religiousLocation:      string;
+  religiousMaps:          string;
   religiousWaze:          string;
   ourStory:               string;
   contactPhoneBride:      string;
@@ -680,11 +682,12 @@ const LocationLinks = ({
   mapsPlaceholder = 'https://maps.app.goo.gl/...',
   wazePlaceholder  = 'https://waze.com/ul/...',
 }: LocationLinksProps) => {
-  const generateLinks = () => {
+const generateLinks = () => {
     const trimmed = locationValue.trim();
     if (!trimmed) return;
     const encoded = encodeURIComponent(trimmed);
-    setter(mapsKey, `https://www.google.com/maps/search/?api=1&query=${encoded}`);
+    // Am adăugat $ înainte de {encoded} pe linia următoare:
+    setter(mapsKey, `https://www.google.com/maps/search/?api=1&query=$${encoded}`);
     setter(wazeKey,  `https://waze.com/ul?q=${encoded}&navigate=yes`);
   };
 
@@ -842,6 +845,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
     religiousDate:         data?.religious_date         ? new Date(data.religious_date).toISOString().split('T')[0]  : '',
     religiousTime:         data?.religious_time         ? data.religious_time.substring(0, 5)                        : '',
     religiousLocation:     data?.religious_location     || '',
+    religiousMaps:         data?.religious_maps_url     || '',
     religiousWaze:         data?.religious_waze         || '',
     ourStory:              data?.our_story              || '',
     contactPhoneBride:     data?.contact_phone_bride    || '',
@@ -1163,11 +1167,11 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
                   </FG>
                 </div>
                 <div style={{ gridColumn: 'span 2' }} className="ps-span-full">
-                  <LocationLinks
+            <LocationLinks
                     locationValue={formData.religiousLocation}
-                    mapsValue={formData.googleMapsUrl}
+                    mapsValue={formData.religiousMaps} // <-- Folosim câmpul nou
                     wazeValue={formData.religiousWaze}
-                    mapsKey="googleMapsUrl"
+                    mapsKey="religiousMaps"            // <-- Cheie distinctă
                     wazeKey="religiousWaze"
                     setter={set}
                     mapsPlaceholder="https://maps.app.goo.gl/..."
