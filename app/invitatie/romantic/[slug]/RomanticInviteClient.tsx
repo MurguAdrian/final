@@ -16,6 +16,7 @@ export interface RomanticInviteClientProps {
   weddingDateDisplay: string | null;
   weddingTime: string;
   locationName: string;
+  religiousMaps: string; // AICI AM MODIFICAT
   wazeUrl: string;
   googleMapsUrl: string;
   isReligiousActive: boolean;
@@ -293,7 +294,7 @@ function InviteScreen({ props }: { props: RomanticInviteClientProps }) {
   const {
     slug, brideName, groomName, nasiNames, parentsNames,
     weddingDateISO, weddingDateDisplay, weddingTime, locationName, wazeUrl, googleMapsUrl,
-    isReligiousActive, religiousDateDisplay, religiousTime, religiousLocation, religiousWaze,
+    isReligiousActive, religiousDateDisplay, religiousTime, religiousLocation, religiousWaze,religiousMaps,
     ourStory, isMenuActive, menuDetails, isGalleryActive,
     isAccommodationActive, isTransportActive, contactPhoneBride, contactPhoneGroom, orderId,
   } = props;
@@ -438,8 +439,14 @@ function InviteScreen({ props }: { props: RomanticInviteClientProps }) {
               <div style={{ padding: '14px 18px 16px' }}>
                 <p style={{ fontFamily: "'Cinzel',serif", fontWeight: 600, fontSize: 'clamp(10px,1.1vw,12px)', color: P.crimson, marginBottom: 3, letterSpacing: '.05em' }}>{religiousLocation}</p>
                 {(religiousDateDisplay || religiousTime) && <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: `rgba(196,80,106,.08)`, border: `1px solid rgba(196,80,106,.2)`, borderRadius: 100, padding: '4px 12px', fontFamily: "'Cinzel',serif", fontSize: 8, letterSpacing: '.14em', textTransform: 'uppercase', color: P.textlt, marginBottom: 12, marginTop: 4 }}>{religiousDateDisplay && `♥ ${religiousDateDisplay}`}{religiousTime && ` · ora ${religiousTime}`}</div>}
-                {religiousWaze && <a href={religiousWaze} target="_blank" rel="noopener noreferrer" style={{ ...NAV_BTN, background: 'rgba(8,162,212,.15)', border: '1px solid rgba(8,162,212,.28)', color: 'rgba(8,162,212,.9)', flex: 'none' }}><WazeIcon/> Waze Biserică</a>}
-              </div>
+{/* ── START MODIFICARE AICI ── */}
+                {(religiousWaze || religiousMaps) && (
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    {religiousWaze && <a href={religiousWaze} target="_blank" rel="noopener noreferrer" style={{ ...NAV_BTN, background: 'rgba(8,162,212,.15)', border: '1px solid rgba(8,162,212,.28)', color: 'rgba(8,162,212,.9)' }}><WazeIcon/> Waze</a>}
+                    {religiousMaps && <a href={religiousMaps} target="_blank" rel="noopener noreferrer" style={{ ...NAV_BTN, background: 'rgba(76,175,79,.14)', border: '1px solid rgba(76,175,79,.25)', color: 'rgba(56,142,60,.9)' }}><MapsIcon/> Maps</a>}
+                  </div>
+                )}
+                {/* ── END MODIFICARE AICI ── */}              </div>
             </div>
           )}
         </div>

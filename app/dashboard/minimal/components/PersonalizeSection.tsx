@@ -29,6 +29,7 @@ interface FormData {
   religiousDate:          string;
   religiousTime:          string;
   religiousLocation:      string;
+  religiousMaps:          string;
   religiousWaze:          string;
   ourStory:               string;
   contactPhoneBride:      string;
@@ -112,6 +113,173 @@ const FG = ({ children, noMargin }: { children: React.ReactNode; noMargin?: bool
   <div style={{ marginBottom: noMargin ? 0 : SP.md }}>{children}</div>
 );
 
+
+// ─── START MODIFICARE WAZE/MAPS ───────────────────────────
+// Componentă reutilizabilă pentru perechea Maps + Waze cu
+// buton de generare automată și butoane „Testează Link"
+interface LocationLinksProps {
+  locationValue:    string;
+  mapsValue:        string;
+  wazeValue:        string;
+  mapsKey:          keyof FormData;
+  wazeKey:          keyof FormData;
+  setter:           (key: keyof FormData, value: any) => void;
+  mapsPlaceholder?: string;
+  wazePlaceholder?: string;
+}
+
+const LocationLinks = ({
+  locationValue,
+  mapsValue,
+  wazeValue,
+  mapsKey,
+  wazeKey,
+  setter,
+  mapsPlaceholder = 'https://maps.app.goo.gl/...',
+  wazePlaceholder  = 'https://waze.com/ul/...',
+}: LocationLinksProps) => {
+const generateLinks = () => {
+    const trimmed = locationValue.trim();
+    if (!trimmed) return;
+    const encoded = encodeURIComponent(trimmed);
+    // Am adăugat $ înainte de {encoded} pe linia următoare:
+    setter(mapsKey, `https://www.google.com/maps/search/?api=1&query=$${encoded}`);
+    setter(wazeKey,  `https://waze.com/ul?q=${encoded}&navigate=yes`);
+  };
+
+  const testBtnStyle: React.CSSProperties = {
+    flexShrink: 0,
+    padding: '0 10px',
+    height: 38,
+    background: 'rgba(196,80,106,.06)',
+    border: '1px solid rgba(196,80,106,.2)',
+    borderRadius: BR.sm,
+    color: 'rgba(166,50,72,.7)',
+    fontFamily: F.heading,
+    fontSize: 'clamp(8px, 1.6vw, 10px)',
+    fontWeight: 600,
+    letterSpacing: '.12em',
+    textTransform: 'uppercase' as const,
+    cursor: 'pointer',
+    whiteSpace: 'nowrap' as const,
+    transition: 'all .18s',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 4,
+  };
+
+  const generateBtnStyle: React.CSSProperties = {
+    width: '100%',
+    padding: '9px 14px',
+    background: 'rgba(196,80,106,.07)',
+    border: '1px dashed rgba(196,80,106,.3)',
+    borderRadius: BR.sm,
+    color: 'rgba(166,50,72,.75)',
+    fontFamily: F.heading,
+    fontSize: 'clamp(8px, 1.6vw, 10px)',
+    fontWeight: 600,
+    letterSpacing: '.14em',
+    textTransform: 'uppercase' as const,
+    cursor: locationValue.trim() ? 'pointer' : 'not-allowed',
+    opacity: locationValue.trim() ? 1 : 0.45,
+    transition: 'all .18s',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    marginBottom: SP.md,
+  };
+
+  return (
+    <>
+      {/* Buton generare automată */}
+      <button
+        type="button"
+        onClick={generateLinks}
+        disabled={!locationValue.trim()}
+        style={generateBtnStyle}
+        className="ps-gen-btn"
+      >
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ width: 12, height: 12, flexShrink: 0 }}>
+          <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" strokeLinecap="round"/>
+        </svg>
+        Generează automat din numele locației
+      </button>
+
+      {/* Google Maps */}
+      <FG>
+        <label style={labS}>Link Google Maps</label>
+        <div style={{ display: 'flex', gap: 6 }}>
+          <input
+            className="ps-input"
+            style={{ marginBottom: 0, flex: 1 }}
+            placeholder={mapsPlaceholder}
+            value={mapsValue}
+            onChange={e => setter(mapsKey, e.target.value)}
+            inputMode="url"
+            autoCapitalize="none"
+            autoCorrect="off"
+          />
+          {mapsValue.trim() && (
+            <button
+              type="button"
+              style={testBtnStyle}
+              className="ps-test-btn"
+              onClick={() => window.open(mapsValue.trim(), '_blank', 'noopener,noreferrer')}
+            >
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ width: 11, height: 11 }}>
+                <path d="M7 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V9" strokeLinecap="round"/>
+                <path d="M10 2h4v4" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M14 2L8 8" strokeLinecap="round"/>
+              </svg>
+              Test
+            </button>
+          )}
+        </div>
+        <p style={{ ...hintS, marginTop: 4 }}>
+          Sau deschide Google Maps → Share → Copy Link și lipește manual.
+        </p>
+      </FG>
+
+      {/* Waze */}
+      <FG noMargin>
+        <label style={labS}>Link Waze</label>
+        <div style={{ display: 'flex', gap: 6 }}>
+          <input
+            className="ps-input"
+            style={{ marginBottom: 0, flex: 1 }}
+            placeholder={wazePlaceholder}
+            value={wazeValue}
+            onChange={e => setter(wazeKey, e.target.value)}
+            inputMode="url"
+            autoCapitalize="none"
+            autoCorrect="off"
+          />
+          {wazeValue.trim() && (
+            <button
+              type="button"
+              style={testBtnStyle}
+              className="ps-test-btn"
+              onClick={() => window.open(wazeValue.trim(), '_blank', 'noopener,noreferrer')}
+            >
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ width: 11, height: 11 }}>
+                <path d="M7 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V9" strokeLinecap="round"/>
+                <path d="M10 2h4v4" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M14 2L8 8" strokeLinecap="round"/>
+              </svg>
+              Test
+            </button>
+          )}
+        </div>
+        <p style={{ ...hintS, marginTop: 4 }}>
+          Sau deschide Waze → caută locația → Share → Copy Link și lipește manual.
+        </p>
+      </FG>
+    </>
+  );
+};
+// ─── END MODIFICARE WAZE/MAPS ─────────────────────────────
+
 export const PersonalizeSection = ({ initialData, orderId, onSave }: PersonalizeSectionProps) => {
   const [loading, setLoading] = useState(false);
 
@@ -132,6 +300,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
     religiousDate:         data?.religious_date         ? new Date(data.religious_date).toISOString().split('T')[0]  : '',
     religiousTime:         data?.religious_time         ? data.religious_time.substring(0, 5)                        : '',
     religiousLocation:     data?.religious_location     || '',
+    religiousMaps:         data?.religious_maps         || '',
     religiousWaze:         data?.religious_waze         || '',
     ourStory:              data?.our_story              || '',
     contactPhoneBride:     data?.contact_phone_bride    || '',
@@ -291,6 +460,20 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         .ps-toggle { transition: all .2s; }
         .ps-toggle:hover { border-color: rgba(26,26,26,.3) !important; background: rgba(26,26,26,.06) !important; }
 
+
+/* ─── START MODIFICARE WAZE/MAPS – stiluri butoane ─── */
+.ps-gen-btn:hover:not(:disabled) {
+  background: rgba(0, 0, 0, .05) !important;       /* Un gri extrem de fin pe fundal */
+  border-color: rgba(0, 0, 0, .3) !important;      /* Chenar discret */
+  color: rgba(30, 30, 30, .95) !important;         /* Text aproape negru, foarte lizibil */
+}
+.ps-test-btn:hover {
+  background: rgba(0, 0, 0, .06) !important;
+  border-color: rgba(0, 0, 0, .25) !important;
+  color: rgba(30, 30, 30, .95) !important;
+}
+/* ─── END MODIFICARE WAZE/MAPS – stiluri butoane ─── */
+
         .ps-two-col        { display: grid; grid-template-columns: 1fr 1fr; gap: ${SP.lg}px; }
         .ps-religious-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         .ps-rsvp-grid      { display: grid; grid-template-columns: 1fr 1fr; gap: ${SP.lg}px; }
@@ -395,16 +578,35 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
 
           {formData.isReligiousActive && (
             <div style={{ padding: `${SP.lg}px ${SP.xl}px` }}>
+              {/* ─── START MODIFICARE WAZE/MAPS – secțiunea Cununie ─── */}
               <div className="ps-religious-grid">
                 <FG><label style={labS}>Data Cununiei</label><CustomDatePicker value={formData.religiousDate} onChangeKey="religiousDate" /></FG>
                 <FG><label style={labS}>Ora (24h)</label><CustomTimePicker value={formData.religiousTime} onChangeKey="religiousTime" /></FG>
                 <div style={{ gridColumn: 'span 2' }} className="ps-span-full">
-                  <FG><label style={labS}>Biserica</label><input className="ps-input" placeholder="ex: Biserica Sf. Maria" value={formData.religiousLocation} onChange={e => set('religiousLocation', e.target.value)} /></FG>
+                  <FG>
+                    <label style={labS}>Biserica</label>
+                    <input
+                      className="ps-input"
+                      placeholder="ex: Biserica Sf. Maria, București"
+                      value={formData.religiousLocation}
+                      onChange={e => set('religiousLocation', e.target.value)}
+                    />
+                  </FG>
                 </div>
                 <div style={{ gridColumn: 'span 2' }} className="ps-span-full">
-                  <FG noMargin><label style={labS}>Waze Biserică</label><input className="ps-input" style={{ marginBottom: 0 }} placeholder="Link Waze" value={formData.religiousWaze} onChange={e => set('religiousWaze', e.target.value)} inputMode="url" autoCapitalize="none" autoCorrect="off" /></FG>
+            <LocationLinks
+                    locationValue={formData.religiousLocation}
+                    mapsValue={formData.religiousMaps} // <-- Folosim câmpul nou
+                    wazeValue={formData.religiousWaze}
+                    mapsKey="religiousMaps"            // <-- Cheie distinctă
+                    wazeKey="religiousWaze"
+                    setter={set}
+                    mapsPlaceholder="https://maps.app.goo.gl/..."
+                    wazePlaceholder="https://waze.com/ul/..."
+                  />
                 </div>
               </div>
+              {/* ─── END MODIFICARE WAZE/MAPS – secțiunea Cununie ─── */}
             </div>
           )}
         </div>
