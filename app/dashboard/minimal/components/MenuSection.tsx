@@ -1,15 +1,13 @@
+// FIȘIER: andre/app/dashboard/minimal/components/MenuSection.tsx
+// MODIFICĂRI FAȚĂ DE ROMANTIC:
+//   - Import tokens: romanticTokens → minimalTokens
+//   - Culori: toate rgba(196,80,106,...) / rgba(166,50,72,...) / rgba(138,74,88,...) → echivalente charcoal/gri
+//   - Fonturi: Playfair Display → Plus Jakarta Sans; Cinzel → DM Sans; Cormorant → Spectral
+
 "use client";
 import React, { useState, useEffect } from 'react';
+import { C, F, FS, SP, BR, IS, SH, GR, KEYFRAMES } from '../minimalTokens';
 
-/* ── Tokens (module-level — un singur loc de modificat) ── */
-const ACCENT = '#C8503A';
-const DARK   = '#111111';
-const MID    = '#555555';
-const LIGHT  = '#AAAAAA';
-const RULE   = '#E2E2E2';
-const BG     = '#F7F4F0';
-
-/* ── Types ── */
 interface MenuItem        { name: string; description: string; }
 interface MenuCategory    { id: string; label: string; emoji: string; active: boolean; items: MenuItem[]; }
 interface MenuSectionProps { initialData: any; orderId: any; onSave: () => void; }
@@ -21,19 +19,17 @@ interface CategoryCardProps {
   onChangeItem: (i: number, field: 'name' | 'description', val: string) => void;
 }
 
-/* ── Static data ── */
 const DEFAULT_CATEGORIES: MenuCategory[] = [
   { id: 'aperitive',    label: 'Aperitive & Gustări',   emoji: '🍽️', active: false, items: [] },
-  { id: 'principal',    label: 'Fel Principal',           emoji: '🥩', active: false, items: [] },
-  { id: 'desert',       label: 'Tort & Desert',           emoji: '🎂', active: false, items: [] },
-  { id: 'alcoolice',    label: 'Băuturi Alcoolice',       emoji: '🍾', active: false, items: [] },
-  { id: 'nonalcoolice', label: 'Băuturi Non-Alcoolice',   emoji: '💧', active: false, items: [] },
-  { id: 'candybar',     label: 'Candy Bar',               emoji: '🍬', active: false, items: [] },
-  { id: 'cafea',        label: 'Cafea & Digestive',       emoji: '☕', active: false, items: [] },
-  { id: 'altele',       label: 'Altele',                  emoji: '✨', active: false, items: [] },
+  { id: 'principal',    label: 'Fel Principal',          emoji: '🥩', active: false, items: [] },
+  { id: 'desert',       label: 'Tort & Desert',          emoji: '🎂', active: false, items: [] },
+  { id: 'alcoolice',    label: 'Băuturi Alcoolice',      emoji: '🍾', active: false, items: [] },
+  { id: 'nonalcoolice', label: 'Băuturi Non-Alcoolice',  emoji: '💧', active: false, items: [] },
+  { id: 'candybar',     label: 'Candy Bar',              emoji: '🍬', active: false, items: [] },
+  { id: 'cafea',        label: 'Cafea & Digestive',      emoji: '☕', active: false, items: [] },
+  { id: 'altele',       label: 'Altele',                 emoji: '✨', active: false, items: [] },
 ];
 
-/* ── Helpers ── */
 function buildInitialCategories(saved: any): MenuCategory[] {
   if (!saved?.categories?.length) return DEFAULT_CATEGORIES;
   return DEFAULT_CATEGORIES.map(def => {
@@ -42,93 +38,111 @@ function buildInitialCategories(saved: any): MenuCategory[] {
   });
 }
 
-/* ── Input base style (module-level to avoid recreating each render) ── */
 const inputStyle: React.CSSProperties = {
   width: '100%',
-  padding: '7px 10px',
-  background: '#fff',
-  border: `1px solid ${RULE}`,
-  fontFamily: "'DM Sans', sans-serif",
-  color: DARK,
+  padding: `9px 13px`,
+  background: `rgba(249,250,251,.9)`,
+  border: `1px solid rgba(26,26,26,.14)`,
+  borderRadius: BR.md,
+  fontFamily: F.body,
+  fontSize: FS.input,
+  color: C.dark,
   outline: 'none',
-  transition: 'border-color .2s',
+  transition: 'all .2s',
   minWidth: 0,
-  boxSizing: 'border-box',
-  WebkitAppearance: 'none',
+  boxSizing: 'border-box' as const,
+  WebkitAppearance: 'none' as any,
 };
 
-/* ── Icons ── */
 const IconPlus = () => (
-  <svg viewBox="0 0 20 20" fill="none" style={{ width: 12, height: 12, flexShrink: 0 }}>
-    <path d="M10 4v12M4 10h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  <svg viewBox="0 0 20 20" fill="none" style={{ width: IS.sm, height: IS.sm, flexShrink: 0 }}>
+    <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.3" />
+    <path d="M10 6v8M6 10h8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
   </svg>
 );
 
 const IconTrash = () => (
-  <svg viewBox="0 0 20 20" fill="none" style={{ width: 12, height: 12, flexShrink: 0 }}>
+  <svg viewBox="0 0 20 20" fill="none" style={{ width: IS.sm, height: IS.sm, flexShrink: 0 }}>
     <path d="M4 6h12M8 6V4h4v2M7 6l1 10h4l1-10" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
 const IconChevron = ({ open }: { open: boolean }) => (
-  <svg viewBox="0 0 20 20" fill="none" style={{ width: 13, height: 13, flexShrink: 0, transition: 'transform .25s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+  <svg viewBox="0 0 20 20" fill="none" style={{ width: IS.md, height: IS.md, flexShrink: 0, transition: 'transform .3s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}>
     <path d="M5 7l5 5 5-5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
 const IconSpin = () => (
-  <svg viewBox="0 0 20 20" fill="none" style={{ width: 13, height: 13, flexShrink: 0, animation: 'mn-spin 1s linear infinite' }}>
-    <circle cx="10" cy="10" r="7" stroke="currentColor" strokeWidth="2" strokeOpacity=".2" />
+  <svg viewBox="0 0 20 20" fill="none" style={{ width: IS.md, height: IS.md, flexShrink: 0, animation: 'rm-spin 1s linear infinite' }}>
+    <circle cx="10" cy="10" r="7" stroke="currentColor" strokeWidth="2" strokeOpacity=".25" />
     <path d="M10 3a7 7 0 0 1 7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
 
-/* ── Divider (definit înainte de utilizare) ── */
-const MinDivider = () => (
-  <div style={{ display: 'flex', alignItems: 'center', width: '100%', margin: '18px 0' }}>
-    <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg,transparent,${RULE})` }} />
-    <div style={{ width: 5, height: 5, background: ACCENT, transform: 'rotate(45deg)', margin: '0 8px', opacity: .4 }} />
-    <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg,${RULE},transparent)` }} />
+const MinimalSquare = ({ size = IS.md, color = C.crimson }: { size?: number; color?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" style={{ width: size, height: size, flexShrink: 0 }}>
+    <rect x="3" y="3" width="8" height="8" rx="1" fill={color} fillOpacity=".9" />
+    <rect x="13" y="3" width="8" height="8" rx="1" fill={color} fillOpacity=".45" />
+    <rect x="3" y="13" width="8" height="8" rx="1" fill={color} fillOpacity=".45" />
+    <rect x="13" y="13" width="8" height="8" rx="1" fill={color} fillOpacity=".2" />
+  </svg>
+);
+
+const MinimalDivider = () => (
+  <div style={{ display: 'flex', alignItems: 'center', width: '100%', gap: 0, margin: `${SP.xl}px 0` }}>
+    <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg,transparent,rgba(26,26,26,.12))` }} />
+    <svg viewBox="0 0 80 30" width="80" height="30" fill="none">
+      <path d="M5 15 L22 15"  stroke="#1a1a1a" strokeWidth=".8" strokeOpacity=".2" />
+      <path d="M58 15 L75 15" stroke="#1a1a1a" strokeWidth=".8" strokeOpacity=".2" />
+      <rect x="27" y="9" width="6" height="6" stroke="#1a1a1a" strokeWidth=".9" strokeOpacity=".45" transform="rotate(45 30 15)" fill="none" />
+      <circle cx="30" cy="15" r="1.8" fill="#1a1a1a" fillOpacity=".3" />
+      <circle cx="22" cy="15" r="1.5" fill="#1a1a1a" fillOpacity=".15" />
+      <circle cx="58" cy="15" r="1.5" fill="#1a1a1a" fillOpacity=".15" />
+    </svg>
+    <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg,rgba(26,26,26,.12),transparent)` }} />
   </div>
 );
 
-/* ── Toggle ── */
-const MinToggle = ({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) => (
+const MinimalToggle = ({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) => (
   <label
-    style={{ display: 'inline-flex', alignItems: 'center', gap: 7, cursor: 'pointer', flexShrink: 0 }}
+    style={{ display: 'inline-flex', alignItems: 'center', gap: SP.sm, cursor: 'pointer', flexShrink: 0 }}
+    onClick={e => e.stopPropagation()}
   >
-    {/* Folosim onChange-ul nativ al checkbox-ului, eliminând onClick de pe label */}
-    <input 
-      type="checkbox" 
-      checked={checked} 
-      onChange={(e) => onChange(e.target.checked)} 
-      style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }} 
+    <input
+      type="checkbox"
+      checked={checked}
+      onChange={e => onChange(e.target.checked)}
+      style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }}
     />
     <div style={{
-      width: 40, height: 22, position: 'relative', flexShrink: 0,
-      background: checked ? ACCENT : RULE,
-      transition: 'background .25s',
+      width: 46, height: 25, borderRadius: 100, position: 'relative', flexShrink: 0,
+      background: checked ? GR.roseBtn : 'rgba(26,26,26,.08)',
+      border: `1px solid ${checked ? 'rgba(26,26,26,.35)' : 'rgba(26,26,26,.12)'}`,
+      boxShadow: checked ? SH.toggleGlow : 'none',
+      transition: 'all .3s ease',
     }}>
       <div style={{
-        position: 'absolute', top: 2, left: 2, width: 18, height: 18,
-        background: '#fff',
-        boxShadow: '0 1px 3px rgba(0,0,0,.2)',
-        transform: checked ? 'translateX(18px)' : 'translateX(0)',
-        transition: 'transform .25s',
-      }} />
+        position: 'absolute', top: 2, left: 2, width: 19, height: 19, borderRadius: '50%',
+        background: checked ? C.white : `rgba(26,26,26,.3)`,
+        boxShadow: '0 2px 6px rgba(0,0,0,.2)',
+        transform: checked ? 'translateX(21px)' : 'translateX(0)',
+        transition: 'transform .3s ease, background .3s ease',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        {checked && <MinimalSquare size={9} color={C.crimson} />}
+      </div>
     </div>
     <span style={{
-      fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.16em',
-      textTransform: 'uppercase',
-      color: checked ? ACCENT : LIGHT,
-      transition: 'color .25s', whiteSpace: 'nowrap',
+      fontFamily: F.heading, fontSize: FS.tiny, letterSpacing: '.16em', textTransform: 'uppercase' as const,
+      color: checked ? C.crimson : `rgba(26,26,26,.3)`,
+      transition: 'color .3s', whiteSpace: 'nowrap' as const,
     }}>
       {checked ? 'Activ' : 'Inactiv'}
     </span>
   </label>
 );
 
-/* ── Category Card ── */
 function CategoryCard({ cat, onToggle, onAddItem, onRemoveItem, onChangeItem }: CategoryCardProps) {
   const [expanded, setExpanded] = useState(cat.active);
 
@@ -138,117 +152,113 @@ function CategoryCard({ cat, onToggle, onAddItem, onRemoveItem, onChangeItem }: 
 
   return (
     <div style={{
-      background: '#fff',
-      border: `1px solid ${cat.active ? 'rgba(200,80,58,.25)' : RULE}`,
-      borderLeft: `3px solid ${cat.active ? ACCENT : RULE}`,
-      transition: 'all .25s', overflow: 'hidden',
-      boxShadow: cat.active ? '0 2px 12px rgba(200,80,58,.06)' : '0 1px 4px rgba(0,0,0,.03)',
+      borderRadius: BR.xxl,
+      overflow: 'hidden',
+      border: `1.5px solid ${cat.active ? 'rgba(26,26,26,.18)' : 'rgba(26,26,26,.07)'}`,
+      background: cat.active ? GR.cardActive : GR.cardInactive,
+      boxShadow: cat.active ? SH.cardActive : `0 2px 10px rgba(0,0,0,.03)`,
+      backdropFilter: 'blur(8px)',
+      transition: 'all .3s ease',
     }}>
-      {/* Header */}
+
       <div
-        onClick={() => { if (cat.active) setExpanded(prev => !prev); }}
+        onClick={() => cat.active && setExpanded(prev => !prev)}
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '12px 14px',
+          padding: `14px ${SP.lg}px`,
           cursor: cat.active ? 'pointer' : 'default',
-          borderBottom: cat.active && expanded ? `1px solid ${RULE}` : '1px solid transparent',
-          transition: 'border-color .25s',
-          gap: 10, minWidth: 0,
+          borderBottom: cat.active && expanded ? `1px solid rgba(26,26,26,.08)` : '1px solid transparent',
+          transition: 'border-color .3s',
+          gap: SP.sm, minWidth: 0,
+          position: 'relative',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
+        {cat.active && (
+          <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: 1, background: `linear-gradient(90deg,transparent,rgba(26,26,26,.12),transparent)` }} />
+        )}
+        <div style={{ display: 'flex', alignItems: 'center', gap: SP.sm, flex: 1, minWidth: 0 }}>
           <div style={{
-            width: 34, height: 34,
-            background: cat.active ? 'rgba(200,80,58,.07)' : BG,
-            border: `1px solid ${cat.active ? 'rgba(200,80,58,.2)' : RULE}`,
+            width: 40, height: 40, borderRadius: BR.lg, flexShrink: 0,
+            background: cat.active ? `linear-gradient(135deg,rgba(26,26,26,.08) 0%,rgba(243,244,246,.7) 100%)` : 'rgba(26,26,26,.04)',
+            border: `1px solid ${cat.active ? 'rgba(26,26,26,.18)' : 'rgba(26,26,26,.07)'}`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            flexShrink: 0, fontSize: 14, transition: 'all .25s',
+            fontSize: SP.lg, transition: 'all .3s',
           }}>
             {cat.emoji}
           </div>
           <div style={{ minWidth: 0, flex: 1 }}>
             <p style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 'clamp(10px,2.5vw,12px)', fontWeight: 500,
-              letterSpacing: '.04em',
-              color: cat.active ? DARK : LIGHT,
-              marginBottom: 2, transition: 'color .25s',
-              whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+              fontFamily: F.heading, fontSize: 'clamp(10px,2.5vw,11px)', fontWeight: 600,
+              letterSpacing: '.08em', color: cat.active ? C.dark : `rgba(26,26,26,.28)`,
+              marginBottom: 2, transition: 'color .3s',
+              whiteSpace: 'nowrap' as const, overflow: 'hidden', textOverflow: 'ellipsis',
             }}>
               {cat.label}
             </p>
             {cat.active && cat.items.length > 0 && (
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, fontStyle: 'italic', color: LIGHT, marginBottom: 0 }}>
+              <p style={{ fontFamily: F.body, fontSize: FS.base, fontStyle: 'italic', color: C.textLight, marginBottom: 0 }}>
                 {cat.items.length} {cat.items.length === 1 ? 'element' : 'elemente'}
               </p>
             )}
             {!cat.active && (
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, fontStyle: 'italic', color: '#CCCCCC', marginBottom: 0 }}>
+              <p style={{ fontFamily: F.body, fontSize: FS.base, fontStyle: 'italic', color: `rgba(26,26,26,.22)`, marginBottom: 0 }}>
                 Activează pentru a configura
               </p>
             )}
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-          <MinToggle checked={cat.active} onChange={onToggle} />
-          {cat.active && <span style={{ color: LIGHT }}><IconChevron open={expanded} /></span>}
+        <div style={{ display: 'flex', alignItems: 'center', gap: SP.sm, flexShrink: 0 }}>
+          <MinimalToggle checked={cat.active} onChange={onToggle} />
+          {cat.active && (
+            <span style={{ color: `rgba(26,26,26,.4)`, transition: 'color .2s' }}>
+              <IconChevron open={expanded} />
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Body */}
       {cat.active && expanded && (
-        <div style={{ padding: '12px 14px', animation: 'mn-fade-in .3s ease both' }}>
+        <div style={{ padding: `14px ${SP.lg}px`, animation: 'rm-fade-in .35s ease both' }}>
           {cat.items.length > 0 && (
             <div
               className="menu-col-labels"
-              style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 34px', gap: 8, marginBottom: 5, padding: '0 2px' }}
+              style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 36px', gap: SP.sm, marginBottom: 6, padding: '0 2px' }}
             >
               {['Nume', 'Descriere (opțional)', ''].map((h, i) => (
-                <span key={i} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 7, letterSpacing: '.22em', textTransform: 'uppercase', color: LIGHT }}>
+                <span key={i} style={{ fontFamily: F.heading, fontSize: 7, letterSpacing: '.22em', textTransform: 'uppercase' as const, color: `rgba(26,26,26,.35)` }}>
                   {h}
                 </span>
               ))}
             </div>
           )}
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: SP.sm }}>
             {cat.items.map((item, idx) => (
               <div
                 key={idx}
                 className="menu-item-row"
                 style={{
-                  display: 'grid', gridTemplateColumns: '1fr 1.4fr 34px',
-                  gap: 8, alignItems: 'center',
-                  padding: '8px 10px',
-                  background: BG,
-                  border: `1px solid ${RULE}`,
+                  display: 'grid', gridTemplateColumns: '1fr 1.4fr 36px',
+                  gap: SP.sm, alignItems: 'center',
+                  padding: `10px 12px`, borderRadius: BR.lg,
+                  background: `rgba(255,255,255,.8)`,
+                  border: `1px solid rgba(26,26,26,.08)`,
+                  boxShadow: `0 2px 8px rgba(0,0,0,.03)`,
                 }}
               >
-                <input
-                  className="mn-inp"
-                  placeholder="ex: Somon afumat"
-                  value={item.name}
-                  onChange={e => onChangeItem(idx, 'name', e.target.value)}
-                  style={inputStyle}
-                />
-                <input
-                  className="mn-inp"
-                  placeholder="ex: cu cremă de avocado"
-                  value={item.description}
-                  onChange={e => onChangeItem(idx, 'description', e.target.value)}
-                  style={inputStyle}
-                />
+                <input className="rm-inp" placeholder="ex: Somon afumat" value={item.name}        onChange={e => onChangeItem(idx, 'name',        e.target.value)} style={inputStyle} />
+                <input className="rm-inp" placeholder="ex: cu cremă de avocado" value={item.description} onChange={e => onChangeItem(idx, 'description', e.target.value)} style={inputStyle} />
                 <button
+                  className="rm-del-btn"
                   type="button"
-                  className="mn-del-btn"
                   onClick={() => onRemoveItem(idx)}
                   style={{
-                    width: 30, height: 30,
+                    width: 34, height: 34,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: '#fff',
-                    border: `1px solid ${RULE}`,
-                    cursor: 'pointer', color: LIGHT,
-                    transition: 'all .18s', flexShrink: 0,
+                    background: 'rgba(255,255,255,.9)',
+                    border: `1px solid rgba(26,26,26,.1)`,
+                    borderRadius: BR.md, cursor: 'pointer',
+                    color: `rgba(26,26,26,.4)`, transition: 'all .2s', flexShrink: 0,
                   }}
                 >
                   <IconTrash />
@@ -258,27 +268,30 @@ function CategoryCard({ cat, onToggle, onAddItem, onRemoveItem, onChangeItem }: 
           </div>
 
           {cat.items.length === 0 && (
-            <div style={{ padding: '16px 0', textAlign: 'center', border: `1px dashed ${RULE}`, marginBottom: 8 }}>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 13, fontStyle: 'italic', color: LIGHT, marginBottom: 0 }}>
+            <div style={{ padding: `${SP.xl}px 0`, textAlign: 'center', border: `1px dashed rgba(26,26,26,.12)`, borderRadius: BR.lg, marginBottom: SP.sm }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 6 }}>
+                <MinimalSquare size={IS.md} color={`rgba(26,26,26,.2)`} />
+              </div>
+              <p style={{ fontFamily: F.body, fontSize: 14, fontStyle: 'italic', fontWeight: 300, color: `rgba(26,26,26,.3)`, marginBottom: 0 }}>
                 Niciun element adăugat
               </p>
             </div>
           )}
 
           <button
+            className="rm-add-btn"
             type="button"
-            className="mn-add-btn"
             onClick={onAddItem}
             style={{
-              width: '100%', padding: '9px 0',
-              marginTop: cat.items.length > 0 ? 8 : 0,
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
+              width: '100%', padding: `10px 0`,
+              marginTop: cat.items.length > 0 ? SP.sm : 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: SP.sm,
               background: 'transparent',
-              border: `1px dashed rgba(200,80,58,.3)`,
-              color: 'rgba(200,80,58,.6)',
-              fontFamily: "'DM Sans', sans-serif", fontSize: 8, fontWeight: 600,
-              letterSpacing: '.2em', textTransform: 'uppercase',
-              cursor: 'pointer', transition: 'all .18s',
+              border: `1px dashed rgba(26,26,26,.18)`, borderRadius: BR.lg,
+              color: `rgba(26,26,26,.45)`,
+              fontFamily: F.heading, fontSize: FS.tiny, fontWeight: 600,
+              letterSpacing: '.2em', textTransform: 'uppercase' as const,
+              cursor: 'pointer', transition: 'all .2s',
             }}
           >
             <IconPlus /> Adaugă element
@@ -289,10 +302,9 @@ function CategoryCard({ cat, onToggle, onAddItem, onRemoveItem, onChangeItem }: 
   );
 }
 
-/* ════════════════════════════════════════ MAIN EXPORT ══ */
 export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) => {
-  const [loading, setLoading]       = useState(false);
-  const [isActive, setIsActive]     = useState<boolean>(initialData?.is_menu_active ?? false);
+  const [loading,    setLoading]    = useState(false);
+  const [isActive,   setIsActive]   = useState<boolean>(initialData?.is_menu_active ?? false);
   const [categories, setCategories] = useState<MenuCategory[]>(() => buildInitialCategories(initialData?.menu_details));
 
   useEffect(() => {
@@ -309,7 +321,7 @@ export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) 
         body: JSON.stringify({ orderId, isMenuActive: isActive, menu_details: { categories } }),
       });
       if (res.ok) { alert('Meniu salvat! 🍴'); onSave(); }
-      else { alert('Eroare la salvare.'); }
+      else alert('Eroare la salvare.');
     } catch { alert('Eroare la salvare.'); }
     setLoading(false);
   };
@@ -323,138 +335,139 @@ export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&display=swap');
-
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap');
+        ${KEYFRAMES}
         *, *::before, *::after { box-sizing: border-box; }
 
-        @keyframes mn-spin    { from { transform: rotate(0deg)  } to { transform: rotate(360deg) } }
-        @keyframes mn-fade-in { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: translateY(0) } }
-
-        /* iOS: prevent zoom on focus */
-        .mn-inp {
-          font-size: 16px !important;
+        .rm-inp {
+          font-size: ${FS.input}px !important;
           -webkit-text-size-adjust: 100%;
           -webkit-appearance: none;
           appearance: none;
         }
 
+        .rm-inp:focus        { border-color: rgba(26,26,26,.4) !important; background: rgba(255,255,255,.95) !important; outline: none; }
+        .rm-inp::placeholder { color: rgba(26,26,26,.22) !important; font-style: italic; }
+
+        .rm-del-btn:hover { background: rgba(26,26,26,.07) !important; border-color: rgba(26,26,26,.28) !important; color: ${C.crimson} !important; }
+        .rm-add-btn:hover { background: rgba(26,26,26,.04) !important; border-color: rgba(26,26,26,.3) !important; color: ${C.crimson} !important; }
+        .rm-save-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 18px 50px rgba(0,0,0,.28) !important; }
+        .rm-save-btn:disabled { opacity: .6; cursor: not-allowed; }
+
         .menu-section-wrap {
-          overscroll-behavior: contain;
-          -webkit-overflow-scrolling: auto;
           width: 100%;
           max-width: 780px;
           box-sizing: border-box;
           overflow-x: hidden;
         }
 
-        .mn-inp:focus        { border-color: ${ACCENT} !important; outline: none; }
-        .mn-inp::placeholder { color: #CCCCCC !important; font-style: italic; }
-
-        .mn-del-btn:hover { background: rgba(200,80,58,.08) !important; border-color: rgba(200,80,58,.3) !important; color: ${ACCENT} !important; }
-        .mn-add-btn:hover { background: rgba(200,80,58,.05) !important; border-color: rgba(200,80,58,.5) !important; color: ${ACCENT} !important; }
-        .mn-save-btn:hover:not(:disabled) { background: #9a3e2d !important; transform: translateY(-1px); }
-        .mn-save-btn:disabled { opacity: .55; cursor: not-allowed; }
-
         @media (max-width: 600px) {
           .menu-col-labels { display: none !important; }
           .menu-item-row {
-            grid-template-columns: 1fr 34px !important;
+            grid-template-columns: 1fr 36px !important;
             grid-template-rows: auto auto;
-            gap: 5px !important;
+            gap: 6px !important;
           }
           .menu-item-row input:first-child  { grid-column: 1; grid-row: 1; }
           .menu-item-row input:nth-child(2) { grid-column: 1; grid-row: 2; }
           .menu-item-row button             { grid-column: 2; grid-row: 1 / 3; align-self: center; }
-          .menu-stats-row  { flex-direction: column !important; gap: 5px !important; }
+          .menu-stats-row   { flex-direction: column !important; gap: 6px !important; }
+          .menu-master-row  { flex-wrap: wrap !important; }
+        }
+        @media (max-width: 400px) {
+          .menu-section-wrap { padding: 0 !important; }
         }
       `}</style>
 
-      <div className="menu-section-wrap" style={{ animation: 'mn-fade-in .5s ease both', fontFamily: "'DM Sans', sans-serif" }}>
+      <div className="menu-section-wrap" style={{ animation: 'rm-fade-in .55s ease both', fontFamily: F.body, paddingBottom: '10vh' }}>
 
-        {/* ── HEADER ── */}
-        <div style={{ marginBottom: 6 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-            <div style={{ width: 28, height: 2, background: ACCENT }} />
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, letterSpacing: '.3em', textTransform: 'uppercase', color: LIGHT }}>
-              Configurare
-            </p>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(22px,5vw,34px)', fontWeight: 400, fontStyle: 'italic', color: DARK, margin: 0, lineHeight: 1.1 }}>
-              Meniu Nuntă
-            </h2>
-            {isActive && (
-              <div className="menu-stats-row" style={{ display: 'flex', gap: 16, flexShrink: 0 }}>
-                <div style={{ textAlign: 'center' }}>
-                  <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(18px,4vw,26px)', fontWeight: 400, fontStyle: 'italic', color: ACCENT, lineHeight: 1, marginBottom: 2 }}>
-                    {activeCount}
-                  </p>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 7, letterSpacing: '.18em', textTransform: 'uppercase', color: LIGHT, marginBottom: 0 }}>
-                    Categorii
-                  </p>
+        <div style={{ marginBottom: SP.xs, textAlign: 'center' }}>
+          <p style={{ fontFamily: F.heading, fontSize: FS.tiny, letterSpacing: '.38em', textTransform: 'uppercase' as const, color: C.textLight, opacity: .7, marginBottom: SP.sm }}>
+            Configurare
+          </p>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap' as const, gap: BR.lg }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: SP.sm, marginBottom: SP.xs }}>
+                <div style={{ animation: 'rm-heartbeat 2.4s ease-in-out infinite' }}>
+                  <MinimalSquare size={18} color={C.crimson} />
                 </div>
-                <div style={{ width: 1, background: RULE }} />
+                <h2 style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 'clamp(22px,5vw,36px)',
+                  fontWeight: 400, fontStyle: 'italic', color: C.crimson, margin: 0,
+                  lineHeight: 1.1, textShadow: `0 2px 18px rgba(0,0,0,.08)`,
+                }}>
+                  Meniu Nuntă
+                </h2>
+              </div>
+            </div>
+
+            {isActive && (
+              <div className="menu-stats-row" style={{
+                display: 'flex', gap: SP.lg, flexShrink: 0, alignItems: 'center',
+                padding: `${SP.sm}px ${SP.lg}px`,
+                background: `rgba(249,250,251,.9)`,
+                border: `1px solid rgba(26,26,26,.1)`,
+                borderRadius: 100, backdropFilter: 'blur(8px)',
+              }}>
                 <div style={{ textAlign: 'center' }}>
-                  <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(18px,4vw,26px)', fontWeight: 400, fontStyle: 'italic', color: ACCENT, lineHeight: 1, marginBottom: 2 }}>
-                    {totalItems}
-                  </p>
-                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 7, letterSpacing: '.18em', textTransform: 'uppercase', color: LIGHT, marginBottom: 0 }}>
-                    Feluri
-                  </p>
+                  <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 'clamp(18px,4vw,26px)', fontWeight: 400, fontStyle: 'italic', color: C.crimson, lineHeight: 1, marginBottom: 1 }}>{activeCount}</p>
+                  <p style={{ fontFamily: F.heading, fontSize: 7, letterSpacing: '.18em', textTransform: 'uppercase' as const, color: C.textLight, marginBottom: 0, opacity: .7 }}>Categorii</p>
+                </div>
+                <MinimalSquare size={10} color={`rgba(26,26,26,.25)`} />
+                <div style={{ textAlign: 'center' }}>
+                  <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 'clamp(18px,4vw,26px)', fontWeight: 400, fontStyle: 'italic', color: C.crimson, lineHeight: 1, marginBottom: 1 }}>{totalItems}</p>
+                  <p style={{ fontFamily: F.heading, fontSize: 7, letterSpacing: '.18em', textTransform: 'uppercase' as const, color: C.textLight, marginBottom: 0, opacity: .7 }}>Feluri</p>
                 </div>
               </div>
             )}
           </div>
         </div>
 
-        <MinDivider />
+        <MinimalDivider />
 
-        {/* ── MASTER TOGGLE ── */}
         <div style={{
-          padding: '14px 16px', marginBottom: 20,
-          background: '#fff',
-          border: `1px solid ${isActive ? 'rgba(200,80,58,.25)' : RULE}`,
-          borderLeft: `3px solid ${isActive ? ACCENT : RULE}`,
-          boxShadow: '0 2px 8px rgba(0,0,0,.04)',
-          transition: 'all .25s',
+          padding: `18px ${SP.xl}px`, marginBottom: SP.xxl,
+          background: isActive ? GR.masterActive : `rgba(249,250,251,.6)`,
+          border: `1.5px solid ${isActive ? 'rgba(26,26,26,.18)' : 'rgba(26,26,26,.08)'}`,
+          borderRadius: BR.xxl,
+          boxShadow: isActive ? SH.cardActive : `0 4px 16px rgba(0,0,0,.03)`,
+          backdropFilter: 'blur(10px)',
+          position: 'relative', overflow: 'hidden', transition: 'all .3s',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
+          <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: 1, background: `linear-gradient(90deg,transparent,${isActive ? 'rgba(26,26,26,.18)' : 'rgba(26,26,26,.08)'},transparent)` }} />
+          <div className="menu-master-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: BR.lg }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: BR.lg, flex: 1, minWidth: 0 }}>
               <div style={{
-                width: 36, height: 36,
-                background: isActive ? 'rgba(200,80,58,.08)' : BG,
-                border: `1px solid ${isActive ? 'rgba(200,80,58,.2)' : RULE}`,
+                width: 44, height: 44, borderRadius: 14, flexShrink: 0,
+                background: isActive ? `linear-gradient(135deg,rgba(26,26,26,.08) 0%,rgba(243,244,246,.8) 100%)` : 'rgba(26,26,26,.04)',
+                border: `1.5px solid ${isActive ? 'rgba(26,26,26,.2)' : 'rgba(26,26,26,.08)'}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                flexShrink: 0, fontSize: 16, transition: 'all .25s',
-              }}>
-                🍽️
-              </div>
+                fontSize: SP.xl, transition: 'all .3s',
+              }}>🍽️</div>
               <div style={{ minWidth: 0 }}>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 'clamp(10px,2.5vw,13px)', fontWeight: 500, letterSpacing: '.04em', color: DARK, marginBottom: 2 }}>
+                <p style={{ fontFamily: F.heading, fontSize: 'clamp(10px,2.5vw,13px)', fontWeight: 600, letterSpacing: '.08em', color: C.dark, marginBottom: 3 }}>
                   Afișează meniul pe invitație
                 </p>
-                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 12, fontStyle: 'italic', color: isActive ? MID : LIGHT, lineHeight: 1.4, marginBottom: 0 }}>
-                  {isActive ? 'Invitații vor vedea meniul complet' : 'Activează pentru a configura și afișa'}
+                <p style={{ fontFamily: F.body, fontSize: FS.md, fontStyle: 'italic', color: isActive ? C.textLight : `rgba(26,26,26,.3)`, lineHeight: 1.4, marginBottom: 0 }}>
+                  {isActive ? 'Invitații vor vedea meniul complet —' : 'Activează pentru a configura și afișa'}
                 </p>
               </div>
             </div>
-            <MinToggle checked={isActive} onChange={setIsActive} />
+            <MinimalToggle checked={isActive} onChange={setIsActive} />
           </div>
         </div>
 
-        {/* ── CATEGORIES ── */}
         {isActive && (
-          <div style={{ animation: 'mn-fade-in .35s ease both' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.24em', textTransform: 'uppercase', color: LIGHT, marginBottom: 0 }}>
+          <div style={{ animation: 'rm-fade-in .4s ease both' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14, flexWrap: 'wrap' as const, gap: SP.sm }}>
+              <p style={{ fontFamily: F.heading, fontSize: FS.tiny, letterSpacing: '.28em', textTransform: 'uppercase' as const, color: C.textLight, opacity: .65, marginBottom: 0 }}>
                 Categorii Meniu
               </p>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 12, fontStyle: 'italic', color: LIGHT, marginBottom: 0 }}>
+              <p style={{ fontFamily: F.body, fontSize: FS.md, fontStyle: 'italic', color: `rgba(26,26,26,.38)`, marginBottom: 0 }}>
                 Activează categoriile dorite &amp; adaugă felurile
               </p>
             </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: SP.sm, marginBottom: SP.xxl }}>
               {categories.map(cat => (
                 <CategoryCard
                   key={cat.id}
@@ -472,49 +485,54 @@ export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) 
             </div>
 
             <div style={{
-              display: 'flex', alignItems: 'flex-start', gap: 9,
-              padding: '11px 14px',
-              background: '#fff',
-              border: `1px solid ${RULE}`,
-              borderLeft: `3px solid rgba(200,80,58,.3)`,
-              marginBottom: 16,
+              display: 'flex', alignItems: 'flex-start', gap: SP.sm,
+              padding: `13px 18px`, borderRadius: BR.xl,
+              background: `rgba(249,250,251,.8)`, border: `1px solid rgba(26,26,26,.08)`,
+              backdropFilter: 'blur(6px)', marginBottom: SP.xl,
             }}>
-              <svg viewBox="0 0 20 20" fill="none" style={{ width: 13, height: 13, flexShrink: 0, marginTop: 1 }}>
-                <circle cx="10" cy="10" r="8" stroke={LIGHT} strokeWidth="1.2" />
-                <path d="M10 9v5M10 7h.01" stroke={LIGHT} strokeWidth="1.3" strokeLinecap="round" />
-              </svg>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 12, fontStyle: 'italic', color: LIGHT, lineHeight: 1.7, marginBottom: 0 }}>
+              <div style={{ flexShrink: 0, marginTop: 1 }}>
+                <MinimalSquare size={IS.md - 1} color={`rgba(26,26,26,.3)`} />
+              </div>
+              <p style={{ fontFamily: F.body, fontSize: FS.md, fontStyle: 'italic', color: C.textLight, lineHeight: 1.75, marginBottom: 0 }}>
                 Doar categoriile activate vor apărea pe invitație. Descrierile sunt opționale.
               </p>
             </div>
           </div>
         )}
 
-        {/* ── SAVE ── */}
+        <MinimalDivider />
+
         <button
+          className="rm-save-btn"
           type="button"
-          className="mn-save-btn"
           onClick={handleSave}
           disabled={loading}
           style={{
-            width: '100%', padding: '15px 0',
-            background: DARK, color: '#fff',
-            fontFamily: "'DM Sans', sans-serif",
+            width: '100%', padding: '16px 0', borderRadius: 100,
+            background: GR.roseBtn,
+            color: C.white, fontFamily: F.heading,
             fontSize: 'clamp(10px,2.5vw,12px)', fontWeight: 600,
-            letterSpacing: '.22em', textTransform: 'uppercase',
+            letterSpacing: '.22em', textTransform: 'uppercase' as const,
             border: 'none', cursor: 'pointer',
-            transition: 'all .2s',
+            boxShadow: SH.btnSave,
+            transition: 'transform .22s, box-shadow .22s',
+            position: 'relative', overflow: 'hidden',
           }}
         >
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
-            {loading ? <><IconSpin /> Salvare în curs...</> : '← Salvează Meniul →'}
+          <span style={{ position: 'relative', zIndex: 1, display: 'inline-flex', alignItems: 'center', gap: SP.sm }}>
+            {loading
+              ? <><IconSpin /> Salvare în curs...</>
+              : <><MinimalSquare size={IS.md - 1} color={C.white} /> Salvează Meniul <MinimalSquare size={IS.md - 1} color={C.white} /></>
+            }
           </span>
+          {!loading && (
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent)', backgroundSize: '350px 100%', animation: 'rm-shimmer 3s linear infinite' }} />
+          )}
         </button>
 
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 7, letterSpacing: '.2em', textTransform: 'uppercase', color: '#CCCCCC', textAlign: 'center', marginTop: 12 }}>
-          VibeInvite · Tema Minimal
+        <p style={{ fontFamily: F.heading, fontSize: FS.micro, letterSpacing: '.2em', textTransform: 'uppercase' as const, color: `rgba(26,26,26,.18)`, textAlign: 'center', marginTop: SP.lg }}>
+          VibeInvite · Meniu Nuntă · Tema Minimal
         </p>
-
       </div>
     </>
   );

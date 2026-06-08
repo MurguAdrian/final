@@ -1,26 +1,26 @@
+// FIȘIER: andre/app/dashboard/minimal/components/SummarySection.tsx
+// MODIFICĂRI FAȚĂ DE ROMANTIC:
+//   - Culori: toate rgba(196,80,106,...) / rgba(166,50,72,...) / #A63248 / #7B1A2E / #3D1520 → echivalente gri/charcoal
+//   - Fonturi: 'Cinzel' → 'DM Sans'; 'Cormorant Garamond' → 'Spectral'
+//   - Google Fonts import: Cinzel+Cormorant → DM Sans+Spectral
+//   - Structura JSX, dimensiuni, logică, breakpoints: IDENTICE cu Romantic
+
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 interface SummaryProps {
   isComplete: boolean;
 }
 
-const ACCENT = '#C8503A';
-const ACCENT2 = '#E8C4B8';
-const DARK = '#111111';
-const MID = '#555555';
-const LIGHT = '#AAAAAA';
-const RULE = '#E2E2E2';
-const BG = '#F7F4F0';
-
 export const SummarySection = ({ isComplete }: SummaryProps) => {
-  const [data, setData] = useState<any>(null);
+  const [data, setData]       = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const tableWrapRef          = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`/api/dashboard/summary?t=${Date.now()}`);
+        const res    = await fetch(`/api/dashboard/summary?t=${Date.now()}`);
         const result = await res.json();
         setData(result);
       } catch (err) {
@@ -32,18 +32,52 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const el = tableWrapRef.current;
+    if (!el) return;
+
+    let startY = 0;
+
+    const onTouchStart = (e: TouchEvent) => {
+      startY = e.touches[0].clientY;
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      const deltaY    = e.touches[0].clientY - startY;
+      const atTop     = el.scrollTop === 0;
+      const atBottom  = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+
+      if ((atTop && deltaY > 0) || (atBottom && deltaY < 0)) {
+        e.preventDefault();
+      }
+    };
+
+    el.addEventListener('touchstart', onTouchStart, { passive: true });
+    el.addEventListener('touchmove',  onTouchMove,  { passive: false });
+
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchmove',  onTouchMove);
+    };
+  }, []);
+
   const exportToExcel = () => {
     if (!data?.guests) return;
     const headers = ["Nume Invitat", "Status", "Adulti", "Copii", "Cazare", "Transport", "Preferinte Dieta", "Mentiuni"];
-    const rows = data.guests.map((g: any) => [
-      g.guest_name, g.is_coming ? "DA" : "NU", g.adults_count, g.kids_count,
-      g.needs_accommodation ? "DA" : "NU", g.needs_transport ? "DA" : "NU",
-      g.dietary_preferences || "-", g.other_mentions || "-"
+    const rows    = data.guests.map((g: any) => [
+      g.guest_name,
+      g.is_coming ? "DA" : "NU",
+      g.adults_count,
+      g.kids_count,
+      g.needs_accommodation ? "DA" : "NU",
+      g.needs_transport     ? "DA" : "NU",
+      g.dietary_preferences || "-",
+      g.other_mentions      || "-",
     ]);
     const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
-    const url = URL.createObjectURL(blob);
+    const url  = URL.createObjectURL(blob);
     link.setAttribute("href", url);
     link.setAttribute("download", `lista_invitati_${data?.weddingDetails?.custom_slug || 'export'}.csv`);
     link.style.visibility = 'hidden';
@@ -55,72 +89,99 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
   const userSlug = data?.weddingDetails?.custom_slug || "nunta-ta";
 
   if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 20px', gap: 12, fontFamily: "'DM Sans', sans-serif", fontSize: 10, letterSpacing: '.28em', textTransform: 'uppercase' as const, color: LIGHT }}>
-      <div style={{ width: 16, height: 16, border: `1.5px solid ${RULE}`, borderTopColor: ACCENT, borderRadius: '50%', animation: 'mn-spin 1s linear infinite' }} />
+    <div style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      padding: '60px 20px', gap: 14,
+      fontFamily: "'DM Sans', sans-serif",
+      fontSize: 11, letterSpacing: '.28em', textTransform: 'uppercase' as const,
+      color: 'rgba(26,26,26,.45)',
+    }}>
+      <div style={{
+        width: 18, height: 18,
+        border: '1.5px solid rgba(26,26,26,.15)',
+        borderTopColor: '#1a1a1a',
+        borderRadius: '50%',
+        animation: 'rm-spin 1s linear infinite',
+      }} />
       Se încarcă...
-      <style>{`@keyframes mn-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes mn-fade-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}`}</style>
+      <style>{`
+        @keyframes rm-spin    { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+        @keyframes rm-fade-in { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+      `}</style>
     </div>
   );
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,300;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap');
         *, *::before, *::after { box-sizing: border-box; }
-        @keyframes mn-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-        @keyframes mn-fade-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-        .mn-row:hover { background: rgba(200,80,58,.03) !important; }
-        .mn-export-btn:hover { background: #fff !important; border-color: ${ACCENT} !important; color: ${ACCENT} !important; }
-        .mn-copy-btn:hover { background: ${ACCENT} !important; color: #fff !important; }
-        .mn-share-btn:hover { background: #fff !important; border-color: ${ACCENT} !important; color: ${ACCENT} !important; }
 
-        .sum-wrap { width: 100%; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
-        .sum-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
-        .sum-link-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        @keyframes rm-spin    { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+        @keyframes rm-fade-in { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+        .rm-row:hover        { background: rgba(26,26,26,.02) !important; }
+        .rm-export-btn:hover { background: rgba(26,26,26,.07) !important; border-color: rgba(26,26,26,.3) !important; color: #0f0f0f !important; }
+        .rm-copy-btn:hover   { background: linear-gradient(135deg,#0f0f0f,#1a1a1a,#2d2d2d,#1a1a1a,#0f0f0f) !important; }
+        .rm-share-btn:hover  { background: rgba(26,26,26,.07) !important; border-color: rgba(26,26,26,.3) !important; color: #0f0f0f !important; }
+
+        .sum-wrap   { width: 100%; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
+        .sum-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
+        .sum-link-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
         .sum-stats-grid {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
-          gap: clamp(8px,1.5vw,12px);
-          margin-bottom: 24px;
+          gap: clamp(8px, 1.5vw, 14px);
+          margin-bottom: 28px;
         }
-        .sum-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: auto; overscroll-behavior-x: contain; }
+
+        .sum-table-wrap {
+          overflow-x: auto;
+          overflow-y: auto;
+          max-height: clamp(300px, 55vh, 620px);
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior: none;
+          touch-action: pan-y;
+          border-radius: 0 0 16px 16px;
+        }
+
         .sum-link-input { font-size: 16px !important; -webkit-appearance: none; appearance: none; }
 
         @media (max-width: 900px) { .sum-stats-grid { grid-template-columns: repeat(3, 1fr) !important; } }
         @media (max-width: 600px) {
-          .sum-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .sum-link-row { flex-direction: column !important; }
-          .sum-link-row input { min-width: 0 !important; width: 100% !important; }
+          .sum-stats-grid      { grid-template-columns: repeat(2, 1fr) !important; }
+          .sum-link-row        { flex-direction: column !important; }
+          .sum-link-row input  { min-width: 0 !important; width: 100% !important; }
           .sum-link-row button { width: 100% !important; }
-          .sum-header { flex-direction: column !important; align-items: flex-start !important; }
-          .mn-export-btn span { display: none; }
-          .share-label { display: none; }
-          .mn-share-btn { padding: 10px 12px !important; }
+          .sum-header          { flex-direction: column !important; align-items: flex-start !important; }
+          .rm-export-btn span  { display: none; }
+          .share-label         { display: none; }
+          .rm-share-btn        { padding: 10px 12px !important; }
+          .sum-table-wrap      { max-height: clamp(240px, 45vh, 480px) !important; }
         }
+        @media (max-width: 400px) {
+          .sum-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+
         @media (max-width: 640px) { .th-cazare, .td-cazare, .th-transport, .td-transport { display: none !important; } }
         @media (max-width: 480px) { .th-details, .td-details { display: none !important; } }
       `}</style>
 
-      <div className="sum-wrap" style={{ animation: 'mn-fade-in .5s ease both', fontFamily: "'DM Sans', sans-serif" }}>
+      <div className="sum-wrap" style={{ animation: 'rm-fade-in .55s ease both', fontFamily: "'Spectral', serif" }}>
 
         {/* HEADER */}
         <div className="sum-header">
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-              <div style={{ width: 28, height: 2, background: ACCENT }} />
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, letterSpacing: '.3em', textTransform: 'uppercase', color: LIGHT }}>Panou Principal</p>
-            </div>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(22px,4vw,34px)', fontWeight: 400, fontStyle: 'italic', color: DARK, margin: 0, lineHeight: 1.1 }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, letterSpacing: '.36em', textTransform: 'uppercase', color: 'rgba(26,26,26,.35)', marginBottom: 8 }}>
+              Panou Principal
+            </p>
+            <h2 style={{ fontFamily: "'Spectral', serif", fontSize: 'clamp(22px,4vw,38px)', fontWeight: 300, fontStyle: 'italic', color: '#0f0f0f', margin: 0, lineHeight: 1.1 }}>
               Centrul de Comandă
             </h2>
           </div>
           {data?.guests?.length > 0 && (
-            <button className="mn-export-btn" onClick={exportToExcel} style={{
-              display: 'inline-flex', alignItems: 'center', gap: 7, padding: '9px 16px',
-              background: BG, border: `1px solid ${RULE}`, color: MID,
-              fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '.12em', textTransform: 'uppercase',
-              cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap', flexShrink: 0
-            }}>
+            <button className="rm-export-btn" onClick={exportToExcel} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '9px 16px', borderRadius: 4, background: 'rgba(26,26,26,.04)', border: '1px solid rgba(26,26,26,.14)', color: 'rgba(26,26,26,.6)', fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: '.16em', textTransform: 'uppercase', cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap', flexShrink: 0 }}>
               <svg viewBox="0 0 20 20" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
                 <path d="M10 13V4M6 9l4 4 4-4M4 16h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -129,69 +190,51 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
           )}
         </div>
 
-        <MinDivider />
+        <MinimalDivider />
 
         {/* LINK CARD */}
-        <div style={{
-          border: `1px solid ${isComplete ? RULE : 'rgba(200,80,58,.3)'}`,
-          borderLeft: `3px solid ${isComplete ? '#5a9a6a' : ACCENT}`,
-          background: '#fff', padding: 'clamp(16px,3vw,24px)', marginBottom: 24,
-          boxShadow: '0 2px 12px rgba(0,0,0,.04)'
-        }}>
+        <div style={{ borderRadius: 14, overflow: 'hidden', border: `1px solid ${isComplete ? 'rgba(26,26,26,.15)' : 'rgba(255,165,0,.3)'}`, background: isComplete ? 'linear-gradient(160deg,rgba(26,26,26,.03) 0%,rgba(26,26,26,.01) 100%)' : 'linear-gradient(160deg,rgba(255,140,0,.08) 0%,rgba(255,140,0,.03) 100%)', padding: 'clamp(16px,3vw,24px)', marginBottom: 28, position: 'relative', boxShadow: '0 4px 24px rgba(0,0,0,.04),inset 0 1px 0 rgba(0,0,0,.03)' }}>
+          <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: 1, background: `linear-gradient(90deg,transparent,${isComplete ? 'rgba(26,26,26,.18)' : 'rgba(255,165,0,.25)'},transparent)` }} />
+
           {!isComplete ? (
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                <div style={{ width: 32, height: 32, background: 'rgba(200,80,58,.08)', border: `1px solid rgba(200,80,58,.2)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <div style={{ width: 34, height: 34, borderRadius: 8, flexShrink: 0, background: 'rgba(255,165,0,.1)', border: '1px solid rgba(255,165,0,.28)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg viewBox="0 0 20 20" fill="none" style={{ width: 14, height: 14 }}>
-                    <path d="M10 6v4M10 14h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke={ACCENT} strokeWidth="1.5" strokeLinecap="round" />
+                    <path d="M10 6v4M10 14h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="rgba(255,165,0,.9)" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
                 </div>
-                <h4 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 'clamp(10px,2.5vw,13px)', fontWeight: 600, letterSpacing: '.08em', color: ACCENT, margin: 0 }}>
+                <h4 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 'clamp(10px,2.5vw,13px)', fontWeight: 600, letterSpacing: '.1em', color: 'rgba(255,165,0,.9)', margin: 0 }}>
                   Pasul 1: Configurează Link-ul
                 </h4>
               </div>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(13px,2vw,15px)', fontStyle: 'italic', color: LIGHT, lineHeight: 1.7 }}>
+              <p style={{ fontFamily: "'Spectral', serif", fontSize: 'clamp(13px,2vw,16px)', fontStyle: 'italic', color: 'rgba(15,23,42,.4)', lineHeight: 1.7 }}>
                 Mergi la Personalizare pentru a alege numele link-ului.
               </p>
             </div>
           ) : (
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-                <div style={{ width: 32, height: 32, background: 'rgba(90,154,106,.08)', border: '1px solid rgba(90,154,106,.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <div style={{ width: 34, height: 34, borderRadius: 8, flexShrink: 0, background: 'rgba(26,26,26,.07)', border: '1px solid rgba(26,26,26,.18)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg viewBox="0 0 20 20" fill="none" style={{ width: 14, height: 14 }}>
-                    <path d="M4 10l4 4 8-8" stroke="#5a9a6a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M4 10l4 4 8-8" stroke="#1a1a1a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
-                <h4 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 'clamp(10px,2.5vw,13px)', fontWeight: 600, letterSpacing: '.08em', color: DARK, margin: 0 }}>
+                <h4 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 'clamp(10px,2.5vw,13px)', fontWeight: 600, letterSpacing: '.1em', color: '#1a1a1a', margin: 0 }}>
                   Invitația ta este LIVE
                 </h4>
               </div>
               <div className="sum-link-row">
-                <input readOnly className="sum-link-input" value={`https://www.vibeinvite.ro/invitatie/minimal/${userSlug}`} style={{
-                  flex: 1, minWidth: 0, padding: '10px 14px',
-                  background: BG, border: `1px solid ${RULE}`, color: MID,
-                  fontFamily: "'DM Sans', sans-serif", letterSpacing: '.04em',
-                  outline: 'none', width: '100%', boxSizing: 'border-box' as const,
-                  WebkitAppearance: 'none' as any,
-                }} />
-                <button className="mn-copy-btn" onClick={() => { navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/minimal/${userSlug}`); alert("Copiat!"); }} style={{
-                  padding: '10px 20px', background: DARK, border: `1px solid ${DARK}`, color: '#fff',
-                  fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: '.14em', textTransform: 'uppercase',
-                  cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap'
-                }}>Copiază</button>
-                <button className="mn-share-btn" onClick={() => {
-                  const url = `https://www.vibeinvite.ro/invitatie/minimal/${userSlug}`;
-                  if (navigator.share) {
-                    navigator.share({ title: 'Invitație Nuntă', text: 'Te invităm să fii alături de noi 💍', url }).catch(() => {});
-                  } else {
-                    window.open(`https://wa.me/?text=${encodeURIComponent('Te invităm să fii alături de noi 💍 ' + url)}`, '_blank');
-                  }
-                }} style={{
-                  padding: '10px 16px', background: BG, border: `1px solid ${RULE}`, color: MID,
-                  fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: '.1em', textTransform: 'uppercase',
-                  cursor: 'pointer', transition: 'all .2s', display: 'flex', alignItems: 'center', gap: 7,
-                  whiteSpace: 'nowrap', flexShrink: 0
-                }}>
+                <input
+                  readOnly
+                  className="sum-link-input"
+                  value={`https://www.vibeinvite.ro/invitatie/minimal/${userSlug}`}
+                  style={{ flex: 1, minWidth: 0, padding: '10px 14px', background: 'rgba(249,250,251,.9)', border: '1px solid rgba(26,26,26,.12)', borderRadius: 8, color: '#1a1a1a', fontFamily: "'DM Sans', sans-serif", letterSpacing: '.04em', outline: 'none', width: '100%', boxSizing: 'border-box' as const, WebkitAppearance: 'none' as any }}
+                />
+                <button className="rm-copy-btn" onClick={() => { navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/minimal/${userSlug}`); alert("Copiat!"); }} style={{ padding: '10px 20px', borderRadius: 8, background: 'rgba(26,26,26,.08)', border: '1px solid rgba(26,26,26,.2)', color: '#0f0f0f', fontFamily: "'DM Sans', sans-serif", fontSize: 16, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap' as const }}>
+                  Copiază
+                </button>
+                <button className="rm-share-btn" onClick={() => { const url = `https://www.vibeinvite.ro/invitatie/minimal/${userSlug}`; if (navigator.share) { navigator.share({ title: 'Invitație Nuntă', text: 'Te invităm să fii alături de noi în ziua nunții noastre 💍', url }).catch(() => {}); } else { window.open(`https://wa.me/?text=${encodeURIComponent('Te invităm să fii alături de noi 💍 ' + url)}`, '_blank'); } }} style={{ padding: '10px 16px', borderRadius: 8, background: 'rgba(26,26,26,.04)', border: '1px solid rgba(26,26,26,.14)', color: 'rgba(26,26,26,.6)', fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', display: 'flex', alignItems: 'center', gap: 7, whiteSpace: 'nowrap' as const, flexShrink: 0 }}>
                   <svg viewBox="0 0 20 20" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
                     <circle cx="15" cy="4" r="2" stroke="currentColor" strokeWidth="1.4" />
                     <circle cx="15" cy="16" r="2" stroke="currentColor" strokeWidth="1.4" />
@@ -205,113 +248,80 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
           )}
         </div>
 
-        {/* STATS */}
+        {/* STATS GRID */}
         <div className="sum-stats-grid">
-          <StatCard title="Vizualizări" value={data?.views} icon={
-            <svg viewBox="0 0 20 20" fill="none" style={{ width: 14, height: 14 }}>
-              <path d="M1 10s4-6 9-6 9 6 9 6-4 6-9 6-9-6-9-6z" stroke={ACCENT} strokeWidth="1.3" strokeLinecap="round" />
-              <circle cx="10" cy="10" r="2.5" stroke={ACCENT} strokeWidth="1.3" />
-            </svg>
-          } />
-          <StatCard title="Confirmări (DA)" value={data?.stats?.da} icon={
-            <svg viewBox="0 0 20 20" fill="none" style={{ width: 14, height: 14 }}>
-              <path d="M4 10l4 4 8-8" stroke={ACCENT} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          } />
-          <StatCard title="Total Persoane" value={(data?.stats?.adulti || 0) + (data?.stats?.copii || 0)} icon={
-            <svg viewBox="0 0 20 20" fill="none" style={{ width: 14, height: 14 }}>
-              <circle cx="8" cy="6" r="2.5" stroke={ACCENT} strokeWidth="1.3" />
-              <path d="M3 17c0-3 2-5 5-5s5 2 5 5" stroke={ACCENT} strokeWidth="1.3" strokeLinecap="round" />
-              <path d="M13 8c1.3.6 2 1.8 2 3M16 17c0-2.5-1-4.5-3-5.5" stroke={ACCENT} strokeWidth="1.3" strokeLinecap="round" />
-            </svg>
-          } />
-          <StatCard title="Cazare" value={data?.stats?.cazare} icon={
-            <svg viewBox="0 0 20 20" fill="none" style={{ width: 14, height: 14 }}>
-              <path d="M3 17V8l7-5 7 5v9M8 17v-5h4v5" stroke={ACCENT} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          } />
-          <StatCard title="Transport" value={data?.stats?.transport} icon={
-            <svg viewBox="0 0 20 20" fill="none" style={{ width: 14, height: 14 }}>
-              <rect x="2" y="7" width="16" height="9" rx="2" stroke={ACCENT} strokeWidth="1.3" />
-              <path d="M5 7V5a3 3 0 0 1 6 0v2M6 16v2M14 16v2" stroke={ACCENT} strokeWidth="1.3" strokeLinecap="round" />
-            </svg>
-          } />
+          <StatCard title="Vizualizări" value={data?.views} icon={<svg viewBox="0 0 20 20" fill="none" style={{ width: 15, height: 15 }}><path d="M1 10s4-6 9-6 9 6 9 6-4 6-9 6-9-6-9-6z" stroke="#1a1a1a" strokeWidth="1.3" strokeLinecap="round" /><circle cx="10" cy="10" r="2.5" stroke="#1a1a1a" strokeWidth="1.3" /></svg>} />
+          <StatCard title="Confirmări (DA)" value={data?.stats?.da} icon={<svg viewBox="0 0 20 20" fill="none" style={{ width: 15, height: 15 }}><path d="M4 10l4 4 8-8" stroke="#1a1a1a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>} />
+          <StatCard title="Total Persoane" value={(data?.stats?.adulti || 0) + (data?.stats?.copii || 0)} icon={<svg viewBox="0 0 20 20" fill="none" style={{ width: 15, height: 15 }}><circle cx="8" cy="6" r="2.5" stroke="#1a1a1a" strokeWidth="1.3" /><path d="M3 17c0-3 2-5 5-5s5 2 5 5" stroke="#1a1a1a" strokeWidth="1.3" strokeLinecap="round" /><path d="M13 8c1.3.6 2 1.8 2 3M16 17c0-2.5-1-4.5-3-5.5" stroke="#1a1a1a" strokeWidth="1.3" strokeLinecap="round" /></svg>} />
+          <StatCard title="Cazare" value={data?.stats?.cazare} icon={<svg viewBox="0 0 20 20" fill="none" style={{ width: 15, height: 15 }}><path d="M3 17V8l7-5 7 5v9M8 17v-5h4v5" stroke="#1a1a1a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></svg>} />
+          <StatCard title="Transport" value={data?.stats?.transport} icon={<svg viewBox="0 0 20 20" fill="none" style={{ width: 15, height: 15 }}><rect x="2" y="7" width="16" height="9" rx="2" stroke="#1a1a1a" strokeWidth="1.3" /><path d="M5 7V5a3 3 0 0 1 6 0v2M6 16v2M14 16v2" stroke="#1a1a1a" strokeWidth="1.3" strokeLinecap="round" /></svg>} />
         </div>
 
-        <MinDivider />
+        <MinimalDivider />
 
-        {/* TABLE */}
-        <div style={{ background: '#fff', border: `1px solid ${RULE}`, borderTop: `3px solid ${ACCENT}`, boxShadow: '0 2px 12px rgba(0,0,0,.04)', overflow: 'hidden', position: 'relative' }}>
-          <div style={{ padding: 'clamp(16px,3vw,24px)', borderBottom: `1px solid ${RULE}` }}>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.3em', textTransform: 'uppercase', color: LIGHT, marginBottom: 4 }}>Registrul Invitaților</p>
-            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(16px,3vw,22px)', fontStyle: 'italic', fontWeight: 400, color: DARK, margin: 0 }}>
+        {/* GUEST TABLE */}
+        <div style={{ background: 'rgba(26,26,26,.01)', border: '1px solid rgba(26,26,26,.09)', borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,.04),inset 0 1px 0 rgba(0,0,0,.02)', position: 'relative' }}>
+          <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: 1, background: 'linear-gradient(90deg,transparent,rgba(26,26,26,.15),transparent)' }} />
+
+          <div style={{ padding: 'clamp(16px,3vw,24px)', borderBottom: '1px solid rgba(26,26,26,.07)' }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.32em', textTransform: 'uppercase', color: 'rgba(26,26,26,.3)', marginBottom: 5 }}>Registrul Invitaților</p>
+            <h3 style={{ fontFamily: "'Spectral', serif", fontSize: 'clamp(16px,3vw,24px)', fontStyle: 'italic', fontWeight: 300, color: '#0f0f0f', margin: 0 }}>
               Detalii Răspunsuri
+              {data?.guests?.length > 0 && (
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, letterSpacing: '.18em', color: 'rgba(26,26,26,.3)', marginLeft: 12, fontStyle: 'normal', fontWeight: 400 }}>
+                  {data.guests.length} {data.guests.length === 1 ? 'răspuns' : 'răspunsuri'}
+                </span>
+              )}
             </h3>
           </div>
-          <div className="sum-table-wrap">
+
+          <div className="sum-table-wrap" ref={tableWrapRef}>
             <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 400 }}>
               <thead>
-                <tr style={{ background: BG }}>
-                  {[
-                    { label: 'Nume', cls: '' },
-                    { label: 'Status', cls: '' },
-                    { label: 'Persoane', cls: '' },
-                    { label: 'Cazare', cls: 'th-cazare' },
-                    { label: 'Transport', cls: 'th-transport' },
-                    { label: 'Detalii', cls: 'th-details' },
-                  ].map(h => (
-                    <th key={h.label} className={h.cls} style={thStyle}>{h.label}</th>
-                  ))}
+                <tr style={{ background: '#f9fafb' }}>
+                  <th style={thStyle}>Nume</th>
+                  <th style={thStyle}>Status</th>
+                  <th style={thStyle}>Persoane</th>
+                  <th style={thStyle} className="th-cazare">Cazare</th>
+                  <th style={thStyle} className="th-transport">Transport</th>
+                  <th style={thStyle} className="th-details">Detalii</th>
                 </tr>
               </thead>
               <tbody>
                 {data?.guests?.length > 0 ? (
                   data.guests.map((guest: any) => (
-                    <tr key={guest.id} className="mn-row" style={{ borderBottom: `1px solid ${RULE}`, transition: 'background .15s' }}>
+                    <tr key={guest.id} className="rm-row" style={{ borderBottom: '1px solid rgba(26,26,26,.05)', transition: 'background .2s' }}>
                       <td style={tdStyle}>
-                        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(13px,2vw,16px)', fontWeight: 400, color: DARK }}>{guest.guest_name}</span>
-                        {guest.partner_name && (
-                          <span style={{ display: 'block', fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontStyle: 'italic', color: LIGHT, marginTop: 2 }}>+ {guest.partner_name}</span>
-                        )}
+                        <span style={{ fontFamily: "'Spectral', serif", fontSize: 'clamp(13px,2vw,17px)', fontWeight: 600, color: '#0f0f0f' }}>{guest.guest_name}</span>
+                        {guest.partner_name && <span style={{ display: 'block', fontFamily: "'Spectral', serif", fontSize: 11, fontStyle: 'italic', color: 'rgba(26,26,26,.35)', marginTop: 2 }}>+ {guest.partner_name}</span>}
                       </td>
                       <td style={tdStyle}>
-                        {guest.is_coming ? (
-                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', background: 'rgba(90,154,106,.07)', border: '1px solid rgba(90,154,106,.25)', fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.14em', color: '#5a9a6a', whiteSpace: 'nowrap' }}>VINE</span>
-                        ) : (
-                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', background: 'rgba(200,80,58,.07)', border: '1px solid rgba(200,80,58,.25)', fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.14em', color: ACCENT, whiteSpace: 'nowrap' }}>NU</span>
-                        )}
+                        {guest.is_coming
+                          ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: 100, background: 'rgba(74,222,128,.07)', border: '1px solid rgba(74,222,128,.22)', fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.12em', color: 'rgba(74,180,100,.9)', whiteSpace: 'nowrap' }}>✓ VINE</span>
+                          : <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: 100, background: 'rgba(248,113,113,.07)', border: '1px solid rgba(248,113,113,.22)', fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.12em', color: 'rgba(220,80,80,.85)', whiteSpace: 'nowrap' }}>— NU</span>
+                        }
                       </td>
-                      <td style={tdStyle}><span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: MID, letterSpacing: '.04em' }}>{guest.adults_count}A / {guest.kids_count}C</span></td>
-                      <td style={tdStyle} className="td-cazare"><span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: guest.needs_accommodation ? DARK : RULE }}>{guest.needs_accommodation ? "DA" : "—"}</span></td>
-                      <td style={tdStyle} className="td-transport"><span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: guest.needs_transport ? DARK : RULE }}>{guest.needs_transport ? "DA" : "—"}</span></td>
+                      <td style={tdStyle}><span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: 'rgba(26,26,26,.5)', letterSpacing: '.06em' }}>{guest.adults_count}A / {guest.kids_count}C</span></td>
+                      <td style={tdStyle} className="td-cazare"><span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: guest.needs_accommodation ? 'rgba(26,26,26,.75)' : 'rgba(15,23,42,.18)', letterSpacing: '.06em' }}>{guest.needs_accommodation ? "✓ DA" : "—"}</span></td>
+                      <td style={tdStyle} className="td-transport"><span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: guest.needs_transport ? 'rgba(26,26,26,.75)' : 'rgba(15,23,42,.18)', letterSpacing: '.06em' }}>{guest.needs_transport ? "✓ DA" : "—"}</span></td>
                       <td style={tdStyle} className="td-details">
-                        {guest.dietary_preferences && (
-                          <div style={{ marginBottom: guest.other_mentions ? 5 : 0 }}>
-                            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.14em', textTransform: 'uppercase', color: LIGHT, display: 'block', marginBottom: 2 }}>Dietă</span>
-                            <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 13, fontStyle: 'italic', color: MID }}>{guest.dietary_preferences}</span>
-                          </div>
-                        )}
-                        {guest.other_mentions && (
-                          <div>
-                            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.14em', textTransform: 'uppercase', color: LIGHT, display: 'block', marginBottom: 2 }}>Mesaj</span>
-                            <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 13, fontStyle: 'italic', color: MID }}>{guest.other_mentions}</span>
-                          </div>
-                        )}
-                        {!guest.dietary_preferences && !guest.other_mentions && (
-                          <span style={{ color: RULE, fontSize: 14 }}>—</span>
-                        )}
+                        {guest.dietary_preferences && <div style={{ marginBottom: guest.other_mentions ? 5 : 0 }}><span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 7, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(26,26,26,.35)', display: 'block', marginBottom: 2 }}>Dietă</span><span style={{ fontFamily: "'Spectral', serif", fontSize: 13, fontStyle: 'italic', color: 'rgba(15,23,42,.55)' }}>{guest.dietary_preferences}</span></div>}
+                        {guest.other_mentions     && <div><span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 7, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(26,26,26,.35)', display: 'block', marginBottom: 2 }}>Mesaj</span><span style={{ fontFamily: "'Spectral', serif", fontSize: 13, fontStyle: 'italic', color: 'rgba(15,23,42,.55)' }}>{guest.other_mentions}</span></div>}
+                        {!guest.dietary_preferences && !guest.other_mentions && <span style={{ color: 'rgba(15,23,42,.15)', fontSize: 14 }}>—</span>}
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
                     <td colSpan={6} style={{ padding: 'clamp(32px,5vw,56px)', textAlign: 'center' }}>
-                      <svg viewBox="0 0 48 48" fill="none" style={{ width: 32, height: 32, margin: '0 auto 10px', opacity: .25 }}>
-                        <rect x="8" y="8" width="32" height="36" rx="2" stroke={DARK} strokeWidth="1.5" />
-                        <path d="M16 18h16M16 25h16M16 32h8" stroke={DARK} strokeWidth="1.3" strokeLinecap="round" />
-                      </svg>
-                      <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontStyle: 'italic', color: LIGHT, marginBottom: 4 }}>Niciun răspuns încă</p>
-                      <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, letterSpacing: '.22em', textTransform: 'uppercase', color: '#CCCCCC' }}>Distribuie invitația pentru a primi confirmări</p>
+                      <div style={{ marginBottom: 10, opacity: .3 }}>
+                        <svg viewBox="0 0 48 48" fill="none" style={{ width: 36, height: 36, margin: '0 auto' }}>
+                          <rect x="8" y="8" width="32" height="36" rx="3" stroke="#1a1a1a" strokeWidth="1.5" />
+                          <path d="M16 18h16M16 25h16M16 32h8" stroke="#1a1a1a" strokeWidth="1.3" strokeLinecap="round" />
+                        </svg>
+                      </div>
+                      <p style={{ fontFamily: "'Spectral', serif", fontSize: 17, fontStyle: 'italic', fontWeight: 300, color: 'rgba(26,26,26,.25)', marginBottom: 5 }}>Niciun răspuns încă</p>
+                      <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.22em', textTransform: 'uppercase', color: 'rgba(26,26,26,.18)' }}>Distribuie invitația pentru a primi confirmări</p>
                     </td>
                   </tr>
                 )}
@@ -319,40 +329,120 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
             </table>
           </div>
         </div>
+
+        <div style={{ height: 32 }} />
       </div>
     </>
   );
 };
 
+// ─── STYLES ──────────────────────────────────────────────
 const thStyle: React.CSSProperties = {
-  padding: 'clamp(10px,1.5vw,14px)',
-  fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.22em',
-  textTransform: 'uppercase', color: '#AAAAAA',
-  textAlign: 'left', fontWeight: 500,
-  borderBottom: '1px solid #E2E2E2', whiteSpace: 'nowrap',
-};
-const tdStyle: React.CSSProperties = {
-  padding: 'clamp(10px,1.5vw,14px)', verticalAlign: 'top',
+  padding: 'clamp(10px,1.5vw,14px) clamp(10px,1.5vw,14px)',
+  fontFamily: "'DM Sans', sans-serif",
+  fontSize: 'clamp(9px, 1.8vw, 11px)',
+  letterSpacing: '.16em',
+  textTransform: 'uppercase',
+  color: 'rgba(26,26,26,.4)',
+  textAlign: 'left',
+  fontWeight: 600,
+  borderBottom: '1px solid rgba(26,26,26,.07)',
+  whiteSpace: 'nowrap',
+  position: 'sticky',
+  top: 0,
+  background: '#f9fafb',
+  zIndex: 2,
 };
 
+const tdStyle: React.CSSProperties = {
+  padding: 'clamp(10px,1.5vw,14px) clamp(10px,1.5vw,14px)',
+  verticalAlign: 'top',
+};
+
+// ─── SUB-COMPONENTS ──────────────────────────────────────
 const StatCard = ({ title, value, icon }: any) => (
-  <div style={{
-    background: '#fff', border: '1px solid #E2E2E2', borderTop: `2px solid #C8503A`,
-    padding: 'clamp(12px,2vw,18px) clamp(10px,1.5vw,16px)', textAlign: 'center' as const,
-    boxShadow: '0 2px 8px rgba(0,0,0,.04)',
-  }}>
+  <div
+    style={{
+      background: 'rgba(26,26,26,.02)',
+      border: '1px solid rgba(26,26,26,.08)',
+      borderRadius: 14,
+      padding: 'clamp(12px,2vw,20px) clamp(10px,1.5vw,16px)',
+      textAlign: 'center' as const,
+      position: 'relative',
+      overflow: 'hidden',
+      boxShadow: '0 2px 16px rgba(0,0,0,.03), inset 0 1px 0 rgba(0,0,0,.02)',
+    }}
+  >
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: '15%',
+        right: '15%',
+        height: 1,
+        background: 'linear-gradient(90deg,transparent,rgba(26,26,26,.12),transparent)',
+      }}
+    />
+
     {icon && (
-      <div style={{ width: 30, height: 30, background: 'rgba(200,80,58,.07)', border: '1px solid rgba(200,80,58,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 8px' }}>{icon}</div>
+      <div
+        style={{
+          width: 34,
+          height: 34,
+          borderRadius: 10,
+          background: 'rgba(26,26,26,.05)',
+          border: '1px solid rgba(26,26,26,.1)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          margin: '0 auto 10px',
+          flexShrink: 0,
+        }}
+      >
+        {icon}
+      </div>
     )}
-    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.2em', textTransform: 'uppercase', color: '#AAAAAA', marginBottom: 6 }}>{title}</p>
-    <h4 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(22px,3.5vw,36px)', fontWeight: 400, fontStyle: 'italic', color: '#111', margin: 0, lineHeight: 1 }}>{value || 0}</h4>
+
+    <p
+      style={{
+        fontFamily: "'DM Sans', sans-serif",
+        fontSize: 'clamp(9px, 2.2vw, 11px)',
+        letterSpacing: '.14em',
+        textTransform: 'uppercase',
+        color: 'rgba(26,26,26,.4)',
+        marginBottom: 6,
+        fontWeight: 500,
+      }}
+    >
+      {title}
+    </p>
+
+    <h4
+      style={{
+        fontFamily: "'Spectral', serif",
+        fontSize: 'clamp(26px, 4vw, 40px)',
+        fontWeight: 300,
+        color: '#0f0f0f',
+        margin: 0,
+        lineHeight: 1,
+      }}
+    >
+      {value || 0}
+    </h4>
   </div>
 );
 
-const MinDivider = () => (
+const MinimalDivider = () => (
   <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: 24 }}>
-    <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,transparent,#E2E2E2)' }} />
-    <div style={{ width: 6, height: 6, background: '#C8503A', transform: 'rotate(45deg)', margin: '0 10px', opacity: .5 }} />
-    <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,#E2E2E2,transparent)' }} />
+    <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,transparent,rgba(26,26,26,.12))' }} />
+    <svg viewBox="0 0 60 20" width="54" height="18" fill="none" style={{ flexShrink: 0 }}>
+      <path d="M5 10 L20 10" stroke="#1a1a1a" strokeWidth=".8" strokeOpacity=".25" />
+      <path d="M40 10 L55 10" stroke="#1a1a1a" strokeWidth=".8" strokeOpacity=".25" />
+      <rect x="27" y="7" width="6" height="6" stroke="#1a1a1a" strokeWidth=".9" strokeOpacity=".5" transform="rotate(45 30 10)" fill="none" />
+      <circle cx="30" cy="10" r="1.5" fill="#1a1a1a" fillOpacity=".4" />
+      <circle cx="18" cy="10" r="1" fill="#1a1a1a" fillOpacity=".2" />
+      <circle cx="42" cy="10" r="1" fill="#1a1a1a" fillOpacity=".2" />
+    </svg>
+    <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(26,26,26,.12),transparent)' }} />
   </div>
 );

@@ -1,54 +1,52 @@
-
-
 export const C = {
-  // Roșuri / Rose
-  crimson:        '#7B1A2E',
-  rose:           '#A63248',
-  peony:          '#C4506A',
-  blush:          '#E8A0A8',
-  blush2:         '#F2C8CE',
-  blush3:         '#FAF0F2',
-  petal:          '#F7DDE2',
- 
-  // Creme / Ivory
-  cream:          '#FCF9F9',
-  cream2:         '#F5ECEE',
-  creamBg:        '#FFFFFF',
-  creamDeep:      '#F7ECEF',
- 
-  // Aur
-  gold:           '#B59461',
-  gold2:          '#E3CDA6',
- 
-  // Texte (Trecere pe bleumarin-închis – rețeta secretă a dashboard-urilor premium)
-  dark:           '#0F172A', // Slate 900
-  text:           '#1E293B', // Slate 800 (Cel mai odihnitor contrast pentru tabele lungi)
-  textLight:      '#475569', // Slate 600
-  textMuted:      '#64748B', // Slate 500
- 
+  // Teracotă / Sienna / Rust
+  crimson:        '#7A3B1E',
+  rose:           '#A0522D',
+  peony:          '#C1714A',
+  blush:          '#E5B89A',
+  blush2:         '#F0D5C0',
+  blush3:         '#FAF3EE',
+  petal:          '#F5E0D0',
+
+  // Ecru / Linen / Sand
+  cream:          '#F9F4EE',
+  cream2:         '#F0E8DC',
+  creamBg:        '#FDFAF6',
+  creamDeep:      '#F2E9DC',
+
+  // Aur pământiu
+  gold:           '#A08840',
+  gold2:          '#D4B880',
+
+  // Texte (dark espresso / warm brown)
+  dark:           '#2C1A0E',
+  text:           '#3D2314',
+  textLight:      '#6B4226',
+  textMuted:      '#8B6347',
+
   // Borduri & Overlay
-  borderFaint:    'rgba(30,41,59,0.08)',
-  borderLight:    'rgba(30,41,59,0.15)',
-  borderMed:      'rgba(30,41,59,0.25)',
-  borderStrong:   'rgba(30,41,59,0.45)',
-  roseFaint:      'rgba(166,50,72,0.05)',
-  roseDim:        'rgba(166,50,72,0.6)',
-  roseAlpha08:    'rgba(166,50,72,0.08)',
-  roseAlpha12:    'rgba(166,50,72,0.12)',
- 
+  borderFaint:    'rgba(44,26,14,0.08)',
+  borderLight:    'rgba(44,26,14,0.15)',
+  borderMed:      'rgba(44,26,14,0.25)',
+  borderStrong:   'rgba(44,26,14,0.45)',
+  roseFaint:      'rgba(160,82,45,0.05)',
+  roseDim:        'rgba(160,82,45,0.6)',
+  roseAlpha08:    'rgba(160,82,45,0.08)',
+  roseAlpha12:    'rgba(160,82,45,0.12)',
+
   // Overlay modal
-  overlayBg:      'rgba(15,23,42,0.6)',
- 
+  overlayBg:      'rgba(44,26,14,0.6)',
+
   // Status
   successGreen:   '#15803D',
   successBg:      '#DCFCE7',
   successBorder:  '#86EFAC',
   errorRed:       '#B91C1C',
   warningOrange:  '#C2410C',
- 
+
   // White
   white:          '#FFFFFF',
-  whiteSoft:      '#F8FAFC',
+  whiteSoft:      '#FAF7F4',
 } as const;
 
 
@@ -59,34 +57,23 @@ export const F = {
   ui:        "'Lato', sans-serif",
   serif:     "'Lora', serif",
 } as const;
- 
+
 // ─── FONT SIZES ──────────────────────────────────────────
 export const FS = {
-  /** 7px – micro labels, copyright */
   micro:     7,
-  /** 8px – uppercase eyebrow labels */
   tiny:      8,
-  /** 9px – badge text, small caps */
   xs:        9,
-  /** 10px – nav labels, button text */
   sm:        10,
-  /** 11px – secondary info */
   base:      11,
-  /** 13px – body copy */
   md:        13,
-  /**
-   * 16px – input text.
-   * OBLIGATORIU ≥16px pe mobile pentru a evita zoom iOS la focus.
-   */
   input:     16,
-  /** clamp pentru titluri responsive */
   titleSm:   'clamp(16px, 3vw, 22px)',
   titleMd:   'clamp(20px, 4vw, 30px)',
   titleLg:   'clamp(22px, 5vw, 38px)',
   titleXl:   'clamp(22px, 4vw, 34px)',
   statNum:   'clamp(24px, 3.5vw, 38px)',
 } as const;
- 
+
 // ─── SPACING ─────────────────────────────────────────────
 export const SP = {
   xs:   4,
@@ -96,13 +83,11 @@ export const SP = {
   xl:   20,
   xxl:  24,
   xxxl: 28,
-  /** Padding card interior */
   cardPad:  'clamp(16px, 3vw, 24px)',
-  /** Padding main content */
   mainPad:  'clamp(28px, 4vw, 52px)',
   mainPadH: 'clamp(20px, 4vw, 64px)',
 } as const;
- 
+
 // ─── BORDER RADIUS ───────────────────────────────────────
 export const BR = {
   sm:     6,
@@ -113,7 +98,7 @@ export const BR = {
   pill:   100,
   circle: '50%',
 } as const;
- 
+
 // ─── ICON SIZES ──────────────────────────────────────────
 export const IS = {
   xs:   12,
@@ -124,45 +109,44 @@ export const IS = {
   xxl:  18,
   hero: 26,
 } as const;
- 
+
 // ─── SHADOWS ─────────────────────────────────────────────
 export const SH = {
-  card:        '0 2px 16px rgba(123,26,46,0.04), inset 0 1px 0 rgba(196,80,106,0.05)',
-  cardHover:   '0 8px 32px rgba(123,26,46,0.08), 0 0 0 1px rgba(196,80,106,0.15)',
-  cardActive:  '0 8px 32px rgba(123,26,46,0.09), inset 0 1px 0 rgba(255,255,255,0.8)',
+  card:        '0 2px 16px rgba(122,59,30,0.04), inset 0 1px 0 rgba(193,113,74,0.05)',
+  cardHover:   '0 8px 32px rgba(122,59,30,0.08), 0 0 0 1px rgba(193,113,74,0.15)',
+  cardActive:  '0 8px 32px rgba(122,59,30,0.09), inset 0 1px 0 rgba(255,255,255,0.8)',
   modal:       '0 24px 64px rgba(80,40,20,0.25)',
-  sidebar:     '4px 0 30px rgba(123,26,46,0.06)',
-  btnRose:     '0 6px 22px rgba(123,26,46,0.25)',
-  btnRoseHover:'0 14px 40px rgba(123,26,46,0.38)',
-  btnSave:     '0 10px 36px rgba(123,26,46,0.35)',
-  toggleGlow:  '0 0 14px rgba(123,26,46,0.28)',
+  sidebar:     '4px 0 30px rgba(122,59,30,0.06)',
+  btnRose:     '0 6px 22px rgba(122,59,30,0.25)',
+  btnRoseHover:'0 14px 40px rgba(122,59,30,0.38)',
+  btnSave:     '0 10px 36px rgba(122,59,30,0.35)',
+  toggleGlow:  '0 0 14px rgba(122,59,30,0.28)',
 } as const;
- 
+
 // ─── LAYOUT ──────────────────────────────────────────────
 export const LY = {
   sidebarWidth:  248,
   mobileHeaderH: 56,
   tabletNavH:    48,
   mobileNavH:    68,
-  /** Breakpoints */
   bpMobile:  767,
   bpTablet:  1023,
 } as const;
- 
+
 // ─── GRADIENTS ───────────────────────────────────────────
 export const GR = {
   roseBtn:     `linear-gradient(135deg, ${C.crimson} 0%, ${C.rose} 50%, ${C.peony} 100%)`,
   roseBtnFull: `linear-gradient(135deg,${C.crimson} 0%,${C.rose} 45%,${C.peony} 55%,${C.rose} 70%,${C.crimson} 100%)`,
   sidebar:     `linear-gradient(180deg, ${C.creamBg} 0%, ${C.creamDeep} 100%)`,
-  cardActive:  `linear-gradient(160deg, rgba(253,245,246,0.9) 0%, rgba(247,221,226,0.55) 100%)`,
-  cardInactive:`rgba(253,245,246,0.5)`,
-  masterActive:`linear-gradient(160deg, rgba(253,245,246,0.88) 0%, rgba(247,221,226,0.6) 100%)`,
+  cardActive:  `linear-gradient(160deg, rgba(249,244,238,0.9) 0%, rgba(245,224,208,0.55) 100%)`,
+  cardInactive:`rgba(249,244,238,0.5)`,
+  masterActive:`linear-gradient(160deg, rgba(249,244,238,0.88) 0%, rgba(245,224,208,0.6) 100%)`,
   bgAtmosphere: `
-    radial-gradient(ellipse 70% 60% at 15% 50%, rgba(232,160,168,0.1) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 85% 80%, rgba(196,80,106,0.06) 0%, transparent 50%)
+    radial-gradient(ellipse 70% 60% at 15% 50%, rgba(229,184,154,0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 85% 80%, rgba(193,113,74,0.06) 0%, transparent 50%)
   `,
 } as const;
- 
+
 // ─── ANIMAȚII ────────────────────────────────────────────
 export const KEYFRAMES = `
   @keyframes rm-spin      { from { transform: rotate(0deg) }   to { transform: rotate(360deg) } }

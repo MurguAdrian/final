@@ -1,3 +1,9 @@
+// FIȘIER: andre/app/dashboard/minimal/page.tsx
+// MODIFICĂRI FAȚĂ DE ROMANTIC:
+//   - Import tokens: romanticTokens → minimalTokens
+//   - Culori: toate rgba(196,80,106,...) / rgba(166,50,72,...) / C.rose / C.crimson → echivalente charcoal/gri
+//   - Fonturi: Google Fonts import Playfair+Cormorant+Cinzel+Lato → Plus Jakarta Sans+DM Sans+Spectral
+
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { SummarySection }     from './components/SummarySection';
@@ -5,32 +11,249 @@ import { PersonalizeSection } from './components/PersonalizeSection';
 import { MenuSection }        from './components/MenuSection';
 import { PhotosSection }      from './components/PhotosSection';
 import { DeleteAccountButton } from './components/DeleteAccountButton';
+import {
+  C, F, FS, SP, BR, IS, SH, LY, GR, KEYFRAMES,
+} from './minimalTokens';
 
-/* ── Design tokens – module-level (nu se recreează la fiecare render) ── */
-const ACCENT = '#C8503A';
-const DARK   = '#111111';
-const MID    = '#555555';
-const LIGHT  = '#AAAAAA';
-const RULE   = '#E2E2E2';
-const BG     = '#F7F4F0';
+const FONTS_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap');`;
 
-/* ── Tab config – module-level (SVG-urile sunt statice, nu au nevoie de closure) ── */
+const GLOBAL_CSS = `
+${FONTS_IMPORT}
+${KEYFRAMES}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  touch-action: manipulation;
+}
+
+body {
+  height: 100%;
+  font-family: ${F.ui};
+  background: ${C.cream};
+  color: ${C.text};
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+input, textarea, select {
+  font-size: ${FS.input}px !important;
+  -webkit-text-size-adjust: 100%;
+}
+
+img, svg { max-width: 100%; }
+
+.rm-app-shell {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  background: ${C.cream};
+  z-index: 0;
+}
+
+.rm-sidebar {
+  width: ${LY.sidebarWidth}px;
+  flex-shrink: 0;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+.rm-main {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+  position: relative;
+  z-index: 5;
+  background: ${C.cream};
+  padding: ${SP.mainPad} ${SP.mainPadH};
+  scroll-behavior: smooth;
+}
+
+.rm-mobile-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: ${LY.mobileHeaderH}px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  background: rgba(255,255,255,0.97);
+  border-bottom: 1px solid ${C.borderLight};
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  gap: 8px;
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.rm-tablet-nav {
+  position: fixed;
+  top: ${LY.mobileHeaderH}px;
+  left: 0; right: 0;
+  z-index: 150;
+  height: ${LY.tabletNavH}px;
+  background: rgba(255,255,255,0.97);
+  border-bottom: 1px solid rgba(26,26,26,0.08);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  display: none;
+  align-items: stretch;
+  padding: 0 12px;
+  gap: 4px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.rm-mobile-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 200;
+  min-height: ${LY.mobileNavH}px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  height: calc(${LY.mobileNavH}px + env(safe-area-inset-bottom, 0px));
+  background: rgba(255,255,255,0.98);
+  border-top: 1px solid ${C.borderLight};
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 -4px 30px rgba(0,0,0,0.06);
+  display: none;
+  align-items: flex-start;
+  justify-content: stretch;
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+@media (max-width: ${LY.bpTablet}px) {
+  .rm-sidebar       { display: none !important; }
+  .rm-mobile-header { display: flex !important; }
+  .rm-tablet-nav    { display: flex !important; }
+  .rm-main {
+    padding-top: ${LY.mobileHeaderH + LY.tabletNavH + 16}px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    padding-bottom: 40px !important;
+  }
+}
+
+@media (max-width: ${LY.bpMobile}px) {
+  .rm-tablet-nav { display: none !important; }
+  .rm-mobile-nav { display: flex !important; }
+  .rm-main {
+    padding-top: ${LY.mobileHeaderH + 16}px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    padding-bottom: calc(
+      ${LY.mobileNavH}px
+      + env(safe-area-inset-bottom, 0px)
+      + 20px
+    ) !important;
+  }
+}
+
+@media (max-width: 379px) {
+  .rm-main {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+}
+
+.rm-tab {
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.rm-tab:hover {
+  background: rgba(26,26,26,0.05) !important;
+  color: ${C.rose} !important;
+}
+.rm-tab-active {
+  background: linear-gradient(135deg, rgba(26,26,26,0.08) 0%, rgba(26,26,26,0.03) 100%) !important;
+  color: ${C.crimson} !important;
+  border-color: rgba(26,26,26,0.2) !important;
+}
+
+.rm-signout { transition: background 0.2s, border-color 0.2s, color 0.2s; }
+.rm-signout:hover {
+  background: rgba(255,60,60,0.1) !important;
+  border-color: rgba(255,80,80,0.45) !important;
+  color: #e05555 !important;
+}
+
+.rm-mobile-tab { transition: color 0.2s, background 0.2s; }
+.rm-mobile-tab:hover { background: rgba(26,26,26,0.04) !important; }
+
+@media (max-width: 600px) {
+  .share-label { display: none; }
+  .rm-share-btn { padding: 10px 12px !important; }
+}
+`;
+
+const SignOutIcon = () => (
+  <svg viewBox="0 0 20 20" fill="none" style={{ width: IS.sm, height: IS.sm, flexShrink: 0 }}>
+    <path
+      d="M13 15l4-5-4-5M17 10H7M10 3H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h5"
+      stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const MinimalLogo = () => (
+  <svg viewBox="0 0 24 24" fill="none" style={{ width: 32, height: 32, margin: '0 auto' }}>
+    <rect x="3" y="3" width="8" height="8" rx="1" fill={C.rose} fillOpacity=".85" />
+    <rect x="13" y="3" width="8" height="8" rx="1" fill={C.rose} fillOpacity=".4" />
+    <rect x="3" y="13" width="8" height="8" rx="1" fill={C.rose} fillOpacity=".4" />
+    <rect x="13" y="13" width="8" height="8" rx="1" fill={C.rose} fillOpacity=".15" />
+  </svg>
+);
+
+const MinimalIcon = ({ size = IS.md, color = C.rose }: { size?: number; color?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" style={{ width: size, height: size, flexShrink: 0 }}>
+    <rect x="3" y="3" width="8" height="8" rx="1" fill={color} fillOpacity=".9" />
+    <rect x="13" y="3" width="8" height="8" rx="1" fill={color} fillOpacity=".45" />
+    <rect x="3" y="13" width="8" height="8" rx="1" fill={color} fillOpacity=".45" />
+    <rect x="13" y="13" width="8" height="8" rx="1" fill={color} fillOpacity=".2" />
+  </svg>
+);
+
 const TABS = [
   {
     id: 'summary', label: 'Dashboard',
     icon: (
-      <svg viewBox="0 0 20 20" fill="none" style={{ width: 15, height: 15 }}>
-        <rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.3" />
-        <rect x="11" y="2" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.3" />
-        <rect x="2" y="11" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.3" />
-        <rect x="11" y="11" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.3" />
+      <svg viewBox="0 0 20 20" fill="none" style={{ width: IS.lg, height: IS.lg }}>
+        <rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+        <rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+        <rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+        <rect x="11" y="11" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
       </svg>
     ),
   },
   {
     id: 'personalize', label: 'Personalizare',
     icon: (
-      <svg viewBox="0 0 20 20" fill="none" style={{ width: 15, height: 15 }}>
+      <svg viewBox="0 0 20 20" fill="none" style={{ width: IS.lg, height: IS.lg }}>
         <path d="M14.5 2.5a2.121 2.121 0 0 1 3 3L6 17l-4 1 1-4L14.5 2.5z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
@@ -38,7 +261,7 @@ const TABS = [
   {
     id: 'menu', label: 'Meniu',
     icon: (
-      <svg viewBox="0 0 20 20" fill="none" style={{ width: 15, height: 15 }}>
+      <svg viewBox="0 0 20 20" fill="none" style={{ width: IS.lg, height: IS.lg }}>
         <path d="M6 2v6c0 1.66 1.34 3 3 3s3-1.34 3-3V2M9 11v7M4 18h10" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
@@ -46,7 +269,7 @@ const TABS = [
   {
     id: 'photos', label: 'Galerie',
     icon: (
-      <svg viewBox="0 0 20 20" fill="none" style={{ width: 15, height: 15 }}>
+      <svg viewBox="0 0 20 20" fill="none" style={{ width: IS.lg, height: IS.lg }}>
         <rect x="2" y="5" width="16" height="12" rx="2" stroke="currentColor" strokeWidth="1.3" />
         <path d="M6 5V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1" stroke="currentColor" strokeWidth="1.3" />
         <circle cx="10" cy="11" r="2.5" stroke="currentColor" strokeWidth="1.3" />
@@ -62,18 +285,58 @@ const TAB_LABELS: Record<string, string> = {
   photos:      'Galerie Poze',
 };
 
-/* ── Shared icon ── */
-const SignOutIcon = () => (
-  <svg viewBox="0 0 20 20" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
-    <path d="M13 15l4-5-4-5M17 10H7M10 3H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h5"
-      stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
+const LoadingScreen = () => (
+  <>
+    <style>{`
+      ${FONTS_IMPORT}
+      ${KEYFRAMES}
+      html, body { height: 100%; overflow: hidden; }
+    `}</style>
+    <div style={{
+      position: 'fixed',
+      inset: 0,
+      background: C.cream,
+      color: C.crimson,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: SP.lg,
+      zIndex: 9999,
+    }}>
+      <div style={{
+        width: 36, height: 36,
+        border: `1.5px solid rgba(26,26,26,0.15)`,
+        borderTopColor: C.rose,
+        borderRadius: '50%',
+        animation: 'rm-spin 1s linear infinite',
+      }} />
+      <span style={{
+        fontFamily: F.heading,
+        fontSize: FS.sm,
+        letterSpacing: '.32em',
+        textTransform: 'uppercase' as const,
+        color: 'rgba(26,26,26,0.45)',
+      }}>Se încarcă...</span>
+    </div>
+  </>
 );
 
-/* ════════════════════════════════════════ DASHBOARD ══ */
+const PulseDot = ({ active }: { active: boolean }) => (
+  <div style={{
+    width: active ? 6 : 5,
+    height: active ? 6 : 5,
+    borderRadius: '50%',
+    flexShrink: 0,
+    background: active ? C.rose : '#ffa500',
+    boxShadow: `0 0 ${active ? 8 : 6}px ${active ? 'rgba(26,26,26,0.5)' : 'rgba(255,165,0,0.6)'}`,
+    animation: 'rm-pulse 2s ease-in-out infinite',
+  }} />
+);
+
 export default function MinimalDashboard() {
-  const [activeTab, setActiveTab]   = useState('summary');
-  const [loading, setLoading]       = useState(true);
+  const [activeTab,   setActiveTab]   = useState('summary');
+  const [loading,     setLoading]     = useState(true);
   const [weddingData, setWeddingData] = useState<any>(null);
 
   const refreshData = useCallback(async () => {
@@ -94,297 +357,294 @@ export default function MinimalDashboard() {
 
   useEffect(() => { refreshData(); }, [refreshData]);
 
-  /* ── Loading screen ── */
-  if (loading) return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&display=swap');
-        @keyframes mn-spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
-      `}</style>
-      <div style={{ background: BG, height: '100dvh', width: '100vw', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
-        <div style={{ width: 32, height: 32, border: '1.5px solid rgba(17,17,17,.15)', borderTopColor: ACCENT, borderRadius: '50%', animation: 'mn-spin 1s linear infinite' }} />
-        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, letterSpacing: '.28em', textTransform: 'uppercase', color: LIGHT }}>
-          Se încarcă...
-        </span>
-      </div>
-    </>
-  );
+  if (loading) return <LoadingScreen />;
 
   const isProfileComplete = !!(weddingData?.bride_name && weddingData?.custom_slug);
   const currentOrderId    = weddingData?.order_id || weddingData?.id;
 
-  /* ══ RENDER ══ */
+  const StatusBadge = ({ compact = false }: { compact?: boolean }) => (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: SP.xs,
+      padding: compact ? '4px 9px' : undefined,
+      borderRadius: compact ? BR.pill : undefined,
+      background: compact
+        ? (isProfileComplete ? 'rgba(26,26,26,0.06)' : 'rgba(255,165,0,0.08)')
+        : undefined,
+      border: compact
+        ? `1px solid ${isProfileComplete ? 'rgba(26,26,26,0.18)' : 'rgba(255,165,0,0.25)'}`
+        : undefined,
+      fontFamily: F.heading, fontSize: FS.tiny, letterSpacing: '.12em',
+      color: isProfileComplete ? 'rgba(26,26,26,0.7)' : 'rgba(255,165,0,0.8)',
+      whiteSpace: 'nowrap' as const,
+    }}>
+      <PulseDot active={isProfileComplete} />
+      {isProfileComplete ? 'LIVE' : 'SETUP'}
+    </div>
+  );
+
+  const TabButton = ({
+    tab, variant,
+  }: { tab: typeof TABS[number]; variant: 'sidebar' | 'tablet' | 'mobile' }) => {
+    const isActive = activeTab === tab.id;
+
+    if (variant === 'mobile') {
+      return (
+        <button
+          className="rm-mobile-tab"
+          onClick={() => setActiveTab(tab.id)}
+          style={{
+            flex: 1,
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center', gap: SP.xs,
+            background: 'transparent', border: 'none', cursor: 'pointer',
+            borderTop: isActive ? `2px solid ${C.rose}` : '2px solid transparent',
+            color: isActive ? C.rose : 'rgba(26,26,26,0.3)',
+            padding: '10px 4px 8px',
+            minWidth: 0, minHeight: 56,
+          }}>
+          <span style={{ transition: 'transform .2s', transform: isActive ? 'scale(1.15)' : 'scale(1)', flexShrink: 0 }}>
+            {tab.icon}
+          </span>
+          <span style={{
+            fontFamily: F.heading, fontSize: FS.micro, letterSpacing: '.08em',
+            textTransform: 'uppercase' as const, fontWeight: 600,
+            color: isActive ? C.rose : 'rgba(26,26,26,0.25)',
+            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const,
+            maxWidth: '100%',
+          }}>{tab.label}</span>
+        </button>
+      );
+    }
+
+    if (variant === 'tablet') {
+      return (
+        <button
+          className={`rm-tab ${isActive ? 'rm-tab-active' : ''}`}
+          onClick={() => setActiveTab(tab.id)}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 7,
+            padding: '0 14px', flexShrink: 0,
+            background: 'transparent', border: '1px solid transparent', borderRadius: BR.sm,
+            color: isActive ? C.crimson : 'rgba(26,26,26,0.4)',
+            cursor: 'pointer', fontFamily: F.heading,
+            fontSize: FS.tiny, fontWeight: 600, letterSpacing: '.1em',
+            whiteSpace: 'nowrap' as const,
+          }}>
+          <span style={{ opacity: isActive ? 1 : .65, flexShrink: 0 }}>{tab.icon}</span>
+          {tab.label}
+          {isActive && (
+            <div style={{ width: 4, height: 4, borderRadius: '50%', background: C.rose, boxShadow: '0 0 6px rgba(26,26,26,0.35)', marginLeft: 2, flexShrink: 0 }} />
+          )}
+        </button>
+      );
+    }
+
+    return (
+      <button
+        className={`rm-tab ${isActive ? 'rm-tab-active' : ''}`}
+        onClick={() => setActiveTab(tab.id)}
+        style={{
+          width: '100%', padding: `11px 14px`,
+          display: 'flex', alignItems: 'center', gap: 11,
+          background: 'transparent', border: '1px solid transparent', borderRadius: BR.lg,
+          color: isActive ? C.crimson : 'rgba(26,26,26,0.4)',
+          cursor: 'pointer', textAlign: 'left' as const,
+          fontFamily: F.heading, fontSize: FS.sm, fontWeight: 600, letterSpacing: '.1em',
+        }}>
+        <span style={{ opacity: isActive ? 1 : .7, flexShrink: 0 }}>{tab.icon}</span>
+        {tab.label}
+        {isActive && (
+          <div style={{ marginLeft: 'auto', width: 4, height: 4, borderRadius: '50%', background: C.rose, boxShadow: '0 0 8px rgba(26,26,26,0.3)', flexShrink: 0 }} />
+        )}
+      </button>
+    );
+  };
+
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,300;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&display=swap');
+      <style>{GLOBAL_CSS}</style>
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      <div id="modal-root" style={{ position: 'fixed', top: 0, left: 0, zIndex: 999999, pointerEvents: 'none' }} />
 
-        html {
-          height: 100%;
-          overscroll-behavior: none;
-          -webkit-text-size-adjust: 100%;
-        }
-        body {
-          height: 100%;
-          overscroll-behavior: none;
-          font-family: 'DM Sans', sans-serif;
-          background: ${BG};
-          color: ${DARK};
-          -webkit-font-smoothing: antialiased;
-          overflow: hidden;
-        }
+      <div className="rm-app-shell">
 
-        @keyframes mn-spin    { from { transform: rotate(0deg)  } to { transform: rotate(360deg) } }
-        @keyframes mn-fade-in { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: translateY(0) } }
-        @keyframes mn-pulse   { 0%,100% { opacity: 1 } 50% { opacity: .4 } }
+        <div style={{
+          position: 'absolute', inset: 0,
+          pointerEvents: 'none', zIndex: 0,
+          background: GR.bgAtmosphere,
+        }} />
 
-        /* Tab states */
-        .mn-tab            { transition: background .2s, color .2s, border-color .2s; }
-        .mn-tab:hover      { background: rgba(200,80,58,.07) !important; color: ${ACCENT} !important; }
-        .mn-tab-active     { background: #fff !important; color: ${DARK} !important; border-left: 3px solid ${ACCENT} !important; }
-
-        /* Sign-out button */
-        .mn-signout        { transition: background .2s, border-color .2s, color .2s; }
-        .mn-signout:hover  { background: rgba(200,80,58,.08) !important; border-color: rgba(200,80,58,.4) !important; color: ${ACCENT} !important; }
-
-        /* Mobile tab */
-        .mn-mobile-tab       { transition: color .2s, background .2s; }
-        .mn-mobile-tab:hover { background: rgba(200,80,58,.06) !important; }
-
-        /* ── Layout ── */
-        .mn-app-shell {
-          position: fixed; top: 0; left: 0;
-          width: 100%; height: 100dvh;
-          display: flex; background: ${BG}; overflow: hidden;
-        }
-
-        .mn-sidebar       { display: flex !important; }
-        .mn-mobile-header { display: none !important; }
-        .mn-mobile-nav    { display: none !important; }
-        .mn-tablet-nav    { display: none !important; }
-
-        .mn-main {
-          flex: 1; height: 100dvh;
-          overflow-y: auto; overflow-x: hidden;
-          overscroll-behavior-y: contain;
-          -webkit-overflow-scrolling: auto;
-          padding: clamp(28px,4vw,52px) clamp(20px,4vw,64px);
-          position: relative; z-index: 5;
-        }
-
-        /* Tablet (768–1023) */
-        @media (max-width: 1023px) {
-          .mn-sidebar       { display: none !important; }
-          .mn-mobile-header { display: flex !important; }
-          .mn-tablet-nav    { display: flex !important; }
-          .mn-main {
-            padding-top: 116px !important;
-            padding-left: 16px !important;
-            padding-right: 16px !important;
-            padding-bottom: 40px !important;
-          }
-        }
-
-        /* Phone (< 768) */
-        @media (max-width: 767px) {
-          .mn-tablet-nav { display: none !important; }
-          .mn-mobile-nav { display: flex !important; }
-          .mn-main {
-            padding-top: 72px !important;
-            padding-left: 12px !important;
-            padding-right: 12px !important;
-            padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px) + 20px) !important;
-            height: 100dvh !important;
-          }
-        }
-
-        @media (max-width: 379px) {
-          .mn-main { padding-left: 8px !important; padding-right: 8px !important; }
-        }
-
-        .mn-main > * { max-width: 100%; box-sizing: border-box; }
-        img, svg     { max-width: 100%; }
-
-        .mn-mobile-nav {
-          padding-bottom: env(safe-area-inset-bottom, 0px) !important;
-          height: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
-        }
-
-        /* iOS: prevent zoom on input focus */
-        input, textarea, select { font-size: 16px !important; }
-      `}</style>
-{/* PORTAL TARGET */}
-        <div id="modal-root" style={{ position: 'fixed', top: 0, left: 0, zIndex: 999999, pointerEvents: 'none' }} />
-      <div className="mn-app-shell">
-
-        {/* BG subtle radial */}
-        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0, background: `radial-gradient(ellipse 60% 50% at 80% 20%, rgba(200,80,58,.04) 0%, transparent 60%)` }} />
-
-        {/* ══ MOBILE / TABLET HEADER (≤ 1023px) ══ */}
-        <header
-          className="mn-mobile-header"
-          style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200, height: 56, display: 'none', alignItems: 'center', justifyContent: 'space-between', padding: '0 14px', background: `rgba(247,244,240,.97)`, borderBottom: `1px solid ${RULE}`, backdropFilter: 'blur(12px)', gap: 8 }}
-        >
-          {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
-            <div style={{ width: 4, height: 24, background: ACCENT }} />
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: '.18em', textTransform: 'uppercase', color: DARK }}>
-              Vibe<span style={{ fontWeight: 300, color: MID }}>Invite</span>
+        <header className="rm-mobile-header">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 7, flexShrink: 0 }}>
+            <MinimalIcon size={18} color={C.rose} />
+            <span style={{ fontFamily: F.heading, fontSize: FS.base, fontWeight: 600, letterSpacing: '.2em', color: C.crimson }}>
+              VIBE<span style={{ color: 'rgba(26,26,26,0.35)' }}>INVITE</span>
             </span>
           </div>
 
-          {/* Current tab label */}
-          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 13, fontStyle: 'italic', color: LIGHT, flex: 1, textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', padding: '0 6px' }}>
+          <span style={{
+            fontFamily: F.body, fontSize: FS.md, fontStyle: 'italic',
+            color: 'rgba(26,26,26,0.4)', flex: 1, textAlign: 'center',
+            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+            padding: '0 6px',
+          }}>
             {TAB_LABELS[activeTab]}
           </span>
 
-          {/* Status + sign-out */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 9px', border: `1px solid ${isProfileComplete ? RULE : 'rgba(200,80,58,.3)'}`, fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.18em', textTransform: 'uppercase', color: isProfileComplete ? MID : ACCENT, whiteSpace: 'nowrap', background: '#fff' }}>
-              <div style={{ width: 5, height: 5, borderRadius: '50%', flexShrink: 0, background: isProfileComplete ? '#5a9a6a' : ACCENT, animation: 'mn-pulse 2s ease-in-out infinite' }} />
-              {isProfileComplete ? 'LIVE' : 'SETUP'}
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: SP.sm, flexShrink: 0 }}>
+            <StatusBadge compact />
             <DeleteAccountButton />
             <button
-              className="mn-signout"
+              className="rm-signout"
               onClick={() => window.location.href = '/login'}
-              style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '6px 10px', background: '#fff', border: `1px solid ${RULE}`, color: MID, fontFamily: "'DM Sans', sans-serif", fontSize: 8, fontWeight: 500, letterSpacing: '.14em', textTransform: 'uppercase', cursor: 'pointer', whiteSpace: 'nowrap' }}
-            >
+              title="Ieșire"
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
+                padding: '6px 10px', borderRadius: BR.sm,
+                background: 'rgba(255,60,60,0.06)', border: '1px solid rgba(255,60,60,0.2)',
+                color: 'rgba(200,80,80,0.75)',
+                fontFamily: F.heading, fontSize: FS.tiny, fontWeight: 600,
+                letterSpacing: '.14em', textTransform: 'uppercase' as const,
+                cursor: 'pointer', whiteSpace: 'nowrap' as const,
+              }}>
               <SignOutIcon />
               <span>Ieșire</span>
             </button>
           </div>
         </header>
 
-        {/* ══ DESKTOP SIDEBAR (≥ 1024px) ══ */}
-        <aside
-          className="mn-sidebar"
-          style={{ width: 240, flexShrink: 0, background: '#fff', borderRight: `1px solid ${RULE}`, flexDirection: 'column', padding: '28px 0', position: 'relative', zIndex: 10, boxShadow: '2px 0 16px rgba(0,0,0,.04)' }}
-        >
-          {/* Accent strip */}
-          <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: ACCENT }} />
+        <aside className="rm-sidebar" style={{
+          background: GR.sidebar,
+          borderRight: `1px solid ${C.borderLight}`,
+          flexDirection: 'column',
+          padding: `${SP.xxxl}px 0`,
+          position: 'relative', zIndex: 10,
+          boxShadow: SH.sidebar,
+          display: 'flex',
+        }}>
+          <div style={{ position: 'absolute', top: 0, left: '15%', right: '15%', height: 1, background: `linear-gradient(90deg,transparent,rgba(26,26,26,0.15),transparent)` }} />
 
-          {/* Logo */}
-          <div style={{ padding: '0 24px 24px 28px', borderBottom: `1px solid ${RULE}` }}>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, letterSpacing: '.3em', textTransform: 'uppercase', color: LIGHT, marginBottom: 4 }}>
-              Minimal · Dashboard
-            </p>
-            <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 400, fontStyle: 'italic', color: DARK, lineHeight: 1.1 }}>
-              Vibe<span style={{ fontWeight: 300, color: MID }}>Invite</span>
+          <div style={{ textAlign: 'center', padding: `0 ${SP.xl}px ${SP.xxl}px`, borderBottom: `1px solid ${C.borderFaint}` }}>
+            <div style={{ marginBottom: SP.sm }}>
+              <MinimalLogo />
+            </div>
+            <h1 style={{ fontFamily: F.heading, fontSize: FS.md, fontWeight: 600, letterSpacing: '.28em', color: C.crimson, margin: `0 0 ${SP.xs}px` }}>
+              VIBE<span style={{ color: 'rgba(26,26,26,0.3)' }}>INVITE</span>
             </h1>
+            <span style={{ fontFamily: F.heading, fontSize: FS.micro, letterSpacing: '.22em', textTransform: 'uppercase' as const, color: 'rgba(26,26,26,0.3)' }}>
+              Minimal Edition
+            </span>
           </div>
 
-          {/* Nav */}
-          <nav style={{ flex: 1, padding: '18px 14px', display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.28em', textTransform: 'uppercase', color: LIGHT, padding: '0 10px', marginBottom: 8 }}>
+          <nav style={{ flex: 1, padding: `18px 14px`, display: 'flex', flexDirection: 'column', gap: SP.xs }}>
+            <p style={{ fontFamily: F.heading, fontSize: FS.micro, letterSpacing: '.28em', textTransform: 'uppercase' as const, color: 'rgba(26,26,26,0.25)', padding: `0 10px`, marginBottom: SP.sm }}>
               Navigare
             </p>
-            {TABS.map(tab => (
-              <button
-                key={tab.id}
-                className={`mn-tab ${activeTab === tab.id ? 'mn-tab-active' : ''}`}
-                onClick={() => setActiveTab(tab.id)}
-                style={{ width: '100%', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10, background: 'transparent', border: '1px solid transparent', borderLeft: activeTab === tab.id ? `3px solid ${ACCENT}` : '3px solid transparent', color: activeTab === tab.id ? DARK : MID, cursor: 'pointer', textAlign: 'left', fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 500, letterSpacing: '.04em' }}
-              >
-                <span style={{ flexShrink: 0 }}>{tab.icon}</span>
-                {tab.label}
-                {activeTab === tab.id && (
-                  <div style={{ marginLeft: 'auto', width: 5, height: 5, background: ACCENT, flexShrink: 0 }} />
-                )}
-              </button>
-            ))}
+            {TABS.map(tab => <TabButton key={tab.id} tab={tab} variant="sidebar" />)}
           </nav>
 
-          {/* Status + logout */}
-          <div style={{ padding: '0 14px' }}>
-            <div style={{ padding: '12px 14px', marginBottom: 10, background: BG, border: `1px solid ${isProfileComplete ? RULE : 'rgba(200,80,58,.3)'}`, borderLeft: `3px solid ${isProfileComplete ? '#5a9a6a' : ACCENT}` }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: isProfileComplete ? 6 : 0 }}>
-                <div style={{ width: 6, height: 6, borderRadius: '50%', flexShrink: 0, background: isProfileComplete ? '#5a9a6a' : ACCENT, animation: 'mn-pulse 2s ease-in-out infinite' }} />
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.2em', textTransform: 'uppercase', color: isProfileComplete ? '#5a9a6a' : ACCENT }}>
+          <div style={{ padding: `0 14px` }}>
+            <div style={{
+              padding: `12px 14px`, marginBottom: SP.sm,
+              background: isProfileComplete ? 'rgba(26,26,26,0.03)' : 'rgba(255,140,0,0.05)',
+              border: `1px solid ${isProfileComplete ? 'rgba(26,26,26,0.12)' : 'rgba(255,140,0,0.22)'}`,
+              borderRadius: BR.lg, position: 'relative', overflow: 'hidden',
+            }}>
+              <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: 1, background: `linear-gradient(90deg,transparent,${isProfileComplete ? 'rgba(26,26,26,0.2)' : 'rgba(255,140,0,0.28)'},transparent)` }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: isProfileComplete ? 7 : 0 }}>
+                <PulseDot active={isProfileComplete} />
+                <span style={{ fontFamily: F.heading, fontSize: FS.micro, letterSpacing: '.2em', textTransform: 'uppercase' as const, color: isProfileComplete ? 'rgba(26,26,26,0.65)' : 'rgba(255,165,0,0.8)' }}>
                   {isProfileComplete ? 'Link Activ' : 'Configurare Necesară'}
                 </span>
               </div>
               {isProfileComplete && (
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, color: LIGHT, wordBreak: 'break-all', lineHeight: 1.5 }}>
-                  www.vibeinvite.ro/…/<strong style={{ color: MID }}>{weddingData.custom_slug}</strong>
+                <p style={{ fontFamily: F.body, fontSize: FS.base, fontStyle: 'italic', color: 'rgba(26,26,26,0.4)', wordBreak: 'break-all', lineHeight: 1.5 }}>
+                  www.vibeinvite.ro/invitatie/minimal/<strong style={{ color: 'rgba(26,26,26,0.7)', fontStyle: 'normal' }}>{weddingData.custom_slug}</strong>
                 </p>
               )}
             </div>
 
-            <div style={{ height: 1, background: RULE, marginBottom: 10 }} />
-<DeleteAccountButton />
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: SP.sm }}>
+              <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg,transparent,rgba(26,26,26,0.1))` }} />
+              <div style={{ width: 4, height: 4, background: 'rgba(26,26,26,0.2)', transform: 'rotate(45deg)', margin: `0 6px` }} />
+              <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg,rgba(26,26,26,0.1),transparent)` }} />
+            </div>
+
+            <DeleteAccountButton />
+
             <button
-              className="mn-signout"
+              className="rm-signout"
               onClick={() => window.location.href = '/login'}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '9px 14px', background: BG, border: `1px solid ${RULE}`, color: MID, fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '.14em', textTransform: 'uppercase', cursor: 'pointer' }}
-            >
+              style={{
+                width: '100%', marginTop: SP.sm,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: SP.sm,
+                padding: '9px 14px', borderRadius: BR.sm,
+                background: 'rgba(255,60,60,0.05)', border: '1px solid rgba(255,60,60,0.18)',
+                color: 'rgba(200,80,80,0.7)', fontFamily: F.heading, fontSize: FS.tiny,
+                fontWeight: 600, letterSpacing: '.18em', textTransform: 'uppercase' as const,
+                cursor: 'pointer',
+              }}>
               <SignOutIcon />
               Ieșire
             </button>
 
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.2em', textTransform: 'uppercase', color: '#DDDDDD', textAlign: 'center', marginTop: 14 }}>
-              VibeInvite · Tema Minimal © 2026
+            <p style={{ fontFamily: F.heading, fontSize: FS.micro, letterSpacing: '.18em', textTransform: 'uppercase' as const, color: 'rgba(26,26,26,0.18)', textAlign: 'center', marginTop: 14 }}>
+              VibeInvite © 2026
             </p>
           </div>
+
+          <div style={{ position: 'absolute', bottom: 0, left: '15%', right: '15%', height: 1, background: `linear-gradient(90deg,transparent,rgba(26,26,26,0.12),transparent)` }} />
         </aside>
 
-        {/* ══ MAIN CONTENT ══ */}
-        <main className="mn-main">
-          <div style={{ animation: 'mn-fade-in .5s ease both', position: 'relative', zIndex: 5, width: '100%' }}>
-            {activeTab === 'summary' && <SummarySection isComplete={isProfileComplete} />}
+        <main className="rm-main">
+          <div style={{
+            position: 'fixed', top: 0, right: 0,
+            width: 'min(120px,12vw)', height: 'min(120px,12vw)',
+            opacity: .12, pointerEvents: 'none', zIndex: 4,
+          }}>
+            <svg viewBox="0 0 160 160" fill="none" style={{ transform: 'scale(-1,1)', width: '100%', height: '100%' }}>
+              <path d="M8 8 L8 120 M8 8 L120 8" stroke="rgba(26,26,26,0.5)" strokeWidth="1.2" />
+              <path d="M18 18 L18 100 M18 18 L100 18" stroke="rgba(26,26,26,0.3)" strokeWidth=".7" />
+              <ellipse cx="8" cy="8" rx="6" ry="6" fill="rgba(26,26,26,0.2)" />
+            </svg>
+          </div>
+
+          <div style={{ animation: 'rm-fade-in .5s ease both', position: 'relative', zIndex: 5, width: '100%' }}>
+            {activeTab === 'summary' && (
+              <SummarySection isComplete={isProfileComplete} />
+            )}
             {activeTab === 'personalize' && (
-              <PersonalizeSection initialData={weddingData} orderId={currentOrderId} onSave={refreshData} />
+              <PersonalizeSection
+                initialData={weddingData}
+                orderId={currentOrderId}
+                onSave={refreshData}
+              />
             )}
             {activeTab === 'menu' && (
-              <MenuSection initialData={weddingData} orderId={currentOrderId} onSave={refreshData} />
+              <MenuSection
+                initialData={weddingData}
+                orderId={currentOrderId}
+                onSave={refreshData}
+              />
             )}
             {activeTab === 'photos' && (
-              <PhotosSection initialData={weddingData} orderId={currentOrderId} onSave={refreshData} />
+              <PhotosSection
+                initialData={weddingData}
+                orderId={currentOrderId}
+                onSave={refreshData}
+              />
             )}
           </div>
         </main>
 
-        {/* ══ TABLET HORIZONTAL NAV (768–1023px) ══ */}
-        <nav
-          className="mn-tablet-nav"
-          style={{ position: 'fixed', top: 56, left: 0, right: 0, zIndex: 150, height: 48, background: `rgba(247,244,240,.97)`, borderBottom: `1px solid ${RULE}`, backdropFilter: 'blur(12px)', alignItems: 'stretch', display: 'none', padding: '0 12px', gap: 4, overflowX: 'auto' }}
-        >
-          {TABS.map(tab => (
-            <button
-              key={tab.id}
-              className={`mn-tab ${activeTab === tab.id ? 'mn-tab-active' : ''}`}
-              onClick={() => setActiveTab(tab.id)}
-              style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '0 14px', flexShrink: 0, background: 'transparent', border: 'none', borderBottom: activeTab === tab.id ? `2px solid ${ACCENT}` : '2px solid transparent', color: activeTab === tab.id ? DARK : MID, cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: '.04em', whiteSpace: 'nowrap' }}
-            >
-              <span style={{ flexShrink: 0 }}>{tab.icon}</span>
-              {tab.label}
-            </button>
-          ))}
+        <nav className="rm-tablet-nav">
+          <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: 1, background: 'linear-gradient(90deg,transparent,rgba(26,26,26,0.08),transparent)' }} />
+          {TABS.map(tab => <TabButton key={tab.id} tab={tab} variant="tablet" />)}
         </nav>
 
-        {/* ══ PHONE BOTTOM NAV (< 768px) ══ */}
-        <nav
-          className="mn-mobile-nav"
-          style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200, minHeight: 68, background: `rgba(247,244,240,.98)`, borderTop: `1px solid ${RULE}`, backdropFilter: 'blur(12px)', display: 'none', alignItems: 'flex-start', justifyContent: 'stretch', boxShadow: '0 -4px 20px rgba(0,0,0,.06)' }}
-        >
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg,${ACCENT},#E8C4B8,transparent)`, opacity: .5 }} />
-          {TABS.map(tab => (
-            <button
-              key={tab.id}
-              className="mn-mobile-tab"
-              onClick={() => setActiveTab(tab.id)}
-              style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, background: 'transparent', border: 'none', cursor: 'pointer', borderTop: activeTab === tab.id ? `2px solid ${ACCENT}` : '2px solid transparent', color: activeTab === tab.id ? ACCENT : LIGHT, padding: '10px 4px 8px', minWidth: 0, minHeight: 56 }}
-            >
-              <span style={{ transition: 'transform .2s', transform: activeTab === tab.id ? 'scale(1.1)' : 'scale(1)', flexShrink: 0 }}>
-                {tab.icon}
-              </span>
-              <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 8, letterSpacing: '.08em', textTransform: 'uppercase', fontWeight: 500, color: activeTab === tab.id ? ACCENT : LIGHT, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>
-                {tab.label}
-              </span>
-            </button>
-          ))}
+        <nav className="rm-mobile-nav">
+          <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: 1, background: `linear-gradient(90deg,transparent,rgba(26,26,26,0.15),transparent)` }} />
+          {TABS.map(tab => <TabButton key={tab.id} tab={tab} variant="mobile" />)}
         </nav>
 
       </div>
