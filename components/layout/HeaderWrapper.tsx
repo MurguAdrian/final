@@ -27,6 +27,7 @@ export default function HeaderWrapper() {
 
   const HIDE_HEADER_ROUTES = [
     '/dashboard',
+    '/invitatie',
     '/invitatii-digitale/demo' // ✦ Linia adăugată pentru a ascunde header-ul pe toate demo-urile
   ]
 
