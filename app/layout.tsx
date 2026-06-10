@@ -59,6 +59,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5, // Permite utilizatorului să dea zoom manual dacă dorește, dar pornește la scară corectă (100%)
+  viewportFit: 'cover', // FIX: unifică safe-area și viewport iOS cu singură sursă de adevăr
 }
 
 export const metadata: Metadata = {
