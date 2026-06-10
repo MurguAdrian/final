@@ -45,6 +45,7 @@
 //     </html>
 //   )
 // }
+
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 
@@ -54,12 +55,10 @@ import CookieConsent from '../components/CookieConsent'
 
 import { SITE_DOMAIN } from '../constants/marketingDefaults'
 
-// CONFIGURARE VIEWPORT GLOBALA (Rezolvă problema cu textele mici pe iPhone)
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 5, // Permite utilizatorului să dea zoom manual dacă dorește, dar pornește la scară corectă (100%)
-  viewportFit: 'cover', // FIX: unifică safe-area și viewport iOS cu singură sursă de adevăr
+  maximumScale: 5,
 }
 
 export const metadata: Metadata = {
@@ -77,10 +76,6 @@ export default function RootLayout({
   return (
     <html lang="ro">
       <head>
-        {/* =========================
-            GOOGLE TAG MANAGER
-        ========================= */}
-
         <Script id="gtm-script" strategy="afterInteractive">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -91,11 +86,6 @@ export default function RootLayout({
           `}
         </Script>
 
-        {/* =========================
-            GOOGLE ANALYTICS 4 (fallback direct)
-            (poți să-l scoți dacă îl ai în GTM)
-        ========================= */}
-
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-PRLZS5WHS8"
           strategy="afterInteractive"
@@ -105,13 +95,11 @@ export default function RootLayout({
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
-
             gtag('js', new Date());
             gtag('config', 'G-PRLZS5WHS8');
           `}
         </Script>
 
-        {/* noscript GTM fallback */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-PXVFHG23"
@@ -127,8 +115,6 @@ export default function RootLayout({
           <HeaderWrapper />
           <main className="flex-1">{children}</main>
           <Footer />
-
-          {/* Cookie Consent Banner */}
           <CookieConsent />
         </div>
       </body>
