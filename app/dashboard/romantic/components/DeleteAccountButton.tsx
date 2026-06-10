@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { C, F, FS, SP, BR, IS, SH } from '../romanticTokens';
+import Swal from 'sweetalert2';
 
 export const DeleteAccountButton = () => {
   const [open,         setOpen]         = useState(false);
@@ -15,7 +16,7 @@ export const DeleteAccountButton = () => {
     setPortalTarget(document.getElementById('modal-root'));
   }, []);
 
-  const handleDelete = async () => {
+const handleDelete = async () => {
     if (!confirmed) return;
     setLoading(true);
     try {
@@ -23,10 +24,24 @@ export const DeleteAccountButton = () => {
       if (res.ok) {
         router.push('/');
       } else {
-        alert('A apărut o eroare. Încearcă din nou.');
+        // Alert romantic pentru eroare la ștergere
+        Swal.fire({
+          title: '<span style="color: #444; font-family: serif;">Of, o mică problemă... 🥀</span>',
+          text: 'Nu am putut procesa ștergerea. Te rugăm să încerci din nou.',
+          icon: 'error',
+          confirmButtonColor: '#78716c',
+          background: '#f5f5f4',
+        });
       }
     } catch {
-      alert('Eroare de conexiune.');
+      // Alert romantic pentru eroare de conexiune
+      Swal.fire({
+        title: '<span style="color: #444; font-family: serif;">Eroare de conexiune 🌹</span>',
+        text: 'Conexiunea a eșuat. Încearcă din nou puțin mai târziu.',
+        icon: 'error',
+        confirmButtonColor: '#78716c',
+        background: '#f5f5f4',
+      });
     } finally {
       setLoading(false);
     }

@@ -2,6 +2,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { C, F, FS, SP, BR, IS, SH, GR, KEYFRAMES } from '../romanticTokens';
+import Swal from 'sweetalert2';
 
 /* ══════════════════════════════════════════════════════════════
    TYPES
@@ -335,19 +336,47 @@ export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) 
     setCategories(buildInitialCategories(initialData?.menu_details));
   }, [initialData]);
 
-  const handleSave = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/dashboard/personalize', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId, isMenuActive: isActive, menu_details: { categories } }),
+const handleSave = async () => {
+  setLoading(true);
+  try {
+    const res = await fetch('/api/dashboard/personalize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderId, isMenuActive: isActive, menu_details: { categories } }),
+    });
+
+    if (res.ok) {
+      // Alert Romantic pentru Meniu Salvat
+      Swal.fire({
+        title: '<span style="color: #be123c; font-family: serif;">Meniu salvat cu drag! 🥂</span>',
+        text: 'Detaliile voastre culinare au fost adăugate cu succes.',
+        icon: 'success',
+        confirmButtonColor: '#fb7185', // Roz romantic
+        background: '#fff5f5',
       });
-      if (res.ok) { alert('Meniu salvat! 🍴'); onSave(); }
-      else alert('Eroare la salvare.');
-    } catch { alert('Eroare la salvare.'); }
-    setLoading(false);
-  };
+      onSave();
+    } else {
+      // Alert pentru Eroare de la Server
+      Swal.fire({
+        title: '<span style="color: #444; font-family: serif;">Of, o mică problemă... 🥀</span>',
+        text: 'Nu am putut salva meniul. Te rugăm să încerci din nou.',
+        icon: 'error',
+        confirmButtonColor: '#78716c',
+        background: '#f5f5f4',
+      });
+    }
+  } catch {
+    // Alert pentru Eroare de Conexiune
+    Swal.fire({
+      title: '<span style="color: #444; font-family: serif;">Eroare de conexiune 🌹</span>',
+      text: 'Conexiunea a eșuat. Încearcă din nou puțin mai târziu.',
+      icon: 'error',
+      confirmButtonColor: '#78716c',
+      background: '#f5f5f4',
+    });
+  }
+  setLoading(false);
+};
 
   const updateCat = (id: string, updater: (c: MenuCategory) => MenuCategory) =>
     setCategories(prev => prev.map(c => c.id === id ? updater(c) : c));
