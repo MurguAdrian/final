@@ -21,7 +21,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "resend": "^6.12.2",
-    "stripe": "^22.1.0"
+    "stripe": "^22.1.0",
+    "sweetalert2": "^11.26.25"
   },
   "devDependencies": {
     "@resvg/resvg-wasm": "^2.6.2",

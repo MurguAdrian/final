@@ -2,6 +2,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { C, F, FS, SP, BR, IS, SH, GR, KEYFRAMES } from '../romanticTokens';
+import Swal from 'sweetalert2';
 
 interface PersonalizeSectionProps {
   initialData: any;
@@ -337,28 +338,61 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
   const set = (key: keyof FormData, value: any) =>
     setFormData(prev => ({ ...prev, [key]: value }));
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await fetch('/api/dashboard/personalize', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId, ...formData }),
-      });
-      if (res.ok) {
-        alert('Personalizare salvată cu succes! ✨');
-        onSave();
-      } else {
-        const err = await res.json();
-        alert('Eroare: ' + (err.error || 'A apărut o problemă.'));
-      }
-    } catch {
-      alert('Eroare de conexiune la server.');
-    }
-    setLoading(false);
-  };
+const handleSave = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
+  try {
+    const res = await fetch('/api/dashboard/personalize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderId, ...formData }),
+    });
 
+    if (res.ok) {
+      // Alert Romantic pentru Succes
+      Swal.fire({
+        title: '<span style="color: #be123c; font-family: serif;">Salvat cu drag! 💖</span>',
+        text: 'Personalizarea a fost salvată cu succes în povestea voastră.',
+        icon: 'success',
+        confirmButtonColor: '#fb7185', // Roz romantic
+        background: '#fff5f5',
+      });
+      onSave();
+    } else {
+      const err = await res.json();
+      
+      // Verificare dacă link-ul există deja în baza de date
+      if (res.status === 409 || err.error?.toLowerCase().includes('exist') || err.error?.toLowerCase().includes('link')) {
+        Swal.fire({
+          title: '<span style="color: #9a3412; font-family: serif;">O mică poveste... 🤍</span>',
+          text: 'Acest link personalizat este deja rezervat de un alt cuplu.',
+          icon: 'warning',
+          confirmButtonColor: '#fdba74',
+          background: '#fffbeb',
+        });
+      } else {
+        // Alert pentru altă eroare de la server
+        Swal.fire({
+          title: '<span style="color: #444; font-family: serif;">Of, ceva n-a mers 🥀</span>',
+          text: err.error || 'A apărut o problemă. Încearcă din nou.',
+          icon: 'error',
+          confirmButtonColor: '#78716c',
+          background: '#f5f5f4',
+        });
+      }
+    }
+  } catch {
+    // Alert Eroare Conexiune
+    Swal.fire({
+      title: '<span style="color: #444; font-family: serif;">Eroare de conexiune 🌹</span>',
+      text: 'Nu ne putem conecta la server momentan.',
+      icon: 'error',
+      confirmButtonColor: '#78716c',
+      background: '#f5f5f4',
+    });
+  }
+  setLoading(false);
+};
   // ─── DATE PICKER ─────────────────────────────────────
   const CustomDatePicker = ({ value, onChangeKey }: { value: string; onChangeKey: keyof FormData }) => {
     const parts          = value ? value.split('-') : ['', '', ''];
