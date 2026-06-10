@@ -45,8 +45,7 @@
 //     </html>
 //   )
 // }
-
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 
 import Footer from '../components/layout/Footer'
@@ -54,6 +53,13 @@ import HeaderWrapper from '../components/layout/HeaderWrapper'
 import CookieConsent from '../components/CookieConsent'
 
 import { SITE_DOMAIN } from '../constants/marketingDefaults'
+
+// CONFIGURARE VIEWPORT GLOBALA (Rezolvă problema cu textele mici pe iPhone)
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5, // Permite utilizatorului să dea zoom manual dacă dorește, dar pornește la scară corectă (100%)
+}
 
 export const metadata: Metadata = {
   title: 'VibeInvite - Invitații Digitale Premium',
