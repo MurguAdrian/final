@@ -182,7 +182,7 @@ function IntroScreen({ onStart, phase }: { onStart: () => void; phase: Phase }) 
       <SkyDecor />
       <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, padding: '16px 22px', width: '100%' }}>
         <p style={{ ...fade, fontFamily: "'Quicksand',sans-serif", fontSize: 'clamp(10px,1.2vw,12px)', letterSpacing: '.3em', textTransform: 'uppercase', color: '#6B8FB5', fontWeight: 600, animation: 'fadeUp .7s ease both' }}>Invitație la Botez</p>
-        <h1 style={{ ...fade, fontFamily: "'Playfair Display',serif", fontSize: 'clamp(40px,8vw,76px)', fontWeight: 500, fontStyle: 'italic', color: '#1E466E', textAlign: 'center', lineHeight: 1, margin: 0, textShadow: '0 4px 24px rgba(60,120,190,.16)', animation: 'fadeUp .8s ease both .08s' }}>Murgu Achim</h1>
+        <h1 style={{ ...fade, fontFamily: "'Playfair Display',serif", fontSize: 'clamp(40px,8vw,76px)', fontWeight: 500, fontStyle: 'italic', color: '#1E466E', textAlign: 'center', lineHeight: 1, margin: 0, textShadow: '0 4px 24px rgba(60,120,190,.16)', animation: 'fadeUp .8s ease both .08s' }}>Achim</h1>
         <p style={{ ...fade, fontFamily: "'Cormorant',serif", fontSize: 'clamp(14px,2vw,19px)', fontStyle: 'italic', color: '#5E7C95', textAlign: 'center', maxWidth: 360, lineHeight: 1.5, animation: 'fadeUp .9s ease both .16s' }}>Cu emoție și bucurie, vă invităm la botezul micuțului nostru</p>
 
         <div onClick={onStart} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && onStart()} style={{ position: 'relative', width: 'min(94vw,560px)', height: 'clamp(150px,32vw,220px)', cursor: 'pointer', marginTop: 6 }}>
@@ -258,7 +258,7 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
         <p style={{ ...a(.06), fontFamily: "'Quicksand',sans-serif", fontSize: 'clamp(10px,1.2vw,12px)', letterSpacing: '.3em', textTransform: 'uppercase', color: '#6B8FB5', fontWeight: 600, opacity: vis ? 1 : 0, marginBottom: 10 }}>Invitație la Botez</p>
 
         <div style={{ ...a(.12), textAlign: 'center', marginBottom: 6 }}>
-          <span style={{ display: 'block', fontFamily: "'Playfair Display',serif", fontSize: 'clamp(54px,9.5vw,104px)', fontWeight: 500, fontStyle: 'italic', color: '#1E466E', lineHeight: .95, textShadow: '0 4px 28px rgba(60,120,190,.16)', letterSpacing: '-.01em' }}>Murgu Achim</span>
+          <span style={{ display: 'block', fontFamily: "'Playfair Display',serif", fontSize: 'clamp(54px,9.5vw,104px)', fontWeight: 500, fontStyle: 'italic', color: '#1E466E', lineHeight: .95, textShadow: '0 4px 28px rgba(60,120,190,.16)', letterSpacing: '-.01em' }}>Achim</span>
           <span style={{ display: 'block', fontFamily: "'Cormorant',serif", fontSize: 'clamp(15px,1.9vw,20px)', fontStyle: 'italic', fontWeight: 400, color: '#5E7C95', marginTop: 6 }}>Fiul lui Andreea &amp; Adrian</span>
         </div>
 
@@ -495,7 +495,7 @@ export default function App() {
           Vibe<span style={{ color: '#4A8BC2' }}>Invite</span>
         </a>
         <div style={{ fontFamily: "'Cormorant',serif", fontSize: 16, fontStyle: 'italic', color: '#5E7C95', letterSpacing: '.04em' }}>
-          {phase === 'invite' ? 'Murgu Achim · 12 Iunie 2027' : 'Invitație la Botez'}
+          {phase === 'invite' ? 'Achim · 12 Iunie 2027' : 'Invitație la Botez'}
         </div>
         <a href="/invitatii-digitale" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '6px 14px', borderRadius: 100, background: 'rgba(74,139,194,.1)', border: '1px solid rgba(74,139,194,.2)', color: '#2E6299', fontFamily: "'Nunito',sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', cursor: 'pointer', textDecoration: 'none', transition: 'all .2s' }}
           onMouseEnter={e => { const b = e.currentTarget as HTMLAnchorElement; b.style.background = 'rgba(74,139,194,.18)'; b.style.borderColor = 'rgba(74,139,194,.34)' }}
