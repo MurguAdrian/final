@@ -146,7 +146,7 @@ function IntroScreen({ onStart, phase }: { onStart: () => void; phase: Phase }) 
       <SpaceDecor />
       <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, padding: '16px 22px', width: '100%' }}>
         <p style={{ ...fade, fontFamily: "'Quicksand',sans-serif", fontSize: 'clamp(10px,1.2vw,12px)', letterSpacing: '.3em', textTransform: 'uppercase', color: '#9CB6E8', fontWeight: 600, animation: 'fadeUp .7s ease both' }}>Invitație la Botez</p>
-        <h1 style={{ ...fade, fontFamily: "'Playfair Display',serif", fontSize: 'clamp(40px,8vw,76px)', fontWeight: 500, fontStyle: 'italic', color: '#F4F6FB', textAlign: 'center', lineHeight: 1, margin: 0, textShadow: '0 4px 30px rgba(124,107,196,.5)', animation: 'fadeUp .8s ease both .08s' }}>Vlad Ștefan</h1>
+        <h1 style={{ ...fade, fontFamily: "'Playfair Display',serif", fontSize: 'clamp(40px,8vw,76px)', fontWeight: 500, fontStyle: 'italic', color: '#F4F6FB', textAlign: 'center', lineHeight: 1, margin: 0, textShadow: '0 4px 30px rgba(124,107,196,.5)', animation: 'fadeUp .8s ease both .08s' }}>Iosif Zian</h1>
         <p style={{ ...fade, fontFamily: "'Cormorant',serif", fontSize: 'clamp(14px,2vw,19px)', fontStyle: 'italic', color: '#B8C4E8', textAlign: 'center', maxWidth: 360, lineHeight: 1.5, animation: 'fadeUp .9s ease both .16s' }}>Pregătiți rachetele — pornim într-o aventură cosmică plină de bucurie</p>
 
         <div onClick={onStart} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && onStart()} style={{ position: 'relative', width: 'min(94vw,420px)', height: 'clamp(220px,46vw,340px)', cursor: 'pointer', marginTop: 6 }}>
@@ -221,8 +221,8 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
         <p style={{ ...a(.06), fontFamily: "'Quicksand',sans-serif", fontSize: 'clamp(10px,1.2vw,12px)', letterSpacing: '.3em', textTransform: 'uppercase', color: '#9CB6E8', fontWeight: 600, opacity: vis ? 1 : 0, marginBottom: 10 }}>Invitație la Botez</p>
 
         <div style={{ ...a(.12), textAlign: 'center', marginBottom: 6 }}>
-          <span style={{ display: 'block', fontFamily: "'Playfair Display',serif", fontSize: 'clamp(54px,9.5vw,104px)', fontWeight: 500, fontStyle: 'italic', color: '#F4F6FB', lineHeight: .95, textShadow: '0 4px 32px rgba(124,107,196,.5)', letterSpacing: '-.01em' }}>Vlad Ștefan</span>
-          <span style={{ display: 'block', fontFamily: "'Cormorant',serif", fontSize: 'clamp(15px,1.9vw,20px)', fontStyle: 'italic', fontWeight: 400, color: '#B8C4E8', marginTop: 6 }}>Fiul lui Ana &amp; Radu</span>
+          <span style={{ display: 'block', fontFamily: "'Playfair Display',serif", fontSize: 'clamp(54px,9.5vw,104px)', fontWeight: 500, fontStyle: 'italic', color: '#F4F6FB', lineHeight: .95, textShadow: '0 4px 32px rgba(124,107,196,.5)', letterSpacing: '-.01em' }}>Iosif Zian</span>
+          <span style={{ display: 'block', fontFamily: "'Cormorant',serif", fontSize: 'clamp(15px,1.9vw,20px)', fontStyle: 'italic', fontWeight: 400, color: '#B8C4E8', marginTop: 6 }}>Fiul lui Ioana &amp; Radu</span>
         </div>
 
         {/* COUNTDOWN — sus, primul element important */}
@@ -254,7 +254,7 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
           <p style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 'clamp(9px,1.1vw,10px)', letterSpacing: '.22em', textTransform: 'uppercase', color: '#9CB6E8', fontWeight: 600, marginBottom: 12 }}>Echipajul Misiunii</p>
           <div style={{ width: 36, height: 1, background: 'rgba(244,216,126,.4)', margin: '0 auto 14px' }} />
           <p style={{ fontFamily: "'Cormorant',serif", fontSize: 'clamp(13px,1.5vw,15px)', fontStyle: 'italic', color: '#B8C4E8', marginBottom: 4 }}>Părinții</p>
-          <p style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(18px,2.3vw,23px)', fontStyle: 'italic', fontWeight: 400, color: '#F4F6FB' }}>Ana &amp; Radu</p>
+          <p style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(18px,2.3vw,23px)', fontStyle: 'italic', fontWeight: 400, color: '#F4F6FB' }}>Ioana &amp; Radu</p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'center', margin: '14px auto' }}>
             <div style={{ width: 40, height: 1, background: 'rgba(156,182,232,.25)' }} />
             <div style={{ width: 7, height: 7, background: '#F4D87E', transform: 'rotate(45deg)' }} />
@@ -456,7 +456,7 @@ export default function App() {
           Vibe<span style={{ color: '#7C6BC4' }}>Invite</span>
         </a>
         <div style={{ fontFamily: "'Cormorant',serif", fontSize: 16, fontStyle: 'italic', color: '#B8C4E8', letterSpacing: '.04em' }}>
-          {phase === 'invite' ? 'Vlad Ștefan · 21 August 2027' : 'Invitație la Botez'}
+          {phase === 'invite' ? 'Iosif Zian · 21 August 2027' : 'Invitație la Botez'}
         </div>
         <a href="/invitatii-digitale" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '6px 14px', borderRadius: 100, background: 'rgba(124,107,196,.12)', border: '1px solid rgba(124,107,196,.25)', color: '#F4F6FB', fontFamily: "'Nunito',sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', cursor: 'pointer', textDecoration: 'none', transition: 'all .2s' }}
           onMouseEnter={e => { const b = e.currentTarget as HTMLAnchorElement; b.style.background = 'rgba(124,107,196,.22)'; b.style.borderColor = 'rgba(124,107,196,.4)' }}
