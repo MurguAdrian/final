@@ -895,16 +895,72 @@
 
 
 
-
-
-'use client'
-
 import Link from 'next/link'
+import type { Metadata, Viewport } from 'next'
 
 /* ═══════════════════════════════════════════════════════════════
-   NOTE: metadata lives in layout.tsx (this is 'use client')
-   All SEO keywords preserved from original.
+   SEO METADATA  (App Router — necesită Server Component)
 ═══════════════════════════════════════════════════════════════ */
+export const metadata: Metadata = {
+  metadataBase: new URL('https://www.vibeinvite.ro'),
+  title: 'Invitații Nuntă Online — Creezi Invitația ta în 5 Minute | VibeInvite',
+  description:
+    'Creează o invitație de nuntă online cu link personalizat: confirmare participare (RSVP), gestionare invitați, meniu, GPS și colectare poze de la invitați. Trimiți pe WhatsApp și urmărești totul din telefon.',
+  keywords: [
+    'invitatii nunta online',
+    'invitatie nunta online',
+    'invitatie nunta digitala',
+    'invitatii online',
+    'invitatii digitale nunta',
+    'creare invitatie nunta online',
+    'invitatii personalizate online',
+    'confirmare participare nunta',
+    'invitatie electronica nunta',
+    'invitatii botez online',
+    'VibeInvite',
+  ],
+  authors: [{ name: 'VibeInvite' }],
+  // Ajustează dacă pagina NU e pe rădăcină (ex: '/invitatii-nunta-online')
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    locale: 'ro_RO',
+    url: 'https://www.vibeinvite.ro/',
+    siteName: 'VibeInvite',
+    title: 'Invitații Nuntă Online — Gata în 5 Minute | VibeInvite',
+    description:
+      'Invitație de nuntă online cu link personalizat, confirmare participare, gestionare invitați și colectare poze. Simplu, rapid, 100% mobil.',
+    images: [
+      {
+        // Adaugă acest asset în /public/og/ (recomandat 1200x630)
+        url: '/og/invitatii-nunta-online.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'VibeInvite — invitații nuntă online',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Invitații Nuntă Online — Gata în 5 Minute | VibeInvite',
+    description:
+      'Invitație de nuntă online cu link personalizat, confirmare participare și colectare poze. Trimiți pe WhatsApp.',
+    images: ['/og/invitatii-nunta-online.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+  },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 5,
+  themeColor: '#FF6B00',
+}
 
 /* ═══════════════════════════════════════════════════════════════
    STYLES
@@ -1444,6 +1500,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--i
 /* ═══════════════════════════════════════════════════════════════
    DATA
 ═══════════════════════════════════════════════════════════════ */
+const stripHtml = (s: string) => s.replace(/<[^>]*>/g, '')
+
 const TICKER_ITEMS = [
   '💌 Invitații Nuntă Online',
   '🎀 Invitații Botez',
@@ -1484,9 +1542,10 @@ const VS_ROWS = [
 ]
 
 const FAQS = [
-  { q: 'Cât durează să creez invitația?', a: 'Aproximativ 5 minute. Alegi un design, completezi datele nunții, și primești linkul gata de trimis.' },
+  { q: 'Cât durează să creez invitația de nuntă online?', a: 'Aproximativ 5 minute. Alegi un design, completezi datele nunții, și primești linkul gata de trimis.' },
   { q: 'Pot schimba detaliile după ce am trimis linkul?', a: 'Da, oricând. Orice modificare se vede instant la toți invitații care redeschid linkul.' },
   { q: 'Câți invitați pot adăuga?', a: 'Nelimitat. Pachetul include invitații nelimitate și 25 GB spațiu pentru pozele încărcate de invitați.' },
+  { q: 'Funcționează și pentru botez sau aniversări?', a: 'Da. Pe aceeași platformă poți crea <strong>invitații online</strong> pentru botez, aniversări și alte evenimente, cu același sistem de confirmare participare și gestionare a invitaților.' },
   { q: 'Funcționează pe telefon?', a: 'Da, complet. Atât pentru tine (dashboard), cât și pentru invitați. Totul este optimizat pentru mobil.' },
   { q: 'Ce se întâmplă după eveniment?', a: 'Ai acces <strong>12 luni</strong> de la activare. Poți descărca toate pozele și lista de invitați oricând.' },
 ]
@@ -1670,6 +1729,14 @@ export default function Page() {
         name: 'VibeInvite', applicationCategory: 'LifestyleApplication', operatingSystem: 'Web, iOS, Android',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'RON', description: 'Link invitație online' },
       })}} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        '@context': 'https://schema.org', '@type': 'FAQPage',
+        mainEntity: FAQS.map(f => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: stripHtml(f.a) },
+        })),
+      })}} />
 
       {/* Sticky mobile CTA */}
       <div className="vi-sticky-bar" aria-hidden="true">
@@ -1684,10 +1751,10 @@ export default function Page() {
           <div className="vi-copy">
             <span className="vi-eyebrow">
               <span className="vi-eyebrow-dot" aria-hidden="true" />
-              Platformă invitații nuntă online
+              Invitații nuntă online cu link personalizat
             </span>
             <h1 className="vi-h1">
-              Invitația voastră,<br />
+              Invitație de nuntă online,<br />
               trimisă pe <em>WhatsApp</em>{' '}
               în <strong>5 minute</strong>
             </h1>
@@ -1791,7 +1858,7 @@ export default function Page() {
       <section aria-labelledby="how-title">
         <div className="vi-how">
           <span className="vi-section-label"><span aria-hidden="true">⚡</span>Cum funcționează</span>
-          <h2 className="vi-section-title" id="how-title">Gata în <em>3 pași simpli</em></h2>
+          <h2 className="vi-section-title" id="how-title">Creezi invitația online în <em>3 pași simpli</em></h2>
           <p className="vi-section-sub">Fără cont de design, fără ore pierdute. De la zero la invitație trimisă în mai puțin de 5 minute.</p>
           <div className="vi-how-steps" role="list">
             {HOW_STEPS.map(s => (
@@ -1950,17 +2017,6 @@ export default function Page() {
           </div>
         </div>
       </section>
-
-      {/* ══════════════ FOOTER ══════════════ */}
-      <footer className="vi-footer-strip">
-        <span>© 2025 VibeInvite</span>
-        <span>·</span>
-        <Link href="/politica-confidentialitate">Politică Confidențialitate</Link>
-        <span>·</span>
-        <Link href="/termeni">Termeni și Condiții</Link>
-        <span>·</span>
-        <a href="mailto:office@vibeinvite.ro">office@vibeinvite.ro</a>
-      </footer>
     </>
   )
 }

@@ -2,51 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 
-/* ════════════════════════════════════════
-   SEO — injectat în <head> via useEffect
-════════════════════════════════════════ */
-function useSEO() {
-  useEffect(() => {
-    document.title = 'Invitații Nuntă Online | Demo Stil Nature — VibeInvite'
-    const setMeta = (sel: string, attr: string, val: string, content: string) => {
-      let el = document.querySelector(sel)
-      if (!el) { el = document.createElement('meta'); el.setAttribute(attr, val); document.head.appendChild(el) }
-      el.setAttribute('content', content)
-    }
-    setMeta('meta[name="description"]','name','description','Invitație digitală de nuntă în stil Nature — elegantă, naturală, botanică. Crează-ți invitația online în 3 minute. RSVP instant, link free, GPS inclus, QR meniu, upload poze.')
-    setMeta('meta[name="keywords"]','name','keywords','invitatii nunta online, invitatii nunta digitale, invitatie nunta nature, invitatie nunta botanica, invitatie online free, link invitatie nunta, invitatii digitale nunta romania, creare invitatie nunta online, invitatie nunta eleganta, RSVP nunta online, confirmare prezenta nunta, invitatii nunta personalizate, invitatie digitala nunta, invitatii botez online, invitatie nunta QR, upload poze nunta, meniu nunta QR cod, vibeinvite, invitatii nunta moderne, invitatie nunta verde, invitatie nunta florala')
-    setMeta('meta[property="og:title"]','property','og:title','Invitații Nuntă Online — Stil Nature | VibeInvite Demo')
-    setMeta('meta[property="og:description"]','property','og:description','Demo invitație digitală de nuntă în stil Nature. Botanică, elegantă, cu elemente florale. RSVP instant, GPS, QR meniu, upload poze invitați.')
-    setMeta('meta[property="og:type"]','property','og:type','website')
-    setMeta('meta[property="og:url"]','property','og:url','https://www.vibeinvite.ro/invitatii-digitale/demo/NatureDemo')
-    setMeta('meta[property="og:site_name"]','property','og:site_name','VibeInvite')
-    setMeta('meta[property="og:image"]','property','og:image','https://www.vibeinvite.ro/og-nature.jpg')
-    setMeta('meta[property="og:locale"]','property','og:locale','ro_RO')
-    setMeta('meta[name="twitter:card"]','name','twitter:card','summary_large_image')
-    setMeta('meta[name="twitter:title"]','name','twitter:title','Invitații Nuntă Online Nature — VibeInvite')
-    setMeta('meta[name="twitter:description"]','name','twitter:description','Invitație digitală de nuntă botanică. RSVP, GPS, QR meniu, upload poze.')
-    setMeta('meta[name="twitter:image"]','name','twitter:image','https://www.vibeinvite.ro/og-nature.jpg')
-    let canon = document.querySelector('link[rel="canonical"]')
-    if (!canon) { canon = document.createElement('link'); canon.setAttribute('rel','canonical'); document.head.appendChild(canon) }
-    canon.setAttribute('href','https://www.vibeinvite.ro/invitatii-digitale/demo/NatureDemo')
-    if (!document.querySelector('script[data-ld="nature"]')) {
-      const ld = document.createElement('script')
-      ld.setAttribute('type','application/ld+json')
-      ld.setAttribute('data-ld','nature')
-      ld.textContent = JSON.stringify([
-        { '@context':'https://schema.org','@type':'WebPage', name:'Invitații Nuntă Online — Demo Stil Nature', description:'Demo invitație digitală de nuntă în stil Nature. Botanică, elegantă, florală. RSVP instant, GPS, QR meniu.', url:'https://www.vibeinvite.ro/invitatii-digitale/demo/NatureDemo', inLanguage:'ro', isPartOf:{ '@type':'WebSite', name:'VibeInvite', url:'https://www.vibeinvite.ro' }, breadcrumb:{ '@type':'BreadcrumbList', itemListElement:[{ '@type':'ListItem',position:1,name:'Acasă',item:'https://www.vibeinvite.ro'},{ '@type':'ListItem',position:2,name:'Invitații Digitale',item:'https://www.vibeinvite.ro/invitatii-digitale'},{ '@type':'ListItem',position:3,name:'Demo Stil Nature',item:'https://www.vibeinvite.ro/invitatii-digitale/demo/NatureDemo'}] } },
-        { '@context':'https://schema.org','@type':'SoftwareApplication', name:'VibeInvite — Invitații Digitale', applicationCategory:'LifestyleApplication', operatingSystem:'Web, iOS, Android', description:'Platformă de creare invitații digitale pentru nuntă și botez. RSVP online, GPS, meniu QR, upload poze invitați, export Excel.', url:'https://www.vibeinvite.ro', offers:{ '@type':'Offer',price:'0',priceCurrency:'RON',description:'Link invitație online gratuit'}, aggregateRating:{ '@type':'AggregateRating',ratingValue:'4.9',ratingCount:'1240'} },
-        { '@context':'https://schema.org','@type':'FAQPage', mainEntity:[
-          { '@type':'Question',name:'Cum creez o invitație de nuntă online?',acceptedAnswer:{ '@type':'Answer',text:'Pe VibeInvite poți crea o invitație digitală în 3 minute. Alegi stilul, completezi detaliile și primești un link personalizat gratuit.'}},
-          { '@type':'Question',name:'Invitațiile digitale de nuntă sunt gratuite?',acceptedAnswer:{ '@type':'Answer',text:'Da, linkul de invitație online este gratuit. Pachetele premium includ RSVP, meniu QR, upload poze invitați și export Excel.'}},
-          { '@type':'Question',name:'Ce este stilul Nature pentru invitații de nuntă?',acceptedAnswer:{ '@type':'Answer',text:'Stilul Nature folosește elemente botanice, florale și verzi. Este elegant, natural și rafinat — potrivit pentru nunți în aer liber sau cu tematică ecologică.'}},
-          { '@type':'Question',name:'Pot adăuga un Meniu la invitația de nuntă?',acceptedAnswer:{ '@type':'Answer',text:'Da! VibeInvite include si meniu și pentru confirmarea prezenței. Invitații intra in link și accesează instant informațiile nunții.'}},
-        ]},
-      ])
-      document.head.appendChild(ld)
-    }
-  }, [])
-}
+
 
 /* ════════════════════════════════════════
    COUNTDOWN
@@ -655,7 +611,7 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
 ════════════════════════════════════════ */
 export default function App() {
   const [phase, setPhase] = useState<Phase>('envelope')
-  useSEO()
+ 
 
   function openEnvelope() {
     if (phase !== 'envelope') return

@@ -6,48 +6,7 @@ import { useState, useEffect } from 'react'
 /* ════════════════════════════════
    SEO
 ════════════════════════════════ */
-function useSEO() {
-  useEffect(() => {
-    document.title = 'Invitații Nuntă Online | Demo Stil Lux — VibeInvite'
-    const m = (sel:string, attr:string, val:string, content:string) => {
-      let el = document.querySelector(sel)
-      if (!el) { el = document.createElement('meta'); el.setAttribute(attr, val); document.head.appendChild(el) }
-      el.setAttribute('content', content)
-    }
-    m('meta[name="description"]','name','description','Invitație digitală de nuntă în stil Lux — opulentă, rafinată, Art Deco cu accente aurii. Crează-ți invitația online în 3 minute. RSVP instant, link free, GPS inclus, upload poze nuntă.')
-    m('meta[name="keywords"]','name','keywords','invitatii nunta online, invitatii nunta lux, invitatii nunta elegante, invitatie nunta gold, invitatie nunta premium, invitatie nunta art deco, invitatie online free, link invitatie nunta, invitatii digitale nunta romania, creare invitatie nunta online, invitatie nunta de lux, RSVP nunta online, confirmare prezenta nunta, invitatii nunta personalizate, invitatie digitala nunta, invitatie nunta aurie, invitatii nunta rafinate, upload poze nunta, vibeinvite, invitatii nunta moderne, invitatie nunta neagra, invitatie nunta opulenta')
-    m('meta[property="og:title"]','property','og:title','Invitații Nuntă Online Lux — VibeInvite Demo')
-    m('meta[property="og:description"]','property','og:description','Demo invitație digitală de nuntă în stil Lux. Opulentă, Art Deco, cu accente aurii. RSVP instant, GPS, upload poze invitați.')
-    m('meta[property="og:type"]','property','og:type','website')
-    m('meta[property="og:url"]','property','og:url','https://www.vibeinvite.ro/invitatii-digitale/demo/LuxDemo')
-    m('meta[property="og:site_name"]','property','og:site_name','VibeInvite')
-    m('meta[property="og:image"]','property','og:image','https://www.vibeinvite.ro/og-lux.jpg')
-    m('meta[property="og:locale"]','property','og:locale','ro_RO')
-    m('meta[name="twitter:card"]','name','twitter:card','summary_large_image')
-    m('meta[name="twitter:title"]','name','twitter:title','Invitații Nuntă Online Lux — VibeInvite')
-    m('meta[name="twitter:description"]','name','twitter:description','Invitație digitală de nuntă lux. Opulentă, aurie, Art Deco. RSVP, GPS, upload poze.')
-    m('meta[name="twitter:image"]','name','twitter:image','https://www.vibeinvite.ro/og-lux.jpg')
-    let canon = document.querySelector('link[rel="canonical"]')
-    if (!canon) { canon = document.createElement('link'); canon.setAttribute('rel','canonical'); document.head.appendChild(canon) }
-    canon.setAttribute('href','https://www.vibeinvite.ro/invitatii-digitale/demo/LuxDemo')
-    if (!document.querySelector('script[data-ld="lux"]')) {
-      const ld = document.createElement('script')
-      ld.setAttribute('type','application/ld+json')
-      ld.setAttribute('data-ld','lux')
-      ld.textContent = JSON.stringify([
-        { '@context':'https://schema.org','@type':'WebPage', name:'Invitații Nuntă Online — Demo Stil Lux', description:'Demo invitație digitală de nuntă în stil Lux. Opulentă, Art Deco, aurie. RSVP instant, GPS, upload poze invitați.', url:'https://www.vibeinvite.ro/invitatii-digitale/demo/LuxDemo', inLanguage:'ro', isPartOf:{ '@type':'WebSite', name:'VibeInvite', url:'https://www.vibeinvite.ro' }, breadcrumb:{ '@type':'BreadcrumbList', itemListElement:[{ '@type':'ListItem',position:1,name:'Acasă',item:'https://www.vibeinvite.ro'},{ '@type':'ListItem',position:2,name:'Invitații Digitale',item:'https://www.vibeinvite.ro/invitatii-digitale'},{ '@type':'ListItem',position:3,name:'Demo Stil Lux',item:'https://www.vibeinvite.ro/invitatii-digitale/demo/LuxDemo'}] } },
-        { '@context':'https://schema.org','@type':'SoftwareApplication', name:'VibeInvite — Invitații Digitale', applicationCategory:'LifestyleApplication', operatingSystem:'Web, iOS, Android', description:'Platformă de creare invitații digitale pentru nuntă și botez. RSVP online, GPS, meniu QR, upload poze invitați, export Excel.', url:'https://www.vibeinvite.ro', offers:{ '@type':'Offer',price:'0',priceCurrency:'RON',description:'Link invitație online gratuit'}, aggregateRating:{ '@type':'AggregateRating',ratingValue:'4.9',ratingCount:'1240'} },
-        { '@context':'https://schema.org','@type':'FAQPage', mainEntity:[
-          { '@type':'Question',name:'Ce este o invitație digitală de nuntă lux?',acceptedAnswer:{ '@type':'Answer',text:'O invitație digitală de nuntă lux combină design opulent, tipografie rafinată și animații elegante. Pe VibeInvite, tema Lux folosește culori negru și auriu cu elemente Art Deco.'}},
-          { '@type':'Question',name:'Pot trimite invitații de nuntă online gratuit?',acceptedAnswer:{ '@type':'Answer',text:'Da! Pe VibeInvite primești un link de invitație gratuit. Pachetele premium includ RSVP, meniu QR, upload poze invitați și export Excel.'}},
-          { '@type':'Question',name:'Cum pot colecta poze de la invitați în ziua nunții?',acceptedAnswer:{ '@type':'Answer',text:'VibeInvite include o funcție de upload foto. Invitații pot încărca poze direct din telefon în timpul evenimentului, iar mirii accesează toate imaginile într-un album privat.'}},
-          { '@type':'Question',name:'Invitațiile digitale de nuntă sunt elegante?',acceptedAnswer:{ '@type':'Answer',text:'Absolut. VibeInvite oferă teme premium precum Lux (negru-auriu Art Deco), Nature (verde botanical) și Boho (cald, natural). Fiecare temă este designată profesional.'}},
-        ]},
-      ])
-      document.head.appendChild(ld)
-    }
-  }, [])
-}
+
 
 /* ════════════════════════════════
    COUNTDOWN
@@ -530,7 +489,6 @@ function InviteScreen({ onBack:_onBack }:{onBack:()=>void}) {
 ════════════════════════════════ */
 export default function App() {
   const [phase, setPhase] = useState<Phase>('envelope')
-  useSEO()
 
   function openEnvelope() {
     if(phase!=='envelope') return

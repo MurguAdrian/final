@@ -3,50 +3,7 @@
 import { useState, useEffect } from 'react'
 
 /* ════════════════════════════════
-   SEO
-════════════════════════════════ */
-function useSEO() {
-  useEffect(() => {
-    document.title = 'Invitații Nuntă Online | Demo Stil Royal — VibeInvite'
-    const m = (sel:string,attr:string,val:string,content:string) => {
-      let el = document.querySelector(sel)
-      if (!el) { el=document.createElement('meta'); el.setAttribute(attr,val); document.head.appendChild(el) }
-      el.setAttribute('content',content)
-    }
-    m('meta[name="description"]','name','description','Invitație digitală de nuntă în stil Royal — albastru regal, argint, catifea, inspirat din palatele europene. Crează-ți invitația online în 3 minute. RSVP instant, link free, GPS, upload poze nuntă.')
-    m('meta[name="keywords"]','name','keywords','invitatii nunta online, invitatii nunta royal, invitatii nunta regale, invitatie nunta albastru, invitatie nunta argintie, invitatie nunta eleganta, invitatie nunta palat, invitatie online free, link invitatie nunta, invitatii digitale nunta romania, creare invitatie nunta online, invitatie nunta premium, RSVP nunta online, confirmare prezenta nunta, invitatii nunta personalizate, upload poze nunta, vibeinvite, invitatii nunta regale, invitatie nunta catifea, invitatie nunta albastra, invitatii nunta europene')
-    m('meta[property="og:title"]','property','og:title','Invitații Nuntă Online Royal — VibeInvite Demo')
-    m('meta[property="og:description"]','property','og:description','Demo invitație digitală de nuntă în stil Royal. Albastru regal, argint, catifea, palate europene. RSVP instant, GPS, upload poze invitați.')
-    m('meta[property="og:type"]','property','og:type','website')
-    m('meta[property="og:url"]','property','og:url','https://www.vibeinvite.ro/invitatii-digitale/demo/RoyalDemo')
-    m('meta[property="og:site_name"]','property','og:site_name','VibeInvite')
-    m('meta[property="og:image"]','property','og:image','https://www.vibeinvite.ro/og-royal.jpg')
-    m('meta[property="og:locale"]','property','og:locale','ro_RO')
-    m('meta[name="twitter:card"]','name','twitter:card','summary_large_image')
-    m('meta[name="twitter:title"]','name','twitter:title','Invitații Nuntă Online Royal — VibeInvite')
-    m('meta[name="twitter:description"]','name','twitter:description','Invitație digitală de nuntă Royal. Albastru regal, argint, catifea. RSVP, GPS, upload poze.')
-    m('meta[name="twitter:image"]','name','twitter:image','https://www.vibeinvite.ro/og-royal.jpg')
-    let canon = document.querySelector('link[rel="canonical"]')
-    if (!canon) { canon=document.createElement('link'); canon.setAttribute('rel','canonical'); document.head.appendChild(canon) }
-    canon.setAttribute('href','https://www.vibeinvite.ro/invitatii-digitale/demo/RoyalDemo')
-    if (!document.querySelector('script[data-ld="royal"]')) {
-      const ld = document.createElement('script')
-      ld.setAttribute('type','application/ld+json')
-      ld.setAttribute('data-ld','royal')
-      ld.textContent = JSON.stringify([
-        { '@context':'https://schema.org','@type':'WebPage', name:'Invitații Nuntă Online — Demo Stil Royal', description:'Demo invitație digitală de nuntă în stil Royal. Albastru regal, argint, catifea, palatele europene.', url:'https://www.vibeinvite.ro/invitatii-digitale/demo/RoyalDemo', inLanguage:'ro', isPartOf:{ '@type':'WebSite',name:'VibeInvite',url:'https://www.vibeinvite.ro'}, breadcrumb:{ '@type':'BreadcrumbList', itemListElement:[{ '@type':'ListItem',position:1,name:'Acasă',item:'https://www.vibeinvite.ro'},{ '@type':'ListItem',position:2,name:'Invitații Digitale',item:'https://www.vibeinvite.ro/invitatii-digitale'},{ '@type':'ListItem',position:3,name:'Demo Stil Royal',item:'https://www.vibeinvite.ro/invitatii-digitale/demo/RoyalDemo'}]}},
-        { '@context':'https://schema.org','@type':'SoftwareApplication', name:'VibeInvite — Invitații Digitale', applicationCategory:'LifestyleApplication', operatingSystem:'Web, iOS, Android', description:'Platformă de creare invitații digitale pentru nuntă și botez. RSVP online, GPS, meniu QR, upload poze invitați, export Excel.', url:'https://www.vibeinvite.ro', offers:{ '@type':'Offer',price:'0',priceCurrency:'RON',description:'Link invitație online gratuit'}, aggregateRating:{ '@type':'AggregateRating',ratingValue:'4.9',ratingCount:'1240'}},
-        { '@context':'https://schema.org','@type':'FAQPage', mainEntity:[
-          { '@type':'Question',name:'Ce este stilul Royal pentru invitații de nuntă?',acceptedAnswer:{ '@type':'Answer',text:'Stilul Royal folosește albastru regal profund, argint și detalii de catifea. Este inspirat din palatele europene și potrivit pentru nunți elegante care vor fi povești transmise din generație în generație.'}},
-          { '@type':'Question',name:'Cum creez o invitație de nuntă elegantă online?',acceptedAnswer:{ '@type':'Answer',text:'Pe VibeInvite poți crea o invitație digitală elegantă în 3 minute. Alegi tema Royal, completezi detaliile și primești un link personalizat gratuit, gata de trimis pe WhatsApp sau email.'}},
-          { '@type':'Question',name:'Pot colecta poze de la invitați în ziua nunții?',acceptedAnswer:{ '@type':'Answer',text:'Da! VibeInvite include o funcție de upload foto prin care invitații pot încărca poze direct din telefon în ziua evenimentului. Mirii accesează toate imaginile într-un album privat.'}},
-          { '@type':'Question',name:'Invitațiile digitale sunt potrivite pentru nunți regale?',acceptedAnswer:{ '@type':'Answer',text:'Absolut. Tema Royal de pe VibeInvite îmbină albastrul regal cu accente argintii și tipografie nobilă — perfectă pentru nunți cu atmosferă de palat european.'}},
-        ]},
-      ])
-      document.head.appendChild(ld)
-    }
-  }, [])
-}
+  
 
 /* ════════════════════════════════
    COUNTDOWN
@@ -707,7 +664,6 @@ function InviteScreen({ onBack:_onBack }:{onBack:()=>void}) {
 ════════════════════════════════ */
 export default function App() {
   const [phase, setPhase] = useState<Phase>('envelope')
-  useSEO()
   function openEnvelope() {
     if(phase!=='envelope') return
     setPhase('opening')
