@@ -1,447 +1,366 @@
-import type { Metadata } from 'next'
-import Link from 'next/link'
-
-/* ═══════════════════════════════════════════════════════════════
-   SEO METADATA
-═══════════════════════════════════════════════════════════════ */
-export const metadata: Metadata = {
-  title: 'Prețuri | VibeInvite — Pachet Complet 300 Lei, Plată Unică',
-  description:
-    'Un singur pachet all-in-one pentru nuntă și botez: invitații digitale nelimitate, meniu QR, upload poze invitați, organizare momente, export Excel. 300 lei, plată unică, fără abonament.',
-  keywords: [
-    'pret invitatii digitale',
-    'invitatii nunta pret',
-    'pachet invitatii online ieftin',
-    'invitatii digitale 300 lei',
-    'invitatii nelimitate nunta',
-    'meniu nunta QR pret',
-    'upload poze nunta invitati',
-    'export excel invitatii nunta',
-    'pachet all-in-one nunta',
-    'invitatii online plata unica',
-  ],
-  openGraph: {
-    title: 'VibeInvite — Pachet Complet 300 Lei, Plată Unică',
-    description: 'Tot ce ai nevoie pentru nuntă într-un singur pachet: invitații nelimitate, meniu QR, poze invitați, export Excel. 300 lei, o singură dată.',
-    images: [{ url: '/og-preturi.jpg', width: 1200, height: 630 }],
-  },
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   STYLES — prefix vp- (pricing page), aceeași identitate vizuală
-═══════════════════════════════════════════════════════════════ */
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-.vp-page * { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-.vp-page {
+.pp {
   font-family: 'DM Sans', sans-serif;
   background: #FDFAF6;
   color: #1A1208;
   min-height: 100vh;
-  position: relative;
   overflow-x: hidden;
 }
 
-/* ── orbs ── */
-@keyframes vp-orb { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(28px,-20px) scale(1.05)} 66%{transform:translate(-14px,14px) scale(.96)} }
-.vp-orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); }
-.vp-o1  { width: 500px; height: 500px; background: radial-gradient(circle,rgba(255,107,0,.15) 0%,transparent 70%); top: -100px; right: -80px; animation: vp-orb 14s ease-in-out infinite; }
-.vp-o2  { width: 320px; height: 320px; background: radial-gradient(circle,rgba(255,107,0,.09) 0%,transparent 70%); bottom: 60px; left: -60px; animation: vp-orb 18s ease-in-out infinite reverse; }
+/* ─── orbs ─── */
+@keyframes pp-orb { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(30px,-22px) scale(1.06)} 70%{transform:translate(-16px,16px) scale(.95)} }
+.pp-orb { position:fixed; border-radius:50%; pointer-events:none; z-index:0; filter:blur(90px); }
+.pp-o1 { width:560px; height:560px; background:radial-gradient(circle,rgba(255,107,0,.13) 0%,transparent 70%); top:-120px; right:-100px; animation:pp-orb 16s ease-in-out infinite; }
+.pp-o2 { width:380px; height:380px; background:radial-gradient(circle,rgba(255,107,0,.08) 0%,transparent 70%); bottom:40px; left:-80px; animation:pp-orb 20s ease-in-out infinite reverse; }
 
-/* ── animations ── */
-@keyframes vp-up       { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-@keyframes vp-in       { from{opacity:0} to{opacity:1} }
-@keyframes vp-shimmer  { 0%{background-position:-400px 0} 100%{background-position:400px 0} }
-@keyframes vp-pulse    { 0%{transform:scale(.9);opacity:.8} 70%{transform:scale(1.3);opacity:0} 100%{transform:scale(.9);opacity:0} }
-@keyframes vp-dot      { 0%,100%{opacity:.4;transform:scale(.8)} 50%{opacity:1;transform:scale(1.2)} }
-@keyframes vp-spin     { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-@keyframes vp-tick     { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-@keyframes vp-checkIn  { from{transform:scale(0) rotate(-45deg);opacity:0} to{transform:scale(1) rotate(0deg);opacity:1} }
-@keyframes vp-rowIn    { from{opacity:0;transform:translateX(-12px)} to{opacity:1;transform:translateX(0)} }
+/* ─── ticker ─── */
+@keyframes pp-tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.pp-ticker { background:#FF6B00; padding:10px 0; overflow:hidden; position:relative; z-index:10; }
+.pp-ticker-inner { display:flex; width:max-content; animation:pp-tick 26s linear infinite; }
+.pp-ti { display:flex; align-items:center; gap:10px; padding:0 30px; color:#fff; font-size:12px; font-weight:500; white-space:nowrap; letter-spacing:.05em; }
+.pp-tdot { width:4px; height:4px; background:rgba(255,255,255,.45); border-radius:50%; }
 
-/* ── container ── */
-.vp-inner {
-  position: relative; z-index: 10;
-  max-width: 1160px; margin: 0 auto;
-  padding: 48px 20px 64px;
-}
+/* ─── animations ─── */
+@keyframes pp-up   { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes pp-in   { from{opacity:0} to{opacity:1} }
+@keyframes pp-shine { 0%{background-position:-500px 0} 100%{background-position:500px 0} }
+@keyframes pp-dot  { 0%,100%{opacity:.4;transform:scale(.8)} 50%{opacity:1;transform:scale(1.2)} }
+@keyframes pp-pulse { 0%{transform:scale(.85);opacity:.7} 70%{transform:scale(1.35);opacity:0} 100%{opacity:0} }
+@keyframes pp-row  { from{opacity:0;transform:translateX(-10px)} to{opacity:1;transform:translateX(0)} }
 
-/* ── page header ── */
-.vp-header { text-align: center; margin-bottom: 52px; opacity: 0; animation: vp-up .7s ease .1s forwards; }
-
-.vp-super {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: #FFF4ED; border: 1px solid rgba(255,107,0,.28); border-radius: 100px;
-  padding: 5px 16px 5px 10px; font-size: 11px; font-weight: 500;
-  color: #FF6B00; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 18px;
-}
-.vp-sdot { width: 7px; height: 7px; background: #FF6B00; border-radius: 50%; animation: vp-dot 1.8s ease-in-out infinite; }
-
-.vp-h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(34px, 5vw, 58px);
-  font-weight: 300; line-height: 1.08; color: #1A1208;
-  margin-bottom: 16px;
-}
-.vp-h1 em     { font-style: italic; color: #FF6B00; }
-.vp-h1 strong { font-weight: 600; }
-
-.vp-lead {
-  font-size: 15px; line-height: 1.8; color: rgba(26,18,8,.62);
-  max-width: 520px; margin: 0 auto;
-}
-.vp-lead strong { color: #1A1208; font-weight: 600; }
-
-/* ── tagline strip ── */
-.vp-tagline-strip {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: linear-gradient(135deg, #FF6B00, #FF8C35);
-  color: #fff; border-radius: 12px; padding: 9px 20px;
-  font-size: 13px; font-weight: 600; letter-spacing: .02em;
-  margin-bottom: 20px;
+/* ─── layout ─── */
+.pp-inner {
+  position:relative; z-index:10;
+  max-width:1200px; margin:0 auto;
+  padding:56px 24px 72px;
 }
 
-/* ════════════════════════════════════════════
-   MAIN PRICING CARD
-════════════════════════════════════════════ */
-.vp-plan-wrap {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-  opacity: 0; animation: vp-up .8s ease .25s forwards;
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
+.pp-hero {
+  display:grid;
+  grid-template-columns:1fr;
+  gap:32px;
+  margin-bottom:64px;
+  opacity:0; animation:pp-up .7s ease .1s forwards;
+}
+@media(min-width:960px) {
+  .pp-hero { grid-template-columns:1fr 1fr; align-items:center; gap:48px; }
 }
 
-@media (min-width: 900px) {
-  .vp-plan-wrap { grid-template-columns: 1.1fr 0.9fr; align-items: start; gap: 28px; }
+/* hero left */
+.pp-hero-left { display:flex; flex-direction:column; gap:20px; }
+
+.pp-eyebrow {
+  display:inline-flex; align-items:center; gap:8px;
+  background:#FFF4ED; border:1px solid rgba(255,107,0,.3); border-radius:100px;
+  padding:6px 16px 6px 10px; font-size:11px; font-weight:600; letter-spacing:.07em;
+  text-transform:uppercase; color:#FF6B00; width:fit-content;
+}
+.pp-edot { width:7px; height:7px; background:#FF6B00; border-radius:50%; animation:pp-dot 1.8s ease-in-out infinite; }
+
+.pp-h1 {
+  font-family:'Cormorant Garamond', serif;
+  font-size:clamp(36px,5.5vw,64px);
+  font-weight:300; line-height:1.06; color:#1A1208;
+}
+.pp-h1 em { font-style:italic; color:#FF6B00; }
+.pp-h1 strong { font-weight:600; }
+
+.pp-hero-sub {
+  font-size:15px; line-height:1.75; color:rgba(26,18,8,.65);
+  max-width:440px;
+}
+.pp-hero-sub strong { color:#1A1208; font-weight:600; }
+
+/* hero right — price block */
+.pp-price-block {
+  background:#fff;
+  border-radius:32px;
+  border:1px solid rgba(255,107,0,.15);
+  box-shadow:0 2px 12px rgba(0,0,0,.04), 0 24px 64px rgba(0,0,0,.09);
+  overflow:hidden;
+  position:relative;
+}
+.pp-price-block::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:4px;
+  background:linear-gradient(90deg,#FF6B00,#FF8C35,#FF6B00);
 }
 
-/* ── main card ── */
-.vp-card {
-  background: #fff;
-  border-radius: 28px;
-  border: 1px solid rgba(255,107,0,.12);
-  box-shadow: 0 2px 8px rgba(0,0,0,.04), 0 16px 56px rgba(0,0,0,.08);
-  overflow: hidden;
-  position: relative;
-}
-.vp-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-  background: linear-gradient(90deg, #FF6B00, #FF8C35, #FF6B00);
+.pp-price-top {
+  padding:36px 36px 28px;
+  background:linear-gradient(150deg,#FFF4ED 0%,#fffaf5 100%);
+  position:relative;
 }
 
-/* card top */
-.vp-card-top {
-  padding: 36px 36px 28px;
-  background: linear-gradient(160deg, #FFF4ED 0%, #fff8f0 100%);
-  border-bottom: 1px solid rgba(255,107,0,.1);
-  position: relative;
+.pp-plan-label {
+  font-size:11px; font-weight:700; letter-spacing:.09em;
+  text-transform:uppercase; color:#FF6B00;
+  display:flex; align-items:center; gap:10px; margin-bottom:18px;
+}
+.pp-plan-badge {
+  background:#FF6B00; color:#fff; border-radius:100px;
+  padding:3px 12px; font-size:9px; font-weight:800; letter-spacing:.07em;
 }
 
-.vp-plan-label {
-  font-size: 11px; font-weight: 600; letter-spacing: .08em;
-  text-transform: uppercase; color: #FF6B00; margin-bottom: 14px;
-  display: flex; align-items: center; gap: 8px;
-}
-.vp-plan-badge {
-  background: #FF6B00; color: #fff; border-radius: 100px;
-  padding: 2px 10px; font-size: 9px; font-weight: 700; letter-spacing: .06em;
-}
+.pp-price-row { display:flex; align-items:baseline; gap:8px; margin-bottom:10px; }
+.pp-curr { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:300; color:#FF6B00; margin-top:10px; }
+.pp-amount { font-family:'Cormorant Garamond',serif; font-size:clamp(60px,9vw,88px); font-weight:600; color:#1A1208; line-height:1; }
+.pp-price-aside { display:flex; flex-direction:column; gap:3px; }
+.pp-price-type { font-size:14px; font-weight:600; color:#1A1208; }
+.pp-price-note { font-size:11px; color:rgba(26,18,8,.5); }
 
-.vp-price-row {
-  display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px;
+.pp-price-pills {
+  display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;
 }
-.vp-price {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(52px, 8vw, 80px);
-  font-weight: 600; color: #1A1208; line-height: 1;
+.pp-pill {
+  display:inline-flex; align-items:center; gap:5px;
+  background:#fff; border:1px solid rgba(255,107,0,.2); border-radius:100px;
+  padding:5px 12px; font-size:11.5px; font-weight:500; color:#1A1208;
 }
-.vp-price-currency {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px; font-weight: 300; color: #FF6B00; align-self: flex-start; margin-top: 10px;
-}
-.vp-price-meta {
-  display: flex; flex-direction: column;
-}
-.vp-price-type {
-  font-size: 13px; font-weight: 600; color: #1A1208;
-}
-.vp-price-note {
-  font-size: 11px; color: rgba(26,18,8,.5); margin-top: 2px;
-}
-
-.vp-price-sub {
-  font-size: 13px; color: rgba(26,18,8,.6); margin-bottom: 24px; line-height: 1.6;
-}
-.vp-price-sub strong { color: #1A1208; }
+.pp-pill span { color:#FF6B00; font-size:13px; }
 
 /* CTA */
-.vp-cta {
-  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-  width: 100%; padding: 16px 28px; border-radius: 100px;
-  background: #FF6B00; color: #fff;
-  font-size: 15px; font-weight: 600; text-decoration: none;
-  position: relative; overflow: hidden;
-  box-shadow: 0 8px 28px rgba(255,107,0,.38);
-  transition: background .25s, transform .2s, box-shadow .25s;
+.pp-cta {
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  width:100%; padding:17px 28px; border-radius:100px;
+  background:#FF6B00; color:#fff;
+  font-size:15px; font-weight:600; text-decoration:none;
+  position:relative; overflow:hidden;
+  box-shadow:0 10px 32px rgba(255,107,0,.42);
+  transition:background .25s, transform .2s, box-shadow .25s;
 }
-.vp-cta::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
-  background-size: 400px 100%; animation: vp-shimmer 2.5s linear infinite;
+.pp-cta::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+  background-size:500px 100%; animation:pp-shine 2.6s linear infinite;
 }
-.vp-cta:hover { background: #FF8C35; transform: translateY(-2px); box-shadow: 0 14px 40px rgba(255,107,0,.45); }
+.pp-cta:hover { background:#e85e00; transform:translateY(-2px); box-shadow:0 16px 44px rgba(255,107,0,.48); }
 
-.vp-cta-note {
-  text-align: center; margin-top: 12px;
-  font-size: 12px; color: rgba(26,18,8,.45);
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-}
-.vp-lock { font-size: 13px; }
-
-/* pulse ring on price */
-.vp-price-ring {
-  position: absolute; top: 32px; right: 32px;
-  width: 72px; height: 72px; border-radius: 50%;
-  border: 2px solid rgba(255,107,0,.3);
-  animation: vp-pulse 3s ease-out infinite;
-}
-.vp-price-ring2 {
-  position: absolute; top: 32px; right: 32px;
-  width: 72px; height: 72px; border-radius: 50%;
-  background: #FFF4ED;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 28px;
+.pp-cta-note {
+  text-align:center; margin-top:11px;
+  font-size:12px; color:rgba(26,18,8,.45);
+  display:flex; align-items:center; justify-content:center; gap:6px;
 }
 
-/* ── features list ── */
-.vp-card-body { padding: 28px 36px 32px; }
+/* ring pulse */
+.pp-ring-wrap { position:absolute; top:28px; right:28px; width:68px; height:68px; }
+.pp-ring { position:absolute; inset:0; border-radius:50%; border:2px solid rgba(255,107,0,.35); animation:pp-pulse 3s ease-out infinite; }
+.pp-ring-inner { position:absolute; inset:0; border-radius:50%; background:#FFF4ED; display:flex; align-items:center; justify-content:center; font-size:26px; }
 
-.vp-features-title {
-  font-size: 11px; font-weight: 600; letter-spacing: .08em;
-  text-transform: uppercase; color: rgba(26,18,8,.45);
-  margin-bottom: 18px;
+/* ══════════════════════════════
+   WHAT YOU GET — main section
+══════════════════════════════ */
+.pp-section-label {
+  font-size:11px; font-weight:700; letter-spacing:.09em;
+  text-transform:uppercase; color:rgba(26,18,8,.4);
+  margin-bottom:12px;
 }
 
-.vp-feat-list { display: flex; flex-direction: column; gap: 2px; }
-
-.vp-feat-row {
-  display: flex; align-items: center; gap: 12px;
-  padding: 10px 12px; border-radius: 12px;
-  transition: background .18s;
-  opacity: 0;
+.pp-section-h2 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4vw,44px);
+  font-weight:300; line-height:1.1; color:#1A1208;
+  margin-bottom:8px;
 }
-.vp-feat-row:hover { background: #FFF4ED; }
+.pp-section-h2 em { font-style:italic; color:#FF6B00; }
 
-/* staggered animation */
-.vp-feat-row:nth-child(1)  { animation: vp-rowIn .5s ease .4s  forwards; }
-.vp-feat-row:nth-child(2)  { animation: vp-rowIn .5s ease .5s  forwards; }
-.vp-feat-row:nth-child(3)  { animation: vp-rowIn .5s ease .6s  forwards; }
-.vp-feat-row:nth-child(4)  { animation: vp-rowIn .5s ease .7s  forwards; }
-.vp-feat-row:nth-child(5)  { animation: vp-rowIn .5s ease .8s  forwards; }
-.vp-feat-row:nth-child(6)  { animation: vp-rowIn .5s ease .9s  forwards; }
-.vp-feat-row:nth-child(7)  { animation: vp-rowIn .5s ease 1.0s forwards; }
-.vp-feat-row:nth-child(8)  { animation: vp-rowIn .5s ease 1.1s forwards; }
-
-.vp-feat-icon-wrap {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: #FFF4ED; display: flex; align-items: center;
-  justify-content: center; font-size: 17px; flex-shrink: 0;
-  transition: background .2s, transform .2s;
-}
-.vp-feat-row:hover .vp-feat-icon-wrap { background: rgba(255,107,0,.15); transform: scale(1.08); }
-
-.vp-feat-check {
-  width: 20px; height: 20px; border-radius: 50%;
-  background: #dcfce7; display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-left: auto;
-  font-size: 11px; color: #15803d;
+.pp-section-sub {
+  font-size:14px; color:rgba(26,18,8,.6); line-height:1.7;
+  margin-bottom:36px; max-width:560px;
 }
 
-.vp-feat-info { flex: 1; }
-.vp-feat-name { font-size: 13.5px; font-weight: 500; color: #1A1208; }
-.vp-feat-sub  { font-size: 11.5px; color: rgba(26,18,8,.5); margin-top: 1px; }
+/* feature grid */
+.pp-feat-grid {
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  margin-bottom:56px;
+  opacity:0; animation:pp-up .8s ease .3s forwards;
+}
+@media(min-width:640px) { .pp-feat-grid { grid-template-columns:1fr 1fr; } }
+@media(min-width:1024px) { .pp-feat-grid { grid-template-columns:1fr 1fr 1fr; } }
 
-.vp-feat-separator {
-  height: 1px; background: rgba(255,107,0,.08);
-  margin: 4px 12px;
+.pp-feat-card {
+  background:#fff;
+  border:1px solid rgba(255,107,0,.1);
+  border-radius:20px;
+  padding:22px 22px 20px;
+  display:flex; flex-direction:column; gap:12px;
+  transition:border-color .2s, transform .2s, box-shadow .2s;
+  position:relative; overflow:hidden;
+}
+.pp-feat-card::before {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,#FF6B00,#FF8C35);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .3s;
+}
+.pp-feat-card:hover { border-color:rgba(255,107,0,.3); transform:translateY(-3px); box-shadow:0 8px 32px rgba(255,107,0,.1); }
+.pp-feat-card:hover::before { transform:scaleX(1); }
+
+.pp-feat-icon {
+  width:44px; height:44px; border-radius:12px;
+  background:#FFF4ED; display:flex; align-items:center; justify-content:center;
+  font-size:20px; flex-shrink:0;
+  transition:background .2s, transform .2s;
+}
+.pp-feat-card:hover .pp-feat-icon { background:rgba(255,107,0,.15); transform:scale(1.08); }
+
+.pp-feat-name {
+  font-size:14px; font-weight:600; color:#1A1208; line-height:1.3;
+}
+.pp-feat-desc {
+  font-size:12.5px; color:rgba(26,18,8,.55); line-height:1.65; flex:1;
 }
 
-/* ════════════════════════════════════════════
-   RIGHT SIDE — visual / trust / FAQ
-════════════════════════════════════════════ */
-.vp-right { display: flex; flex-direction: column; gap: 20px; }
+/* sub-items inside card */
+.pp-feat-tags {
+  display:flex; flex-wrap:wrap; gap:5px; margin-top:4px;
+}
+.pp-feat-tag {
+  display:inline-flex; align-items:center; gap:4px;
+  background:#F5F0E8; border-radius:100px;
+  padding:3px 10px; font-size:11px; font-weight:500; color:#1A1208;
+}
+.pp-feat-tag-dot { width:5px; height:5px; background:#FF6B00; border-radius:50%; }
 
-/* trust card */
-.vp-trust {
-  background: #fff; border-radius: 24px;
-  border: 1px solid rgba(255,107,0,.12);
-  box-shadow: 0 2px 12px rgba(0,0,0,.05);
-  padding: 24px 26px;
-  opacity: 0; animation: vp-up .8s ease .35s forwards;
+/* ══════════════════════════════
+   COMPARISON + TRUST ROW
+══════════════════════════════ */
+.pp-bottom-grid {
+  display:grid;
+  grid-template-columns:1fr;
+  gap:20px;
+  margin-bottom:48px;
+  opacity:0; animation:pp-up .8s ease .45s forwards;
 }
-.vp-trust-title {
-  font-size: 13px; font-weight: 600; color: #1A1208; margin-bottom: 16px;
-  display: flex; align-items: center; gap: 8px;
-}
-.vp-trust-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.vp-trust-item {
-  display: flex; flex-direction: column; align-items: center; text-align: center;
-  background: #FDFAF6; border-radius: 14px; padding: 14px 10px;
-  border: 1px solid rgba(255,107,0,.08);
-  transition: border-color .2s, transform .2s;
-}
-.vp-trust-item:hover { border-color: rgba(255,107,0,.3); transform: translateY(-2px); }
-.vp-trust-num  { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: #FF6B00; line-height: 1; }
-.vp-trust-label { font-size: 11px; color: rgba(26,18,8,.55); margin-top: 3px; }
-
-/* comparison note */
-.vp-compare {
-  background: linear-gradient(135deg, #1A1208 0%, #2d1f0e 100%);
-  border-radius: 24px; padding: 24px 26px;
-  opacity: 0; animation: vp-up .8s ease .45s forwards;
-}
-.vp-compare-title { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 14px; }
-.vp-compare-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.08);
-  font-size: 12.5px;
-}
-.vp-compare-row:last-child { border-bottom: none; }
-.vp-compare-label { color: rgba(255,255,255,.7); }
-.vp-compare-val   { font-weight: 600; }
-.vp-compare-val.good { color: #86efac; }
-.vp-compare-val.meh  { color: rgba(255,255,255,.4); text-decoration: line-through; }
-
-/* FAQ mini */
-.vp-faq {
-  background: #fff; border-radius: 24px;
-  border: 1px solid rgba(255,107,0,.12);
-  padding: 24px 26px;
-  opacity: 0; animation: vp-up .8s ease .55s forwards;
-}
-.vp-faq-title { font-size: 13px; font-weight: 600; color: #1A1208; margin-bottom: 14px; }
-.vp-faq-item  { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,.05); }
-.vp-faq-item:last-child { border-bottom: none; }
-.vp-faq-q { font-size: 12.5px; font-weight: 600; color: #1A1208; margin-bottom: 4px; }
-.vp-faq-a { font-size: 12px; color: rgba(26,18,8,.6); line-height: 1.6; }
-
-/* ── guarantee bar ── */
-.vp-guarantee {
-  display: flex; align-items: center; justify-content: center; gap: 32px;
-  flex-wrap: wrap;
-  background: #fff; border-radius: 20px;
-  border: 1px solid rgba(255,107,0,.1);
-  padding: 20px 28px; margin-top: 36px;
-  opacity: 0; animation: vp-up .8s ease .6s forwards;
-}
-.vp-guar-item { display: flex; align-items: center; gap: 10px; }
-.vp-guar-icon { font-size: 22px; }
-.vp-guar-text { font-size: 12.5px; font-weight: 500; color: rgba(26,18,8,.7); }
-.vp-guar-text strong { color: #1A1208; display: block; font-size: 13px; }
-.vp-guar-div { width: 1px; height: 32px; background: rgba(26,18,8,.1); }
-
-/* ── ticker ── */
-.vp-ticker     { overflow: hidden; background: #FF6B00; padding: 10px 0; }
-.vp-ti-inner   { display: flex; width: max-content; animation: vp-tick 24s linear infinite; }
-.vp-ti         { display: flex; align-items: center; gap: 10px; padding: 0 32px; color: #fff; font-size: 12px; font-weight: 500; white-space: nowrap; letter-spacing: .04em; }
-.vp-tdot       { width: 4px; height: 4px; background: rgba(255,255,255,.5); border-radius: 50%; }
-
-/* ═══════════════ RESPONSIVE ═══════════════ */
-@media (max-width: 639px) {
-  .vp-inner { padding: 32px 16px 48px; }
-  .vp-card-top  { padding: 24px 22px 20px; }
-  .vp-card-body { padding: 20px 22px 24px; }
-  .vp-price { font-size: 56px; }
-  .vp-trust-grid { grid-template-columns: 1fr 1fr; }
-  .vp-guarantee { gap: 16px; padding: 16px 20px; }
-  .vp-guar-div { display: none; }
-  .vp-compare-row { flex-direction: column; align-items: flex-start; gap: 2px; }
+@media(min-width:760px) {
+  .pp-bottom-grid { grid-template-columns:1.15fr 1fr; align-items:start; }
 }
 
-@media (min-width: 640px) and (max-width: 899px) {
-  .vp-inner { padding: 40px 28px 56px; }
+/* compare card */
+.pp-compare {
+  background:linear-gradient(140deg,#1A1208 0%,#2b1d0d 100%);
+  border-radius:24px; padding:28px 28px 24px;
+}
+.pp-compare-h { font-size:15px; font-weight:600; color:#fff; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.pp-compare-sub { font-size:11.5px; color:rgba(255,255,255,.45); font-weight:400; }
+
+.pp-compare-table { display:flex; flex-direction:column; gap:0; }
+.pp-compare-row {
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:12px; align-items:center;
+  padding:11px 0;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  font-size:12.5px;
+}
+.pp-compare-row:last-child { border-bottom:none; }
+.pp-compare-lbl { color:rgba(255,255,255,.65); }
+.pp-compare-vibe { font-weight:700; color:#86efac; text-align:right; }
+.pp-compare-old { font-size:11.5px; color:rgba(255,255,255,.3); text-align:right; text-decoration:line-through; }
+
+.pp-compare-hdr {
+  display:grid; grid-template-columns:1fr auto auto;
+  gap:12px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,.12);
+}
+.pp-compare-hdr-lbl { font-size:10px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:rgba(255,255,255,.35); }
+.pp-compare-hdr-vibe { font-size:10px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:#FF8C35; text-align:right; }
+.pp-compare-hdr-old { font-size:10px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:rgba(255,255,255,.25); text-align:right; }
+
+/* trust stats */
+.pp-trust {
+  background:#fff;
+  border:1px solid rgba(255,107,0,.12);
+  border-radius:24px;
+  padding:28px 26px;
+  display:flex; flex-direction:column; gap:20px;
+}
+.pp-trust-h { font-size:15px; font-weight:600; color:#1A1208; display:flex; align-items:center; gap:8px; }
+
+.pp-stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.pp-stat {
+  background:#FDFAF6; border:1px solid rgba(255,107,0,.1);
+  border-radius:16px; padding:16px 14px; text-align:center;
+  transition:border-color .2s, transform .2s;
+}
+.pp-stat:hover { border-color:rgba(255,107,0,.3); transform:translateY(-2px); }
+.pp-stat-num { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:600; color:#FF6B00; line-height:1; }
+.pp-stat-lbl { font-size:11px; color:rgba(26,18,8,.5); margin-top:4px; }
+
+/* faq mini inside trust */
+.pp-faq { display:flex; flex-direction:column; gap:0; }
+.pp-faq-item { padding:12px 0; border-bottom:1px solid rgba(0,0,0,.06); }
+.pp-faq-item:last-child { border-bottom:none; padding-bottom:0; }
+.pp-faq-q { font-size:12.5px; font-weight:600; color:#1A1208; margin-bottom:4px; }
+.pp-faq-a { font-size:12px; color:rgba(26,18,8,.6); line-height:1.65; }
+
+/* ══════════════════════════════
+   GUARANTEE BAR
+══════════════════════════════ */
+.pp-guarantee {
+  display:flex; align-items:center; justify-content:center;
+  flex-wrap:wrap; gap:24px;
+  background:#fff; border:1px solid rgba(255,107,0,.1);
+  border-radius:20px; padding:22px 28px;
+  margin-bottom:56px;
+  opacity:0; animation:pp-up .8s ease .55s forwards;
+}
+.pp-guar-item { display:flex; align-items:center; gap:10px; }
+.pp-guar-icon { font-size:22px; }
+.pp-guar-text { font-size:12.5px; font-weight:500; color:rgba(26,18,8,.65); }
+.pp-guar-text strong { display:block; font-size:13px; color:#1A1208; }
+.pp-guar-div { width:1px; height:32px; background:rgba(26,18,8,.1); }
+@media(max-width:520px) { .pp-guar-div { display:none; } .pp-guarantee { gap:16px; } }
+
+/* ══════════════════════════════
+   BOTTOM CTA STRIP
+══════════════════════════════ */
+.pp-cta-strip {
+  background:linear-gradient(135deg,#FF6B00,#FF8C35);
+  border-radius:28px; padding:44px 36px;
+  text-align:center;
+  opacity:0; animation:pp-up .8s ease .65s forwards;
+}
+.pp-cta-strip-h {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4.5vw,48px);
+  font-weight:300; color:#fff; line-height:1.1; margin-bottom:10px;
+}
+.pp-cta-strip-h strong { font-weight:600; }
+.pp-cta-strip-sub { font-size:14px; color:rgba(255,255,255,.8); margin-bottom:28px; }
+.pp-cta-strip-btn {
+  display:inline-flex; align-items:center; gap:10px;
+  background:#fff; color:#FF6B00;
+  padding:16px 36px; border-radius:100px;
+  font-size:15px; font-weight:700; text-decoration:none;
+  box-shadow:0 8px 28px rgba(0,0,0,.15);
+  transition:transform .2s, box-shadow .2s;
+}
+.pp-cta-strip-btn:hover { transform:translateY(-2px); box-shadow:0 14px 40px rgba(0,0,0,.2); }
+.pp-cta-strip-note { margin-top:14px; font-size:12px; color:rgba(255,255,255,.65); }
+
+/* ═══════════ responsive padding ═══════════ */
+@media(max-width:640px) {
+  .pp-inner { padding:32px 16px 48px; }
+  .pp-price-top { padding:24px 22px 20px; }
+  .pp-compare { padding:22px 18px 20px; }
+  .pp-trust { padding:22px 20px; }
+  .pp-cta-strip { padding:32px 22px; }
+  .pp-price-row { flex-wrap:wrap; }
 }
 `
 
-/* ─────────────────────────────────────────────────────────────
-   DATA
-───────────────────────────────────────────────────────────── */
-const FEATURES = [
-  {
-    icon: '💌',
-    name: 'Invitații digitale nelimitate',
-    sub: 'Link personalizat pentru fiecare invitat, distribuit instant',
-  },
-  {
-    icon: '✅',
-    name: 'RSVP online + listă invitați',
-    sub: 'Confirmări în timp real, status acceptat / refuzat / așteptare',
-  },
-  {
-    icon: '🍽️',
-    name: 'Meniu nuntă in invitatie',
-    sub: 'Invitații scanează meniul direct de pe telefon, la masă',
-  },
-  {
-    icon: '📷',
-    name: 'Upload poze de către invitați',
-    sub: 'Colectare live în timpul nunții, botezului sau petrecerii',
-  },
-  {
-    icon: '🗂️',
-    name: 'Organizare poze pe momente',
-    sub: 'Sortare automată: cununie, cocktail, cină, dans, tort…',
-  },
-  {
-    icon: '📊',
-    name: 'Export Excel invitați',
-    sub: 'Acceptat / refuzat / observații — descărcat cu un click',
-  },
-  {
-    icon: '🗺️',
-    name: 'Hărți GPS integrate',
-    sub: 'Trasee exacte către biserică, restaurant și locații secundare',
-  },
-  {
-    icon: '📱',
-    name: 'Optimizat mobile & desktop',
-    sub: 'Experiență perfectă pe orice dispozitiv, indiferent de browser',
-  },
-]
-
-const COMPARE = [
-  { label: 'Invitații tipărite (500 buc)', vibeVal: '300 lei', oldVal: '1.500+ lei', good: false },
-  { label: 'Platești o singură dată', vibeVal: 'Da', oldVal: 'Abonament lunar', good: true },
-  { label: 'RSVP online inclus', vibeVal: 'Da', oldVal: 'Extra cost', good: true },
-  { label: 'Upload poze invitați', vibeVal: 'Da', oldVal: 'Nu există', good: true },
-  { label: 'Export Excel invitați', vibeVal: 'Da', oldVal: 'Manual / imposibil', good: true },
-]
-
-const FAQ = [
-  {
-    q: 'Este cu adevărat o singură plată?',
-    a: 'Da. Plătești 300 lei o singură dată și ai acces la toate funcțiile pentru evenimentul tău, fără abonament lunar sau costuri ascunse.',
-  },
-  {
-    q: 'Câți invitați pot trimite?',
-    a: 'Nelimitat. Poți trimite linkul invitației la oricâți invitați dorești, fără nicio restricție.',
-  },
-  {
-    q: 'Cât timp am acces la platformă?',
-    a: 'Ai acces 12 luni de la activare — suficient pentru pregătire, eveniment și descărcarea pozelor după.',
-  },
-  {
-    q: 'Pot modifica invitația după ce am trimis-o?',
-    a: 'Da, poți edita oricând textul, ora, locația sau imaginile. Modificările se actualizează instant pentru toți invitații.',
-  },
-]
-
 const TICKER = [
-  '💍 Invitații Nelimitate',
-  '🍽️ Meniu in  Invitatie',
-  '📷 Upload Poze Invitați',
+  '💌 Invitații Nelimitate',
+  '📷 Album Foto 25 GB',
+  '🍽️ Meniu Inclus',
   '✅ RSVP Instant',
   '📊 Export Excel',
   '🗺️ GPS Integrat',
@@ -449,232 +368,303 @@ const TICKER = [
   '💸 300 Lei · Plată Unică',
 ]
 
+const FEATURES = [
+  {
+    icon: '💌',
+    name: 'Invitații online nelimitate',
+    desc: 'Trimite la oricâți invitați, fără restricții. Fiecare primește un link unic personalizat.',
+    tags: ['vibeinvite.ro/andreea-adrian', 'Link unic per invitat'],
+  },
+  {
+    icon: '📷',
+    name: 'Album foto 25 GB',
+    desc: 'Invitații încarcă poze direct din invitație. Tu și partenerul vedeți totul în timp real.',
+    tags: ['25 GB spațiu', 'Organizare pe momente'],
+  },
+  {
+    icon: '🍽️',
+    name: 'Meniu personalizat în invitație',
+    desc: 'Adaugi meniul nunții direct în invitație. Invitații îl văd de pe telefon, la masă.',
+    tags: ['Meniu complet', 'Fără QR separat'],
+  },
+  {
+    icon: '🗺️',
+    name: 'Locații integrate cu GPS',
+    desc: 'Trasee exacte configurate în invitație, disponibile cu un singur tap.',
+    tags: ['Waze restaurant', 'Google Maps restaurant', 'Waze biserică', 'Google Maps biserică'],
+  },
+  {
+    icon: '⏳',
+    name: 'Countdown live',
+    desc: 'Numărator activ până la eveniment, vizibil de toți invitații direct în invitație.',
+    tags: ['Actualizare automată'],
+  },
+  {
+    icon: '✅',
+    name: 'RSVP + centralizator detaliat',
+    desc: 'Colectezi confirmare + nevoi logistice pentru fiecare invitat.',
+    tags: ['Transport necesar', 'Cazare necesară', 'Status fiecare invitat'],
+  },
+  {
+    icon: '📊',
+    name: 'Dashboard + statistici',
+    desc: 'Câți au deschis invitația, câți au confirmat, câți au nevoie de transport sau cazare.',
+    tags: ['Statistici în timp real', 'Export Excel 1-click'],
+  },
+  {
+    icon: '✏️',
+    name: 'Editare nelimitată',
+    desc: 'Modifici oricând textul, ora, locația sau imaginile. Toți invitații văd imediat.',
+    tags: ['Fără blocare', 'Update instant'],
+  },
+]
+
+const COMPARE = [
+  { lbl: 'Cost total', vibe: '300 lei', old: '1.500+ lei' },
+  { lbl: 'Invitații trimise', vibe: 'Nelimitat', old: 'Fix (tipărite)' },
+  { lbl: 'RSVP + logistică', vibe: 'Inclus', old: 'Imposibil' },
+  { lbl: 'Album foto invitați', vibe: '25 GB inclus', old: 'Nu există' },
+  { lbl: 'Export Excel', vibe: 'Inclus', old: 'Manual / imposibil' },
+  { lbl: 'Editare după trimitere', vibe: 'Nelimitată', old: 'Imposibil' },
+]
+
+const FAQ = [
+  {
+    q: 'Este cu adevărat o singură plată?',
+    a: '300 lei, o dată. Fără abonament lunar, fără costuri ascunse, fără surprize.',
+  },
+  {
+    q: 'Câți invitați pot trimite?',
+    a: 'Nelimitat. Poți trimite linkul la oricâți dorești.',
+  },
+  {
+    q: 'Cât timp am acces?',
+    a: '12 luni de la activare — suficient pentru pregătire, eveniment și descărcat pozele.',
+  },
+  {
+    q: 'Pot modifica invitația după trimitere?',
+    a: 'Da, oricând. Modificările apar instant pentru toți invitații.',
+  },
+]
+
 const GUARANTEE = [
   { icon: '🔒', strong: 'Plată securizată', text: 'Procesator certificat PCI DSS' },
   { icon: '♾️', strong: 'Invitați nelimitați', text: 'Fără restricții de număr' },
   { icon: '⚡', strong: 'Activare instant', text: 'Disponibil imediat după plată' },
-  { icon: '🛠️', strong: 'Suport inclus', text: 'Echipă disponibilă pe email & WhatsApp' },
+  { icon: '🛠️', strong: 'Suport inclus', text: 'Email & WhatsApp' },
 ]
 
-/* ═══════════════════════════════════════════════════════════════
-   PAGE COMPONENT
-═══════════════════════════════════════════════════════════════ */
-export default function PricingPage() {
+import Link from 'next/link'
+
+export default function PreturiPage() {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
-      {/* JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Product',
-            name: 'VibeInvite — Pachet All-in-One Nuntă',
-            description:
-              'Invitații digitale nelimitate, meniu QR, upload poze invitați, organizare momente, export Excel. 300 lei, plată unică.',
-            offers: {
-              '@type': 'Offer',
-              price: '300',
-              priceCurrency: 'RON',
-              priceValidUntil: '2026-12-31',
-              availability: 'https://schema.org/InStock',
-              url: 'https://www.vibeinvite.ro/preturi',
-            },
-            aggregateRating: {
-              '@type': 'AggregateRating',
-              ratingValue: '4.9',
-              ratingCount: '1240',
-            },
-          }),
-        }}
-      />
+      <div className="pp">
+        <div className="pp-orb pp-o1" aria-hidden />
+        <div className="pp-orb pp-o2" aria-hidden />
 
-      <div className="vp-page">
-        {/* bg orbs */}
-        <div className="vp-orb vp-o1" aria-hidden="true" />
-        <div className="vp-orb vp-o2" aria-hidden="true" />
-
-        {/* ── ticker top ── */}
-        <div className="vp-ticker" aria-hidden="true">
-          <div className="vp-ti-inner">
+        {/* Ticker top */}
+        <div className="pp-ticker" aria-hidden>
+          <div className="pp-ticker-inner">
             {[...TICKER, ...TICKER].map((t, i) => (
-              <div key={i} className="vp-ti">
-                {t}<span className="vp-tdot" />
-              </div>
+              <div key={i} className="pp-ti">{t}<span className="pp-tdot" /></div>
             ))}
           </div>
         </div>
 
-        <div className="vp-inner">
+        <div className="pp-inner">
 
-          {/* ── PAGE HEADER ── */}
-          <header className="vp-header">
-            <p className="vp-tagline-strip" aria-label="Un singur pachet, tot ce ai nevoie pentru nuntă">
-              🎊 Un singur pachet — tot ce ai nevoie pentru nuntă
-            </p>
+          {/* ── HERO ── */}
+          <section className="pp-hero" aria-label="Pachet și preț">
+            <div className="pp-hero-left">
+              <p className="pp-eyebrow">
+                <span className="pp-edot" aria-hidden />
+                Prețuri transparente · Fără surprize
+              </p>
 
-            <p className="vp-super">
-              <span className="vp-sdot" aria-hidden="true" />
-              Prețuri transparente · Fără surprize
-            </p>
+              <h1 className="pp-h1">
+                Tot ce ai nevoie<br />
+                pentru nuntă,<br />
+                <em>într-un singur pachet</em>
+              </h1>
 
-            <h1 className="vp-h1">
-              Prețuri invitații digitale pentru nuntă
-            </h1>
+              <p className="pp-hero-sub">
+                <strong>300 lei, o singură dată.</strong> Invitații nelimitate, album foto 25 GB,
+                meniu în invitație, GPS integrat, countdown, RSVP cu logistică, statistici și export Excel.
+                Fără abonament, fără limite, fără bătăi de cap.
+              </p>
+            </div>
 
-            <p className="vp-lead">
-              <strong>300 lei, o singură dată.</strong> Invitații digitale nelimitate, meniu cu QR, upload poze invitați,
-              organizare momente și export Excel — fără abonament, fără costuri ascunse.
-            </p>
-          </header>
+            <div className="pp-price-block">
+              <div className="pp-price-top">
+                <div className="pp-ring-wrap" aria-hidden>
+                  <div className="pp-ring" />
+                  <div className="pp-ring-inner">🎊</div>
+                </div>
 
-          {/* ── MAIN LAYOUT ── */}
-          <div className="vp-plan-wrap">
-
-            {/* LEFT — pricing card */}
-            <div className="vp-card" role="main" aria-label="Detalii pachet VibeInvite">
-
-              {/* card top — price */}
-              <div className="vp-card-top">
-                <div className="vp-price-ring2" aria-hidden="true">🎊</div>
-                <div className="vp-price-ring" aria-hidden="true" />
-
-                <p className="vp-plan-label">
+                <p className="pp-plan-label">
                   Pachet All-in-One
-                  <span className="vp-plan-badge">RECOMANDAT</span>
+                  <span className="pp-plan-badge">SINGURUL PLAN</span>
                 </p>
 
-                <div className="vp-price-row">
-                  <span className="vp-price-currency" aria-hidden="true">RON</span>
-                  <span className="vp-price">300</span>
-                  <div className="vp-price-meta">
-                    <span className="vp-price-type">Plată unică</span>
-                    <span className="vp-price-note">Fără abonament lunar</span>
+                <div className="pp-price-row">
+                  <span className="pp-curr" aria-hidden>RON</span>
+                  <span className="pp-amount" aria-label="300 lei">300</span>
+                  <div className="pp-price-aside">
+                    <span className="pp-price-type">Plată unică</span>
+                    <span className="pp-price-note">Fără abonament</span>
                   </div>
                 </div>
 
-                <p className="vp-price-sub">
-                  Activare <strong>instant</strong> după plată · Acces <strong>12 luni</strong> ·{' '}
-                  Invitați <strong>nelimitați</strong>
-                </p>
+                <div className="pp-price-pills">
+                  <span className="pp-pill"><span>✓</span> Acces 12 luni</span>
+                  <span className="pp-pill"><span>✓</span> Activare instant</span>
+                  <span className="pp-pill"><span>✓</span> Invitați nelimitați</span>
+                </div>
 
-                <Link href="/checkout" className="vp-cta">
-                  <span aria-hidden="true">✨</span>
+                <Link href="/checkout" className="pp-cta">
+                  <span aria-hidden>✨</span>
                   Cumpără Pachetul — 300 Lei
                 </Link>
 
-                <p className="vp-cta-note">
-                  <span className="vp-lock" aria-hidden="true">🔒</span>
+                <p className="pp-cta-note">
+                  <span aria-hidden>🔒</span>
                   Plată securizată · Activare instant · Fără abonament
                 </p>
               </div>
+            </div>
+          </section>
 
-              {/* card body — features */}
-              <div className="vp-card-body">
-                <p className="vp-features-title">Ce include pachetul</p>
+          {/* ── CE PRIMEȘTI ── */}
+          <section aria-label="Ce include pachetul" style={{ opacity: 0, animation: 'pp-up .7s ease .2s forwards' }}>
+            <p className="pp-section-label">Ce primești</p>
+            <h2 className="pp-section-h2">
+              Totul inclus,<br /><em>nimic separat</em>
+            </h2>
+            <p className="pp-section-sub">
+              Un singur plan fără niveluri, fără upgrade-uri, fără funcții blocate. Plătești 300 lei și deblochezi tot.
+            </p>
+          </section>
 
-                <ul className="vp-feat-list" aria-label="Funcționalități incluse în pachet">
-                  {FEATURES.map((f, i) => (
-                    <>
-                      <li key={f.name} className="vp-feat-row">
-                        <div className="vp-feat-icon-wrap" aria-hidden="true">{f.icon}</div>
-                        <div className="vp-feat-info">
-                          <p className="vp-feat-name">{f.name}</p>
-                          <p className="vp-feat-sub">{f.sub}</p>
-                        </div>
-                        <div className="vp-feat-check" aria-label="Inclus">✓</div>
-                      </li>
-                      {i < FEATURES.length - 1 && (
-                        <li key={`sep-${i}`} className="vp-feat-separator" aria-hidden="true" />
-                      )}
-                    </>
-                  ))}
-                </ul>
+          <div className="pp-feat-grid">
+            {FEATURES.map((f) => (
+              <div key={f.name} className="pp-feat-card">
+                <div className="pp-feat-icon" aria-hidden>{f.icon}</div>
+                <p className="pp-feat-name">{f.name}</p>
+                <p className="pp-feat-desc">{f.desc}</p>
+                {f.tags.length > 0 && (
+                  <div className="pp-feat-tags">
+                    {f.tags.map((t) => (
+                      <span key={t} className="pp-feat-tag">
+                        <span className="pp-feat-tag-dot" aria-hidden />
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* ── COMPARISON + TRUST ── */}
+          <div className="pp-bottom-grid">
+            {/* comparison */}
+            <div className="pp-compare" aria-label="Comparație VibeInvite vs invitații tipărite">
+              <p className="pp-compare-h">
+                VibeInvite vs. clasic
+                <span className="pp-compare-sub">— de ce merită</span>
+              </p>
+              <div className="pp-compare-table">
+                <div className="pp-compare-hdr">
+                  <span className="pp-compare-hdr-lbl">Criteriu</span>
+                  <span className="pp-compare-hdr-vibe">VibeInvite</span>
+                  <span className="pp-compare-hdr-old">Clasic</span>
+                </div>
+                {COMPARE.map((r) => (
+                  <div key={r.lbl} className="pp-compare-row">
+                    <span className="pp-compare-lbl">{r.lbl}</span>
+                    <span className="pp-compare-vibe">{r.vibe}</span>
+                    <span className="pp-compare-old">{r.old}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* RIGHT — trust + compare + faq */}
-            <div className="vp-right">
+            {/* trust + faq */}
+            <div className="pp-trust" aria-label="De ce VibeInvite și întrebări frecvente">
+              <p className="pp-trust-h">
+                <span aria-hidden>⭐</span>
+                De ce aleg VibeInvite
+              </p>
 
-              {/* trust stats */}
-              <div className="vp-trust">
-                <p className="vp-trust-title">
-                  <span aria-hidden="true">⭐</span>
-                  De ce aleg VibeInvite
-                </p>
-                <div className="vp-trust-grid">
-                  {[
-                    { num: 'Nelimitat', label: 'Invitații create' },
-                    { num: '25 GB',  label: 'Poze Incarcate' },
-                    { num: '3 min', label: 'Timp de setup' },
-                    { num: '4.9★', label: 'Rating mediu' },
-                  ].map((t) => (
-                    <div key={t.label} className="vp-trust-item">
-                      <span className="vp-trust-num">{t.num}</span>
-                      <span className="vp-trust-label">{t.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* comparison */}
-              <div className="vp-compare" aria-label="Comparație VibeInvite vs alternativele clasice">
-                <p className="vp-compare-title">VibeInvite vs. alternativele clasice</p>
-                {COMPARE.map((row) => (
-                  <div key={row.label} className="vp-compare-row">
-                    <span className="vp-compare-label">{row.label}</span>
-                    <span className={`vp-compare-val ${row.good ? 'good' : ''}`}>{row.vibeVal}</span>
+              <div className="pp-stats">
+                {[
+                  { num: '3 min', lbl: 'Timp setup' },
+                  { num: '25 GB', lbl: 'Poze incluse' },
+                  { num: '∞', lbl: 'Invitați' },
+                  { num: '4.9★', lbl: 'Rating mediu' },
+                ].map((s) => (
+                  <div key={s.lbl} className="pp-stat">
+                    <p className="pp-stat-num">{s.num}</p>
+                    <p className="pp-stat-lbl">{s.lbl}</p>
                   </div>
                 ))}
               </div>
 
-              {/* FAQ */}
-              <div className="vp-faq" aria-label="Întrebări frecvente despre prețuri">
-                <p className="vp-faq-title">Întrebări frecvente</p>
+              <div className="pp-faq" aria-label="Întrebări frecvente">
                 {FAQ.map((item) => (
-                  <div key={item.q} className="vp-faq-item">
-                    <p className="vp-faq-q">{item.q}</p>
-                    <p className="vp-faq-a">{item.a}</p>
+                  <div key={item.q} className="pp-faq-item">
+                    <p className="pp-faq-q">{item.q}</p>
+                    <p className="pp-faq-a">{item.a}</p>
                   </div>
                 ))}
               </div>
-
             </div>
           </div>
 
-          {/* ── GUARANTEE BAR ── */}
-          <div className="vp-guarantee" aria-label="Garanții incluse">
+          {/* ── GUARANTEE ── */}
+          <div className="pp-guarantee" aria-label="Garanții incluse">
             {GUARANTEE.map((g, i) => (
               <>
-                <div key={g.strong} className="vp-guar-item">
-                  <span className="vp-guar-icon" aria-hidden="true">{g.icon}</span>
-                  <span className="vp-guar-text">
+                <div key={g.strong} className="pp-guar-item">
+                  <span className="pp-guar-icon" aria-hidden>{g.icon}</span>
+                  <span className="pp-guar-text">
                     <strong>{g.strong}</strong>
                     {g.text}
                   </span>
                 </div>
                 {i < GUARANTEE.length - 1 && (
-                  <div key={`gdiv-${i}`} className="vp-guar-div" aria-hidden="true" />
+                  <div key={`gd-${i}`} className="pp-guar-div" aria-hidden />
                 )}
               </>
             ))}
           </div>
 
+          {/* ── BOTTOM CTA STRIP ── */}
+          <div className="pp-cta-strip">
+            <h2 className="pp-cta-strip-h">
+              Gata să creezi<br /><strong>invitația perfectă?</strong>
+            </h2>
+            <p className="pp-cta-strip-sub">300 lei, o dată. Activare instant. Totul inclus.</p>
+            <Link href="/checkout" className="pp-cta-strip-btn">
+              <span aria-hidden>✨</span>
+              Cumpără Pachetul
+            </Link>
+            <p className="pp-cta-strip-note">🔒 Plată securizată · Fără abonament · Acces 12 luni</p>
+          </div>
+
         </div>
 
-        {/* ── ticker bottom ── */}
-        <div className="vp-ticker" aria-hidden="true">
-          <div className="vp-ti-inner" style={{ animationDirection: 'reverse' }}>
+        {/* Ticker bottom */}
+        <div className="pp-ticker" aria-hidden>
+          <div className="pp-ticker-inner" style={{ animationDirection: 'reverse' }}>
             {[...TICKER, ...TICKER].map((t, i) => (
-              <div key={i} className="vp-ti">
-                {t}<span className="vp-tdot" />
-              </div>
+              <div key={i} className="pp-ti">{t}<span className="pp-tdot" /></div>
             ))}
           </div>
         </div>
-
       </div>
     </>
   )
