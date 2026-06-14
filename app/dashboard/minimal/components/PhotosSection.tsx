@@ -7,6 +7,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { C, F, FS, SP, BR, IS, SH, GR, KEYFRAMES } from '../minimalTokens';
+import Swal from 'sweetalert2';
 
 interface Photo { id: string; url: string; }
 
@@ -105,7 +106,16 @@ export const PhotosSection = ({ initialData: _initialData, orderId, onSave }: Ph
   }, [fetchPhotos, initialData]);
 
   const handleActivate = async () => {
-    if (!consentChecked) { alert('Trebuie să accepți termenii pentru a activa.'); return; }
+    if (!consentChecked) {
+      Swal.fire({
+        title: '<span style="color: #1a1a1a; font-family: sans-serif;">Un mic detaliu</span>',
+        text: 'Pentru a continua, te rugăm să accepți termenii și condițiile.',
+        icon: 'warning',
+        confirmButtonColor: '#444444',
+        background: '#f8f8f8',
+      });
+      return;
+    }
     try {
       await fetch('/api/dashboard/personalize', {
         method: 'POST',

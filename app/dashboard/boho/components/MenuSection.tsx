@@ -6,8 +6,10 @@
 //   - Google Fonts URL actualizat
 
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { C, F, FS, SP, BR, IS, SH, GR, KEYFRAMES } from '../bohoTokens';
+import Swal from 'sweetalert2';
+import { useAutoSave } from '../hooks/useAutoSave';
 
 /* ══════════════════════════════════════════════════════════════
    TYPES
@@ -337,11 +339,32 @@ export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) 
   const [categories, setCategories] = useState<MenuCategory[]>(() => buildInitialCategories(initialData?.menu_details));
 
   useEffect(() => {
-    setIsActive(initialData?.is_menu_active ?? false);
-    setCategories(buildInitialCategories(initialData?.menu_details));
+    const nextActive = initialData?.is_menu_active ?? false;
+    const nextCats   = buildInitialCategories(initialData?.menu_details);
+    setIsActive(prev => prev === nextActive ? prev : nextActive);
+    setCategories(prev =>
+      JSON.stringify(prev) === JSON.stringify(nextCats) ? prev : nextCats
+    );
   }, [initialData]);
 
+  const autoSaveFn = useCallback(async (data: { isActive: boolean; categories: MenuCategory[] }) => {
+    if (!orderId) throw new Error('orderId missing');
+    const res = await fetch('/api/dashboard/personalize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderId, isMenuActive: data.isActive, menu_details: { categories: data.categories } }),
+    });
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.error || `HTTP ${res.status}`);
+    }
+  }, [orderId]);
+
+  const { status: autoSaveStatus, setStatus: setAutoSaveStatus, cancelPending } =
+    useAutoSave({ isActive, categories }, autoSaveFn, 1200);
+
   const handleSave = async () => {
+    cancelPending();
     setLoading(true);
     try {
       const res = await fetch('/api/dashboard/personalize', {
@@ -349,9 +372,36 @@ export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orderId, isMenuActive: isActive, menu_details: { categories } }),
       });
-      if (res.ok) { alert('Meniu salvat! 🍴'); onSave(); }
-      else alert('Eroare la salvare.');
-    } catch { alert('Eroare la salvare.'); }
+      if (res.ok) {
+        setAutoSaveStatus('saved');
+        Swal.fire({
+          title: '<span style="color: #7A3B1E; font-family: serif;">Meniu salvat! 🌿</span>',
+          text: 'Detaliile culinare au fost salvate cu succes.',
+          icon: 'success',
+          confirmButtonColor: '#A0522D',
+          background: '#fdf6f0',
+        });
+        onSave();
+      } else {
+        setAutoSaveStatus('unsaved');
+        Swal.fire({
+          title: '<span style="color: #7A3B1E; font-family: serif;">Eroare la salvare 🪵</span>',
+          text: 'Nu am putut salva meniul. Te rugăm să încerci din nou.',
+          icon: 'error',
+          confirmButtonColor: '#A0522D',
+          background: '#fdf6f0',
+        });
+      }
+    } catch {
+      setAutoSaveStatus('unsaved');
+      Swal.fire({
+        title: '<span style="color: #7A3B1E; font-family: serif;">Eroare de conexiune 🌾</span>',
+        text: 'Conexiunea a eșuat. Încearcă din nou puțin mai târziu.',
+        icon: 'error',
+        confirmButtonColor: '#A0522D',
+        background: '#fdf6f0',
+      });
+    }
     setLoading(false);
   };
 
@@ -534,6 +584,23 @@ export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) 
         )}
 
         <RoseDivider />
+
+        {autoSaveStatus !== 'idle' && !loading && (
+          <div style={{ textAlign: 'center', marginBottom: 12 }}>
+            <span style={{
+              fontFamily: F.heading,
+              fontSize: FS.tiny,
+              letterSpacing: '.14em',
+              color: autoSaveStatus === 'saving'  ? 'rgba(166,50,72,.45)'
+                   : autoSaveStatus === 'saved'   ? 'rgba(80,140,80,.75)'
+                   : 'rgba(166,50,72,.4)',
+            }}>
+              {autoSaveStatus === 'saving'  && '◌  Salvare automată...'}
+              {autoSaveStatus === 'saved'   && '✓  Salvat automat'}
+              {autoSaveStatus === 'unsaved' && '●  Modificări nesalvate'}
+            </span>
+          </div>
+        )}
 
         {/* SAVE BUTTON */}
         <button

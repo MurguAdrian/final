@@ -2,8 +2,11 @@
 
 
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { C, F, FS, SP, BR, IS, SH, GR, KEYFRAMES } from '../natureTokens';
+import Swal from 'sweetalert2';
+import { useAutoSave } from '../hooks/useAutoSave';
+import type { AutoSaveStatus } from '../hooks/useAutoSave';
 
 interface PersonalizeSectionProps {
   initialData: any;
@@ -340,14 +343,35 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
   const [formData, setFormData] = useState<FormData>(() => buildForm(initialData));
 
   useEffect(() => {
-    if (initialData) setFormData(buildForm(initialData));
+    if (!initialData) return;
+    setFormData(prev => {
+      const next = buildForm(initialData);
+      return JSON.stringify(prev) === JSON.stringify(next) ? prev : next;
+    });
   }, [initialData]);
 
   const set = (key: keyof FormData, value: any) =>
     setFormData(prev => ({ ...prev, [key]: value }));
 
+  const autoSaveFn = useCallback(async (data: FormData) => {
+    if (!orderId) throw new Error('orderId missing');
+    const res = await fetch('/api/dashboard/personalize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderId, ...data }),
+    });
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.error || `HTTP ${res.status}`);
+    }
+  }, [orderId]);
+
+  const { status: autoSaveStatus, setStatus: setAutoSaveStatus, cancelPending } =
+    useAutoSave(formData, autoSaveFn, 1200);
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    cancelPending();
     setLoading(true);
     try {
       const res = await fetch('/api/dashboard/personalize', {
@@ -356,14 +380,45 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         body: JSON.stringify({ orderId, ...formData }),
       });
       if (res.ok) {
-        alert('Personalizare salvată cu succes! ✨');
+        setAutoSaveStatus('saved');
+        Swal.fire({
+          title: '<span style="color: #274422; font-family: serif;">Salvat! 🌱</span>',
+          text: 'Personalizarea a fost salvată cu succes.',
+          icon: 'success',
+          confirmButtonColor: '#3A5E33',
+          background: '#f5f9f4',
+        });
         onSave();
       } else {
-        const err = await res.json();
-        alert('Eroare: ' + (err.error || 'A apărut o problemă.'));
+        setAutoSaveStatus('unsaved');
+        const err = await res.json().catch(() => ({}));
+        if (res.status === 409 || err.error?.toLowerCase().includes('exist') || err.error?.toLowerCase().includes('link')) {
+          Swal.fire({
+            title: '<span style="color: #274422; font-family: serif;">Link rezervat 🍃</span>',
+            text: 'Acest link personalizat este deja rezervat de un alt cuplu.',
+            icon: 'warning',
+            confirmButtonColor: '#3A5E33',
+            background: '#f5f9f4',
+          });
+        } else {
+          Swal.fire({
+            title: '<span style="color: #274422; font-family: serif;">Eroare la salvare 🌿</span>',
+            text: err.error || 'A apărut o problemă. Încearcă din nou.',
+            icon: 'error',
+            confirmButtonColor: '#3A5E33',
+            background: '#f5f9f4',
+          });
+        }
       }
     } catch {
-      alert('Eroare de conexiune la server.');
+      setAutoSaveStatus('unsaved');
+      Swal.fire({
+        title: '<span style="color: #274422; font-family: serif;">Eroare de conexiune 🌾</span>',
+        text: 'Nu ne putem conecta la server momentan.',
+        icon: 'error',
+        confirmButtonColor: '#3A5E33',
+        background: '#f5f9f4',
+      });
     }
     setLoading(false);
   };
@@ -710,6 +765,22 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
 
         {/* SAVE */}
         <div style={{ marginTop: SP.xxxl, position: 'relative' }}>
+          {autoSaveStatus !== 'idle' && !loading && (
+            <div style={{ textAlign: 'center', marginBottom: 10 }}>
+              <span style={{
+                fontFamily: F.heading,
+                fontSize: FS.tiny,
+                letterSpacing: '.14em',
+                color: autoSaveStatus === 'saving'  ? 'rgba(166,50,72,.45)'
+                     : autoSaveStatus === 'saved'   ? 'rgba(80,140,80,.75)'
+                     : 'rgba(166,50,72,.4)',
+              }}>
+                {autoSaveStatus === 'saving'  && '◌  Salvare automată...'}
+                {autoSaveStatus === 'saved'   && '✓  Salvat automat'}
+                {autoSaveStatus === 'unsaved' && '●  Modificări nesalvate'}
+              </span>
+            </div>
+          )}
           <button
             type="submit"
             disabled={loading}

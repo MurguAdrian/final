@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 export const DeleteAccountButton = () => {
   const [open, setOpen] = useState(false);
@@ -22,10 +23,22 @@ export const DeleteAccountButton = () => {
       if (res.ok) {
         router.push('/');
       } else {
-        alert('A apărut o eroare. Încearcă din nou.');
+        Swal.fire({
+          title: '<span style="color: #1a1a1a; font-family: sans-serif;">Eroare la ștergere</span>',
+          text: 'Nu am putut procesa ștergerea. Te rugăm să încerci din nou.',
+          icon: 'error',
+          confirmButtonColor: '#444444',
+          background: '#f8f8f8',
+        });
       }
     } catch {
-      alert('Eroare de conexiune.');
+      Swal.fire({
+        title: '<span style="color: #1a1a1a; font-family: sans-serif;">Eroare de conexiune</span>',
+        text: 'Conexiunea a eșuat. Încearcă din nou puțin mai târziu.',
+        icon: 'error',
+        confirmButtonColor: '#444444',
+        background: '#f8f8f8',
+      });
     } finally {
       setLoading(false);
     }

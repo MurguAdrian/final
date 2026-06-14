@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { C, F, FS, SP, BR, IS, SH, GR, KEYFRAMES } from '../bohoTokens';
+import Swal from 'sweetalert2';
 
 interface Photo { id: string; url: string; }
 
@@ -102,7 +103,16 @@ export const PhotosSection = ({ initialData: _initialData, orderId, onSave }: Ph
   }, [fetchPhotos, initialData]);
 
   const handleActivate = async () => {
-    if (!consentChecked) { alert('Trebuie să accepți termenii pentru a activa.'); return; }
+    if (!consentChecked) {
+      Swal.fire({
+        title: '<span style="color: #7A3B1E; font-family: serif;">Un mic detaliu... 🌿</span>',
+        text: 'Pentru a continua, te rugăm să accepți termenii și condițiile.',
+        icon: 'warning',
+        confirmButtonColor: '#A0522D',
+        background: '#fdf6f0',
+      });
+      return;
+    }
     try {
       await fetch('/api/dashboard/personalize', {
         method: 'POST',
