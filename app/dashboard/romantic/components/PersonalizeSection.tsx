@@ -1,8 +1,10 @@
 
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { C, F, FS, SP, BR, IS, SH, GR, KEYFRAMES } from '../romanticTokens';
 import Swal from 'sweetalert2';
+import { useAutoSave } from '../hooks/useAutoSave';
+import type { AutoSaveStatus } from '../hooks/useAutoSave';
 
 interface PersonalizeSectionProps {
   initialData: any;
@@ -332,14 +334,32 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
   const [formData, setFormData] = useState<FormData>(() => buildForm(initialData));
 
   useEffect(() => {
-    if (initialData) setFormData(buildForm(initialData));
+    if (initialData) {
+      const next = buildForm(initialData);
+      setFormData(prev =>
+        JSON.stringify(prev) === JSON.stringify(next) ? prev : next
+      );
+    }
   }, [initialData]);
 
   const set = (key: keyof FormData, value: any) =>
     setFormData(prev => ({ ...prev, [key]: value }));
 
+  const autoSaveFn = useCallback(async (data: FormData) => {
+    const res = await fetch('/api/dashboard/personalize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderId, ...data }),
+    });
+    if (!res.ok) throw new Error('autosave failed');
+  }, [orderId]);
+
+  const { status: autoSaveStatus, setStatus: setAutoSaveStatus, cancelPending } =
+    useAutoSave(formData, autoSaveFn, 1200);
+
 const handleSave = async (e: React.FormEvent) => {
   e.preventDefault();
+  cancelPending();
   setLoading(true);
   try {
     const res = await fetch('/api/dashboard/personalize', {
@@ -349,19 +369,18 @@ const handleSave = async (e: React.FormEvent) => {
     });
 
     if (res.ok) {
-      // Alert Romantic pentru Succes
+      setAutoSaveStatus('saved');
       Swal.fire({
         title: '<span style="color: #be123c; font-family: serif;">Salvat cu drag! 💖</span>',
         text: 'Personalizarea a fost salvată cu succes în povestea voastră.',
         icon: 'success',
-        confirmButtonColor: '#fb7185', // Roz romantic
+        confirmButtonColor: '#fb7185',
         background: '#fff5f5',
       });
       onSave();
     } else {
       const err = await res.json();
-      
-      // Verificare dacă link-ul există deja în baza de date
+      setAutoSaveStatus('unsaved');
       if (res.status === 409 || err.error?.toLowerCase().includes('exist') || err.error?.toLowerCase().includes('link')) {
         Swal.fire({
           title: '<span style="color: #9a3412; font-family: serif;">O mică poveste... 🤍</span>',
@@ -371,7 +390,6 @@ const handleSave = async (e: React.FormEvent) => {
           background: '#fffbeb',
         });
       } else {
-        // Alert pentru altă eroare de la server
         Swal.fire({
           title: '<span style="color: #444; font-family: serif;">Of, ceva n-a mers 🥀</span>',
           text: err.error || 'A apărut o problemă. Încearcă din nou.',
@@ -382,7 +400,7 @@ const handleSave = async (e: React.FormEvent) => {
       }
     }
   } catch {
-    // Alert Eroare Conexiune
+    setAutoSaveStatus('unsaved');
     Swal.fire({
       title: '<span style="color: #444; font-family: serif;">Eroare de conexiune 🌹</span>',
       text: 'Nu ne putem conecta la server momentan.',
@@ -734,6 +752,22 @@ const handleSave = async (e: React.FormEvent) => {
 
         {/* SAVE */}
         <div style={{ marginTop: SP.xxxl, position: 'relative' }}>
+          {autoSaveStatus !== 'idle' && !loading && (
+            <div style={{ textAlign: 'center', marginBottom: 10 }}>
+              <span style={{
+                fontFamily: F.heading,
+                fontSize: FS.tiny,
+                letterSpacing: '.14em',
+                color: autoSaveStatus === 'saving'  ? 'rgba(166,50,72,.45)'
+                     : autoSaveStatus === 'saved'   ? 'rgba(80,140,80,.75)'
+                     : 'rgba(166,50,72,.4)',
+              }}>
+                {autoSaveStatus === 'saving'  && '◌  Salvare automată...'}
+                {autoSaveStatus === 'saved'   && '✓  Salvat automat'}
+                {autoSaveStatus === 'unsaved' && '●  Modificări nesalvate'}
+              </span>
+            </div>
+          )}
           <button
             type="submit"
             disabled={loading}
