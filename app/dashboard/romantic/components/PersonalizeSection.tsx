@@ -346,12 +346,16 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
     setFormData(prev => ({ ...prev, [key]: value }));
 
   const autoSaveFn = useCallback(async (data: FormData) => {
+    if (!orderId) throw new Error('orderId missing');
     const res = await fetch('/api/dashboard/personalize', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ orderId, ...data }),
     });
-    if (!res.ok) throw new Error('autosave failed');
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.error || `HTTP ${res.status}`);
+    }
   }, [orderId]);
 
   const { status: autoSaveStatus, setStatus: setAutoSaveStatus, cancelPending } =

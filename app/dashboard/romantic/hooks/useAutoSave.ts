@@ -1,38 +1,22 @@
 "use client";
-import { useEffect, useRef, useState, useCallback, Dispatch, SetStateAction } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 export type AutoSaveStatus = 'idle' | 'unsaved' | 'saving' | 'saved';
-
-interface UseAutoSaveReturn {
-  status: AutoSaveStatus;
-  setStatus: Dispatch<SetStateAction<AutoSaveStatus>>;
-  cancelPending: () => void;
-}
 
 export function useAutoSave<T>(
   data: T,
   saveFn: (data: T) => Promise<void>,
   debounceMs = 1000,
-): UseAutoSaveReturn {
+): { status: AutoSaveStatus; setStatus: (s: AutoSaveStatus) => void; cancelPending: () => void } {
   const [status, setStatus] = useState<AutoSaveStatus>('idle');
-  const timerRef    = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const savingRef   = useRef(false);
-  const enabledRef  = useRef(false);
-  const dataRef     = useRef(data);
-  const saveFnRef   = useRef(saveFn);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const isFirstRenderRef = useRef(true);
+  const isSavingRef = useRef(false);
+  const dataRef = useRef(data);
+  const saveFnRef = useRef(saveFn);
 
-  dataRef.current   = data;
+  dataRef.current = data;
   saveFnRef.current = saveFn;
-
-  // Activate autosave only after 80ms to skip strict-mode double-mount
-  // and initial data sync from parent props.
-  useEffect(() => {
-    const t = setTimeout(() => { enabledRef.current = true; }, 80);
-    return () => {
-      clearTimeout(t);
-      enabledRef.current = false;
-    };
-  }, []);
 
   const cancelPending = useCallback(() => {
     if (timerRef.current) {
@@ -42,36 +26,51 @@ export function useAutoSave<T>(
   }, []);
 
   const doSave = useCallback(async () => {
-    if (savingRef.current) return;
-    savingRef.current = true;
+    if (isSavingRef.current) return;
+    isSavingRef.current = true;
     setStatus('saving');
     try {
       await saveFnRef.current(dataRef.current);
       setStatus('saved');
-    } catch {
+    } catch (error) {
+      console.error('Autosave error:', error);
       setStatus('unsaved');
     } finally {
-      savingRef.current = false;
+      isSavingRef.current = false;
     }
   }, []);
 
-  // JSON.stringify allows value-based comparison so object identity changes
-  // from React state updates don't cause spurious triggers.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const serialized = JSON.stringify(data);
-
   useEffect(() => {
-    if (!enabledRef.current) return;
-    if (savingRef.current) {
+    // Skip first render
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false;
+      return;
+    }
+
+    // If already saving, mark as unsaved to trigger retry after
+    if (isSavingRef.current) {
       setStatus('unsaved');
       return;
     }
+
     setStatus('unsaved');
     cancelPending();
-    timerRef.current = setTimeout(doSave, debounceMs);
-    return () => cancelPending();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [serialized, debounceMs, cancelPending, doSave]);
 
-  return { status, setStatus, cancelPending };
+    // Schedule autosave
+    timerRef.current = setTimeout(() => {
+      doSave();
+    }, debounceMs);
+
+    return () => {
+      cancelPending();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(data)]);
+
+  return {
+    status,
+    setStatus,
+    cancelPending,
+  };
 }
+

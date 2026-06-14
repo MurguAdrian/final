@@ -342,12 +342,16 @@ export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) 
   }, [initialData]);
 
   const autoSaveFn = useCallback(async (data: { isActive: boolean; categories: MenuCategory[] }) => {
+    if (!orderId) throw new Error('orderId missing');
     const res = await fetch('/api/dashboard/personalize', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ orderId, isMenuActive: data.isActive, menu_details: { categories: data.categories } }),
     });
-    if (!res.ok) throw new Error('autosave failed');
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.error || `HTTP ${res.status}`);
+    }
   }, [orderId]);
 
   const { status: autoSaveStatus, setStatus: setAutoSaveStatus, cancelPending } =
