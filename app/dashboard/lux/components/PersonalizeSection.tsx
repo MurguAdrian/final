@@ -1,16 +1,3 @@
-
-
-
-
-
-
-
-// FIȘIER: andre/app/dashboard/lux/components/PersonalizeSection.tsx
-// MODIFICĂRI FAȚĂ DE ROMANTIC:
-//   - Culori: rose/cream → gold/black
-//   - Import tokens: romanticTokens → luxTokens
-//   - URL preview: /invitatie/romantic/ → /invitatie/lux/
-
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { C, F, FS, SP, BR, IS, SH, GR, KEYFRAMES } from '../luxTokens';
@@ -23,6 +10,7 @@ interface PersonalizeSectionProps {
   orderId:     any;
   onSave:      () => void;
 }
+
 interface FormData {
   customSlug:             string;
   brideName:              string;
@@ -135,7 +123,6 @@ const SectionCard = ({ title, icon, children, style }: SectionCardProps) => (
         {title}
       </p>
     </div>
-
     <div style={{ padding: `${SP.lg}px 18px` }}>
       {children}
     </div>
@@ -146,11 +133,7 @@ const FG = ({ children, noMargin }: { children: React.ReactNode; noMargin?: bool
   <div style={{ marginBottom: noMargin ? 0 : SP.md }}>{children}</div>
 );
 
-
-
 // ─── START MODIFICARE WAZE/MAPS ───────────────────────────
-// Componentă reutilizabilă pentru perechea Maps + Waze cu
-// buton de generare automată și butoane „Testează Link"
 interface LocationLinksProps {
   locationValue:    string;
   mapsValue:        string;
@@ -172,12 +155,11 @@ const LocationLinks = ({
   mapsPlaceholder = 'https://maps.app.goo.gl/...',
   wazePlaceholder  = 'https://waze.com/ul/...',
 }: LocationLinksProps) => {
-const generateLinks = () => {
+  const generateLinks = () => {
     const trimmed = locationValue.trim();
     if (!trimmed) return;
     const encoded = encodeURIComponent(trimmed);
-    // Am adăugat $ înainte de {encoded} pe linia următoare:
-    setter(mapsKey, `https://www.google.com/maps/search/?api=1&query=$${encoded}`);
+    setter(mapsKey, `https://www.google.com/maps/search/?api=1&query=${encoded}`);
     setter(wazeKey,  `https://waze.com/ul?q=${encoded}&navigate=yes`);
   };
 
@@ -185,10 +167,10 @@ const generateLinks = () => {
     flexShrink: 0,
     padding: '0 10px',
     height: 38,
-    background: 'rgba(196,80,106,.06)',
-    border: '1px solid rgba(196,80,106,.2)',
+    background: 'rgba(212,175,55,.06)',
+    border: '1px solid rgba(212,175,55,.2)',
     borderRadius: BR.sm,
-    color: 'rgba(166,50,72,.7)',
+    color: 'rgba(212,175,55,.7)',
     fontFamily: F.heading,
     fontSize: 'clamp(8px, 1.6vw, 10px)',
     fontWeight: 600,
@@ -205,10 +187,10 @@ const generateLinks = () => {
   const generateBtnStyle: React.CSSProperties = {
     width: '100%',
     padding: '9px 14px',
-    background: 'rgba(196,80,106,.07)',
-    border: '1px dashed rgba(196,80,106,.3)',
+    background: 'rgba(212,175,55,.07)',
+    border: '1px dashed rgba(212,175,55,.3)',
     borderRadius: BR.sm,
-    color: 'rgba(166,50,72,.75)',
+    color: 'rgba(212,175,55,.75)',
     fontFamily: F.heading,
     fontSize: 'clamp(8px, 1.6vw, 10px)',
     fontWeight: 600,
@@ -314,7 +296,6 @@ const generateLinks = () => {
 };
 // ─── END MODIFICARE WAZE/MAPS ─────────────────────────────
 
-
 // ─── MAIN COMPONENT ──────────────────────────────────────
 export const PersonalizeSection = ({ initialData, orderId, onSave }: PersonalizeSectionProps) => {
   const [loading, setLoading] = useState(false);
@@ -323,7 +304,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
   const maxYear     = currentYear + 5;
 
   const buildForm = (data: any): FormData => ({
-  customSlug:            data?.custom_slug            || '',
+    customSlug:            data?.custom_slug            || '',
     brideName:             data?.bride_name             || '',
     groomName:             data?.groom_name             || '',
     nasiNames:             data?.nasi_names             || '',
@@ -349,11 +330,12 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
   const [formData, setFormData] = useState<FormData>(() => buildForm(initialData));
 
   useEffect(() => {
-    if (!initialData) return;
-    setFormData(prev => {
+    if (initialData) {
       const next = buildForm(initialData);
-      return JSON.stringify(prev) === JSON.stringify(next) ? prev : next;
-    });
+      setFormData(prev =>
+        JSON.stringify(prev) === JSON.stringify(next) ? prev : next
+      );
+    }
   }, [initialData]);
 
   const set = (key: keyof FormData, value: any) =>
@@ -385,6 +367,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orderId, ...formData }),
       });
+
       if (res.ok) {
         setAutoSaveStatus('saved');
         Swal.fire({
@@ -396,8 +379,8 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         });
         onSave();
       } else {
-        setAutoSaveStatus('unsaved');
         const err = await res.json().catch(() => ({}));
+        setAutoSaveStatus('unsaved');
         if (res.status === 409 || err.error?.toLowerCase().includes('exist') || err.error?.toLowerCase().includes('link')) {
           Swal.fire({
             title: '<span style="color: #8B6914; font-family: serif;">Link rezervat ◆</span>',
@@ -551,19 +534,16 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         .ps-toggle { transition: all .2s; }
         .ps-toggle:hover { border-color: rgba(212,175,55,.4) !important; background: rgba(212,175,55,.08) !important; }
 
-/* ─── START MODIFICARE WAZE/MAPS – stiluri butoane ─── */
-.ps-gen-btn:hover:not(:disabled) {
-  background: rgba(183, 110, 121, .15) !important; /* Aur roz / Rose gold soft */
-  border-color: rgba(212, 143, 143, .7) !important; /* Bordură metalizată strălucitoare */
-  color: rgba(141, 73, 84, .98) !important;        /* Text Rose Gold profund */
-}
-.ps-test-btn:hover {
-  background: rgba(183, 110, 121, .18) !important;
-  border-color: rgba(212, 143, 143, .6) !important;
-  color: rgba(141, 73, 84, .98) !important;
-}
-/* ─── END MODIFICARE WAZE/MAPS – stiluri butoane ─── */
-
+        .ps-gen-btn:hover:not(:disabled) {
+          background: rgba(212,175,55,.15) !important;
+          border-color: rgba(212,175,55,.6) !important;
+          color: rgba(212,175,55,.98) !important;
+        }
+        .ps-test-btn:hover {
+          background: rgba(212,175,55,.18) !important;
+          border-color: rgba(212,175,55,.6) !important;
+          color: rgba(212,175,55,.98) !important;
+        }
 
         .ps-two-col        { display: grid; grid-template-columns: 1fr 1fr; gap: ${SP.lg}px; }
         .ps-religious-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -621,7 +601,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
 
         {/* URL */}
         <SectionCard title="🔗 URL Personalizat" style={{ marginTop: SP.xxl }}>
-          <label style={labS}>Slug personalizat</label>
+          <label style={labS}>Link personalizat</label>
           <div style={{ display: 'flex', alignItems: 'stretch', borderRadius: BR.sm, overflow: 'hidden', border: `1px solid rgba(212,175,55,.18)`, background: C.cream }}>
             <span className="ps-slug-prefix" style={{ padding: `11px 12px`, color: 'rgba(212,175,55,.35)', background: 'rgba(212,175,55,.04)', fontSize: FS.base, fontFamily: F.heading, letterSpacing: '.06em', borderRight: `1px solid rgba(212,175,55,.12)`, whiteSpace: 'nowrap' as const, display: 'flex', alignItems: 'center' }}>
               www.vibeinvite.ro/
@@ -647,10 +627,19 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
             <FG noMargin><label style={labS}>Părinți</label><input className="ps-input" style={{ marginBottom: 0 }} placeholder="ex: Din partea mirelui..." value={formData.parentsNames} onChange={e => set('parentsNames', e.target.value)} /></FG>
           </SectionCard>
 
+          {/* ─── START MODIFICARE WAZE/MAPS – secțiunea Restaurant ─── */}
           <SectionCard title="Petrecere Restaurant" icon="🥂">
             <FG><label style={labS}>Data Petrecerii</label>          <CustomDatePicker value={formData.weddingDate} onChangeKey="weddingDate" /></FG>
             <FG><label style={labS}>Ora Începerii (24h)</label>      <CustomTimePicker value={formData.weddingTime} onChangeKey="weddingTime" /></FG>
-            <FG><label style={labS}>Locație (Nume Restaurant)</label> <input className="ps-input" placeholder="ex: Restaurant Aristocrat"  value={formData.locationName}  onChange={e => set('locationName',  e.target.value)} /></FG>
+            <FG>
+              <label style={labS}>Locație (Nume Restaurant)</label>
+              <input
+                className="ps-input"
+                placeholder="ex: Restaurant Aristocrat, București"
+                value={formData.locationName}
+                onChange={e => set('locationName', e.target.value)}
+              />
+            </FG>
             <LocationLinks
               locationValue={formData.locationName}
               mapsValue={formData.googleMapsUrl}
@@ -660,6 +649,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
               setter={set}
             />
           </SectionCard>
+          {/* ─── END MODIFICARE WAZE/MAPS – secțiunea Restaurant ─── */}
         </div>
 
         {/* CUNUNIA */}
@@ -701,11 +691,11 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
                   </FG>
                 </div>
                 <div style={{ gridColumn: 'span 2' }} className="ps-span-full">
-            <LocationLinks
+                  <LocationLinks
                     locationValue={formData.religiousLocation}
-                    mapsValue={formData.religiousMaps} // <-- Folosim câmpul nou
+                    mapsValue={formData.religiousMaps}
                     wazeValue={formData.religiousWaze}
-                    mapsKey="religiousMaps"            // <-- Cheie distinctă
+                    mapsKey="religiousMaps"
                     wazeKey="religiousWaze"
                     setter={set}
                     mapsPlaceholder="https://maps.app.goo.gl/..."
@@ -767,9 +757,9 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
                 fontFamily: F.heading,
                 fontSize: FS.tiny,
                 letterSpacing: '.14em',
-                color: autoSaveStatus === 'saving'  ? 'rgba(166,50,72,.45)'
+                color: autoSaveStatus === 'saving'  ? 'rgba(212,175,55,.45)'
                      : autoSaveStatus === 'saved'   ? 'rgba(80,140,80,.75)'
-                     : 'rgba(166,50,72,.4)',
+                     : 'rgba(212,175,55,.4)',
               }}>
                 {autoSaveStatus === 'saving'  && '◌  Salvare automată...'}
                 {autoSaveStatus === 'saved'   && '✓  Salvat automat'}
