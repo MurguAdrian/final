@@ -14,9 +14,11 @@ export function useAutoSave<T>(
   const isSavingRef = useRef(false);
   const dataRef = useRef(data);
   const saveFnRef = useRef(saveFn);
+  const debounceMsRef = useRef(debounceMs);
 
   dataRef.current = data;
   saveFnRef.current = saveFn;
+  debounceMsRef.current = debounceMs;
 
   const cancelPending = useCallback(() => {
     if (timerRef.current) {
@@ -26,7 +28,11 @@ export function useAutoSave<T>(
   }, []);
 
   const doSave = useCallback(async () => {
-    if (isSavingRef.current) return;
+    // If a save is already in progress, re-schedule so the latest data is sent after it finishes
+    if (isSavingRef.current) {
+      timerRef.current = setTimeout(doSave, debounceMsRef.current);
+      return;
+    }
     isSavingRef.current = true;
     setStatus('saving');
     try {
@@ -41,25 +47,15 @@ export function useAutoSave<T>(
   }, []);
 
   useEffect(() => {
-    // Skip first render
     if (isFirstRenderRef.current) {
       isFirstRenderRef.current = false;
-      return;
-    }
-
-    // If already saving, mark as unsaved to trigger retry after
-    if (isSavingRef.current) {
-      setStatus('unsaved');
       return;
     }
 
     setStatus('unsaved');
     cancelPending();
 
-    // Schedule autosave
-    timerRef.current = setTimeout(() => {
-      doSave();
-    }, debounceMs);
+    timerRef.current = setTimeout(doSave, debounceMs);
 
     return () => {
       cancelPending();
