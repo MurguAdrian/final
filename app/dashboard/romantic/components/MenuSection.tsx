@@ -1,8 +1,9 @@
 
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { C, F, FS, SP, BR, IS, SH, GR, KEYFRAMES } from '../romanticTokens';
 import Swal from 'sweetalert2';
+import { useAutoSave } from '../hooks/useAutoSave';
 
 /* ══════════════════════════════════════════════════════════════
    TYPES
@@ -332,11 +333,28 @@ export const MenuSection = ({ initialData, orderId, onSave }: MenuSectionProps) 
   const [categories, setCategories] = useState<MenuCategory[]>(() => buildInitialCategories(initialData?.menu_details));
 
   useEffect(() => {
-    setIsActive(initialData?.is_menu_active ?? false);
-    setCategories(buildInitialCategories(initialData?.menu_details));
+    const nextActive = initialData?.is_menu_active ?? false;
+    const nextCats   = buildInitialCategories(initialData?.menu_details);
+    setIsActive(prev => prev === nextActive ? prev : nextActive);
+    setCategories(prev =>
+      JSON.stringify(prev) === JSON.stringify(nextCats) ? prev : nextCats
+    );
   }, [initialData]);
 
+  const autoSaveFn = useCallback(async (data: { isActive: boolean; categories: MenuCategory[] }) => {
+    const res = await fetch('/api/dashboard/personalize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderId, isMenuActive: data.isActive, menu_details: { categories: data.categories } }),
+    });
+    if (!res.ok) throw new Error('autosave failed');
+  }, [orderId]);
+
+  const { status: autoSaveStatus, setStatus: setAutoSaveStatus, cancelPending } =
+    useAutoSave({ isActive, categories }, autoSaveFn, 1200);
+
 const handleSave = async () => {
+  cancelPending();
   setLoading(true);
   try {
     const res = await fetch('/api/dashboard/personalize', {
@@ -346,17 +364,17 @@ const handleSave = async () => {
     });
 
     if (res.ok) {
-      // Alert Romantic pentru Meniu Salvat
+      setAutoSaveStatus('saved');
       Swal.fire({
         title: '<span style="color: #be123c; font-family: serif;">Meniu salvat cu drag! 🥂</span>',
         text: 'Detaliile voastre culinare au fost adăugate cu succes.',
         icon: 'success',
-        confirmButtonColor: '#fb7185', // Roz romantic
+        confirmButtonColor: '#fb7185',
         background: '#fff5f5',
       });
       onSave();
     } else {
-      // Alert pentru Eroare de la Server
+      setAutoSaveStatus('unsaved');
       Swal.fire({
         title: '<span style="color: #444; font-family: serif;">Of, o mică problemă... 🥀</span>',
         text: 'Nu am putut salva meniul. Te rugăm să încerci din nou.',
@@ -366,7 +384,7 @@ const handleSave = async () => {
       });
     }
   } catch {
-    // Alert pentru Eroare de Conexiune
+    setAutoSaveStatus('unsaved');
     Swal.fire({
       title: '<span style="color: #444; font-family: serif;">Eroare de conexiune 🌹</span>',
       text: 'Conexiunea a eșuat. Încearcă din nou puțin mai târziu.',
@@ -557,6 +575,23 @@ const handleSave = async () => {
         )}
 
         <RoseDivider />
+
+        {autoSaveStatus !== 'idle' && !loading && (
+          <div style={{ textAlign: 'center', marginBottom: 12 }}>
+            <span style={{
+              fontFamily: F.heading,
+              fontSize: FS.tiny,
+              letterSpacing: '.14em',
+              color: autoSaveStatus === 'saving'  ? 'rgba(166,50,72,.45)'
+                   : autoSaveStatus === 'saved'   ? 'rgba(80,140,80,.75)'
+                   : 'rgba(166,50,72,.4)',
+            }}>
+              {autoSaveStatus === 'saving'  && '◌  Salvare automată...'}
+              {autoSaveStatus === 'saved'   && '✓  Salvat automat'}
+              {autoSaveStatus === 'unsaved' && '●  Modificări nesalvate'}
+            </span>
+          </div>
+        )}
 
         {/* SAVE BUTTON */}
         <button
