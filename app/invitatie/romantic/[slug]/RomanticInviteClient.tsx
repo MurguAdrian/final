@@ -446,7 +446,8 @@ function InviteScreen({ props }: { props: RomanticInviteClientProps }) {
                     {religiousMaps && <a href={religiousMaps} target="_blank" rel="noopener noreferrer" style={{ ...NAV_BTN, background: 'rgba(76,175,79,.14)', border: '1px solid rgba(76,175,79,.25)', color: 'rgba(56,142,60,.9)' }}><MapsIcon/> Maps</a>}
                   </div>
                 )}
-                {/* ── END MODIFICARE AICI ── */}              </div>
+                {/* ── END MODIFICARE AICI ── */}  
+                            </div>
             </div>
           )}
         </div>

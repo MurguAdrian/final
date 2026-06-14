@@ -833,18 +833,94 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                   value={`https://www.vibeinvite.ro/invitatie/lux/${userSlug}`}
                   style={{ flex: 1, minWidth: 0, padding: '10px 14px', background: 'rgba(212,175,55,.06)', border: '1px solid rgba(212,175,55,.18)', borderRadius: 8, color: '#D4AF37', fontFamily: "'Cinzel', serif", letterSpacing: '.06em', outline: 'none', width: '100%', boxSizing: 'border-box' as const, WebkitAppearance: 'none' as any }}
                 />
-                <button className="rm-copy-btn" onClick={() => { navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/lux/${userSlug}`); alert("Copiat!"); }} style={{ padding: '10px 20px', borderRadius: 8, background: 'rgba(212,175,55,.12)', border: '1px solid rgba(212,175,55,.3)', color: '#F5D678', fontFamily: "'Cinzel', serif", fontSize: 16, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap' as const }}>
+                <button className="rm-copy-btn" onClick={() => { navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/lux/${userSlug}`); const showCopiedAlert = () => {
+  const el = document.createElement('div');
+  el.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.85);
+    z-index: 9999;
+    background: linear-gradient(160deg, rgba(26,20,8,.97) 0%, rgba(14,12,6,.99) 100%);
+    border: 1px solid rgba(212,175,55,.35);
+    border-radius: 6px;
+    padding: 28px 40px;
+    text-align: center;
+    box-shadow: 0 0 0 1px rgba(212,175,55,.08), 0 32px 80px rgba(0,0,0,.6);
+    opacity: 0;
+    transition: opacity .22s ease, transform .22s ease;
+    min-width: 240px;
+  `;
+  el.innerHTML = `
+    <div style="
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(212,175,55,.1); border: 1px solid rgba(212,175,55,.3);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+    ">
+      <svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px">
+        <path d="M2.5 8.5L6 12L13.5 4" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div style="
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: rgba(212,175,55,.5);
+      margin-bottom: 6px;
+    ">Link</div>
+    <div style="
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(212,175,55,.92);
+    ">Copiat</div>
+  `;
+  document.body.appendChild(el);
+  requestAnimationFrame(() => {
+    el.style.opacity = '1';
+    el.style.transform = 'translate(-50%, -50%) scale(1)';
+  });
+  setTimeout(() => {
+    el.style.opacity = '0';
+    el.style.transform = 'translate(-50%, -50%) scale(0.9)';
+    setTimeout(() => document.body.removeChild(el), 220);
+  }, 1600);
+}; }} style={{ padding: '10px 20px', borderRadius: 8, background: 'rgba(212,175,55,.12)', border: '1px solid rgba(212,175,55,.3)', color: '#F5D678', fontFamily: "'Cinzel', serif", fontSize: 16, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap' as const }}>
                   Copiază
                 </button>
-                <button className="rm-share-btn" onClick={() => { const url = `https://www.vibeinvite.ro/invitatie/lux/${userSlug}`; if (navigator.share) { navigator.share({ title: 'Invitație Nuntă', text: 'Te invităm să fii alături de noi în ziua nunții noastre 💍', url }).catch(() => {}); } else { window.open(`https://wa.me/?text=${encodeURIComponent('Te invităm să fii alături de noi 💍 ' + url)}`, '_blank'); } }} style={{ padding: '10px 16px', borderRadius: 8, background: 'rgba(212,175,55,.06)', border: '1px solid rgba(212,175,55,.22)', color: 'rgba(212,175,55,.75)', fontFamily: "'Cinzel', serif", fontSize: 13, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', display: 'flex', alignItems: 'center', gap: 7, whiteSpace: 'nowrap' as const, flexShrink: 0 }}>
-                  <svg viewBox="0 0 20 20" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
-                    <circle cx="15" cy="4" r="2" stroke="currentColor" strokeWidth="1.4" />
-                    <circle cx="15" cy="16" r="2" stroke="currentColor" strokeWidth="1.4" />
-                    <circle cx="5" cy="10" r="2" stroke="currentColor" strokeWidth="1.4" />
-                    <path d="M7 9l6-4M7 11l6 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-                  </svg>
-                  <span className="share-label">Share</span>
-                </button>
+<button
+  className="rm-share-btn"
+  onClick={() => {
+    const url = `https://www.vibeinvite.ro/invitatie/lux/${userSlug}`;
+    if (navigator.share) {
+      navigator.share({ url }).catch(() => {});
+    } else {
+      navigator.clipboard?.writeText(url).catch(() => {});
+      window.open(`https://wa.me/?text=${encodeURIComponent(url)}`, '_blank');
+    }
+  }}
+  style={{
+    padding: '10px 20px', borderRadius: 8,
+    background: 'rgba(212,175,55,.06)', border: '1px solid rgba(212,175,55,.22)',
+    color: 'rgba(212,175,55,.85)', fontFamily: "'Cinzel', serif",
+    fontSize: 11, fontWeight: 600, letterSpacing: '.14em',
+    textTransform: 'uppercase' as const, cursor: 'pointer',
+    transition: 'all .2s', display: 'flex', alignItems: 'center',
+    justifyContent: 'center', gap: 8, whiteSpace: 'nowrap' as const, flexShrink: 0,
+  }}
+>
+  <svg viewBox="0 0 20 20" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
+    <circle cx="15" cy="4" r="2" stroke="currentColor" strokeWidth="1.4" />
+    <circle cx="15" cy="16" r="2" stroke="currentColor" strokeWidth="1.4" />
+    <circle cx="5" cy="10" r="2" stroke="currentColor" strokeWidth="1.4" />
+    <path d="M7 9l6-4M7 11l6 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+  </svg>
+  Distribuie Invitația
+</button>
               </div>
             </div>
           )}

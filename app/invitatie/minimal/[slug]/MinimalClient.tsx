@@ -6,6 +6,7 @@ import MinimalRsvpForm from './MinimalRsvpForm';
 type Phase = 'envelope' | 'opening' | 'invite';
 
 export interface MinimalClientProps {
+  religiousMaps: string;
   slug: string;
   brideName: string;
   groomName: string;
@@ -297,7 +298,7 @@ function EnvelopeScreen({
 }
 
 function InviteScreen({ props }: { props: MinimalClientProps }) {
-  const { slug, brideName, groomName, nasiNames, parentsNames, weddingDateISO, weddingDateDisplay, weddingTime, locationName, wazeUrl, googleMapsUrl, isReligiousActive, religiousDateDisplay, religiousTime, religiousLocation, religiousWaze, ourStory, isMenuActive, menuDetails, isGalleryActive, isAccommodationActive, isTransportActive, contactPhoneBride, contactPhoneGroom, orderId } = props;
+  const { slug, brideName, groomName, nasiNames, parentsNames, religiousMaps, weddingDateISO, weddingDateDisplay, weddingTime, locationName, wazeUrl, googleMapsUrl, isReligiousActive, religiousDateDisplay, religiousTime, religiousLocation, religiousWaze, ourStory, isMenuActive, menuDetails, isGalleryActive, isAccommodationActive, isTransportActive, contactPhoneBride, contactPhoneGroom, orderId } = props;
 
   const weddingDate = weddingDateISO ? new Date(weddingDateISO) : null;
   const cd = useCountdown(weddingDate);
@@ -448,32 +449,42 @@ function InviteScreen({ props }: { props: MinimalClientProps }) {
             </div>
 
             {/* Religious card — accent */}
-            {isReligiousActive && (
-              <div style={{ background: ACCENT, padding: 'clamp(20px,3vw,28px)', position: 'relative', overflow: 'hidden', transition: 'transform .22s ease,box-shadow .22s ease' }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = `0 16px 44px rgba(200,80,58,.3)`; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.transform = ''; (e.currentTarget as HTMLDivElement).style.boxShadow = ''; }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: '#fff', opacity: .4 }} />
-                <div style={{ paddingLeft: 12 }}>
-                  <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 9, letterSpacing: '.3em', textTransform: 'uppercase', color: 'rgba(255,255,255,.75)', fontWeight: 600, marginBottom: 8 }}>Cununia</p>
-                  <p style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(16px,2.2vw,22px)', fontStyle: 'italic', fontWeight: 400, color: '#fff', marginBottom: 4, lineHeight: 1.25 }}>{religiousLocation}</p>
-                  {(religiousDateDisplay || religiousTime) && (
-                    <div style={{ display: 'inline-block', background: 'rgba(0,0,0,.2)', padding: '4px 12px', marginBottom: 14 }}>
-                      <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 9, letterSpacing: '.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,.9)', fontWeight: 600 }}>
-                        {religiousDateDisplay && religiousDateDisplay}{religiousTime && ` · ora ${religiousTime}`}
-                      </span>
-                    </div>
-                  )}
-                  {religiousWaze && (
-                    <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-                      <a href={religiousWaze} target="_blank" rel="noopener noreferrer" style={{ ...NAV_BTN, background: 'transparent', border: '1px solid rgba(255,255,255,.35)', color: 'rgba(255,255,255,.85)', transition: 'all .18s', flex: 'none' }}
-                        onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,.15)'; }}
-                        onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; }}>
-                        <WazeIcon /> Waze Biserică</a>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
+       {isReligiousActive && (
+  <div style={{ background: ACCENT, padding: 'clamp(20px,3vw,28px)', position: 'relative', overflow: 'hidden', transition: 'transform .22s ease,box-shadow .22s ease' }}
+    onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = `0 16px 44px rgba(200,80,58,.3)`; }}
+    onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.transform = ''; (e.currentTarget as HTMLDivElement).style.boxShadow = ''; }}>
+    <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: '#fff', opacity: .4 }} />
+    <div style={{ paddingLeft: 12 }}>
+      <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 9, letterSpacing: '.3em', textTransform: 'uppercase', color: 'rgba(255,255,255,.75)', fontWeight: 600, marginBottom: 8 }}>Cununia</p>
+      <p style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(16px,2.2vw,22px)', fontStyle: 'italic', fontWeight: 400, color: '#fff', marginBottom: 4, lineHeight: 1.25 }}>{religiousLocation}</p>
+      {(religiousDateDisplay || religiousTime) && (
+        <div style={{ display: 'inline-block', background: 'rgba(0,0,0,.2)', padding: '4px 12px', marginBottom: 14 }}>
+          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 9, letterSpacing: '.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,.9)', fontWeight: 600 }}>
+            {religiousDateDisplay && religiousDateDisplay}{religiousTime && ` · ora ${religiousTime}`}
+          </span>
+        </div>
+      )}
+      {(religiousWaze || religiousMaps) && (
+        <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+          {religiousWaze && (
+            <a href={religiousWaze} target="_blank" rel="noopener noreferrer" style={{ ...NAV_BTN, background: 'transparent', border: '1px solid rgba(255,255,255,.35)', color: 'rgba(255,255,255,.85)', transition: 'all .18s', flex: 'none' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,.15)'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; }}>
+              <WazeIcon /> Waze
+            </a>
+          )}
+          {religiousMaps && (
+            <a href={religiousMaps} target="_blank" rel="noopener noreferrer" style={{ ...NAV_BTN, background: 'transparent', border: '1px solid rgba(255,255,255,.35)', color: 'rgba(255,255,255,.85)', transition: 'all .18s', flex: 'none' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,.15)'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; }}>
+              <MapsIcon /> Maps
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+)}
           </div>
         </div>
 

@@ -16,6 +16,7 @@ export interface RoyalInviteClientProps {
   weddingDateDisplay: string | null;
   weddingTime: string;
   locationName: string;
+  religiousMaps: string; // AICI AM MODIFICAT
   wazeUrl: string;
   googleMapsUrl: string;
   isReligiousActive: boolean;
@@ -361,8 +362,13 @@ function EnvelopeScreen({
 
 /* ─── INVITE SCREEN ─── */
 function InviteScreen({ props }: { props: RoyalInviteClientProps }) {
-  const { slug, brideName, groomName, nasiNames, parentsNames, weddingDateISO, weddingDateDisplay, weddingTime, locationName, wazeUrl, googleMapsUrl, isReligiousActive, religiousDateDisplay, religiousTime, religiousLocation, religiousWaze, ourStory, isMenuActive, menuDetails, isGalleryActive, isAccommodationActive, isTransportActive, contactPhoneBride, contactPhoneGroom, orderId } = props;
-
+  const {
+    slug, brideName, groomName, nasiNames, parentsNames,
+    weddingDateISO, weddingDateDisplay, weddingTime, locationName, wazeUrl, googleMapsUrl,
+    isReligiousActive, religiousDateDisplay, religiousTime, religiousLocation, religiousWaze,religiousMaps,
+    ourStory, isMenuActive, menuDetails, isGalleryActive,
+    isAccommodationActive, isTransportActive, contactPhoneBride, contactPhoneGroom, orderId,
+  } = props;
   const weddingDate = weddingDateISO ? new Date(weddingDateISO) : null;
   const cd = useCountdown(weddingDate);
   const [flipS, setFlipS] = useState(false);
@@ -514,8 +520,14 @@ function InviteScreen({ props }: { props: RoyalInviteClientProps }) {
               <div style={{ padding: '14px 18px 16px' }}>
                 <p style={{ fontFamily: "'Cinzel',serif", fontWeight: 600, fontSize: 'clamp(10px,1.1vw,12px)', color: '#C8D8E8', marginBottom: 3, letterSpacing: '.05em' }}>{religiousLocation}</p>
                 {(religiousDateDisplay || religiousTime) && (<div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(124,168,216,.08)', border: '1px solid rgba(200,216,232,.18)', borderRadius: 100, padding: '4px 12px', fontFamily: "'Cinzel',serif", fontSize: 8, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(200,216,232,.7)', marginBottom: 12, marginTop: 4 }}>{religiousDateDisplay && `◆ ${religiousDateDisplay}`}{religiousTime && ` · ora ${religiousTime}`}</div>)}
-                {religiousWaze && (<a href={religiousWaze} target="_blank" rel="noopener noreferrer" style={{ ...NAV_BTN, background: 'linear-gradient(135deg,rgba(8,162,212,.22),rgba(8,162,212,.12))', border: '1px solid rgba(8,162,212,.28)', color: 'rgba(140,210,240,.9)', flex: 'none' }}><WazeIcon/> Waze Biserică</a>)}
-              </div>
+{/* ── START MODIFICARE AICI ── */}
+                {(religiousWaze || religiousMaps) && (
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    {religiousWaze && <a href={religiousWaze} target="_blank" rel="noopener noreferrer" style={{ ...NAV_BTN, background: 'rgba(8,162,212,.15)', border: '1px solid rgba(8,162,212,.28)', color: 'rgba(8,162,212,.9)' }}><WazeIcon/> Waze</a>}
+                    {religiousMaps && <a href={religiousMaps} target="_blank" rel="noopener noreferrer" style={{ ...NAV_BTN, background: 'rgba(76,175,79,.14)', border: '1px solid rgba(76,175,79,.25)', color: 'rgba(56,142,60,.9)' }}><MapsIcon/> Maps</a>}
+                  </div>
+                )}
+                {/* ── END MODIFICARE AICI ── */}                </div>
             </div>
           )}
         </div>
