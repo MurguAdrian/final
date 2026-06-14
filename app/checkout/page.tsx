@@ -594,7 +594,9 @@ type Theme = {
   name: string
   icon: string
   tagline: string
-  desc: string
+  headline: string
+  hook: string
+  bullets: string[]
   accent: string
   accentText: string
   pillBg: string
@@ -602,80 +604,34 @@ type Theme = {
   barGrad: string
   category: Category
   badge?: string
+  popular?: boolean
 }
 
 const THEMES: Theme[] = [
   {
     id: 'lux',
-    name: 'Tema LUX',
+    name: 'LUX',
     icon: '✨',
-    tagline: 'Opulență & Grandoare',
-    desc: 'Aur veritabil pe negru profund. Invitație digitală care impresionează înainte de eveniment.',
+    tagline: 'Cel mai ales',
+    headline: 'Opulență pură. Aur pe negru.',
+    hook: 'Invitații care șochează plăcut înainte să ajungi la altar.',
+    bullets: ['Dashboard invitați complet', 'Meniu QR personalizat', 'Album foto colectiv', 'Acces permanent, fără abonament'],
     accent: '#C9A84C',
     accentText: '#1A1208',
     pillBg: '#FFF8E6',
     pillText: '#7D5A1E',
     barGrad: 'linear-gradient(90deg,#7D5A1E,#C9A84C,#E8C96A,#C9A84C,#7D5A1E)',
     category: 'nunta',
-  },
-  {
-    id: 'nature',
-    name: 'Tema NATURE',
-    icon: '🌿',
-    tagline: 'Prospețime & Nou Început',
-    desc: 'Tonuri botanice de verde mint. Perfectă pentru cupluri care iubesc natura și aerul curat.',
-    accent: '#2D6A4F',
-    accentText: '#fff',
-    pillBg: '#D8F3DC',
-    pillText: '#1B4332',
-    barGrad: 'linear-gradient(90deg,#1B4332,#2D6A4F,#52B788,#2D6A4F,#1B4332)',
-    category: 'nunta',
-  },
-  {
-    id: 'boho',
-    name: 'Tema BOHO',
-    icon: '🌸',
-    tagline: 'Libertate & Autenticitate',
-    desc: 'Terracotta cald și roz prăfuit. O invitație ca o îmbrățișare caldă — cu suflet și naturalețe.',
-    accent: '#C47A5A',
-    accentText: '#fff',
-    pillBg: '#FDE8DC',
-    pillText: '#7D3C1E',
-    barGrad: 'linear-gradient(90deg,#7D3C1E,#C47A5A,#E8A87C,#C47A5A,#7D3C1E)',
-    category: 'nunta',
-  },
-  {
-    id: 'royal',
-    name: 'Tema ROYAL',
-    icon: '👑',
-    tagline: 'Majestate & Eleganță Regală',
-    desc: 'Albastru regal profund cu argintiu. Inspirat din palatele europene — pentru nunți de poveste.',
-    accent: '#2C3E8C',
-    accentText: '#fff',
-    pillBg: '#EEF2FF',
-    pillText: '#1A2654',
-    barGrad: 'linear-gradient(90deg,#0f1a3d,#2C3E8C,#8B9FE8,#2C3E8C,#0f1a3d)',
-    category: 'nunta',
-  },
-  {
-    id: 'minimal',
-    name: 'Tema MINIMAL',
-    icon: '⬜',
-    tagline: 'Mai Puțin Înseamnă Mai Mult',
-    desc: 'Alb imaculat și negru pur. Pentru cupluri moderne care cred că eleganța stă în simplitate.',
-    accent: '#1A1208',
-    accentText: '#fff',
-    pillBg: '#F2F0ED',
-    pillText: '#1A1208',
-    barGrad: 'linear-gradient(90deg,#000,#1A1208,#5A4F44,#1A1208,#000)',
-    category: 'nunta',
+    popular: true,
   },
   {
     id: 'romantic',
-    name: 'Tema ROMANTIC',
+    name: 'ROMANTIC',
     icon: '🌹',
-    tagline: 'Iubire & Pasiune Eternă',
-    desc: 'Roșu trandafiriu și bujori. O declarație de dragoste în sine — caldă, senzorială, de neuitat.',
+    tagline: 'Valoare maximă',
+    headline: 'Iubire în fiecare pixel.',
+    hook: 'Roșu trandafiriu și bujori — o declarație de dragoste înainte de ziua cea mare.',
+    bullets: ['Dashboard invitați complet', 'Meniu QR personalizat', 'Album foto colectiv', 'Acces permanent, fără abonament'],
     accent: '#9B2335',
     accentText: '#fff',
     pillBg: '#FDEAED',
@@ -684,11 +640,73 @@ const THEMES: Theme[] = [
     category: 'nunta',
   },
   {
+    id: 'royal',
+    name: 'ROYAL',
+    icon: '👑',
+    tagline: 'Majestate regală',
+    headline: 'O nuntă de poveste merită o invitație regală.',
+    hook: 'Albastru regal profund cu argintiu inspirat din palatele europene.',
+    bullets: ['Dashboard invitați complet', 'Meniu QR personalizat', 'Album foto colectiv', 'Acces permanent, fără abonament'],
+    accent: '#2C3E8C',
+    accentText: '#fff',
+    pillBg: '#EEF2FF',
+    pillText: '#1A2654',
+    barGrad: 'linear-gradient(90deg,#0f1a3d,#2C3E8C,#8B9FE8,#2C3E8C,#0f1a3d)',
+    category: 'nunta',
+  },
+  {
+    id: 'boho',
+    name: 'BOHO',
+    icon: '🌸',
+    tagline: 'Autenticitate & căldură',
+    headline: 'Cu suflet și naturalețe.',
+    hook: 'Terracotta cald și roz prăfuit — ca o îmbrățișare caldă trimisă înainte de nuntă.',
+    bullets: ['Dashboard invitați complet', 'Meniu QR personalizat', 'Album foto colectiv', 'Acces permanent, fără abonament'],
+    accent: '#C47A5A',
+    accentText: '#fff',
+    pillBg: '#FDE8DC',
+    pillText: '#7D3C1E',
+    barGrad: 'linear-gradient(90deg,#7D3C1E,#C47A5A,#E8A87C,#C47A5A,#7D3C1E)',
+    category: 'nunta',
+  },
+  {
+    id: 'nature',
+    name: 'NATURE',
+    icon: '🌿',
+    tagline: 'Prospețime botanică',
+    headline: 'Natura ca backdrop de nuntă.',
+    hook: 'Verde mint și tonuri botanice pentru cupluri care iubesc autenticul.',
+    bullets: ['Dashboard invitați complet', 'Meniu QR personalizat', 'Album foto colectiv', 'Acces permanent, fără abonament'],
+    accent: '#2D6A4F',
+    accentText: '#fff',
+    pillBg: '#D8F3DC',
+    pillText: '#1B4332',
+    barGrad: 'linear-gradient(90deg,#1B4332,#2D6A4F,#52B788,#2D6A4F,#1B4332)',
+    category: 'nunta',
+  },
+  {
+    id: 'minimal',
+    name: 'MINIMAL',
+    icon: '◻️',
+    tagline: 'Eleganță prin simplitate',
+    headline: 'Când mai puțin spune totul.',
+    hook: 'Alb imaculat și negru pur pentru cupluri moderne care nu au nevoie de podoabe.',
+    bullets: ['Dashboard invitați complet', 'Meniu QR personalizat', 'Album foto colectiv', 'Acces permanent, fără abonament'],
+    accent: '#1A1208',
+    accentText: '#fff',
+    pillBg: '#F2F0ED',
+    pillText: '#1A1208',
+    barGrad: 'linear-gradient(90deg,#000,#1A1208,#5A4F44,#1A1208,#000)',
+    category: 'nunta',
+  },
+  {
     id: 'botezb1',
-    name: 'Tema MAȘINUȚĂ',
+    name: 'MAȘINUȚĂ',
     icon: '🚗',
-    tagline: 'Aventura Începe Acum',
-    desc: 'Mașinuțe și culori primare vesele. Perfectă pentru un botez de băiețel plin de energie și culoare.',
+    tagline: 'Aventura începe',
+    headline: 'Prima lui cursă în lume.',
+    hook: 'Mașinuțe vesele și culori primare — pentru un băiețel plin de energie.',
+    bullets: ['Dashboard invitați complet', 'Meniu QR personalizat', 'Album foto colectiv', 'Acces permanent, fără abonament'],
     accent: '#1E6BB8',
     accentText: '#fff',
     pillBg: '#DDEEFF',
@@ -699,10 +717,12 @@ const THEMES: Theme[] = [
   },
   {
     id: 'botezb2',
-    name: 'Tema ASTRONAUT',
+    name: 'ASTRONAUT',
     icon: '🚀',
-    tagline: 'Până la Stele și Înapoi',
-    desc: 'Rachete, stele și cosmos albastru închis. O invitație de botez care lansează micul explorator în univers.',
+    tagline: 'Până la stele',
+    headline: 'Micul explorator a aterizat.',
+    hook: 'Cosmos albastru profund și rachete — pentru băiețelul care va cuceri lumea.',
+    bullets: ['Dashboard invitați complet', 'Meniu QR personalizat', 'Album foto colectiv', 'Acces permanent, fără abonament'],
     accent: '#2D1B6B',
     accentText: '#fff',
     pillBg: '#EBE6FF',
@@ -710,13 +730,16 @@ const THEMES: Theme[] = [
     barGrad: 'linear-gradient(90deg,#0D0728,#2D1B6B,#7B5FC4,#2D1B6B,#0D0728)',
     category: 'botez',
     badge: '👶 Băiat',
+    popular: true,
   },
   {
     id: 'botezf1',
-    name: 'Tema FLUTURE',
+    name: 'FLUTURE',
     icon: '🦋',
-    tagline: 'Delicată ca un Fluture',
-    desc: 'Lavandă și roz pudrat cu fluturi delicați. O invitație de botez fermecătoare pentru micuța prințesă.',
+    tagline: 'Delicată & fermecătoare',
+    headline: 'Micuța ta a sosit.',
+    hook: 'Lavandă și roz pudrat cu fluturi delicați — pentru prințesa care schimbă totul.',
+    bullets: ['Dashboard invitați complet', 'Meniu QR personalizat', 'Album foto colectiv', 'Acces permanent, fără abonament'],
     accent: '#A855C8',
     accentText: '#fff',
     pillBg: '#F5E8FF',
@@ -727,10 +750,12 @@ const THEMES: Theme[] = [
   },
   {
     id: 'botezf2',
-    name: 'Tema BALOANE',
+    name: 'BALOANE',
     icon: '🎈',
-    tagline: 'Bucurie & Sărbătoare',
-    desc: 'Baloane colorate pe roz coral. O petrecere de botez plină de voie bună și amintiri frumoase.',
+    tagline: 'Bucurie pură',
+    headline: 'Sărbătoarea ei a început.',
+    hook: 'Baloane colorate pe coral roz — o petrecere de botez gata de amintiri.',
+    bullets: ['Dashboard invitați complet', 'Meniu QR personalizat', 'Album foto colectiv', 'Acces permanent, fără abonament'],
     accent: '#E84393',
     accentText: '#fff',
     pillBg: '#FFE8F3',
@@ -741,10 +766,12 @@ const THEMES: Theme[] = [
   },
   {
     id: 'botezn1',
-    name: 'Tema URSULEȚ',
+    name: 'URSULEȚ',
     icon: '🧸',
-    tagline: 'Cald & Iubit',
-    desc: 'Bej cald și maro caramel cu ursuleți. Un botez cu suflet, potrivit oricărui copil și oricărei familii.',
+    tagline: 'Cald & iubit',
+    headline: 'Bej cald, suflet mare.',
+    hook: 'Ursuleți și caramel — un botez cu căldură, potrivit oricărui copil.',
+    bullets: ['Dashboard invitați complet', 'Meniu QR personalizat', 'Album foto colectiv', 'Acces permanent, fără abonament'],
     accent: '#8B5E3C',
     accentText: '#fff',
     pillBg: '#F5EAD8',
@@ -755,10 +782,12 @@ const THEMES: Theme[] = [
   },
   {
     id: 'botezn2',
-    name: 'Tema SCLIPICI',
+    name: 'SCLIPICI',
     icon: '🌟',
-    tagline: 'Elegant & Strălucitor',
-    desc: 'Alb perla cu accente aurii și sclipici discret. Botez elegant, neutru, de un rafinament aparte.',
+    tagline: 'Elegant & rafinat',
+    headline: 'Strălucire de la primul moment.',
+    hook: 'Alb perlat cu aur discret — rafinament neutru pentru un botez de excepție.',
+    bullets: ['Dashboard invitați complet', 'Meniu QR personalizat', 'Album foto colectiv', 'Acces permanent, fără abonament'],
     accent: '#B8920A',
     accentText: '#fff',
     pillBg: '#FBF5D8',
@@ -779,14 +808,13 @@ export default function CheckoutPage() {
   const [emailFocused, setEmailFocused] = useState(false)
 
   const isReady = accepted && privacyAccepted && email.includes('@') && email.length > 4
-
   const filteredThemes = THEMES.filter((t) => t.category === activeCategory)
   const selectedTheme = THEMES.find((t) => t.id === selectedThemeId) ?? null
 
   const handlePayment = async () => {
     if (!selectedTheme) return
     if (!accepted || !privacyAccepted) {
-      alert('Trebuie să accepți Termenii, Politica de Confidențialitate și colectarea datelor pentru a continua.')
+      alert('Trebuie să accepți Termenii și Politica de Confidențialitate.')
       return
     }
     if (!email || !email.includes('@')) {
@@ -794,547 +822,581 @@ export default function CheckoutPage() {
       return
     }
     const stripe = THEME_STRIPE[selectedTheme.id]
-    if (!stripe) {
-      alert('Tema selectată nu este disponibilă momentan.')
-      return
-    }
+    if (!stripe) { alert('Tema selectată nu este disponibilă momentan.'); return }
     setLoading(selectedTheme.id)
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          priceId: stripe.priceId,
-          productId: stripe.productId,
-          themeName: selectedTheme.id,
-        }),
+        body: JSON.stringify({ email, priceId: stripe.priceId, productId: stripe.productId, themeName: selectedTheme.id }),
       })
       const data = await res.json()
-      if (res.ok && data.url) {
-        window.location.href = data.url
-      } else {
-        alert(data.error || 'Eroare la inițierea plății.')
-        setLoading('')
-      }
-    } catch {
-      alert('A apărut o eroare de conexiune.')
-      setLoading('')
-    }
+      if (res.ok && data.url) { window.location.href = data.url }
+      else { alert(data.error || 'Eroare la inițierea plății.'); setLoading('') }
+    } catch { alert('A apărut o eroare de conexiune.'); setLoading('') }
   }
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=DM+Sans:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        *, *::before, *::after { box-sizing: border-box; }
-
-        .co-root {
+        .pg-root {
           font-family: 'DM Sans', sans-serif;
-          background: #F8F5F1;
+          background: #0E0C09;
           color: #1A1208;
           min-height: 100dvh;
           display: flex;
           flex-direction: column;
-          overflow-x: hidden;
         }
 
-        .co-topbar {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-shrink: 0;
-          padding: 14px clamp(16px, 5vw, 28px);
-          background: #1A1208;
-          position: sticky;
-          top: 0;
-          z-index: 50;
+        /* ── TOPBAR ── */
+        .pg-topbar {
+          position: sticky; top: 0; z-index: 60;
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 14px clamp(16px, 5vw, 32px);
+          background: rgba(14,12,9,0.96);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .pg-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: #fff; letter-spacing: 0.02em; }
+        .pg-logo em { font-style: italic; color: #C9A84C; }
+        .pg-secure { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.38); display: flex; align-items: center; gap: 5px; }
+
+        /* ── PAGE SCROLL ── */
+        .pg-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+
+        /* ── HERO BAND ── */
+        .pg-hero {
+          background: #0E0C09;
+          padding: clamp(40px, 8vw, 72px) clamp(16px, 5vw, 32px) clamp(32px, 6vw, 56px);
+          text-align: center;
+        }
+        .pg-hero-eyebrow {
+          display: inline-flex; align-items: center; gap: 7px;
+          background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.28);
+          border-radius: 100px; padding: 5px 14px; margin-bottom: 20px;
+          font-size: 11px; font-weight: 700; color: #C9A84C;
+          text-transform: uppercase; letter-spacing: 0.12em;
+        }
+        .pg-hero-h1 {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: clamp(32px, 7vw, 60px);
+          font-weight: 300; line-height: 1.12; color: #fff;
+          margin-bottom: 16px;
+        }
+        .pg-hero-h1 em { font-style: italic; color: #C9A84C; }
+        .pg-hero-sub {
+          font-size: clamp(14px, 3.5vw, 16px); color: rgba(255,255,255,0.45);
+          line-height: 1.65; max-width: 500px; margin: 0 auto 32px;
+        }
+        .pg-trust-row {
+          display: flex; align-items: center; justify-content: center;
+          gap: clamp(16px, 4vw, 32px); flex-wrap: wrap;
+        }
+        .pg-trust-item {
+          display: flex; align-items: center; gap: 6px;
+          font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.35);
+        }
+        .pg-trust-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+
+        /* ── CONTENT WRAPPER ── */
+        .pg-content {
+          background: #F8F5F1;
+          border-radius: 28px 28px 0 0;
+          padding: clamp(28px, 5vw, 48px) clamp(16px, 5vw, 32px) 140px;
+          min-height: 60vh;
+        }
+        .pg-inner { max-width: 800px; margin: 0 auto; }
+
+        /* ── SECTION LABEL ── */
+        .pg-section-label {
+          font-size: 10px; font-weight: 800; text-transform: uppercase;
+          letter-spacing: 0.14em; color: rgba(26,18,8,0.3);
+          margin-bottom: 12px;
         }
 
-        .co-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        /* ── CAT TABS ── */
+        .pg-cat-wrap {
+          background: #EDEAE5; border-radius: 18px; padding: 5px;
+          display: flex; gap: 6px; margin-bottom: 32px;
+        }
+        .pg-cat-btn {
+          flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+          padding: 13px 16px; border-radius: 14px; border: none;
+          font-family: inherit; font-size: clamp(13px, 3.5vw, 15px); font-weight: 600;
+          cursor: pointer; transition: all 0.22s cubic-bezier(.4,0,.2,1);
+          -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+          min-height: 50px; outline: none;
+        }
+        .pg-cat-btn-on  { background: #1A1208; color: #fff; box-shadow: 0 4px 16px rgba(26,18,8,0.22); }
+        .pg-cat-btn-off { background: transparent; color: rgba(26,18,8,0.42); }
+        .pg-cat-btn-off:hover { color: rgba(26,18,8,0.7); background: rgba(26,18,8,0.05); }
 
-        .co-inner {
-          max-width: 780px;
-          margin: 0 auto;
-          padding: clamp(28px, 5vw, 48px) clamp(16px, 5vw, 24px) 120px;
+        /* ── THEME CARDS GRID ── */
+        .pg-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 14px;
+          margin-bottom: 36px;
         }
-
-        /* ── CATEGORY TABS ── */
-        .co-cat-tabs {
-          display: flex;
-          gap: 8px;
-          background: #EDEAE5;
-          border-radius: 16px;
-          padding: 5px;
-        }
-        .co-cat-tab {
-          flex: 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-          padding: 12px 16px;
-          border-radius: 12px;
-          border: none;
-          font-family: inherit;
-          font-size: clamp(13px, 3.5vw, 14px);
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.2s;
-          -webkit-tap-highlight-color: transparent;
-          touch-action: manipulation;
-          min-height: 48px;
-          outline: none;
-        }
-        .co-cat-tab-active {
-          background: #1A1208;
-          color: #fff;
-          box-shadow: 0 2px 12px rgba(26,18,8,0.2);
-        }
-        .co-cat-tab-inactive {
-          background: transparent;
-          color: rgba(26,18,8,0.5);
+        @media (min-width: 620px) {
+          .pg-grid { grid-template-columns: 1fr 1fr; }
         }
 
-        /* ── THEME CARDS ── */
-        .co-theme-card {
+        /* ── THEME CARD ── */
+        .pg-card {
           background: #fff;
           border-radius: 20px;
           overflow: hidden;
           cursor: pointer;
-          transition: transform 0.15s, box-shadow 0.15s;
+          position: relative;
+          transition: transform 0.18s cubic-bezier(.4,0,.2,1), box-shadow 0.18s cubic-bezier(.4,0,.2,1);
           -webkit-tap-highlight-color: transparent;
           touch-action: manipulation;
-          position: relative;
+          border: 2px solid transparent;
+          display: flex; flex-direction: column;
         }
-        .co-theme-card:active { transform: scale(0.985); }
-        .co-theme-card-selected {
-          box-shadow: 0 0 0 2.5px var(--card-accent), 0 8px 32px rgba(0,0,0,0.1);
+        .pg-card:hover { transform: translateY(-3px); }
+        .pg-card:active { transform: scale(0.985); }
+        .pg-card-on {
+          border-color: var(--c-accent);
+          box-shadow: 0 0 0 4px var(--c-accent-glow), 0 12px 40px rgba(0,0,0,0.12);
+          transform: translateY(-3px);
         }
-        .co-theme-card-unselected {
-          box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        .pg-card-off { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .pg-card-off:hover { box-shadow: 0 6px 28px rgba(0,0,0,0.1); }
+
+        /* popular ribbon */
+        .pg-ribbon {
+          position: absolute; top: 16px; right: -1px;
+          display: flex; align-items: center; gap: 4px;
+          padding: 4px 12px 4px 10px;
+          border-radius: 100px 0 0 100px;
+          font-size: 10px; font-weight: 800;
+          text-transform: uppercase; letter-spacing: 0.08em;
+          white-space: nowrap; z-index: 2;
         }
 
-        .co-card-body {
-          padding: clamp(16px, 4vw, 24px);
-          display: flex;
-          gap: clamp(14px, 3vw, 20px);
-          align-items: flex-start;
+        .pg-card-bar { height: 5px; flex-shrink: 0; }
+
+        .pg-card-body { padding: clamp(16px,4vw,22px); flex: 1; display: flex; flex-direction: column; }
+
+        .pg-card-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+
+        .pg-card-icon {
+          width: 54px; height: 54px; min-width: 54px;
+          border-radius: 14px; display: flex; align-items: center;
+          justify-content: center; font-size: 26px; flex-shrink: 0;
         }
 
-        .co-card-icon {
-          flex-shrink: 0;
-          width: 60px;
-          height: 60px;
-          min-width: 60px;
-          border-radius: 16px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 28px;
+        .pg-card-meta { flex: 1; min-width: 0; }
+
+        .pg-card-badge-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 5px; }
+
+        .pg-card-tagline {
+          font-size: 10px; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.08em; border-radius: 100px;
+          padding: 3px 10px; white-space: nowrap;
+        }
+        .pg-card-cat-badge {
+          font-size: 10px; font-weight: 600;
+          background: #F2F0ED; color: rgba(26,18,8,0.45);
+          border-radius: 100px; padding: 3px 9px; white-space: nowrap;
         }
 
-        .co-card-info { flex: 1; min-width: 0; }
-
-        .co-card-meta {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          flex-wrap: wrap;
-          margin-bottom: 6px;
-        }
-
-        .co-pill {
-          display: inline-flex;
-          align-items: center;
-          border-radius: 100px;
-          padding: 3px 10px;
-          font-size: 11px;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          white-space: nowrap;
-        }
-
-        .co-badge {
-          display: inline-flex;
-          align-items: center;
-          border-radius: 100px;
-          padding: 3px 9px;
-          font-size: 10px;
-          font-weight: 600;
-          background: #F2F0ED;
-          color: rgba(26,18,8,0.5);
-          white-space: nowrap;
-        }
-
-        .co-card-name {
+        .pg-card-name {
           font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(20px, 5vw, 26px);
-          font-weight: 600;
-          line-height: 1.15;
-          margin-bottom: 6px;
-          overflow-wrap: break-word;
+          font-size: clamp(22px, 5vw, 28px);
+          font-weight: 600; line-height: 1.1; margin-bottom: 4px;
         }
 
-        .co-card-desc {
-          font-size: clamp(12px, 3.2vw, 13px);
-          line-height: 1.55;
-          color: rgba(26,18,8,0.5);
-          overflow-wrap: break-word;
-          margin: 0;
+        .pg-card-hook {
+          font-size: clamp(12px, 3vw, 13px); line-height: 1.55;
+          color: rgba(26,18,8,0.48); overflow-wrap: break-word;
         }
 
-        .co-card-footer {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 14px clamp(16px, 4vw, 24px);
+        /* divider */
+        .pg-card-div { height: 1px; background: rgba(0,0,0,0.06); margin: 14px 0; }
+
+        /* bullets */
+        .pg-card-bullets { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+        .pg-card-bullet {
+          display: flex; align-items: flex-start; gap: 8px;
+          font-size: clamp(11px, 2.8vw, 12px); color: rgba(26,18,8,0.6); line-height: 1.4;
+        }
+        .pg-card-bullet-dot {
+          width: 16px; height: 16px; min-width: 16px; border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 9px; font-weight: 800; color: #fff; flex-shrink: 0; margin-top: 1px;
+        }
+
+        /* card footer */
+        .pg-card-footer {
+          display: flex; align-items: center; justify-content: space-between;
+          margin-top: auto; padding-top: 14px;
           border-top: 1px solid rgba(0,0,0,0.06);
-          background: rgba(0,0,0,0.015);
         }
+        .pg-card-price { display: flex; align-items: baseline; gap: 5px; }
+        .pg-card-price-main { font-size: 24px; font-weight: 700; color: #1A1208; }
+        .pg-card-price-sub { font-size: 11px; color: rgba(26,18,8,0.35); font-weight: 400; }
 
-        .co-select-indicator {
-          width: 24px;
-          height: 24px;
-          min-width: 24px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 13px;
-          transition: all 0.2s;
-        }
-        .co-select-indicator-on {
-          color: #fff;
-        }
-        .co-select-indicator-off {
-          border: 2px solid rgba(0,0,0,0.15);
-          background: transparent;
-        }
-
-        /* ── EMAIL CARD ── */
-        .co-email-card {
-          background: #fff;
-          border-radius: 20px;
-          padding: clamp(20px, 5vw, 28px);
-          box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-        }
-
-        .co-input {
-          display: block;
-          width: 100%;
-          padding: 14px 16px;
-          border-radius: 12px;
-          font-size: max(16px, 1em) !important;
-          line-height: 1.5;
-          font-family: inherit;
-          color: #1A1208;
-          background: #F8F5F1;
-          border: 1.5px solid #E8E4DF;
-          box-sizing: border-box;
-          caret-color: #FF6B00;
-          -webkit-appearance: none;
-          appearance: none;
-          transition: border-color 0.2s, box-shadow 0.2s;
+        .pg-card-select {
+          display: flex; align-items: center; gap: 6px;
+          padding: 9px 16px; border-radius: 100px; border: 2px solid transparent;
+          font-family: inherit; font-size: 12px; font-weight: 700;
+          cursor: pointer; transition: all 0.18s; white-space: nowrap;
+          -webkit-tap-highlight-color: transparent;
           outline: none;
         }
-        .co-input-focused {
-          border-color: #FF6B00 !important;
-          box-shadow: 0 0 0 3px rgba(255,107,0,0.12) !important;
+        .pg-card-select:hover { opacity: 0.85; }
+
+        /* ── EMAIL BLOCK ── */
+        .pg-email-block {
+          background: #fff; border-radius: 20px;
+          padding: clamp(20px, 5vw, 28px);
+          box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+          margin-bottom: 20px;
+        }
+        .pg-email-label {
+          font-size: 11px; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.1em; color: rgba(26,18,8,0.4); margin-bottom: 10px;
+          display: block;
+        }
+        .pg-email-input {
+          display: block; width: 100%;
+          padding: 15px 16px;
+          border-radius: 13px;
+          font-size: max(16px,1em) !important;
+          font-family: inherit; color: #1A1208;
+          background: #F8F5F1;
+          border: 1.5px solid #E8E4DF;
+          transition: border-color 0.2s, box-shadow 0.2s;
+          -webkit-appearance: none; appearance: none;
+          outline: none; caret-color: #FF6B00;
+          margin-bottom: 20px;
+        }
+        .pg-email-input:focus {
+          border-color: #FF6B00;
+          box-shadow: 0 0 0 3px rgba(255,107,0,0.12);
+        }
+        .pg-divider { height: 1px; background: rgba(0,0,0,0.07); margin-bottom: 18px; }
+        .pg-check-row {
+          display: flex; gap: 12px; align-items: flex-start;
+          cursor: pointer; margin-bottom: 14px;
+        }
+        .pg-check-row:last-child { margin-bottom: 0; }
+        .pg-check-text {
+          font-size: clamp(12px,3.2vw,13px); color: rgba(26,18,8,0.52);
+          line-height: 1.6;
+        }
+        .pg-check-link {
+          color: #1A1208; font-weight: 700;
+          text-decoration: underline; text-underline-offset: 3px;
         }
 
         /* ── STICKY CTA ── */
-        .co-sticky-cta {
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          z-index: 40;
-          background: rgba(248,245,241,0.97);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border-top: 1px solid rgba(0,0,0,0.08);
-          padding: 12px clamp(16px, 5vw, 24px) max(12px, env(safe-area-inset-bottom));
+        .pg-cta-bar {
+          position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+          background: rgba(14,12,9,0.97);
+          backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+          border-top: 1px solid rgba(255,255,255,0.07);
+          padding: 14px clamp(16px,5vw,32px) max(14px,env(safe-area-inset-bottom));
         }
-
-        .co-cta-inner {
-          max-width: 780px;
-          margin: 0 auto;
-          display: flex;
-          align-items: center;
-          gap: 14px;
+        .pg-cta-inner {
+          max-width: 800px; margin: 0 auto;
+          display: flex; align-items: center; gap: 14px;
         }
-
-        .co-cta-recap {
-          flex: 1;
-          min-width: 0;
+        .pg-cta-recap { flex: 1; min-width: 0; }
+        .pg-cta-recap-hint { font-size: 11px; color: rgba(255,255,255,0.32); font-weight: 400; margin-bottom: 1px; }
+        .pg-cta-recap-name {
+          font-size: 14px; font-weight: 700; color: #fff;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
-
-        .co-cta-btn {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          padding: 15px 28px;
-          border-radius: 14px;
-          border: none;
-          outline: none;
-          font-family: inherit;
-          font-size: clamp(14px, 3.5vw, 15px);
-          font-weight: 700;
-          white-space: nowrap;
-          cursor: pointer;
-          transition: opacity 0.2s, transform 0.15s;
-          -webkit-tap-highlight-color: transparent;
-          touch-action: manipulation;
-          flex-shrink: 0;
+        .pg-cta-recap-empty { font-size: 13px; color: rgba(255,255,255,0.28); }
+        .pg-cta-btn {
+          display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+          padding: 16px 28px; border-radius: 14px; border: none; outline: none;
+          font-family: inherit; font-size: clamp(14px,3.5vw,15px); font-weight: 700;
+          cursor: pointer; white-space: nowrap; flex-shrink: 0;
+          transition: opacity 0.18s, transform 0.15s;
+          -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+          min-width: 180px;
         }
-        .co-cta-btn:active { transform: scale(0.97); }
+        .pg-cta-btn:active { transform: scale(0.97); }
+        .pg-cta-btn-ready { background: #FF6B00; color: #fff; box-shadow: 0 4px 24px rgba(255,107,0,0.4); }
+        .pg-cta-btn-disabled { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.22); cursor: not-allowed; }
 
-        .co-check-row {
-          display: flex;
-          gap: 12px;
-          align-items: flex-start;
-          cursor: pointer;
-        }
-        .co-check-row + .co-check-row { margin-top: 14px; }
-
-        @media (max-width: 480px) {
-          .co-cta-inner { flex-direction: column; gap: 10px; }
-          .co-cta-btn { width: 100%; }
+        @media (max-width: 500px) {
+          .pg-cta-inner { flex-direction: column; gap: 10px; }
+          .pg-cta-btn { width: 100%; min-width: unset; }
         }
       `}</style>
 
-      <div className="co-root">
+      <div className="pg-root">
 
-        {/* Top bar */}
-        <div className="co-topbar">
-          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontWeight: 600, color: '#fff', letterSpacing: '0.02em' }}>
-            Vibe<em style={{ fontStyle: 'italic', color: '#C9A84C' }}>Invite</em>
-          </span>
-          <span style={{ fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.45)', display: 'flex', alignItems: 'center', gap: 5 }}>
-            🔒 Plată securizată Stripe
-          </span>
+        {/* ── TOPBAR ── */}
+        <div className="pg-topbar">
+          <span className="pg-logo">Vibe<em>Invite</em></span>
+          <span className="pg-secure">🔒 Plată securizată Stripe</span>
         </div>
 
-        <div className="co-scroll">
-          <div className="co-inner">
+        <div className="pg-scroll">
 
-            {/* Header */}
-            <div style={{ textAlign: 'center', marginBottom: 36 }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#FFF4ED', border: '1px solid #FDDCB5', borderRadius: 100, padding: '5px 14px', marginBottom: 16, fontSize: 11, fontWeight: 700, color: '#FF6B00', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                💌 Invitații digitale premium
-              </div>
-              <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px, 6vw, 46px)', fontWeight: 300, lineHeight: 1.2, color: '#1A1208', margin: '0 0 12px' }}>
-                Alege tema{' '}
-                <em style={{ fontStyle: 'italic', color: '#FF6B00' }}>perfectă</em>
-              </h1>
-              <p style={{ fontSize: 'clamp(13px, 3.5vw, 15px)', color: 'rgba(26,18,8,0.5)', maxWidth: 460, margin: '0 auto', lineHeight: 1.6 }}>
-                Selectează o temă, completează email-ul și finalizează comanda în câteva secunde.
-              </p>
+          {/* ── HERO ── */}
+          <div className="pg-hero">
+            <div className="pg-hero-eyebrow">
+              <span>💌</span> Invitații digitale premium
             </div>
+            <h1 className="pg-hero-h1">
+              Invitația care face<br /><em>prima impresie</em>
+            </h1>
+            <p className="pg-hero-sub">
+              Alege tema, completează email-ul și primești accesul imediat după plată.
+              O singură dată. Fără abonament. Fără surprize.
+            </p>
+            <div className="pg-trust-row">
+              <span className="pg-trust-item">✓ Acces permanent</span>
+              <span className="pg-trust-dot" />
+              <span className="pg-trust-item">✓ Dashboard complet inclus</span>
+              <span className="pg-trust-dot" />
+              <span className="pg-trust-item">✓ Plată unică 300 Lei</span>
+            </div>
+          </div>
 
-            {/* Category tabs */}
-            <div style={{ marginBottom: 28 }}>
-              <div className="co-cat-tabs">
+          {/* ── CONTENT CARD ── */}
+          <div className="pg-content">
+            <div className="pg-inner">
+
+              {/* CATEGORY TABS */}
+              <p className="pg-section-label">Categorie eveniment</p>
+              <div className="pg-cat-wrap">
                 {([
                   { id: 'nunta' as Category, icon: '💍', label: 'Nunți' },
                   { id: 'botez' as Category, icon: '🕊️', label: 'Botez' },
-                ]).map((cat) => (
+                ]).map((c) => (
                   <button
-                    key={cat.id}
+                    key={c.id}
                     type="button"
-                    onClick={() => { setActiveCategory(cat.id); setSelectedThemeId(null) }}
-                    className={`co-cat-tab ${activeCategory === cat.id ? 'co-cat-tab-active' : 'co-cat-tab-inactive'}`}
+                    className={`pg-cat-btn ${activeCategory === c.id ? 'pg-cat-btn-on' : 'pg-cat-btn-off'}`}
+                    onClick={() => { setActiveCategory(c.id); setSelectedThemeId(null) }}
                   >
-                    <span style={{ fontSize: 18 }}>{cat.icon}</span>
-                    {cat.label}
+                    <span style={{ fontSize: 18 }}>{c.icon}</span>
+                    {c.label}
                   </button>
                 ))}
               </div>
-            </div>
 
-            {/* Themes label */}
-            <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(26,18,8,0.35)', marginBottom: 14 }}>
-              {filteredThemes.length} teme disponibile · 300 Lei fiecare
-            </p>
-
-            {/* Theme cards */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 36 }}>
-              {filteredThemes.map((theme) => {
-                const isSelected = selectedThemeId === theme.id
-                return (
-                  <div
-                    key={theme.id}
-                    className={`co-theme-card ${isSelected ? 'co-theme-card-selected' : 'co-theme-card-unselected'}`}
-                    style={{ '--card-accent': theme.accent } as React.CSSProperties}
-                    onClick={() => setSelectedThemeId(isSelected ? null : theme.id)}
-                  >
-                    <div style={{ height: 4, background: theme.barGrad }} />
-
-                    <div className="co-card-body">
-                      <div className="co-card-icon" style={{ background: theme.pillBg }}>
-                        {theme.icon}
-                      </div>
-
-                      <div className="co-card-info">
-                        <div className="co-card-meta">
-                          <span className="co-pill" style={{ background: theme.pillBg, color: theme.pillText }}>
-                            {theme.tagline}
-                          </span>
-                          {theme.badge && (
-                            <span className="co-badge">{theme.badge}</span>
-                          )}
-                        </div>
-                        <div className="co-card-name" style={{ color: theme.accent }}>
-                          {theme.name}
-                        </div>
-                        <p className="co-card-desc">{theme.desc}</p>
-                      </div>
-                    </div>
-
-                    <div className="co-card-footer">
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                        <span style={{ fontSize: 22, fontWeight: 700, color: '#1A1208' }}>300 Lei</span>
-                        <span style={{ fontSize: 12, color: 'rgba(26,18,8,0.4)', fontWeight: 400 }}>· plată unică</span>
-                      </div>
-                      <div
-                        className={`co-select-indicator ${isSelected ? 'co-select-indicator-on' : 'co-select-indicator-off'}`}
-                        style={isSelected ? { background: theme.accent } : {}}
-                      >
-                        {isSelected ? '✓' : ''}
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* Email + Terms */}
-            <div className="co-email-card">
-              <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(26,18,8,0.4)', marginBottom: 16 }}>
-                📧 Date de acces
+              {/* THEMES COUNT */}
+              <p className="pg-section-label" style={{ marginBottom: 16 }}>
+                {filteredThemes.length} teme disponibile · 300 Lei fiecare · Plată unică
               </p>
 
-              <label htmlFor="co-email" style={{ display: 'block', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#1A1208', marginBottom: 8 }}>
-                Email pentru acces la dashboard
-              </label>
-              <input
-                id="co-email"
-                type="email"
-                inputMode="email"
-                autoComplete="email"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                placeholder="nume@gmail.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onFocus={() => setEmailFocused(true)}
-                onBlur={() => setEmailFocused(false)}
-                className={`co-input ${emailFocused ? 'co-input-focused' : ''}`}
-              />
+              {/* THEME GRID */}
+              <div className="pg-grid">
+                {filteredThemes.map((theme) => {
+                  const isOn = selectedThemeId === theme.id
+                  // derive a glow color from accent
+                  const glowAlpha = '28'
+                  return (
+                    <div
+                      key={theme.id}
+                      className={`pg-card ${isOn ? 'pg-card-on' : 'pg-card-off'}`}
+                      style={{
+                        '--c-accent': theme.accent,
+                        '--c-accent-glow': theme.accent + glowAlpha,
+                      } as React.CSSProperties}
+                      onClick={() => setSelectedThemeId(isOn ? null : theme.id)}
+                    >
+                      {/* popular ribbon */}
+                      {theme.popular && (
+                        <div
+                          className="pg-ribbon"
+                          style={{ background: theme.accent, color: theme.accentText }}
+                        >
+                          ⭐ Cel mai ales
+                        </div>
+                      )}
 
-              <div style={{ height: 1, background: 'rgba(0,0,0,0.07)', margin: '20px 0' }} />
+                      {/* gradient bar */}
+                      <div className="pg-card-bar" style={{ background: theme.barGrad }} />
 
-              <div
-                className="co-check-row"
-                onClick={() => setAccepted((v) => !v)}
-              >
-                <input
-                  type="checkbox"
-                  checked={accepted}
-                  onChange={(e) => setAccepted(e.target.checked)}
-                  onClick={(e) => e.stopPropagation()}
-                  style={{ width: 18, height: 18, minWidth: 18, accentColor: '#1A1208', cursor: 'pointer', marginTop: 2 }}
-                />
-                <span style={{ fontSize: 'clamp(12px, 3.2vw, 13px)', color: 'rgba(26,18,8,0.55)', lineHeight: 1.55 }}>
-                  Sunt de acord cu{' '}
-                  <a
-                    href="/termeni"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    style={{ color: '#1A1208', fontWeight: 700, textDecoration: 'underline', textUnderlineOffset: 3 }}
-                  >
-                    Termenii și Condițiile
-                  </a>
-                  {' '}și confirm că am dreptul legal de a prelucra datele invitaților.
-                </span>
+                      <div className="pg-card-body">
+                        <div className="pg-card-top">
+                          <div className="pg-card-icon" style={{ background: theme.pillBg }}>
+                            {theme.icon}
+                          </div>
+                          <div className="pg-card-meta">
+                            <div className="pg-card-badge-row">
+                              <span
+                                className="pg-card-tagline"
+                                style={{ background: theme.pillBg, color: theme.pillText }}
+                              >
+                                {theme.tagline}
+                              </span>
+                              {theme.badge && (
+                                <span className="pg-card-cat-badge">{theme.badge}</span>
+                              )}
+                            </div>
+                            <div
+                              className="pg-card-name"
+                              style={{ color: theme.accent }}
+                            >
+                              {theme.name}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Headline + Hook */}
+                        <p style={{
+                          fontFamily: "'Cormorant Garamond', serif",
+                          fontSize: 'clamp(16px,4vw,19px)',
+                          fontWeight: 600,
+                          lineHeight: 1.3,
+                          color: '#1A1208',
+                          marginBottom: 6,
+                        }}>
+                          {theme.headline}
+                        </p>
+                        <p className="pg-card-hook">{theme.hook}</p>
+
+                        <div className="pg-card-div" />
+
+                        {/* Bullets */}
+                        <div className="pg-card-bullets">
+                          {theme.bullets.map((b, i) => (
+                            <div key={i} className="pg-card-bullet">
+                              <div
+                                className="pg-card-bullet-dot"
+                                style={{ background: theme.accent }}
+                              >
+                                ✓
+                              </div>
+                              {b}
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Footer */}
+                        <div className="pg-card-footer">
+                          <div className="pg-card-price">
+                            <span className="pg-card-price-main">300 Lei</span>
+                            <span className="pg-card-price-sub">· o singură dată</span>
+                          </div>
+                          <button
+                            type="button"
+                            className="pg-card-select"
+                            onClick={(e) => { e.stopPropagation(); setSelectedThemeId(isOn ? null : theme.id) }}
+                            style={isOn
+                              ? { background: theme.accent, color: theme.accentText, borderColor: theme.accent }
+                              : { background: theme.pillBg, color: theme.pillText, borderColor: 'transparent' }
+                            }
+                          >
+                            {isOn ? '✓ Selectată' : 'Alege tema'}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
 
-              <div
-                className="co-check-row"
-                onClick={() => setPrivacyAccepted((v) => !v)}
-              >
+              {/* EMAIL + TERMS */}
+              <div className="pg-email-block">
+                <p className="pg-section-label" style={{ marginBottom: 14 }}>📧 Date de acces</p>
+                <label htmlFor="pg-email" className="pg-email-label">
+                  Email — vei primi accesul imediat după plată
+                </label>
                 <input
-                  type="checkbox"
-                  checked={privacyAccepted}
-                  onChange={(e) => setPrivacyAccepted(e.target.checked)}
-                  onClick={(e) => e.stopPropagation()}
-                  style={{ width: 18, height: 18, minWidth: 18, accentColor: '#1A1208', cursor: 'pointer', marginTop: 2 }}
+                  id="pg-email"
+                  type="email"
+                  inputMode="email"
+                  autoComplete="email"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  placeholder="nume@gmail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onFocus={() => setEmailFocused(true)}
+                  onBlur={() => setEmailFocused(false)}
+                  className="pg-email-input"
                 />
-                <span style={{ fontSize: 'clamp(12px, 3.2vw, 13px)', color: 'rgba(26,18,8,0.55)', lineHeight: 1.55 }}>
-                  Am citit și accept{' '}
-                  <a
-                    href="/confidentialitate"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                <div className="pg-divider" />
+                <div
+                  className="pg-check-row"
+                  onClick={() => setAccepted((v) => !v)}
+                >
+                  <input
+                    type="checkbox"
+                    checked={accepted}
+                    onChange={(e) => setAccepted(e.target.checked)}
                     onClick={(e) => e.stopPropagation()}
-                    style={{ color: '#1A1208', fontWeight: 700, textDecoration: 'underline', textUnderlineOffset: 3 }}
-                  >
-                    Politica de Confidențialitate
-                  </a>
-                  {' '}și prelucrarea datelor conform GDPR.
-                </span>
+                    style={{ width: 18, height: 18, minWidth: 18, accentColor: '#1A1208', cursor: 'pointer', marginTop: 2, flexShrink: 0 }}
+                  />
+                  <span className="pg-check-text">
+                    Sunt de acord cu{' '}
+                    <a href="/termeni" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="pg-check-link">
+                      Termenii și Condițiile
+                    </a>
+                    {' '}și confirm că am dreptul legal de a prelucra datele invitaților.
+                  </span>
+                </div>
+                <div
+                  className="pg-check-row"
+                  onClick={() => setPrivacyAccepted((v) => !v)}
+                >
+                  <input
+                    type="checkbox"
+                    checked={privacyAccepted}
+                    onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                    onClick={(e) => e.stopPropagation()}
+                    style={{ width: 18, height: 18, minWidth: 18, accentColor: '#1A1208', cursor: 'pointer', marginTop: 2, flexShrink: 0 }}
+                  />
+                  <span className="pg-check-text">
+                    Am citit și accept{' '}
+                    <a href="/confidentialitate" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="pg-check-link">
+                      Politica de Confidențialitate
+                    </a>
+                    {' '}și prelucrarea datelor conform GDPR.
+                  </span>
+                </div>
               </div>
+
+              <p style={{ textAlign: 'center', fontSize: 12, color: 'rgba(26,18,8,0.32)', lineHeight: 1.6 }}>
+                <strong style={{ color: 'rgba(26,18,8,0.5)' }}>Plată unică · Acces permanent.</strong>{' '}
+                Inclus: dashboard invitați, meniu QR și album foto colectiv.
+              </p>
+
             </div>
-
-            <p style={{ textAlign: 'center', marginTop: 24, fontSize: 12, color: 'rgba(26,18,8,0.35)', lineHeight: 1.6 }}>
-              <strong style={{ color: 'rgba(26,18,8,0.55)' }}>Plată unică · Acces permanent.</strong>{' '}
-              Inclus: dashboard invitați, meniu QR și album foto colectiv.
-            </p>
-
           </div>
         </div>
 
-        {/* Sticky CTA */}
-        <div className="co-sticky-cta">
-          <div className="co-cta-inner">
-            <div className="co-cta-recap">
+        {/* ── STICKY CTA ── */}
+        <div className="pg-cta-bar">
+          <div className="pg-cta-inner">
+            <div className="pg-cta-recap">
               {selectedTheme ? (
                 <>
-                  <p style={{ margin: 0, fontSize: 12, color: 'rgba(26,18,8,0.45)', fontWeight: 500 }}>Temă selectată</p>
-                  <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#1A1208', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {selectedTheme.icon} {selectedTheme.name} · <span style={{ color: selectedTheme.accent }}>300 Lei</span>
+                  <p className="pg-cta-recap-hint">Temă selectată</p>
+                  <p className="pg-cta-recap-name">
+                    {selectedTheme.icon} {selectedTheme.name}
+                    <span style={{ color: selectedTheme.accent, marginLeft: 8 }}>· 300 Lei</span>
                   </p>
                 </>
               ) : (
-                <p style={{ margin: 0, fontSize: 13, color: 'rgba(26,18,8,0.4)', fontWeight: 400 }}>
-                  👆 Selectează o temă pentru a continua
-                </p>
+                <p className="pg-cta-recap-empty">👆 Selectează o temă pentru a continua</p>
               )}
             </div>
-
             <button
               type="button"
-              onClick={handlePayment}
+              className={`pg-cta-btn ${selectedTheme && isReady && loading === '' ? 'pg-cta-btn-ready' : 'pg-cta-btn-disabled'}`}
               disabled={!selectedTheme || !isReady || loading !== ''}
-              className="co-cta-btn"
-              style={{
-                background: selectedTheme && isReady && loading === '' ? selectedTheme.accent : '#D0CBC4',
-                color: selectedTheme && isReady && loading === '' ? selectedTheme.accentText : 'rgba(26,18,8,0.35)',
-                cursor: !selectedTheme || !isReady || loading !== '' ? 'not-allowed' : 'pointer',
-                opacity: !selectedTheme || !isReady || loading !== '' ? 0.7 : 1,
-              }}
+              onClick={handlePayment}
             >
-              {loading !== '' ? (
-                <>Se procesează…</>
-              ) : (
-                <>Continuă către plată →</>
-              )}
+              {loading !== '' ? 'Se procesează…' : 'Continuă către plată →'}
             </button>
           </div>
         </div>
