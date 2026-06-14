@@ -80,7 +80,7 @@ const isGalleryActive = s.gallery_status === 'active';
 
   return (
     <BohoInviteClient
-      slug={params.slug}
+     slug={params.slug}
       brideName={s.bride_name || ''}
       groomName={s.groom_name || ''}
       initials={initials}
@@ -105,6 +105,7 @@ const isGalleryActive = s.gallery_status === 'active';
       isTransportActive={!!s.is_transport_active}
       contactPhoneBride={s.contact_phone_bride || ''}
       contactPhoneGroom={s.contact_phone_groom || ''}
+      religiousMaps={s.religious_maps_url || ''} /* <--- ADAUGĂ LINIA ASTA */
       orderId={s.order_id}
     />
   );

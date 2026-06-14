@@ -108,6 +108,7 @@ export default async function InvitationPage({ params }: { params: { slug: strin
       isTransportActive={!!s.is_transport_active}
       contactPhoneBride={s.contact_phone_bride || ''}
       contactPhoneGroom={s.contact_phone_groom || ''}
+      religiousMaps={s.religious_maps_url || ''} /* <--- ADAUGĂ LINIA ASTA */
       orderId={s.order_id}
     />
   );
