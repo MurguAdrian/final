@@ -21,27 +21,27 @@ async function getProviders(category: string, judet: string, search: string) {
   const q = search ? `%${search}%` : null;
 
   if (cat && jud && q) {
-    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder FROM mkt_providers WHERE is_active=true AND category=${cat} AND judet=${jud} AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
+    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true AND category=${cat} AND judet=${jud} AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
   }
   if (cat && jud) {
-    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder FROM mkt_providers WHERE is_active=true AND category=${cat} AND judet=${jud} ORDER BY created_at DESC`;
+    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true AND category=${cat} AND judet=${jud} ORDER BY created_at DESC`;
   }
   if (cat && q) {
-    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder FROM mkt_providers WHERE is_active=true AND category=${cat} AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
+    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true AND category=${cat} AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
   }
   if (jud && q) {
-    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder FROM mkt_providers WHERE is_active=true AND judet=${jud} AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
+    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true AND judet=${jud} AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
   }
   if (cat) {
-    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder FROM mkt_providers WHERE is_active=true AND category=${cat} ORDER BY created_at DESC`;
+    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true AND category=${cat} ORDER BY created_at DESC`;
   }
   if (jud) {
-    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder FROM mkt_providers WHERE is_active=true AND judet=${jud} ORDER BY created_at DESC`;
+    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true AND judet=${jud} ORDER BY created_at DESC`;
   }
   if (q) {
-    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder FROM mkt_providers WHERE is_active=true AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
+    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
   }
-  return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder FROM mkt_providers WHERE is_active=true ORDER BY created_at DESC`;
+  return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true ORDER BY created_at DESC`;
 }
 
 async function getJudete() {
