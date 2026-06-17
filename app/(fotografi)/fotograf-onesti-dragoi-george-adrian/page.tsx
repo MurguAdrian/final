@@ -260,14 +260,14 @@ export default async function FotografDragoiPage() {
       <TrackView slug={p.slug} />
       <div className="fp">
 
-        <nav className="fp-nav" id="fp-nav">
+        {/* <nav className="fp-nav" id="fp-nav">
           <a href="/servicii-nunta" className="fp-nav-back">
             <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             Furnizori
           </a>
-        </nav>
+        </nav> */}
 
         <div className="fp-hero">
           <div className="fp-hero-orb1" />
@@ -407,13 +407,13 @@ export default async function FotografDragoiPage() {
         <ContactBar provider={p} shortUrl={shortUrl} />
       </div>
 
-      <script dangerouslySetInnerHTML={{ __html: `
+      {/* <script dangerouslySetInnerHTML={{ __html: `
         window.addEventListener('scroll',function(){
           var n=document.getElementById('fp-nav');
           if(window.scrollY>60){n.classList.add('scrolled');}
           else{n.classList.remove('scrolled');}
         });
-      `}} />
+      `}} /> */}
     </>
   );
 }
