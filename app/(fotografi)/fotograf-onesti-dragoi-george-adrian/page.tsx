@@ -234,6 +234,18 @@ const CSS = `
 }
 @media(min-width:1024px){ .fp-bar { display:none; } }
 .fp-bar-call {
+  flex:1; display:flex; align-items:center; justify-content:center; gap:8px;
+  background:linear-gradient(135deg,#FF6B00,#FF8C35); color:#fff;
+  font-size:14px; font-weight:700; padding:13px; border-radius:14px; text-decoration:none;
+  box-shadow:0 4px 16px rgba(255,107,0,0.28);
+}
+.fp-bar-wa {
+  flex:1; display:flex; align-items:center; justify-content:center; gap:6px;
+  background:#25D366; color:#fff;
+  font-size:13px; font-weight:600; padding:13px; border-radius:14px; text-decoration:none;
+}
+@media(min-width:1024px){ .fp-bar { display:none; } }
+.fp-bar-call {
   flex:2; display:flex; align-items:center; justify-content:center; gap:8px;
   background:linear-gradient(135deg,#FF6B00,#FF8C35); color:#fff;
   font-size:14px; font-weight:700; padding:13px; border-radius:14px; text-decoration:none;
