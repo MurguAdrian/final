@@ -19,28 +19,14 @@ async function getProviders(category: string, judet: string, search: string) {
   const jud = judet !== 'toate' ? judet : null;
   const q = search ? `%${search}%` : null;
 
-  if (cat && jud && q) {
-    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true AND category=${cat} AND judet=${jud} AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
-  }
-  if (cat && jud) {
-    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true AND category=${cat} AND judet=${jud} ORDER BY created_at DESC`;
-  }
-  if (cat && q) {
-    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true AND category=${cat} AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
-  }
-  if (jud && q) {
-    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true AND judet=${jud} AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
-  }
-  if (cat) {
-    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true AND category=${cat} ORDER BY created_at DESC`;
-  }
-  if (jud) {
-    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true AND judet=${jud} ORDER BY created_at DESC`;
-  }
-  if (q) {
-    return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
-  }
-  return await sql`SELECT id,slug,name,category,subtype,judet,oras,cloudinary_folder,profile_image FROM mkt_providers WHERE is_active=true ORDER BY created_at DESC`;
+  if (cat && jud && q) return await sql`SELECT id,slug,name,category,subtype,judet,oras,profile_image FROM mkt_providers WHERE is_active=true AND category=${cat} AND judet=${jud} AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
+  if (cat && jud) return await sql`SELECT id,slug,name,category,subtype,judet,oras,profile_image FROM mkt_providers WHERE is_active=true AND category=${cat} AND judet=${jud} ORDER BY created_at DESC`;
+  if (cat && q) return await sql`SELECT id,slug,name,category,subtype,judet,oras,profile_image FROM mkt_providers WHERE is_active=true AND category=${cat} AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
+  if (jud && q) return await sql`SELECT id,slug,name,category,subtype,judet,oras,profile_image FROM mkt_providers WHERE is_active=true AND judet=${jud} AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
+  if (cat) return await sql`SELECT id,slug,name,category,subtype,judet,oras,profile_image FROM mkt_providers WHERE is_active=true AND category=${cat} ORDER BY created_at DESC`;
+  if (jud) return await sql`SELECT id,slug,name,category,subtype,judet,oras,profile_image FROM mkt_providers WHERE is_active=true AND judet=${jud} ORDER BY created_at DESC`;
+  if (q) return await sql`SELECT id,slug,name,category,subtype,judet,oras,profile_image FROM mkt_providers WHERE is_active=true AND (name ILIKE ${q} OR oras ILIKE ${q}) ORDER BY created_at DESC`;
+  return await sql`SELECT id,slug,name,category,subtype,judet,oras,profile_image FROM mkt_providers WHERE is_active=true ORDER BY created_at DESC`;
 }
 
 async function getJudete() {
@@ -56,142 +42,150 @@ const CSS = `
 
 .sn-hero {
   background: linear-gradient(135deg, #1A1208 0%, #2d1f0e 100%);
-  padding: 52px 20px 56px; text-align: center; position: relative; overflow: hidden;
+  padding: 56px 20px 60px; text-align: center; position: relative; overflow: hidden;
 }
 .sn-hero::before {
   content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 70% 50%, rgba(255,107,0,0.15) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 70% 50%, rgba(255,107,0,0.13) 0%, transparent 60%);
   pointer-events: none;
 }
 .sn-hero-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(255,107,0,0.12); border: 1px solid rgba(255,107,0,0.25);
-  border-radius: 100px; padding: 5px 16px; font-size: 11px; font-weight: 600;
-  color: #FF8C35; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 20px;
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,107,0,0.1); border: 1px solid rgba(255,107,0,0.22);
+  border-radius: 100px; padding: 5px 18px; font-size: 11px; font-weight: 600;
+  color: #FF8C35; letter-spacing: .09em; text-transform: uppercase; margin-bottom: 22px;
 }
 .sn-hero-dot { width: 6px; height: 6px; background: #FF6B00; border-radius: 50%; animation: snDot 1.8s ease-in-out infinite; }
 @keyframes snDot { 0%,100%{opacity:.4;transform:scale(.8)} 50%{opacity:1;transform:scale(1.2)} }
 .sn-hero h1 {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(28px, 5vw, 52px); font-weight: 300; color: #fff; line-height: 1.12; margin-bottom: 12px;
+  font-size: clamp(30px, 5vw, 54px); font-weight: 300; color: #fff; line-height: 1.1; margin-bottom: 12px;
 }
 .sn-hero h1 em { font-style: italic; color: #FF8C35; }
-.sn-hero-sub { font-size: 14px; color: rgba(255,255,255,0.45); margin-bottom: 32px; letter-spacing: .01em; }
+.sn-hero-sub { font-size: 13.5px; color: rgba(255,255,255,0.4); margin-bottom: 36px; letter-spacing: .04em; }
 .sn-search-wrap { position: relative; max-width: 580px; margin: 0 auto; }
-.sn-search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.35); pointer-events: none; }
+.sn-search-icon { position: absolute; left: 17px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.3); pointer-events: none; }
 .sn-search {
-  width: 100%; padding: 15px 20px 15px 48px;
-  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+  width: 100%; padding: 16px 20px 16px 50px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
   border-radius: 18px; font-size: 14px; color: #fff; outline: none;
   transition: border-color .2s, background .2s; font-family: 'DM Sans', sans-serif;
 }
-.sn-search::placeholder { color: rgba(255,255,255,0.3); }
-.sn-search:focus { border-color: rgba(255,107,0,0.5); background: rgba(255,255,255,0.1); }
+.sn-search::placeholder { color: rgba(255,255,255,0.28); }
+.sn-search:focus { border-color: rgba(255,107,0,0.45); background: rgba(255,255,255,0.09); }
 
-.sn-body { max-width: 1320px; margin: 0 auto; padding: 36px 20px 80px; display: flex; gap: 32px; align-items: flex-start; }
+.sn-body { max-width: 1340px; margin: 0 auto; padding: 40px 24px 100px; display: flex; gap: 36px; align-items: flex-start; }
 
 .sn-sidebar {
-  width: 230px; flex-shrink: 0; position: sticky; top: 88px;
-  background: #fff; border-radius: 24px; border: 1px solid rgba(26,18,8,0.07);
-  box-shadow: 0 2px 16px rgba(0,0,0,0.04); padding: 24px; display: none;
+  width: 236px; flex-shrink: 0; position: sticky; top: 90px;
+  background: #fff; border-radius: 24px; border: 1px solid rgba(26,18,8,0.06);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.04); padding: 26px; display: none;
 }
 @media(min-width:1024px){ .sn-sidebar { display: block; } }
 
-.sn-sidebar-title {
-  font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-  color: rgba(26,18,8,0.3); margin-bottom: 10px; padding-left: 4px;
+.sn-sidebar-label {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(26,18,8,0.28); margin-bottom: 12px; padding-left: 2px;
 }
-.sn-filter-link {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px; border-radius: 14px; font-size: 13.5px;
-  color: rgba(26,18,8,0.6); text-decoration: none;
-  transition: background .15s, color .15s;
-}
-.sn-filter-link:hover { background: #FFF4ED; color: #FF6B00; }
-.sn-filter-link.active { background: #FFF4ED; color: #FF6B00; font-weight: 600; }
-.sn-filter-dot {
-  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
-  background: rgba(26,18,8,0.15); transition: background .15s;
-}
-.sn-filter-link.active .sn-filter-dot { background: #FF6B00; }
-.sn-divider { height: 1px; background: rgba(26,18,8,0.06); margin: 16px 0; }
-.sn-judet-link {
+.sn-cat-btn {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 8px 12px; border-radius: 12px; font-size: 13px;
-  color: rgba(26,18,8,0.55); text-decoration: none; transition: background .15s, color .15s;
+  width: 100%; padding: 10px 14px; border-radius: 14px; font-size: 13.5px;
+  color: rgba(26,18,8,0.58); text-decoration: none; background: transparent; border: none;
+  cursor: pointer; transition: background .15s, color .15s; font-family: 'DM Sans', sans-serif;
+  margin-bottom: 2px;
 }
-.sn-judet-link:hover { background: #FFF4ED; color: #FF6B00; }
-.sn-judet-link.active { background: #FFF4ED; color: #FF6B00; font-weight: 600; }
-.sn-judet-count {
-  font-size: 11px; background: rgba(26,18,8,0.07); color: rgba(26,18,8,0.4);
-  padding: 1px 7px; border-radius: 100px;
+.sn-cat-btn:hover { background: #FFF4ED; color: #FF6B00; }
+.sn-cat-btn.active { background: linear-gradient(135deg,#FF6B00,#FF8C35); color: #fff; font-weight: 600; }
+.sn-cat-arrow { font-size: 10px; opacity: .4; }
+.sn-cat-btn.active .sn-cat-arrow { opacity: .7; }
+
+.sn-divider { height: 1px; background: rgba(26,18,8,0.05); margin: 18px 0; }
+
+.sn-judet-btn {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; padding: 8px 14px; border-radius: 12px; font-size: 13px;
+  color: rgba(26,18,8,0.52); text-decoration: none; background: transparent; border: none;
+  cursor: pointer; transition: background .15s, color .15s; font-family: 'DM Sans', sans-serif;
+  margin-bottom: 2px;
 }
-.sn-judet-link.active .sn-judet-count { background: rgba(255,107,0,0.12); color: #FF6B00; }
+.sn-judet-btn:hover { background: #FFF4ED; color: #FF6B00; }
+.sn-judet-btn.active { background: #FFF4ED; color: #FF6B00; font-weight: 600; }
 
 .sn-main { flex: 1; min-width: 0; }
-.sn-results-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 8px; }
-.sn-results-count { font-size: 13px; color: rgba(26,18,8,0.4); }
-.sn-results-count strong { color: #1A1208; font-weight: 600; }
-.sn-results-tag {
+.sn-results-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 10px; }
+.sn-results-count { font-size: 13px; color: rgba(26,18,8,0.38); }
+.sn-results-count strong { color: #1A1208; font-weight: 600; font-size: 14px; }
+.sn-active-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.sn-filter-chip {
   display: inline-flex; align-items: center; gap: 6px;
-  background: #FFF4ED; border: 1px solid rgba(255,107,0,0.2);
+  background: #FFF4ED; border: 1px solid rgba(255,107,0,0.18);
   color: #FF6B00; font-size: 12px; font-weight: 500;
-  padding: 4px 12px; border-radius: 100px;
+  padding: 5px 12px; border-radius: 100px;
 }
+.sn-filter-chip a { color: #FF6B00; font-weight: 700; text-decoration: none; margin-left: 2px; opacity: .7; }
+.sn-filter-chip a:hover { opacity: 1; }
 
-.sn-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+.sn-grid { display: grid; grid-template-columns: 1fr; gap: 22px; }
 @media(min-width:540px){ .sn-grid { grid-template-columns: repeat(2,1fr); } }
 @media(min-width:1100px){ .sn-grid { grid-template-columns: repeat(3,1fr); } }
 
 .sn-card {
   background: #fff; border-radius: 24px; overflow: hidden;
   border: 1px solid rgba(26,18,8,0.06);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-  transition: transform .22s, box-shadow .22s;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.04);
+  transition: transform .22s ease, box-shadow .22s ease;
   display: flex; flex-direction: column;
 }
-.sn-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.09); }
+.sn-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,0.09); }
 
 .sn-card-img {
-  position: relative; height: 220px;
-  background: linear-gradient(135deg, #f5f0ea, #ede8e1);
+  position: relative; height: 240px;
+  background: #f5f0ea;
   overflow: hidden; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
 }
-.sn-card-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; transition: transform .4s ease; }
-.sn-card:hover .sn-card-img img { transform: scale(1.04); }
+.sn-card-img img {
+  width: 100%; height: 100%;
+  object-fit: contain; object-position: center;
+  display: block; transition: transform .4s ease;
+}
+.sn-card:hover .sn-card-img img { transform: scale(1.03); }
+
 .sn-card-cat {
   position: absolute; top: 12px; left: 12px;
-  background: rgba(26,18,8,0.7); backdrop-filter: blur(12px);
-  color: #fff; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  background: rgba(26,18,8,0.68); backdrop-filter: blur(14px);
+  color: #fff; font-size: 9.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
   padding: 4px 12px; border-radius: 100px;
 }
 
-.sn-card-body { padding: 18px 18px 20px; display: flex; flex-direction: column; flex: 1; }
-.sn-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
-.sn-card-name { font-size: 15px; font-weight: 600; color: #1A1208; line-height: 1.3; }
-.sn-card-loc { display: flex; align-items: center; gap: 4px; font-size: 12px; color: rgba(26,18,8,0.4); margin-bottom: 14px; }
-.sn-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.sn-card-body { padding: 20px 20px 22px; display: flex; flex-direction: column; flex: 1; }
+.sn-card-name { font-size: 15.5px; font-weight: 600; color: #1A1208; line-height: 1.3; margin-bottom: 5px; }
+.sn-card-loc { display: flex; align-items: center; gap: 4px; font-size: 12px; color: rgba(26,18,8,0.38); margin-bottom: 14px; }
 .sn-card-tag {
-  font-size: 11px; color: #FF6B00;
-  background: #FFF4ED; border: 1px solid rgba(255,107,0,0.18);
-  padding: 3px 10px; border-radius: 100px; font-weight: 500;
+  display: inline-block; font-size: 11px; color: #FF6B00;
+  background: #FFF4ED; border: 1px solid rgba(255,107,0,0.15);
+  padding: 3px 11px; border-radius: 100px; font-weight: 500; margin-bottom: 16px;
 }
 .sn-card-btn {
-  display: block; width: 100%; text-align: center; margin-top: auto;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; margin-top: auto;
   background: linear-gradient(135deg,#FF6B00,#FF8C35);
-  color: #fff; font-size: 13px; font-weight: 600;
-  padding: 11px; border-radius: 14px; text-decoration: none;
+  color: #fff; font-size: 13.5px; font-weight: 600;
+  padding: 12px; border-radius: 14px; text-decoration: none;
   transition: opacity .2s, transform .15s; letter-spacing: .01em;
+  box-shadow: 0 4px 16px rgba(255,107,0,0.25);
 }
-.sn-card-btn:hover { opacity: .88; transform: translateY(-1px); }
+.sn-card-btn:hover { opacity: .9; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(255,107,0,0.3); }
+.sn-card-btn svg { transition: transform .2s; }
+.sn-card:hover .sn-card-btn svg { transform: translateX(3px); }
 
-.sn-empty { text-align: center; padding: 100px 20px; color: rgba(26,18,8,0.3); }
-.sn-empty-ico { font-size: 52px; margin-bottom: 14px; }
-.sn-empty-txt { font-size: 15px; line-height: 1.6; }
+.sn-empty { text-align: center; padding: 100px 20px; color: rgba(26,18,8,0.28); }
+.sn-empty-ico { font-size: 52px; margin-bottom: 16px; }
+.sn-empty-txt { font-size: 15px; line-height: 1.7; }
 
 @media(max-width:639px){
-  .sn-hero { padding: 36px 16px 40px; }
-  .sn-body { padding: 24px 14px 60px; }
+  .sn-hero { padding: 40px 16px 44px; }
+  .sn-body { padding: 24px 14px 70px; gap: 0; }
 }
 `;
 
@@ -249,22 +243,22 @@ export default async function ServiciiNuntaPage({
 
           {/* SIDEBAR DESKTOP */}
           <aside className="sn-sidebar">
-            <div className="sn-sidebar-title">Categorie</div>
+            <div className="sn-sidebar-label">Categorie</div>
             {CATEGORIES.map((cat) => (
               <Link
                 key={cat.value}
                 href={`/servicii-nunta?category=${cat.value}&judet=${judet}${search ? `&q=${search}` : ''}`}
-                className={`sn-filter-link${category === cat.value ? ' active' : ''}`}
+                className={`sn-cat-btn${category === cat.value ? ' active' : ''}`}
               >
-                <span className="sn-filter-dot" />
                 {cat.label}
+                <span className="sn-cat-arrow">›</span>
               </Link>
             ))}
             <div className="sn-divider" />
-            <div className="sn-sidebar-title">Județ</div>
+            <div className="sn-sidebar-label">Județ</div>
             <Link
               href={`/servicii-nunta?category=${category}&judet=toate${search ? `&q=${search}` : ''}`}
-              className={`sn-judet-link${judet === 'toate' ? ' active' : ''}`}
+              className={`sn-judet-btn${judet === 'toate' ? ' active' : ''}`}
             >
               Toate județele
             </Link>
@@ -272,7 +266,7 @@ export default async function ServiciiNuntaPage({
               <Link
                 key={j}
                 href={`/servicii-nunta?category=${category}&judet=${j}${search ? `&q=${search}` : ''}`}
-                className={`sn-judet-link${judet === j ? ' active' : ''}`}
+                className={`sn-judet-btn${judet === j ? ' active' : ''}`}
               >
                 {j}
               </Link>
@@ -285,17 +279,17 @@ export default async function ServiciiNuntaPage({
               <p className="sn-results-count">
                 <strong>{providers.length}</strong> furnizori găsiți
               </p>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <div className="sn-active-filters">
                 {category !== 'toate' && (
-                  <span className="sn-results-tag">
+                  <span className="sn-filter-chip">
                     {activeCatLabel}
-                    <Link href={`/servicii-nunta?category=toate&judet=${judet}${search ? `&q=${search}` : ''}`} style={{ color: '#FF6B00', fontWeight: 700, marginLeft: 2 }}>×</Link>
+                    <Link href={`/servicii-nunta?category=toate&judet=${judet}${search ? `&q=${search}` : ''}`}>×</Link>
                   </span>
                 )}
                 {judet !== 'toate' && (
-                  <span className="sn-results-tag">
+                  <span className="sn-filter-chip">
                     {judet}
-                    <Link href={`/servicii-nunta?category=${category}&judet=toate${search ? `&q=${search}` : ''}`} style={{ color: '#FF6B00', fontWeight: 700, marginLeft: 2 }}>×</Link>
+                    <Link href={`/servicii-nunta?category=${category}&judet=toate${search ? `&q=${search}` : ''}`}>×</Link>
                   </span>
                 )}
               </div>
@@ -319,9 +313,7 @@ export default async function ServiciiNuntaPage({
                       <span className="sn-card-cat">{p.category}</span>
                     </div>
                     <div className="sn-card-body">
-                      <div className="sn-card-top">
-                        <h2 className="sn-card-name">{p.name}</h2>
-                      </div>
+                      <h2 className="sn-card-name">{p.name}</h2>
                       <div className="sn-card-loc">
                         <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -329,13 +321,12 @@ export default async function ServiciiNuntaPage({
                         </svg>
                         {p.oras}, {p.judet}
                       </div>
-                      {p.subtype && (
-                        <div className="sn-card-tags">
-                          <span className="sn-card-tag">{p.subtype}</span>
-                        </div>
-                      )}
+                      {p.subtype && <span className="sn-card-tag">{p.subtype}</span>}
                       <Link href={`/${p.slug}`} className="sn-card-btn">
-                        Vezi Profilul →
+                        Vezi Profilul
+                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
                       </Link>
                     </div>
                   </div>
