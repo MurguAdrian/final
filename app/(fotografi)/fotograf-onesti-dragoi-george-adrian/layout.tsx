@@ -11,8 +11,7 @@ async function getProvider() {
 export async function generateMetadata(): Promise<Metadata> {
   const p = await getProvider();
   const CLOUD = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-  const ogImage = `https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_1200,h_630,c_fill/${p.profile_image}.jpg`;
-
+const ogImage = p.profile_image_url || `https://res.cloudinary.com/${CLOUD}/image/upload/${p.profile_image}.jpg`;
   return {
     title: `${p.name} – Fotograf Evenimente Onești, Bacău | VibeInvite`,
     description: `${p.name} este fotograf profesionist de evenimente în Onești, județul Bacău. Servicii foto-video pentru nunți și evenimente speciale. Contact direct: ${p.phone}.`,
