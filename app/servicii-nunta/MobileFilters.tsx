@@ -3,8 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 interface Props {
-  categories: { value: string; label: string; icon: string }[];
-  judete: string[];
+categories: { value: string; label: string; icon?: string }[];  judete: string[];
   activeCategory: string;
   activeJudet: string;
   search: string;

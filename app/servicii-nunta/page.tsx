@@ -1,17 +1,16 @@
 // app/servicii-nunta/page.tsx
 import { neon } from '@neondatabase/serverless';
 import Link from 'next/link';
-import Image from 'next/image';
 import MobileFilters from './MobileFilters';
 
 const CLOUD = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
 const CATEGORIES = [
-  { value: 'toate', label: 'Toate', icon: '✦' },
-  { value: 'fotograf', label: 'Fotografi', icon: '📷' },
-  { value: 'dj', label: 'DJ', icon: '🎧' },
-  { value: 'formatie', label: 'Formații', icon: '🎶' },
-  { value: 'candybar', label: 'Candy Bar', icon: '🍬' },
+  { value: 'toate', label: 'Toate' },
+  { value: 'fotograf', label: 'Fotografi' },
+  { value: 'dj', label: 'DJ' },
+  { value: 'formatie', label: 'Formații' },
+  { value: 'candybar', label: 'Candy Bar' },
 ];
 
 async function getProviders(category: string, judet: string, search: string) {
@@ -51,130 +50,149 @@ async function getJudete() {
 }
 
 const CSS = `
-  .sn-page { font-family: 'DM Sans', sans-serif; background: #FDFAF6; min-height: 100vh; }
-  .sn-hero {
-    background: linear-gradient(135deg, #1A1208 0%, #2d1f0e 100%);
-    padding: 40px 20px 48px; text-align: center; position: relative; overflow: hidden;
-  }
-  .sn-hero::before {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 70% 50%, rgba(255,107,0,0.18) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .sn-hero-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(255,107,0,0.15); border: 1px solid rgba(255,107,0,0.3);
-    border-radius: 100px; padding: 4px 14px; font-size: 11px; font-weight: 600;
-    color: #FF8C35; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 14px;
-  }
-  .sn-hero-dot { width: 6px; height: 6px; background: #FF6B00; border-radius: 50%; animation: snDot 1.8s ease-in-out infinite; }
-  @keyframes snDot { 0%,100%{opacity:.4;transform:scale(.8)} 50%{opacity:1;transform:scale(1.2)} }
-  .sn-hero h1 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(26px, 5vw, 48px); font-weight: 300; color: #fff; line-height: 1.15; margin-bottom: 10px;
-  }
-  .sn-hero h1 em { font-style: italic; color: #FF8C35; }
-  .sn-hero-sub { font-size: 14px; color: rgba(255,255,255,0.55); margin-bottom: 24px; }
-  .sn-search-wrap { position: relative; max-width: 560px; margin: 0 auto; }
-  .sn-search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.4); pointer-events: none; }
-  .sn-search {
-    width: 100%; padding: 14px 18px 14px 44px;
-    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 16px; font-size: 14px; color: #fff; outline: none;
-    transition: border-color .2s, background .2s;
-  }
-  .sn-search::placeholder { color: rgba(255,255,255,0.35); }
-  .sn-search:focus { border-color: rgba(255,107,0,0.6); background: rgba(255,255,255,0.12); }
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-  .sn-body { max-width: 1280px; margin: 0 auto; padding: 28px 16px 60px; display: flex; gap: 24px; align-items: flex-start; }
+.sn-page { font-family: 'DM Sans', sans-serif; background: #FDFAF6; min-height: 100vh; }
 
-  .sn-sidebar {
-    width: 220px; flex-shrink: 0; position: sticky; top: 80px;
-    background: #fff; border-radius: 20px; border: 1px solid rgba(255,107,0,0.1);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.05); padding: 20px; display: none;
-  }
-  @media(min-width:1024px){ .sn-sidebar { display: block; } }
+.sn-hero {
+  background: linear-gradient(135deg, #1A1208 0%, #2d1f0e 100%);
+  padding: 52px 20px 56px; text-align: center; position: relative; overflow: hidden;
+}
+.sn-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(255,107,0,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+.sn-hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,107,0,0.12); border: 1px solid rgba(255,107,0,0.25);
+  border-radius: 100px; padding: 5px 16px; font-size: 11px; font-weight: 600;
+  color: #FF8C35; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 20px;
+}
+.sn-hero-dot { width: 6px; height: 6px; background: #FF6B00; border-radius: 50%; animation: snDot 1.8s ease-in-out infinite; }
+@keyframes snDot { 0%,100%{opacity:.4;transform:scale(.8)} 50%{opacity:1;transform:scale(1.2)} }
+.sn-hero h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(28px, 5vw, 52px); font-weight: 300; color: #fff; line-height: 1.12; margin-bottom: 12px;
+}
+.sn-hero h1 em { font-style: italic; color: #FF8C35; }
+.sn-hero-sub { font-size: 14px; color: rgba(255,255,255,0.45); margin-bottom: 32px; letter-spacing: .01em; }
+.sn-search-wrap { position: relative; max-width: 580px; margin: 0 auto; }
+.sn-search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.35); pointer-events: none; }
+.sn-search {
+  width: 100%; padding: 15px 20px 15px 48px;
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 18px; font-size: 14px; color: #fff; outline: none;
+  transition: border-color .2s, background .2s; font-family: 'DM Sans', sans-serif;
+}
+.sn-search::placeholder { color: rgba(255,255,255,0.3); }
+.sn-search:focus { border-color: rgba(255,107,0,0.5); background: rgba(255,255,255,0.1); }
 
-  .sn-sidebar-title {
-    font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-    color: rgba(26,18,8,0.4); margin-bottom: 8px; padding-left: 4px;
-  }
-  .sn-filter-link {
-    display: flex; align-items: center; gap: 9px;
-    padding: 9px 12px; border-radius: 12px; font-size: 13px;
-    color: rgba(26,18,8,0.65); text-decoration: none;
-    transition: background .15s, color .15s; cursor: pointer;
-  }
-  .sn-filter-link:hover { background: #FFF4ED; color: #FF6B00; }
-  .sn-filter-link.active { background: #FFF4ED; color: #FF6B00; font-weight: 600; }
-  .sn-filter-icon { font-size: 15px; width: 20px; text-align: center; }
-  .sn-divider { height: 1px; background: rgba(26,18,8,0.07); margin: 14px 0; }
-  .sn-judet-link {
-    display: block; padding: 7px 12px; border-radius: 10px; font-size: 12.5px;
-    color: rgba(26,18,8,0.6); text-decoration: none; transition: background .15s, color .15s;
-  }
-  .sn-judet-link:hover { background: #FFF4ED; color: #FF6B00; }
-  .sn-judet-link.active { background: #FFF4ED; color: #FF6B00; font-weight: 600; }
+.sn-body { max-width: 1320px; margin: 0 auto; padding: 36px 20px 80px; display: flex; gap: 32px; align-items: flex-start; }
 
-  .sn-main { flex: 1; min-width: 0; }
-  .sn-results-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
-  }
-  .sn-results-count { font-size: 13px; color: rgba(26,18,8,0.45); }
-  .sn-results-count strong { color: #1A1208; font-weight: 600; }
+.sn-sidebar {
+  width: 230px; flex-shrink: 0; position: sticky; top: 88px;
+  background: #fff; border-radius: 24px; border: 1px solid rgba(26,18,8,0.07);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.04); padding: 24px; display: none;
+}
+@media(min-width:1024px){ .sn-sidebar { display: block; } }
 
-  .sn-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-  @media(min-width:540px){ .sn-grid { grid-template-columns: repeat(2,1fr); } }
-  @media(min-width:900px){ .sn-grid { grid-template-columns: repeat(2,1fr); } }
-  @media(min-width:1100px){ .sn-grid { grid-template-columns: repeat(3,1fr); } }
+.sn-sidebar-title {
+  font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(26,18,8,0.3); margin-bottom: 10px; padding-left: 4px;
+}
+.sn-filter-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 14px; font-size: 13.5px;
+  color: rgba(26,18,8,0.6); text-decoration: none;
+  transition: background .15s, color .15s;
+}
+.sn-filter-link:hover { background: #FFF4ED; color: #FF6B00; }
+.sn-filter-link.active { background: #FFF4ED; color: #FF6B00; font-weight: 600; }
+.sn-filter-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(26,18,8,0.15); transition: background .15s;
+}
+.sn-filter-link.active .sn-filter-dot { background: #FF6B00; }
+.sn-divider { height: 1px; background: rgba(26,18,8,0.06); margin: 16px 0; }
+.sn-judet-link {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 12px; border-radius: 12px; font-size: 13px;
+  color: rgba(26,18,8,0.55); text-decoration: none; transition: background .15s, color .15s;
+}
+.sn-judet-link:hover { background: #FFF4ED; color: #FF6B00; }
+.sn-judet-link.active { background: #FFF4ED; color: #FF6B00; font-weight: 600; }
+.sn-judet-count {
+  font-size: 11px; background: rgba(26,18,8,0.07); color: rgba(26,18,8,0.4);
+  padding: 1px 7px; border-radius: 100px;
+}
+.sn-judet-link.active .sn-judet-count { background: rgba(255,107,0,0.12); color: #FF6B00; }
 
-  .sn-card {
-    background: #fff; border-radius: 20px; overflow: hidden;
-    border: 1px solid rgba(26,18,8,0.07);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    transition: transform .2s, box-shadow .2s;
-  }
-  .sn-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.1); }
-  .sn-card-img { position: relative; height: 200px; background: #f0ece6; overflow: hidden; }
-  .sn-card-cat {
-    position: absolute; top: 10px; left: 10px;
-    background: rgba(26,18,8,0.75); backdrop-filter: blur(8px);
-    color: #fff; font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
-    padding: 3px 10px; border-radius: 100px;
-  }
-  .sn-card-body { padding: 16px; }
-  .sn-card-name { font-size: 15px; font-weight: 600; color: #1A1208; margin-bottom: 4px; }
-  .sn-card-loc { display: flex; align-items: center; gap: 4px; font-size: 12px; color: rgba(26,18,8,0.45); margin-bottom: 10px; }
-  .sn-card-tag {
-    display: inline-block; font-size: 11px; color: #FF6B00;
-    background: #FFF4ED; border: 1px solid rgba(255,107,0,0.2);
-    padding: 2px 8px; border-radius: 100px; margin-bottom: 12px;
-  }
-  .sn-card-btn {
-    display: block; width: 100%; text-align: center;
-    background: linear-gradient(135deg,#FF6B00,#FF8C35);
-    color: #fff; font-size: 13px; font-weight: 600;
-    padding: 10px; border-radius: 12px; text-decoration: none;
-    transition: opacity .2s, transform .15s;
-  }
-  .sn-card-btn:hover { opacity: .9; transform: translateY(-1px); }
+.sn-main { flex: 1; min-width: 0; }
+.sn-results-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 8px; }
+.sn-results-count { font-size: 13px; color: rgba(26,18,8,0.4); }
+.sn-results-count strong { color: #1A1208; font-weight: 600; }
+.sn-results-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #FFF4ED; border: 1px solid rgba(255,107,0,0.2);
+  color: #FF6B00; font-size: 12px; font-weight: 500;
+  padding: 4px 12px; border-radius: 100px;
+}
 
-  .sn-empty { text-align: center; padding: 80px 20px; color: rgba(26,18,8,0.35); }
-  .sn-empty-ico { font-size: 48px; margin-bottom: 12px; }
-  .sn-empty-txt { font-size: 15px; }
+.sn-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media(min-width:540px){ .sn-grid { grid-template-columns: repeat(2,1fr); } }
+@media(min-width:1100px){ .sn-grid { grid-template-columns: repeat(3,1fr); } }
 
-  .sn-seo { max-width: 1280px; margin: 0 auto; padding: 0 16px 60px; }
-  .sn-seo-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-  @media(min-width:640px){ .sn-seo-grid { grid-template-columns: repeat(2,1fr); } }
-  @media(min-width:1024px){ .sn-seo-grid { grid-template-columns: repeat(4,1fr); } }
-  .sn-seo-card {
-    background: #fff; border-radius: 16px; padding: 20px;
-    border: 1px solid rgba(255,107,0,0.1);
-  }
-  .sn-seo-ico { font-size: 24px; margin-bottom: 8px; }
-  .sn-seo-t { font-size: 13px; font-weight: 600; color: #1A1208; margin-bottom: 4px; }
-  .sn-seo-d { font-size: 12px; color: rgba(26,18,8,0.5); line-height: 1.6; }
+.sn-card {
+  background: #fff; border-radius: 24px; overflow: hidden;
+  border: 1px solid rgba(26,18,8,0.06);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  transition: transform .22s, box-shadow .22s;
+  display: flex; flex-direction: column;
+}
+.sn-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.09); }
+
+.sn-card-img {
+  position: relative; height: 220px;
+  background: linear-gradient(135deg, #f5f0ea, #ede8e1);
+  overflow: hidden; flex-shrink: 0;
+}
+.sn-card-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; transition: transform .4s ease; }
+.sn-card:hover .sn-card-img img { transform: scale(1.04); }
+.sn-card-cat {
+  position: absolute; top: 12px; left: 12px;
+  background: rgba(26,18,8,0.7); backdrop-filter: blur(12px);
+  color: #fff; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 100px;
+}
+
+.sn-card-body { padding: 18px 18px 20px; display: flex; flex-direction: column; flex: 1; }
+.sn-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.sn-card-name { font-size: 15px; font-weight: 600; color: #1A1208; line-height: 1.3; }
+.sn-card-loc { display: flex; align-items: center; gap: 4px; font-size: 12px; color: rgba(26,18,8,0.4); margin-bottom: 14px; }
+.sn-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.sn-card-tag {
+  font-size: 11px; color: #FF6B00;
+  background: #FFF4ED; border: 1px solid rgba(255,107,0,0.18);
+  padding: 3px 10px; border-radius: 100px; font-weight: 500;
+}
+.sn-card-btn {
+  display: block; width: 100%; text-align: center; margin-top: auto;
+  background: linear-gradient(135deg,#FF6B00,#FF8C35);
+  color: #fff; font-size: 13px; font-weight: 600;
+  padding: 11px; border-radius: 14px; text-decoration: none;
+  transition: opacity .2s, transform .15s; letter-spacing: .01em;
+}
+.sn-card-btn:hover { opacity: .88; transform: translateY(-1px); }
+
+.sn-empty { text-align: center; padding: 100px 20px; color: rgba(26,18,8,0.3); }
+.sn-empty-ico { font-size: 52px; margin-bottom: 14px; }
+.sn-empty-txt { font-size: 15px; line-height: 1.6; }
+
+@media(max-width:639px){
+  .sn-hero { padding: 36px 16px 40px; }
+  .sn-body { padding: 24px 14px 60px; }
+}
 `;
 
 export default async function ServiciiNuntaPage({
@@ -191,19 +209,21 @@ export default async function ServiciiNuntaPage({
     getJudete(),
   ]);
 
+  const activeCatLabel = CATEGORIES.find(c => c.value === category)?.label;
+
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="sn-page">
 
-        {/* HERO + SEARCH */}
+        {/* HERO */}
         <div className="sn-hero">
           <div className="sn-hero-badge">
             <span className="sn-hero-dot" />
-            Furnizori Verificați România
+            Furnizori Verificați · România
           </div>
           <h1>Servicii pentru <em>Nunta Ta</em></h1>
-          <p className="sn-hero-sub">Fotografi, DJ, Formații, Candy Bar — contact direct, fără intermediari</p>
+          <p className="sn-hero-sub">Fotografi · DJ · Formații · Candy Bar — contact direct, fără intermediari</p>
           <form method="GET" action="/servicii-nunta" className="sn-search-wrap">
             <input type="hidden" name="category" value={category} />
             <input type="hidden" name="judet" value={judet} />
@@ -236,7 +256,7 @@ export default async function ServiciiNuntaPage({
                 href={`/servicii-nunta?category=${cat.value}&judet=${judet}${search ? `&q=${search}` : ''}`}
                 className={`sn-filter-link${category === cat.value ? ' active' : ''}`}
               >
-                <span className="sn-filter-icon">{cat.icon}</span>
+                <span className="sn-filter-dot" />
                 {cat.label}
               </Link>
             ))}
@@ -259,46 +279,63 @@ export default async function ServiciiNuntaPage({
             ))}
           </aside>
 
-          {/* GRID CARDURI */}
+          {/* GRID */}
           <main className="sn-main">
             <div className="sn-results-bar">
               <p className="sn-results-count">
                 <strong>{providers.length}</strong> furnizori găsiți
-                {category !== 'toate' && <> în <strong>{CATEGORIES.find(c => c.value === category)?.label}</strong></>}
-                {judet !== 'toate' && <> · <strong>{judet}</strong></>}
               </p>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {category !== 'toate' && (
+                  <span className="sn-results-tag">
+                    {activeCatLabel}
+                    <Link href={`/servicii-nunta?category=toate&judet=${judet}${search ? `&q=${search}` : ''}`} style={{ color: '#FF6B00', fontWeight: 700, marginLeft: 2 }}>×</Link>
+                  </span>
+                )}
+                {judet !== 'toate' && (
+                  <span className="sn-results-tag">
+                    {judet}
+                    <Link href={`/servicii-nunta?category=${category}&judet=toate${search ? `&q=${search}` : ''}`} style={{ color: '#FF6B00', fontWeight: 700, marginLeft: 2 }}>×</Link>
+                  </span>
+                )}
+              </div>
             </div>
 
             {providers.length === 0 ? (
               <div className="sn-empty">
                 <div className="sn-empty-ico">🔍</div>
-                <p className="sn-empty-txt">Niciun furnizor găsit. Încearcă alte filtre.</p>
+                <p className="sn-empty-txt">Niciun furnizor găsit.<br />Încearcă alte filtre sau caută în alt județ.</p>
               </div>
             ) : (
               <div className="sn-grid">
                 {providers.map((p: any) => (
                   <div key={p.id} className="sn-card">
                     <div className="sn-card-img">
-                      <Image
-src={`https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_500,h_400,c_fill,g_face/${p.profile_image}.jpg`}     alt={`${p.name} – ${p.category} ${p.oras}`}
-fill
-                        className="object-cover"
-                        sizes="(max-width: 540px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                      <img
+                        src={`https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_600/${p.profile_image}.jpg`}
+                        alt={`${p.name} – ${p.category} ${p.oras}`}
+                        loading="lazy"
                       />
                       <span className="sn-card-cat">{p.category}</span>
                     </div>
                     <div className="sn-card-body">
-                      <h2 className="sn-card-name">{p.name}</h2>
+                      <div className="sn-card-top">
+                        <h2 className="sn-card-name">{p.name}</h2>
+                      </div>
                       <div className="sn-card-loc">
-                        <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
                         {p.oras}, {p.judet}
                       </div>
-                      {p.subtype && <span className="sn-card-tag">{p.subtype}</span>}
+                      {p.subtype && (
+                        <div className="sn-card-tags">
+                          <span className="sn-card-tag">{p.subtype}</span>
+                        </div>
+                      )}
                       <Link href={`/${p.slug}`} className="sn-card-btn">
-                        Vezi Profilul
+                        Vezi Profilul →
                       </Link>
                     </div>
                   </div>
@@ -307,25 +344,6 @@ fill
             )}
           </main>
         </div>
-
-        {/* SEO SECTION */}
-        <section className="sn-seo">
-          <div className="sn-seo-grid">
-            {[
-              { ico: '📍', t: 'Furnizori Locali', d: 'Găsești furnizori din județul tău, cu contact direct și fără comisioane.' },
-              { ico: '✅', t: 'Profil Verificat', d: 'Fiecare furnizor are profil real cu poze, descriere și link-uri verificate.' },
-              { ico: '💬', t: 'Contact Direct', d: 'Suni direct furnizorul. Fără formulare, fără așteptare, fără intermediari.' },
-              { ico: '🆓', t: 'Listare Gratuită', d: 'Ești furnizor? Adaugă-te gratuit și apari în căutările din Google.' },
-            ].map((item) => (
-              <div key={item.t} className="sn-seo-card">
-                <div className="sn-seo-ico">{item.ico}</div>
-                <div className="sn-seo-t">{item.t}</div>
-                <div className="sn-seo-d">{item.d}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
       </div>
     </>
   );
