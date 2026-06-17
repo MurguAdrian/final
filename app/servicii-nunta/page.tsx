@@ -280,8 +280,7 @@ export default async function ServiciiNuntaPage({
                   <div key={p.id} className="sn-card">
                     <div className="sn-card-img">
                       <Image
-                        src={`https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_500,h_400,c_fill/${p.cloudinary_folder}/1.jpg`}
-                        alt={`${p.name} – ${p.category} ${p.oras}`}
+src={`https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_500,h_400,c_fill/${p.profile_image}.jpg`}                        alt={`${p.name} – ${p.category} ${p.oras}`}
                         fill
                         className="object-cover"
                         sizes="(max-width: 540px) 100vw, (max-width: 1100px) 50vw, 33vw"
