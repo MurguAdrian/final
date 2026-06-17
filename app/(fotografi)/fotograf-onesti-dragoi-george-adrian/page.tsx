@@ -1,10 +1,11 @@
-// app/fotograf-onesti-dragoi-george-adrian/page.tsx
+// app/(fotografi)/fotograf-onesti-dragoi-george-adrian/page.tsx
 import { neon } from '@neondatabase/serverless';
 import { notFound } from 'next/navigation';
 import TrackView from './TrackView';
 import ShareButton from './ShareButton';
 import ContactBar from './ContactBar';
 import CallButton from './CallButton';
+import SocialLinks from './SocialLinks';
 
 const CLOUD = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const SLUG = 'fotograf-onesti-dragoi-george-adrian';
@@ -21,7 +22,6 @@ const CSS = `
 
 .fp { font-family:'DM Sans',sans-serif; background:#FDFAF6; color:#1A1208; min-height:100vh; }
 
-/* NAV */
 .fp-nav {
   position:fixed; top:0; left:0; right:0; z-index:200;
   display:flex; align-items:center; justify-content:space-between;
@@ -42,12 +42,11 @@ const CSS = `
 }
 .fp-nav-back:hover { background:#fff; }
 
-/* HERO — banner generat cu gradient */
 .fp-hero {
-  height:320px; position:relative; overflow:hidden;
+  height:300px; position:relative; overflow:hidden;
   background:linear-gradient(135deg,#1A1208 0%,#2d1f0e 40%,#3d2510 70%,#1A1208 100%);
 }
-@media(min-width:768px){ .fp-hero { height:380px; } }
+@media(min-width:768px){ .fp-hero { height:360px; } }
 .fp-hero-orb1 {
   position:absolute; width:500px; height:500px; border-radius:50%;
   background:radial-gradient(circle, rgba(255,107,0,0.22) 0%, transparent 65%);
@@ -76,24 +75,23 @@ const CSS = `
 .fp-hero-dot { width:5px; height:5px; background:#FF6B00; border-radius:50%; }
 .fp-hero-name {
   font-family:'Cormorant Garamond',serif;
-  font-size:clamp(36px,8vw,72px); font-weight:300; color:#fff; line-height:1.05; margin-bottom:14px;
+  font-size:clamp(32px,7vw,64px); font-weight:300; color:#fff; line-height:1.05; margin-bottom:14px;
 }
 .fp-hero-name em { font-style:italic; color:#FFAD70; }
-.fp-hero-pills { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; }
+.fp-hero-pills { display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; }
 .fp-hero-pill {
   background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.18);
-  color:rgba(255,255,255,0.75); font-size:12px; font-weight:500;
-  padding:5px 14px; border-radius:100px;
+  color:rgba(255,255,255,0.75); font-size:11px; font-weight:500;
+  padding:4px 12px; border-radius:100px;
 }
 
-/* PROFILE STRIP */
 .fp-strip {
   background:#fff; border-bottom:1px solid rgba(26,18,8,0.06);
-  padding:16px 20px; display:flex; align-items:center; gap:14px;
+  padding:14px 20px; display:flex; align-items:center; gap:12px;
 }
-@media(min-width:640px){ .fp-strip { padding:18px 36px; gap:18px; } }
+@media(min-width:640px){ .fp-strip { padding:16px 36px; gap:16px; } }
 .fp-strip-avatar {
-  width:56px; height:56px; border-radius:50%; flex-shrink:0;
+  width:52px; height:52px; border-radius:50%; flex-shrink:0;
   object-fit:cover; object-position:center top;
   border:2px solid rgba(255,107,0,0.3);
 }
@@ -110,7 +108,6 @@ const CSS = `
 }
 .fp-strip-cta:hover { opacity:.9; }
 
-/* BODY */
 .fp-body { max-width:1100px; margin:0 auto; padding:36px 16px 140px; }
 @media(min-width:640px){ .fp-body { padding:44px 28px 140px; } }
 @media(min-width:1024px){ .fp-body { display:grid; grid-template-columns:1fr 340px; gap:40px; padding:44px 40px 100px; } }
@@ -120,23 +117,20 @@ const CSS = `
 .fp-sh-title em { font-style:italic; color:#FF6B00; }
 .fp-sh-line { flex:1; height:1px; background:rgba(26,18,8,0.08); }
 
-/* GALLERY */
 .fp-gallery { margin-bottom:36px; }
 .fp-gal-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
 .fp-gi { position:relative; overflow:hidden; border-radius:16px; background:#f0ece6; cursor:pointer; }
-.fp-gi:nth-child(1) { grid-column:1/-1; }
-.fp-gi { aspect-ratio:unset; }
-.fp-gi:nth-child(1) { aspect-ratio:4/3; }
-.fp-gi:not(:nth-child(1)) { aspect-ratio:1; }
-.fp-gi img { width:100%; height:100%; object-fit:contain; object-position:center; display:block; transition:transform .5s ease; background:#f0ece6; position:absolute; inset:0; }
-.fp-gi { position:relative; }
 .fp-gi::before { content:''; display:block; padding-top:100%; }
-.fp-gi:nth-child(1)::before { padding-top:75%; }.fp-gi:hover img { transform:scale(1.04); }
+.fp-gi:nth-child(1) { grid-column:1/-1; }
+.fp-gi:nth-child(1)::before { padding-top:60%; }
+.fp-gi img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; object-position:center; display:block; transition:transform .5s ease; background:#f0ece6; }
+.fp-gi:hover img { transform:scale(1.04); }
 .fp-gi-mask {
   position:absolute; inset:0;
   background:linear-gradient(to top, rgba(26,18,8,0.8) 0%, transparent 50%);
   opacity:0; transition:opacity .3s;
-  display:flex; flex-direction:column; justify-content:flex-end; padding:14px;
+  display:flex; flex-direction:column; justify-content:flex-end; padding:14px; z-index:2;
 }
 .fp-gi:hover .fp-gi-mask { opacity:1; }
 .fp-gi-label { font-size:10px; color:rgba(255,255,255,0.55); text-transform:uppercase; letter-spacing:.08em; margin-bottom:5px; }
@@ -146,7 +140,6 @@ const CSS = `
   padding:6px 14px; border-radius:100px; text-decoration:none; width:fit-content;
 }
 
-/* ABOUT */
 .fp-about { margin-bottom:36px; }
 .fp-about-card {
   background:#fff; border-radius:24px; padding:28px;
@@ -165,7 +158,6 @@ const CSS = `
 .fp-stat-n { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:600; color:#FF6B00; line-height:1; }
 .fp-stat-l { font-size:10.5px; color:rgba(26,18,8,0.42); margin-top:4px; line-height:1.3; }
 
-/* SIDEBAR */
 .fp-sidebar { display:flex; flex-direction:column; gap:14px; }
 
 .fp-contact-card {
@@ -178,16 +170,23 @@ const CSS = `
   background:rgba(255,107,0,0.1); pointer-events:none;
 }
 .fp-ct-title { font-family:'Cormorant Garamond',serif; font-size:21px; font-weight:300; color:#fff; margin-bottom:6px; }
-.fp-ct-sub { font-size:12px; color:rgba(255,255,255,0.42); margin-bottom:20px; line-height:1.65; }
+.fp-ct-sub { font-size:12px; color:rgba(255,255,255,0.42); margin-bottom:16px; line-height:1.65; }
 .fp-ct-btn {
   display:flex; align-items:center; justify-content:center; gap:9px;
   background:linear-gradient(135deg,#FF6B00,#FF8C35);
-  color:#fff; font-size:15px; font-weight:700;
-  padding:14px; border-radius:14px; text-decoration:none;
+  color:#fff; font-size:14px; font-weight:700;
+  padding:13px; border-radius:14px; text-decoration:none;
   box-shadow:0 6px 24px rgba(255,107,0,0.38);
-  transition:opacity .2s, transform .15s; margin-bottom:10px;
+  transition:opacity .2s, transform .15s; margin-bottom:8px;
 }
 .fp-ct-btn:hover { opacity:.9; transform:translateY(-1px); }
+.fp-ct-wa {
+  display:flex; align-items:center; justify-content:center; gap:9px;
+  background:#25D366; color:#fff; font-size:14px; font-weight:700;
+  padding:13px; border-radius:14px; text-decoration:none;
+  transition:opacity .2s; margin-bottom:10px;
+}
+.fp-ct-wa:hover { opacity:.9; }
 .fp-ct-note { font-size:11px; color:rgba(255,255,255,0.28); text-align:center; }
 
 .fp-conn-card {
@@ -197,7 +196,7 @@ const CSS = `
 .fp-conn-row {
   display:flex; align-items:center; justify-content:space-between;
   padding:11px 0; border-bottom:1px solid rgba(26,18,8,0.05);
-  text-decoration:none; transition:opacity .2s;
+  text-decoration:none; transition:opacity .2s; cursor:pointer;
 }
 .fp-conn-row:last-child { border-bottom:none; padding-bottom:0; }
 .fp-conn-row:hover { opacity:.7; }
@@ -224,7 +223,6 @@ const CSS = `
 .fp-share-lbl { font-size:12px; font-weight:500; color:rgba(26,18,8,0.55); margin-bottom:3px; }
 .fp-share-url { font-size:13px; font-weight:700; color:#FF6B00; }
 
-/* MOBILE BAR */
 .fp-bar {
   position:fixed; bottom:0; left:0; right:0; z-index:100;
   background:rgba(253,250,246,0.97); backdrop-filter:blur(20px);
@@ -244,22 +242,6 @@ const CSS = `
   background:#25D366; color:#fff;
   font-size:13px; font-weight:600; padding:13px; border-radius:14px; text-decoration:none;
 }
-@media(min-width:1024px){ .fp-bar { display:none; } }
-.fp-bar-call {
-  flex:2; display:flex; align-items:center; justify-content:center; gap:8px;
-  background:linear-gradient(135deg,#FF6B00,#FF8C35); color:#fff;
-  font-size:14px; font-weight:700; padding:13px; border-radius:14px; text-decoration:none;
-  box-shadow:0 4px 16px rgba(255,107,0,0.28);
-}
-.fp-bar-wa {
-  flex:1; display:flex; align-items:center; justify-content:center; gap:6px;
-  background:#25D366; color:#fff;
-  font-size:13px; font-weight:600; padding:13px; border-radius:14px; text-decoration:none;
-}
-.fp-bar-share-btn {
-  width:50px; display:flex; align-items:center; justify-content:center;
-  background:#F5F0EA; border-radius:14px; border:none; cursor:pointer; color:rgba(26,18,8,0.55);
-}
 `;
 
 const GALLERY_LABELS = ['Momente de neuitat', 'Emoție autentică', 'Lumină naturală', 'Povești vizuale'];
@@ -270,6 +252,7 @@ export default async function FotografDragoiPage() {
 
   const galleryIds: string[] = p.gallery_images ? p.gallery_images.split(',') : [];
   const shortUrl = `https://vibeinvite.ro/${p.short_slug}`;
+  const waUrl = `https://wa.me/${p.phone?.replace(/\D/g, '')}?text=Bună ziua! Am găsit profilul dvs. pe VibeInvite și aș dori mai multe informații.`;
 
   return (
     <>
@@ -277,7 +260,6 @@ export default async function FotografDragoiPage() {
       <TrackView slug={p.slug} />
       <div className="fp">
 
-        {/* NAV */}
         <nav className="fp-nav" id="fp-nav">
           <a href="/servicii-nunta" className="fp-nav-back">
             <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -287,7 +269,6 @@ export default async function FotografDragoiPage() {
           </a>
         </nav>
 
-        {/* HERO — banner generat, fără imagine */}
         <div className="fp-hero">
           <div className="fp-hero-orb1" />
           <div className="fp-hero-orb2" />
@@ -308,27 +289,23 @@ export default async function FotografDragoiPage() {
           </div>
         </div>
 
-        {/* STRIP */}
         <div className="fp-strip">
           <img
             className="fp-strip-avatar"
-src={p.profile_image_url || `https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_200,h_200,c_fill,g_face/${p.profile_image}.jpg`}            alt={p.name}
+            src={p.profile_image_url || `https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_200,h_200,c_fill,g_face/${p.profile_image}.jpg`}
+            alt={p.name}
           />
           <div>
             <div className="fp-strip-name">{p.name}</div>
             <div className="fp-strip-sub">Fotograf Profesionist · {p.oras}</div>
           </div>
           <div className="fp-strip-spacer" />
-{p.phone && (
-  <CallButton phone={p.phone} slug={p.slug} />
-)}
+          {p.phone && <CallButton phone={p.phone} slug={p.slug} />}
         </div>
 
-        {/* BODY */}
         <div className="fp-body">
           <div>
 
-            {/* GALLERY */}
             {galleryIds.length > 0 && (
               <div className="fp-gallery">
                 <div className="fp-sh">
@@ -355,7 +332,6 @@ src={p.profile_image_url || `https://res.cloudinary.com/${CLOUD}/image/upload/f_
               </div>
             )}
 
-            {/* ABOUT */}
             <div className="fp-about">
               <div className="fp-sh">
                 <h2 className="fp-sh-title">Despre <em>Mine</em></h2>
@@ -372,36 +348,30 @@ src={p.profile_image_url || `https://res.cloudinary.com/${CLOUD}/image/upload/f_
                   Sunt disponibil în <strong>{p.oras} și împrejurimi</strong>, cu posibilitate de deplasare în toată România. Fiecare nuntă sau eveniment este unic pentru mine — îl tratez ca pe un proiect personal, nu ca pe o comandă.
                 </p>
                 <div className="fp-stats">
-                  <div className="fp-stat">
-                    <div className="fp-stat-n">13+</div>
-                    <div className="fp-stat-l">Ani experiență</div>
-                  </div>
-                  <div className="fp-stat">
-                    <div className="fp-stat-n">300+</div>
-                    <div className="fp-stat-l">Evenimente</div>
-                  </div>
-                  <div className="fp-stat">
-                    <div className="fp-stat-n">100%</div>
-                    <div className="fp-stat-l">Clienți mulțumiți</div>
-                  </div>
+                  <div className="fp-stat"><div className="fp-stat-n">13+</div><div className="fp-stat-l">Ani experiență</div></div>
+                  <div className="fp-stat"><div className="fp-stat-n">300+</div><div className="fp-stat-l">Evenimente</div></div>
+                  <div className="fp-stat"><div className="fp-stat-n">100%</div><div className="fp-stat-l">Clienți mulțumiți</div></div>
                 </div>
               </div>
             </div>
 
           </div>
 
-          {/* SIDEBAR */}
           <div className="fp-sidebar">
 
             <div className="fp-contact-card">
               <div className="fp-ct-title">Rezervă o sesiune</div>
               <p className="fp-ct-sub">Contactează-mă direct pentru disponibilitate și pachete personalizate foto-video.</p>
               {p.phone && (
-                <a href={`tel:${p.phone}`} className="fp-ct-btn">
-                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 7V5z" />
+                <CallButton phone={p.phone} slug={p.slug} variant="sidebar" />
+              )}
+              {p.phone && (
+                <a href={waUrl} target="_blank" rel="noopener noreferrer" className="fp-ct-wa"
+                  onClick={() => {}}>
+                  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                   </svg>
-                  {p.phone}
+                  WhatsApp
                 </a>
               )}
               <p className="fp-ct-note">Răspund în mai puțin de 24h</p>
@@ -412,48 +382,7 @@ src={p.profile_image_url || `https://res.cloudinary.com/${CLOUD}/image/upload/f_
                 <h3 className="fp-sh-title" style={{fontSize:'18px'}}>Connect</h3>
                 <div className="fp-sh-line" />
               </div>
-              {p.instagram_url && (
-                <a href={p.instagram_url} target="_blank" rel="noopener noreferrer" className="fp-conn-row">
-                  <div className="fp-conn-l">
-                    <div className="fp-conn-ico" style={{background:'linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045)'}}>
-                      <svg width="17" height="17" fill="#fff" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    </div>
-                    <div>
-                      <div className="fp-conn-lbl">Instagram</div>
-                      <div className="fp-conn-sub">Galerie completă</div>
-                    </div>
-                  </div>
-                  <svg width="14" height="14" fill="none" stroke="rgba(26,18,8,0.25)" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                </a>
-              )}
-              {p.facebook_url && (
-                <a href={p.facebook_url} target="_blank" rel="noopener noreferrer" className="fp-conn-row">
-                  <div className="fp-conn-l">
-                    <div className="fp-conn-ico" style={{background:'#1877F2'}}>
-                      <svg width="17" height="17" fill="#fff" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                    </div>
-                    <div>
-                      <div className="fp-conn-lbl">Facebook</div>
-                      <div className="fp-conn-sub">Pagina oficială</div>
-                    </div>
-                  </div>
-                  <svg width="14" height="14" fill="none" stroke="rgba(26,18,8,0.25)" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                </a>
-              )}
-              {p.website_url && (
-                <a href={p.website_url} target="_blank" rel="noopener noreferrer" className="fp-conn-row">
-                  <div className="fp-conn-l">
-                    <div className="fp-conn-ico" style={{background:'#1A1208'}}>
-                      <svg width="17" height="17" fill="none" stroke="#fff" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
-                    </div>
-                    <div>
-                      <div className="fp-conn-lbl">Portofoliu</div>
-                      <div className="fp-conn-sub">Website oficial</div>
-                    </div>
-                  </div>
-                  <svg width="14" height="14" fill="none" stroke="rgba(26,18,8,0.25)" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                </a>
-              )}
+              <SocialLinks provider={p} />
             </div>
 
             {p.maps_url && (

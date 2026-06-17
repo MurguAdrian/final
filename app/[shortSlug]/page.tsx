@@ -1,6 +1,6 @@
 // app/[shortSlug]/page.tsx
 import { neon } from '@neondatabase/serverless';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
 async function getProvider(shortSlug: string) {
@@ -14,13 +14,14 @@ export async function generateMetadata({ params }: { params: { shortSlug: string
   if (!p) return { title: 'VibeInvite' };
 
   const CLOUD = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-  const ogImage = p.profile_image_url || `https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_1200,h_630,c_fill/${p.profile_image}.jpg`;
+  const ogImage = p.profile_image_url || `https://res.cloudinary.com/${CLOUD}/image/upload/${p.profile_image}.jpg`;
 
   return {
     title: `${p.name} – ${p.category} ${p.oras} | VibeInvite`,
     description: p.seo_description || `${p.name} – ${p.category} profesionist în ${p.oras}, ${p.judet}.`,
+    metadataBase: new URL('https://www.vibeinvite.ro'),
     openGraph: {
-      title: `${p.name} – ${p.category} ${p.oras}`,
+      title: `${p.name} – ${p.category} ${p.oras} | VibeInvite`,
       description: p.seo_description || `${p.name} – ${p.category} profesionist în ${p.oras}, ${p.judet}.`,
       images: [{ url: ogImage, width: 1200, height: 630, alt: p.name }],
       url: `https://www.vibeinvite.ro/${p.short_slug}`,
@@ -41,5 +42,17 @@ export async function generateMetadata({ params }: { params: { shortSlug: string
 export default async function ShortSlugPage({ params }: { params: { shortSlug: string } }) {
   const p = await getProvider(params.shortSlug);
   if (!p) notFound();
-  redirect(`/${p.slug}`);
+
+  const targetUrl = `/${p.slug}`;
+
+  return (
+    <>
+      <meta httpEquiv="refresh" content={`0;url=${targetUrl}`} />
+      <script dangerouslySetInnerHTML={{ __html: `window.location.replace('${targetUrl}');` }} />
+      <style>{`body{background:#1A1208;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;font-family:sans-serif;}`}</style>
+      <div style={{textAlign:'center',color:'rgba(255,255,255,0.5)',fontSize:'13px'}}>
+        Redirecționare...
+      </div>
+    </>
+  );
 }

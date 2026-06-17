@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     images: [
       {
         // Adaugă acest asset în /public/og/ (recomandat 1200x630)
-        url: '/og/invitatii-nunta-online.jpg',
+        url: '/og-main.png',
         width: 1200,
         height: 630,
         alt: 'VibeInvite — invitații nuntă online',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     title: 'Invitații Nuntă Online — Gata în 5 Minute | VibeInvite',
     description:
       'Invitație de nuntă online cu link personalizat, confirmare participare și colectare poze. Trimiți pe WhatsApp.',
-    images: ['/og/invitatii-nunta-online.jpg'],
+    images: ['/og-main.png'],
   },
   robots: {
     index: true,
