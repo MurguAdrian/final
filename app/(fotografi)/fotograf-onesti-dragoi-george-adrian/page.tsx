@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import TrackView from './TrackView';
 import ShareButton from './ShareButton';
 import ContactBar from './ContactBar';
+import CallButton from './CallButton';
 
 const CLOUD = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const SLUG = 'fotograf-onesti-dragoi-george-adrian';
@@ -124,10 +125,13 @@ const CSS = `
 .fp-gal-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .fp-gi { position:relative; overflow:hidden; border-radius:16px; background:#f0ece6; cursor:pointer; }
 .fp-gi:nth-child(1) { grid-column:1/-1; }
-.fp-gi:nth-child(1) img { aspect-ratio:16/9; }
-.fp-gi:not(:nth-child(1)) img { aspect-ratio:3/2; }
-.fp-gi img { width:100%; height:100%; object-fit:contain; object-position:center; display:block; transition:transform .5s ease; background:#f0ece6; }
-.fp-gi:hover img { transform:scale(1.04); }
+.fp-gi { aspect-ratio:unset; }
+.fp-gi:nth-child(1) { aspect-ratio:4/3; }
+.fp-gi:not(:nth-child(1)) { aspect-ratio:1; }
+.fp-gi img { width:100%; height:100%; object-fit:contain; object-position:center; display:block; transition:transform .5s ease; background:#f0ece6; position:absolute; inset:0; }
+.fp-gi { position:relative; }
+.fp-gi::before { content:''; display:block; padding-top:100%; }
+.fp-gi:nth-child(1)::before { padding-top:75%; }.fp-gi:hover img { transform:scale(1.04); }
 .fp-gi-mask {
   position:absolute; inset:0;
   background:linear-gradient(to top, rgba(26,18,8,0.8) 0%, transparent 50%);
@@ -235,9 +239,9 @@ const CSS = `
   font-size:14px; font-weight:700; padding:13px; border-radius:14px; text-decoration:none;
   box-shadow:0 4px 16px rgba(255,107,0,0.28);
 }
-.fp-bar-ig {
-  flex:1; display:flex; align-items:center; justify-content:center;
-  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045); color:#fff;
+.fp-bar-wa {
+  flex:1; display:flex; align-items:center; justify-content:center; gap:6px;
+  background:#25D366; color:#fff;
   font-size:13px; font-weight:600; padding:13px; border-radius:14px; text-decoration:none;
 }
 .fp-bar-share-btn {
@@ -303,14 +307,9 @@ src={p.profile_image_url || `https://res.cloudinary.com/${CLOUD}/image/upload/f_
             <div className="fp-strip-sub">Fotograf Profesionist · {p.oras}</div>
           </div>
           <div className="fp-strip-spacer" />
-          {p.phone && (
-            <a href={`tel:${p.phone}`} className="fp-strip-cta">
-              <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 7V5z" />
-              </svg>
-              Sună Acum
-            </a>
-          )}
+{p.phone && (
+  <CallButton phone={p.phone} slug={p.slug} />
+)}
         </div>
 
         {/* BODY */}
