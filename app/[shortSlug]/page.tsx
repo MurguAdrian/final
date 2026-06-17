@@ -13,8 +13,7 @@ export async function generateMetadata({ params }: { params: { shortSlug: string
   const p = await getProvider(params.shortSlug);
   if (!p) return { title: 'VibeInvite' };
 
-  const CLOUD = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-  const ogImage = p.profile_image_url || `https://res.cloudinary.com/${CLOUD}/image/upload/${p.profile_image}.jpg`;
+  const ogImage = 'https://www.vibeinvite.ro/weed.jpg';
 
   return {
     title: `${p.name} – ${p.category} ${p.oras} | VibeInvite`,

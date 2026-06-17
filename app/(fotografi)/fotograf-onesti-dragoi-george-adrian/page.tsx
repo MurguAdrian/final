@@ -109,10 +109,9 @@ const CSS = `
 }
 .fp-strip-cta:hover { opacity:.9; }
 
-.fp-body { max-width:1100px; margin:0 auto; padding:36px 16px 140px; }
-@media(min-width:640px){ .fp-body { padding:44px 28px 140px; } }
+.fp-body { max-width:1100px; margin:0 auto; padding:36px 16px 90px; }
+@media(min-width:640px){ .fp-body { padding:44px 28px 90px; } }
 @media(min-width:1024px){ .fp-body { display:grid; grid-template-columns:1fr 340px; gap:40px; padding:44px 40px 100px; } }
-
 .fp-sh { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
 .fp-sh-title { font-family:'Cormorant Garamond',serif; font-size:clamp(20px,3.5vw,28px); font-weight:300; color:#1A1208; white-space:nowrap; }
 .fp-sh-title em { font-style:italic; color:#FF6B00; }
