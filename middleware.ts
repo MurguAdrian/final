@@ -9,7 +9,7 @@ const SKIP = new Set([
   'servicii-nunta','auth','checkout','contact','cookies','dashboard',
   'despre','gdpr','invitatie','invitatii-digitale','invitatii-PDF',
   'login','pilot','politica','preturi','public','setup-password',
-  'success','termeni','api','_next','favicon.ico','robots.txt','sitemap.xml',
+  'success','termeni','api','_next','favicon.ico','robots.txt','sitemap.xml','fotograf-ploiesti-jo-photography',
 ]);
 
 export async function middleware(request: NextRequest) {
