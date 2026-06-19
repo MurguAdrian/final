@@ -6,7 +6,7 @@ const CANONICAL_HOSTNAME = 'www.vibeinvite.ro';
 const CANONICAL_PROTOCOL = 'https:';
 
 const SKIP = new Set([
-  'servicii-nunta','auth','checkout','contact','cookies','dashboard',
+  'auth','checkout','contact','cookies','dashboard',
   'despre','gdpr','invitatie','invitatii-digitale','invitatii-PDF',
   'login','pilot','politica','preturi','public','setup-password',
   'success','termeni','api','_next','favicon.ico','robots.txt','sitemap.xml',
