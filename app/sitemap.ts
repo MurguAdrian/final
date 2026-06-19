@@ -13,7 +13,14 @@ const publicPaths = [
   '/invitatii-digitale',
   '/invitatii-PDF',
 ]
-
+const photographerPaths = [
+  '/fotograf-bacau-tr-visuals',
+  '/fotograf-bucuresti-razvan-ristea',
+  '/fotograf-craiova-fotoali',
+  '/fotograf-onesti-dragoi-george-adrian',
+  '/fotograf-ploiesti-jo-photography',
+  '/fotograf-targoviste-bianca-sfetcu',
+]
 // Paginile tale comerciale (Șabloanele) care TREBUIE să aducă trafic masiv din Google
 const templatePaths = [
   // --- BOTEZ BĂIEȚI ---
@@ -54,7 +61,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changefreq: 'weekly' as const,
     priority: 0.8, // Prioritate ridicată pentru ca Google să le trateze ca pagini importante de produs
   }))
-
+const photographerSitemaps = photographerPaths.map((path) => ({
+  url: `${SITE_DOMAIN}${path}`,
+  lastModified: new Date(),
+  changefreq: 'weekly' as const,
+  priority: 0.9,
+}))
   // 3. Combinăm ambele liste într-un singur sitemap mare și complet
-  return [...baseSitemaps, ...templateSitemaps]
+  return [...baseSitemaps, ...templateSitemaps, ...photographerSitemaps]
 }
