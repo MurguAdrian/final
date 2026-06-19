@@ -21,7 +21,7 @@ const CSS = `
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
 .rr { font-family:'Space Grotesk',sans-serif; background:#080808; color:#F0EDE8; min-height:100vh; overflow-x:hidden; }
-
+header, footer { display:none !important; }
 /* NAV */
 .rr-nav {
   position:fixed; top:0; left:0; right:0; z-index:300;
