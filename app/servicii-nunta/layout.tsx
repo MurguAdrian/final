@@ -29,14 +29,14 @@ export const metadata: Metadata = {
     description:
       'Fotografi, DJ, formații și candy bar pentru nunta ta. Furnizori verificați din toată România. Contact direct, fără intermediari.',
     siteName: 'VibeInvite',
-    images: [{ url: '/og-servicii.jpg', width: 1200, height: 630, alt: 'Servicii Nuntă VibeInvite' }],
+    images: [{ url: '/weed.jpg', width: 1200, height: 630, alt: 'Servicii Nuntă VibeInvite' }],
     locale: 'ro_RO',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Servicii Nuntă România | VibeInvite',
     description: 'Fotografi, DJ, formații și candy bar pentru nunta ta. Furnizori verificați din toată România.',
-    images: ['/og-servicii.jpg'],
+    images: ['/weed.jpg'],
   },
   robots: {
     index: true,

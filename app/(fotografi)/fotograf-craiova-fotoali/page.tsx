@@ -19,6 +19,7 @@ async function getProvider() {
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+header, footer { display:none !important; }
 
 .fa { font-family:'DM Sans',sans-serif; background:#0A0A0A; color:#F5F0EA; min-height:100vh; }
 
