@@ -8,7 +8,7 @@ import WaButton from '@/components/marketplace/WaButton';
 import SocialLinks from '@/components/marketplace/SocialLinks';
 
 const CLOUD = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-const SLUG = 'fotograf-craiova-fotoali';
+const SLUG = 'foto-ali';
 
 async function getProvider() {
   const sql = neon(process.env.DATABASE_URL!);
