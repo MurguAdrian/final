@@ -1,3 +1,4 @@
+// app/pilot/page.tsx
 "use client";
 
 import { useRef, useState, useEffect } from "react";
@@ -233,31 +234,215 @@ export default function PilotConsentPage() {
     }
   };
 
+  const styles = {
+    wrapper: {
+      backgroundColor: "#eef2f7",
+      minHeight: "100vh",
+      padding: "40px 16px",
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      WebkitFontSmoothing: "antialiased" as const,
+    },
+    container: {
+      maxWidth: "768px",
+      margin: "0 auto",
+      display: "flex",
+      flexDirection: "column" as const,
+      gap: "0px",
+    },
+    sheet: {
+      backgroundColor: "#ffffff",
+      borderRadius: "16px 16px 0 0",
+      boxShadow: "0 10px 30px rgba(15, 23, 42, 0.08)",
+      overflow: "hidden",
+      border: "1px solid #e2e8f0",
+    },
+    letterhead: {
+      backgroundColor: "#0f172a",
+      padding: "40px",
+      color: "#ffffff",
+    },
+    lhFlex: {
+      display: "flex",
+      flexDirection: "row" as const,
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      flexWrap: "wrap" as const,
+      gap: "20px",
+    },
+    lhMeta: {
+      marginTop: "28px",
+      paddingTop: "20px",
+      borderTop: "1px solid rgba(148, 163, 184, 0.2)",
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+      gap: "16px",
+      fontSize: "12px",
+    },
+    sheetBody: {
+      padding: "40px",
+      display: "flex",
+      flexDirection: "column" as const,
+      gap: "32px",
+    },
+    partiesBox: {
+      marginTop: "16px",
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+      border: "1px solid #e2e8f0",
+      borderRadius: "12px",
+      overflow: "hidden",
+      fontSize: "14px",
+    },
+    partyOperator: {
+      padding: "20px",
+      backgroundColor: "#f8fafc",
+      borderBottom: "1px solid #e2e8f0",
+    },
+    partyProvider: {
+      padding: "20px",
+      backgroundColor: "#ffffff",
+    },
+    clausesContainer: {
+      marginTop: "16px",
+      border: "1px solid #e2e8f0",
+      borderRadius: "12px",
+      overflow: "hidden",
+      display: "flex",
+      flexDirection: "column" as const,
+    },
+    clauseRow: {
+      display: "flex",
+      borderBottom: "1px solid #f1f5f9",
+    },
+    clauseSide: {
+      width: "64px",
+      backgroundColor: "#f8fafc",
+      borderRight: "1px solid #f1f5f9",
+      display: "flex",
+      alignItems: "flex-start",
+      justifyContent: "center",
+      paddingTop: "20px",
+    },
+    clauseSideText: {
+      writingMode: "vertical-lr" as const,
+      transform: "rotate(180deg)",
+      fontSize: "10px",
+      fontWeight: 900,
+      color: "#cbd5e1",
+      letterSpacing: "0.15em",
+      textTransform: "uppercase" as const,
+    },
+    clauseMain: {
+      flex: 1,
+      padding: "24px",
+      fontSize: "13.5px",
+      color: "#334155",
+      lineHeight: "1.75",
+    },
+    signingSection: {
+      backgroundColor: "#ffffff",
+      borderTop: "2px dashed #e2e8f0",
+      borderRadius: "0 0 16px 16px",
+      boxShadow: "0 20px 30px rgba(15, 23, 42, 0.04)",
+      padding: "40px",
+      display: "flex",
+      flexDirection: "column" as const,
+      gap: "32px",
+    },
+    gridInputs: {
+      marginTop: "16px",
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+      gap: "20px",
+    },
+    inputGroup: {
+      display: "flex",
+      flexDirection: "column" as const,
+      gap: "6px",
+    },
+    label: {
+      fontSize: "12px",
+      fontWeight: 700,
+      color: "#334155",
+    },
+    checkboxesList: {
+      marginTop: "16px",
+      display: "flex",
+      flexDirection: "column" as const,
+      gap: "10px",
+    },
+    signatureBorder: {
+      marginTop: "16px",
+      borderRadius: "12px",
+      border: "2px solid #e2e8f0",
+      overflow: "hidden",
+    },
+    canvasContainer: {
+      backgroundColor: "#fafafa",
+      padding: "16px",
+    },
+    canvasFrame: {
+      borderRadius: "8px",
+      border: "1px solid #e2e8f0",
+      backgroundColor: "#ffffff",
+      overflow: "hidden",
+      position: "relative" as const,
+    },
+    submitBtn: {
+      width: "100%",
+      backgroundColor: "#0f172a",
+      color: "#ffffff",
+      fontWeight: 700,
+      padding: "16px 24px",
+      borderRadius: "12px",
+      border: "none",
+      fontSize: "14px",
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "10px",
+      transition: "background-color 0.2s ease",
+    },
+    successWrapper: {
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#f1f5f9",
+      padding: "16px",
+      fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
+    },
+    successCard: {
+      backgroundColor: "#ffffff",
+      border: "1px solid #e2e8f0",
+      borderRadius: "24px",
+      boxShadow: "0 20px 45px rgba(0,0,0,0.05)",
+      padding: "40px",
+      maxWidth: "400px",
+      width: "100%",
+      textAlign: "center" as const,
+    },
+  };
+
   if (done) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f1f5f9] px-4 py-16">
-        <div className="bg-white border border-slate-200 rounded-2xl shadow-xl p-10 max-w-sm w-full text-center">
-          <div className="w-14 h-14 rounded-full bg-emerald-50 flex items-center justify-center mx-auto mb-6 ring-8 ring-emerald-50/40">
-            <svg className="w-7 h-7 text-emerald-500" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+      <div style={styles.successWrapper}>
+        <div style={styles.successCard}>
+          <div style={{ width: "56px", height: "56px", borderRadius: "50%", backgroundColor: "#f0fdf4", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px" }}>
+            <svg style={{ width: "28px", height: "28px", color: "#22c55e" }} fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
             </svg>
           </div>
-          <h2 className="text-lg font-bold text-slate-900 mb-2 tracking-tight">Acord înregistrat cu succes</h2>
-          <p className="text-sm text-slate-500 leading-relaxed">Documentul semnat a fost arhivat în siguranță. Echipa VibeInvite te va contacta în curând.</p>
-          <div className="mt-8 pt-6 border-t border-slate-100">
-            <p className="text-xs text-slate-400 font-medium tracking-wide">office@vibeinvite.ro · www.vibeinvite.ro</p>
+          <h2 style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a", marginBottom: "8px" }}>Acord înregistrat cu succes</h2>
+          <p style={{ fontSize: "14px", color: "#64748b", lineHeight: "1.6" }}>Documentul semnat a fost arhivat în siguranță. Echipa VibeInvite te va contacta în curând.</p>
+          <div style={{ marginTop: "32px", paddingTop: "24px", borderTop: "1px solid #f1f5f9", fontSize: "12px", color: "#94a3b8", fontWeight: 500 }}>
+            office@vibeinvite.ro · www.vibeinvite.ro
           </div>
         </div>
       </div>
     );
   }
-
-  const inputCls = (val: string) =>
-    `w-full border rounded-lg px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 bg-white transition-all focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 ${
-      fieldInvalid(val)
-        ? "border-red-400 bg-red-50/30 focus:ring-red-400/20 focus:border-red-500"
-        : "border-slate-200 hover:border-slate-300"
-    }`;
 
   const clauses = [
     {
@@ -290,80 +475,79 @@ export default function PilotConsentPage() {
     {
       nr: "Art. 4",
       title: "Drepturile Furnizorului — GDPR (Reg. UE 2016/679)",
-      body: "În calitate de persoană vizată, beneficiezi de: dreptul de acces, dreptul la rectificare, dreptul la ștergere (dreptul de a fi uitat), dreptul la restricționarea prelucrării, dreptul la portabilitate și dreptul de opoziție. Solicitările se transmit la office@vibeinvite.ro. Ai dreptul să depui plângere la ANSPDCP, B-dul G-ral Gheorghe Magheru 28-30, Sector 1, București.",
+      body: "În calitate de persoană vizată, beneficiezi de: dreptul de acces, dreptul la rectificare, dreptul la ștergere (dreptul de a fi uitat), dreptul la restricționarea prelucrarii, dreptul la portabilitate și dreptul de opoziție. Solicitările se transmit la office@vibeinvite.ro. Ai dreptul să depui plangere la ANSPDCP, B-dul G-ral Gheorghe Magheru 28-30, Sector 1, București.",
     },
     {
       nr: "Art. 5",
       title: "Limitarea Răspunderii Operatorului",
-      body: "MURGU ADRIAN PFA acționează exclusiv ca prestator de servicii tehnice de publicare și nu își asumă nicio răspundere pentru: (i) drepturile de proprietate intelectuală ale conținutului transmis de Furnizor; (ii) pretențiile oricăror terți legate de materialele furnizate; (iii) rezultatele comerciale obținute de Furnizor prin pagina de prezentare; (iv) erorile sau inexactitățile din conținutul furnizat.",
+      body: "MURGU ADRIAN PFA acționează exclusiv ca prestator de servicii tehnice de publicare și nu își asumă nicio răspundere pentru: (i) drepturile de proprietate intelectuală ale continutului transmis de Furnizor; (ii) pretențiile oricăror terți legate de materialele furnizate; (iii) rezultatele comerciale obținute de Furnizor prin pagina de prezentare; (iv) erorile sau inexactitățile din conținutul furnizat.",
     },
     {
       nr: "Art. 6",
       title: "Dispoziții Finale",
-      body: "Prezentul acord este guvernat de legislația română în vigoare, inclusiv Regulamentul (UE) 2016/679 (GDPR) și Legea nr. 190/2018. Orice litigiu va fi soluționat pe cale amiabilă, iar în caz de eșec, de instanțele judecătorești competente din România.",
+      body: "Prezentul acord este guvernat de legislația română în vigoare, inclusiv Regulamentul (UE) 2016/679 (GDPR) si Legea nr. 190/2018. Orice litigiu va fi soluționat pe cale amiabilă, iar in caz de eșec, de instanțele judecătorești competente din România.",
     },
   ] as Array<{ nr: string; title: string; body?: string; items?: string[] }>;
 
   return (
-    <div className="min-h-screen bg-[#eef2f7] py-8 md:py-14 px-4 sm:px-6 font-sans antialiased">
-      <div className="max-w-3xl mx-auto space-y-0">
+    <div style={styles.wrapper}>
+      <div style={styles.container}>
 
         {/* ── DOCUMENT SHEET ─────────────────────────────────────────── */}
-        <div className="bg-white shadow-[0_4px_40px_rgba(0,0,0,0.10)] rounded-t-xl overflow-hidden">
+        <div style={styles.sheet}>
 
           {/* Letterhead */}
-          <div className="bg-[#0f172a] px-8 sm:px-12 py-8 sm:py-10">
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-5">
+          <div style={styles.letterhead}>
+            <div style={styles.lhFlex}>
               <div>
-                <p className="text-[10px] font-bold tracking-[0.18em] text-slate-400 uppercase mb-2">Document Oficial · Proiect Pilot</p>
-                <h1 className="text-white text-xl sm:text-2xl font-extrabold tracking-tight leading-snug">
+                <p style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.18em", color: "#94a3b8", textTransform: "uppercase", marginBottom: "8px" }}>Document Oficial · Proiect Pilot</p>
+                <h1 style={{ margin: 0, fontSize: "24px", fontWeight: 800, letterSpacing: "-0.025em", lineHeight: "1.3" }}>
                   Acord de Colaborare<br />
-                  <span className="text-slate-300 font-medium text-base sm:text-lg">și Consimțământ privind Prelucrarea Datelor</span>
+                  <span style={{ color: "#cbd5e1", fontWeight: 500, fontSize: "16px" }}>și Consimțământ privind Prelucrarea Datelor</span>
                 </h1>
               </div>
-              <div className="shrink-0 text-left sm:text-right">
-                <p className="text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-1">Emis de</p>
-                <p className="text-white font-black text-base tracking-tight">VibeInvite</p>
-                <p className="text-slate-400 text-xs mt-0.5">www.vibeinvite.ro</p>
+              <div>
+                <p style={{ margin: 0, fontSize: "10px", fontWeight: 700, letterSpacing: "0.15em", color: "#64748b", textTransform: "uppercase" }}>Emis de</p>
+                <p style={{ margin: "4px 0 0 0", fontWeight: 900, fontSize: "18px", letterSpacing: "-0.025em" }}>VibeInvite</p>
+                <p style={{ margin: "2px 0 0 0", color: "#94a3b8", fontSize: "12px" }}>www.vibeinvite.ro</p>
               </div>
             </div>
 
             {/* Meta band */}
-            <div className="mt-7 pt-5 border-t border-slate-700/60 grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs">
+            <div style={styles.lhMeta}>
               <div>
-                <p className="text-slate-500 font-semibold uppercase tracking-widest text-[10px] mb-0.5">Tip document</p>
-                <p className="text-slate-200 font-semibold">Acord bilateral</p>
+                <p style={{ margin: 0, color: "#64748b", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", fontSize: "10px" }}>Tip document</p>
+                <p style={{ margin: "2px 0 0 0", color: "#e2e8f0", fontWeight: 600 }}>Acord bilateral</p>
               </div>
               <div>
-                <p className="text-slate-500 font-semibold uppercase tracking-widest text-[10px] mb-0.5">Versiune</p>
-                <p className="text-slate-200 font-semibold">v1.0 / 2025</p>
+                <p style={{ margin: 0, color: "#64748b", textTransform: "uppercase", letterSpacing: "0.1em", fontSize: "10px" }}>Versiune</p>
+                <p style={{ margin: "2px 0 0 0", color: "#e2e8f0", fontWeight: 600 }}>v1.0 / 2026</p>
               </div>
-              <div className="col-span-2 sm:col-span-1">
-                <p className="text-slate-500 font-semibold uppercase tracking-widest text-[10px] mb-0.5">Aplicabilitate</p>
-                <p className="text-slate-200 font-semibold">Reg. UE 2016/679 · Legea 190/2018</p>
+              <div>
+                <p style={{ margin: 0, color: "#64748b", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", fontSize: "10px" }}>Aplicabilitate</p>
+                <p style={{ margin: "2px 0 0 0", color: "#e2e8f0", fontWeight: 600 }}>Reg. UE 2016/679 · Legea 190</p>
               </div>
             </div>
           </div>
 
-          <div className="px-8 sm:px-12 py-10 space-y-10">
-
+          <div style={{ padding: "40px", display: "flex", flexDirection: "column", gap: "32px" }}>
             {/* Parties */}
             <section>
               <SectionLabel>Părțile Acordului</SectionLabel>
-              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-0 border border-slate-200 rounded-xl overflow-hidden text-sm">
-                <div className="p-5 space-y-1.5 border-b md:border-b-0 md:border-r border-slate-200 bg-slate-50/50">
-                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-2">Operator</p>
-                  <p className="font-bold text-slate-900">MURGU ADRIAN P.F.A.</p>
-                  <p className="text-slate-500 text-xs leading-relaxed">Aleea Parcului nr. 7, et. 9, Ap. 1,<br />Municipiul Onești, Județul Bacău, România</p>
-                  <p className="text-slate-500 text-xs">office@vibeinvite.ro · www.vibeinvite.ro</p>
+              <div style={styles.partiesBox}>
+                <div style={styles.partyOperator}>
+                  <p style={{ margin: "0 0 8px 0", fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94a3b8" }}>Operator</p>
+                  <p style={{ margin: "0 0 6px 0", fontWeight: 700, color: "#0f172a" }}>MURGU ADRIAN P.F.A.</p>
+                  <p style={{ margin: 0, color: "#475569", fontSize: "12px", lineHeight: "1.6" }}>Aleea Parcului nr. 7, et. 9, Ap. 1,<br />Municipiul Onești, Județul Bacău, România</p>
+                  <p style={{ margin: "8px 0 0 0", color: "#64748b", fontSize: "12px" }}>office@vibeinvite.ro · www.vibeinvite.ro</p>
                 </div>
-                <div className="p-5 space-y-1.5 bg-white">
-                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-2">Furnizor</p>
-                  <p className="font-bold text-slate-900">
-                    {prenume || nume ? `${prenume} ${nume}`.trim() : <span className="text-slate-300 font-normal italic">Se completează mai jos</span>}
+                <div style={styles.partyProvider}>
+                  <p style={{ margin: "0 0 8px 0", fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#94a3b8" }}>Furnizor</p>
+                  <p style={{ margin: "0 0 6px 0", fontWeight: 700, color: "#0f172a" }}>
+                    {prenume || nume ? `${prenume} ${nume}`.trim() : <span style={{ color: "#cbd5e1", fontWeight: 400, fontStyle: "italic" }}>Se completează mai jos</span>}
                   </p>
-                  <p className="text-slate-500 text-xs">{email || <span className="text-slate-300 italic">Email —</span>}</p>
-                  <p className="text-slate-500 text-xs">{telefon || <span className="text-slate-300 italic">Telefon —</span>}</p>
+                  <p style={{ margin: 0, color: "#475569", fontSize: "12px" }}>{email || <span style={{ color: "#cbd5e1", fontStyle: "italic" }}>Email —</span>}</p>
+                  <p style={{ margin: "4px 0 0 0", color: "#475569", fontSize: "12px" }}>{telefon || <span style={{ color: "#cbd5e1", fontStyle: "italic" }}>Telefon —</span>}</p>
                 </div>
               </div>
             </section>
@@ -371,28 +555,25 @@ export default function PilotConsentPage() {
             {/* Clauses */}
             <section>
               <SectionLabel>Termeni și Condiții Contractuale</SectionLabel>
-              <div className="mt-4 space-y-0 border border-slate-200 rounded-xl overflow-hidden divide-y divide-slate-100">
+              <div style={styles.clausesContainer}>
                 {clauses.map((a, idx) => (
-                  <div key={idx} className="flex gap-0">
-                    <div className="hidden sm:flex items-start justify-center w-16 shrink-0 bg-slate-50 border-r border-slate-100 pt-5 pb-5">
-                      <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest writing-mode-vertical rotate-180" style={{ writingMode: "vertical-lr" }}>
-                        {a.nr}
-                      </span>
+                  <div key={idx} style={{ ...styles.clauseRow, borderBottom: idx === clauses.length - 1 ? "none" : "1px solid #f1f5f9" }}>
+                    <div style={styles.clauseSide}>
+                      <span style={styles.clauseSideText}>{a.nr}</span>
                     </div>
-                    <div className="flex-1 p-5 sm:p-6 text-sm text-slate-600 leading-relaxed">
-                      <div className="flex items-center gap-2 mb-3">
-                        <span className="sm:hidden text-[10px] font-black text-slate-400 uppercase tracking-wider">{a.nr} ·</span>
-                        <h3 className="text-sm font-bold text-slate-900">{a.title}</h3>
+                    <div style={styles.clauseMain}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                        <h3 style={{ margin: 0, fontSize: "14px", fontWeight: 700, color: "#0f172a" }}>{a.title}</h3>
                       </div>
                       {a.body && (
-                        <p className="text-justify text-[13px] leading-[1.75]">{a.body}</p>
+                        <p style={{ margin: 0, textAlign: "justify", fontSize: "13px", lineHeight: "1.75", color: "#475569" }}>{a.body}</p>
                       )}
                       {a.items && (
-                        <ol className="space-y-2.5 mt-0.5">
+                        <ol style={{ margin: "8px 0 0 0", padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
                           {a.items.map((item, i) => (
-                            <li key={i} className="flex gap-3 text-[13px] leading-[1.75]">
-                              <span className="shrink-0 mt-[3px] w-5 h-5 rounded-full border border-slate-200 bg-slate-50 flex items-center justify-center text-[10px] font-black text-slate-400">{i + 1}</span>
-                              <span className="text-justify">{item}</span>
+                            <li key={i} style={{ display: "flex", gap: "12px", fontSize: "13px", lineHeight: "1.75", color: "#475569" }}>
+                              <span style={{ flexShrink: 0, marginTop: "2px", width: "20px", height: "20px", borderRadius: "50%", border: "1px solid #e2e8f0", backgroundColor: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: 900, color: "#94a3b8" }}>{i + 1}</span>
+                              <span style={{ textAlign: "justify" }}>{item}</span>
                             </li>
                           ))}
                         </ol>
@@ -406,37 +587,60 @@ export default function PilotConsentPage() {
         </div>
 
         {/* ── SIGNING SECTION ────────────────────────────────────────── */}
-        <div className="bg-white border-t-2 border-dashed border-slate-200 shadow-[0_4px_40px_rgba(0,0,0,0.07)] rounded-b-xl px-8 sm:px-12 py-10 space-y-8">
-
+        <div style={styles.signingSection}>
           <div>
-            <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-1">Secțiunea de Semnare</p>
-            <h2 className="text-lg font-extrabold text-slate-900 tracking-tight">Validare și Semnătură Digitală</h2>
-            <p className="text-sm text-slate-500 mt-1">Completează datele de identificare și semnează în spațiul dedicat pentru a valida acordul.</p>
+            <p style={{ margin: 0, fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.15em", color: "#94a3b8" }}>Secțiunea de Semnare</p>
+            <h2 style={{ margin: "4px 0 0 0", fontSize: "18px", fontWeight: 800, color: "#0f172a", letterSpacing: "-0.02em" }}>Validare și Semnătură Digitală</h2>
+            <p style={{ margin: "4px 0 0 0", fontSize: "13.5px", color: "#64748b" }}>Completează datele de identificare și semnează în spațiul dedicat pentru a valida acordul.</p>
           </div>
 
           {/* Fields */}
           <div>
             <SectionLabel>Date de Identificare</SectionLabel>
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div style={styles.gridInputs}>
               {[
                 { label: "Prenume", val: prenume, set: setPrenume, placeholder: "ex: Alexandru", type: "text" },
                 { label: "Nume", val: nume, set: setNume, placeholder: "ex: Popescu", type: "text" },
                 { label: "Adresă de email", val: email, set: setEmail, placeholder: "ex: alex@studio.ro", type: "email" },
                 { label: "Număr de telefon", val: telefon, set: setTelefon, placeholder: "ex: 07xx xxx xxx", type: "tel" },
               ].map(({ label, val, set, placeholder, type }) => (
-                <div key={label}>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                    {label} <span className="text-red-500">*</span>
+                <div key={label} style={styles.inputGroup}>
+                  <label style={styles.label}>
+                    {label} <span style={{ color: "#ef4444" }}>*</span>
                   </label>
                   <input
                     type={type}
                     value={val}
                     onChange={(e) => set(e.target.value)}
                     placeholder={placeholder}
-                    className={inputCls(val)}
+                    style={{
+                      width: "100%",
+                      boxSizing: "border-box",
+                      border: "1px solid #cbd5e1",
+                      borderRadius: "8px",
+                      padding: "10px 14px",
+                      fontSize: "14px",
+                      color: "#0f172a",
+                      backgroundColor: "#ffffff",
+                      outline: "none",
+                      transition: "all 0.15s ease",
+                      ...(fieldInvalid(val) ? { border: "1px solid #ef4444", backgroundColor: "rgba(254, 226, 226, 0.3)" } : {})
+                    }}
+                    onFocus={(e) => {
+                      if (!fieldInvalid(val)) {
+                        e.target.style.borderColor = "#0f172a";
+                        e.target.style.boxShadow = "0 0 0 4px rgba(15, 23, 42, 0.05)";
+                      }
+                    }}
+                    onBlur={(e) => {
+                      if (!fieldInvalid(val)) {
+                        e.target.style.borderColor = "#cbd5e1";
+                        e.target.style.boxShadow = "none";
+                      }
+                    }}
                   />
                   {fieldInvalid(val) && (
-                    <p className="text-[11px] text-red-500 mt-1 font-semibold">Câmp obligatoriu</p>
+                    <p style={{ margin: "4px 0 0 0", fontSize: "11px", color: "#ef4444", fontWeight: 600 }}>Câmp obligatoriu</p>
                   )}
                 </div>
               ))}
@@ -446,53 +650,56 @@ export default function PilotConsentPage() {
           {/* Checkboxes */}
           <div>
             <SectionLabel>Confirmări Obligatorii</SectionLabel>
-            <div className="mt-4 space-y-2.5">
+            <div style={styles.checkboxesList}>
               {[
-                {
-                  val: agreed1,
-                  set: setAgreed1,
-                  text: "Am citit, înțeles și sunt de acord cu toate clauzele prezentului Acord de Colaborare, inclusiv cu Art. 2 privind asumarile mele ca Furnizor.",
-                },
-                {
-                  val: agreed2,
-                  set: setAgreed2,
-                  text: "Sunt de acord cu prelucrarea datelor mele cu caracter personal (nume, email, telefon) de către MURGU ADRIAN PFA în scopul gestionării acestui acord, conform Regulamentului (UE) 2016/679 (GDPR).",
-                },
-                {
-                  val: agreed3,
-                  set: setAgreed3,
-                  text: "Confirm că toate informațiile completate sunt corecte, că am capacitate juridică deplină și că semnătura mea digitală are valoarea unei semnături olografe în contextul acestui acord.",
-                },
+                { val: agreed1, set: setAgreed1, text: "Am citit, înțeles și sunt de acord cu toate clauzele prezentului Acord de Colaborare, inclusiv cu Art. 2 privind asumarile mele ca Furnizor." },
+                { val: agreed2, set: setAgreed2, text: "Sunt de acord cu prelucrarea datelor mele cu caracter personal (nume, email, telefon) de către MURGU ADRIAN PFA în scopul gestionării acestui acord, conform Regulamentului (UE) 2016/679 (GDPR)." },
+                { val: agreed3, set: setAgreed3, text: "Confirm că toate informațiile completate sunt corecte, că am capacitate juridică deplină și că semnătura mea digitală are valoarea unei semnături olografe în contextul acestui acord." },
               ].map(({ val, set, text }, i) => (
                 <label
                   key={i}
-                  className={`flex gap-3.5 items-start p-4 rounded-xl border cursor-pointer transition-all select-none text-sm ${
-                    checkInvalid(val)
-                      ? "border-red-300 bg-red-50/40"
-                      : val
-                      ? "border-slate-300 bg-slate-50/70"
-                      : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/40"
-                  }`}
+                  style={{
+                    display: "flex",
+                    gap: "14px",
+                    alignItems: "flex-start",
+                    padding: "16px",
+                    borderRadius: "12px",
+                    border: "1px solid #e2e8f0",
+                    cursor: "pointer",
+                    backgroundColor: checkInvalid(val) ? "rgba(254, 226, 226, 0.2)" : val ? "#f8fafc" : "#ffffff",
+                    borderColor: checkInvalid(val) ? "#fca5a5" : val ? "#cbd5e1" : "#e2e8f0",
+                    fontSize: "13.5px",
+                    userSelect: "none",
+                  }}
                 >
-                  <div className={`mt-[1px] w-4.5 h-4.5 shrink-0 rounded border-2 flex items-center justify-center transition-all ${val ? "bg-slate-900 border-slate-900" : "border-slate-300 bg-white"}`}>
+                  <div 
+                    onClick={() => set(!val)}
+                    style={{
+                      marginTop: "2px",
+                      width: "18px",
+                      height: "18px",
+                      flexShrink: 0,
+                      borderRadius: "4px",
+                      border: `2px solid ${val ? "#0f172a" : "#cbd5e1"}`,
+                      backgroundColor: val ? "#0f172a" : "#ffffff",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      transition: "all 0.1s ease",
+                    }}
+                  >
                     {val && (
-                      <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
+                      <svg style={{ width: "10px", height: "10px", color: "#ffffff" }} fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
                     )}
-                    <input
-                      type="checkbox"
-                      checked={val}
-                      onChange={(e) => set(e.target.checked)}
-                      className="sr-only"
-                    />
                   </div>
-                  <span className={`text-[13px] leading-relaxed ${val ? "text-slate-700" : "text-slate-600"}`}>{text}</span>
+                  <span style={{ color: val ? "#334155" : "#475569", textAlign: "justify" }}>{text}</span>
                 </label>
               ))}
               {submitted && (!agreed1 || !agreed2 || !agreed3) && (
-                <div className="flex gap-2 items-start text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3 font-semibold">
-                  <svg className="w-4 h-4 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <div style={{ display: "flex", gap: "8px", alignItems: "center", fontSize: "12px", color: "#b91c1c", backgroundColor: "#fef2f2", border: "1px solid #fca5a5", borderRadius: "8px", padding: "12px 16px", fontWeight: 600 }}>
+                  <svg style={{ width: "16px", height: "16px", flexShrink: 0 }} fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                   </svg>
                   Toate cele 3 confirmări sunt obligatorii pentru validarea acordului legal.
@@ -504,24 +711,24 @@ export default function PilotConsentPage() {
           {/* Signature */}
           <div>
             <SectionLabel>Semnătură Olografă Digitală</SectionLabel>
-            <div className={`mt-4 rounded-xl border-2 overflow-hidden transition-all ${sigInvalid ? "border-red-400" : "border-slate-200"}`}>
-              <div className="flex items-center justify-between bg-slate-50 border-b border-slate-200 px-4 py-3">
-                <div className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <div style={{ ...styles.signatureBorder, borderColor: sigInvalid ? "#f87171" : "#e2e8f0" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#f8fafc", borderBottom: "1px solid #e2e8f0", padding: "12px 16px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <svg style={{ width: "16px", height: "16px", color: "#94a3b8" }} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                   </svg>
-                  <span className="text-xs font-bold text-slate-600 uppercase tracking-wider">Spațiu de semnătură</span>
+                  <span style={{ fontSize: "11px", fontWeight: 700, color: "#64748b", textTransform: "uppercase", letterSpacing: "0.05em" }}>Spațiu de semnătură</span>
                 </div>
                 <button
                   onClick={clearSignature}
                   type="button"
-                  className="text-xs font-bold text-slate-500 hover:text-slate-700 bg-white border border-slate-200 hover:border-slate-300 px-3 py-1.5 rounded-lg transition-colors"
+                  style={{ fontSize: "12px", fontWeight: 700, color: "#475569", backgroundColor: "#ffffff", border: "1px solid #cbd5e1", padding: "6px 12px", borderRadius: "8px", cursor: "pointer" }}
                 >
                   Șterge
                 </button>
               </div>
-              <div className="bg-[#fafafa] p-4">
-                <div className="rounded-lg border border-slate-200 bg-white overflow-hidden relative">
+              <div style={styles.canvasContainer}>
+                <div style={styles.canvasFrame}>
                   <canvas
                     ref={canvasRef}
                     width={700}
@@ -531,58 +738,60 @@ export default function PilotConsentPage() {
                     onPointerUp={endDraw}
                     onPointerLeave={endDraw}
                     onPointerCancel={endDraw}
-                    className="w-full touch-none cursor-crosshair block"
-                    style={{ height: "160px" }}
+                    className="touch-none block"
+                    style={{ width: "100%", height: "160px", cursor: "crosshair" }}
                   />
-                  <div className="absolute bottom-3 left-4 right-4 border-b border-dashed border-slate-200 pointer-events-none" />
-                  <p className="absolute bottom-1.5 left-4 text-[10px] text-slate-300 pointer-events-none select-none">Semnați deasupra liniei</p>
+                  <div style={{ position: "absolute", bottom: "16px", left: "16px", right: "16px", borderBottom: "1px dashed #e2e8f0", pointerEvents: "none" }} />
+                  <p style={{ position: "absolute", bottom: "4px", left: "16px", margin: 0, fontSize: "10px", color: "#cbd5e1", pointerEvents: "none", userSelect: "none" }}>Semnați deasupra liniei</p>
                 </div>
               </div>
               {sigInvalid && (
-                <div className="px-4 pb-3">
-                  <p className="text-[11px] text-red-500 font-semibold">Semnătura este obligatorie.</p>
+                <div style={{ padding: "0 16px 12px 16px" }}>
+                  <p style={{ margin: 0, fontSize: "11px", color: "#ef4444", fontWeight: 600 }}>Semnătura este obligatorie.</p>
                 </div>
               )}
             </div>
           </div>
 
           {/* Submit */}
-          <div className="pt-2">
+          <div style={{ paddingTop: "8px" }}>
             <button
               onClick={handleSubmit}
               disabled={loading}
               type="button"
-              className="w-full bg-[#0f172a] hover:bg-[#1e293b] disabled:bg-slate-100 disabled:text-slate-300 text-white font-bold py-4 px-6 rounded-xl transition-all text-sm tracking-wide shadow-sm active:scale-[0.99] flex items-center justify-center gap-2.5"
+              style={styles.submitBtn}
+              onMouseEnter={(e) => { if(!loading) e.currentTarget.style.backgroundColor = "#1e293b"; }}
+              onMouseLeave={(e) => { if(!loading) e.currentTarget.style.backgroundColor = "#0f172a"; }}
             >
               {loading ? (
                 <>
-                  <svg className="animate-spin h-4 w-4 text-white/70" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                  <svg style={{ width: "16px", height: "16px" }} viewBox="0 0 24 24" fill="none">
+                    <circle style={{ opacity: 0.25 }} cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path style={{ opacity: 0.75 }} fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                   </svg>
                   Se generează documentul PDF...
                 </>
               ) : (
                 <>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                  <svg style={{ width: "16px", height: "16px" }} fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   Semnez și Trimit Acordul Legal
                 </>
               )}
             </button>
-            <p className="text-center text-[11px] text-slate-400 mt-3 leading-relaxed">
+            <p style={{ textAlign: "center", fontSize: "11px", color: "#94a3b8", marginTop: "12px", lineHeight: "1.5" }}>
               Prin trimiterea acestui formular confirmi că ai citit și ai înțeles toate clauzele de mai sus.
             </p>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="text-center py-6">
-          <p className="text-[11px] text-slate-400">
+        {/* Footer subsol */}
+        <div style={{ textAlign: "center", padding: "24px 0" }}>
+          <p style={{ margin: 0, fontSize: "11px", color: "#94a3b8" }}>
             Document generat automat · Conform legislației române și normelor GDPR (Reg. UE 2016/679)
           </p>
-          <p className="text-[11px] text-slate-400 mt-1">
+          <p style={{ margin: "4px 0 0 0", fontSize: "11px", color: "#94a3b8" }}>
             © {new Date().getFullYear()} MURGU ADRIAN P.F.A. · office@vibeinvite.ro
           </p>
         </div>
@@ -594,9 +803,9 @@ export default function PilotConsentPage() {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex items-center gap-3">
-      <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-slate-400 whitespace-nowrap">{children}</p>
-      <div className="flex-1 h-px bg-slate-100" />
+    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+      <p style={{ margin: 0, fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.16em", color: "#94a3b8", whiteSpace: "nowrap" }}>{children}</p>
+      <div style={{ flex: 1, height: "1px", backgroundColor: "#f1f5f9" }} />
     </div>
   );
 }
