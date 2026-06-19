@@ -53,8 +53,9 @@ const CSS = `
 @media(min-width:768px){ .bs-hero { flex-direction:row; } }
 
 .bs-hero-gallery {
-  display:grid; grid-template-columns:1fr 1fr 1fr;
-  height:55svh; flex-shrink:0;
+  display:grid; grid-template-columns:1fr 1fr;
+  grid-template-rows:280px 280px;
+  height:auto; flex-shrink:0;
 }
 @media(min-width:768px){
   .bs-hero-gallery {
@@ -64,13 +65,12 @@ const CSS = `
 }
 
 .bs-hi { position:relative; overflow:hidden; }
-.bs-hi:nth-child(1) { grid-column:1/3; }
+.bs-hi:nth-child(1) { grid-column:1/-1; }
 @media(min-width:768px){ .bs-hi:nth-child(1) { grid-column:1/2; grid-row:1/3; } }
 .bs-hi:nth-child(2) { }
 @media(min-width:768px){ .bs-hi:nth-child(2) { grid-row:1/2; } }
 .bs-hi:nth-child(3) { }
 @media(min-width:768px){ .bs-hi:nth-child(3) { grid-row:2/3; } }
-
 .bs-hi img {
   width:100%; height:100%; object-fit:cover; object-position:center top;
   display:block; filter:brightness(.88) saturate(1.05);
