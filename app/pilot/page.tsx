@@ -852,6 +852,7 @@ export default function PilotConsentPage() {
 
   const startDraw = (e: React.PointerEvent<HTMLCanvasElement>) => {
     e.preventDefault();
+    e.currentTarget.setPointerCapture(e.pointerId);
     isDrawing.current = true;
     lastPos.current = getPos(e);
   };
@@ -1207,6 +1208,7 @@ export default function PilotConsentPage() {
     canvasContainer: {
       backgroundColor: "#fafafa",
       padding: "16px",
+      touchAction: "none" as const,
     },
     canvasFrame: {
       borderRadius: "8px",
@@ -1214,6 +1216,7 @@ export default function PilotConsentPage() {
       backgroundColor: "#ffffff",
       overflow: "hidden",
       position: "relative" as const,
+      touchAction: "none" as const,
     },
     submitBtn: {
       width: "100%",
@@ -1565,8 +1568,11 @@ export default function PilotConsentPage() {
                     onPointerUp={endDraw}
                     onPointerLeave={endDraw}
                     onPointerCancel={endDraw}
+                    onTouchStart={(e) => e.preventDefault()}
+                    onTouchMove={(e) => e.preventDefault()}
+                    onTouchEnd={(e) => e.preventDefault()}
                     className="touch-none block"
-                    style={{ width: "100%", height: "160px", cursor: "crosshair" }}
+                    style={{ width: "100%", height: "160px", cursor: "crosshair", touchAction: "none", userSelect: "none", WebkitUserSelect: "none" }}
                   />
                   <div style={{ position: "absolute", bottom: "16px", left: "16px", right: "16px", borderBottom: "1px dashed #e2e8f0", pointerEvents: "none" }} />
                   <p style={{ position: "absolute", bottom: "4px", left: "16px", margin: 0, fontSize: "10px", color: "#cbd5e1", pointerEvents: "none", userSelect: "none" }}>Semnați deasupra liniei</p>
