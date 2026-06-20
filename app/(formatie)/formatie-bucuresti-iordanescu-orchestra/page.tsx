@@ -220,6 +220,62 @@ header, footer, .cookie-consent { display:none !important; }
   content:''; position:absolute; top:0; left:0; right:0; height:2px;
   background:linear-gradient(to right, transparent, #D4AF63, transparent);
 }
+  /* PACKAGES */
+.io-packages { margin-bottom:56px; }
+.io-pkg-grid { display:grid; gap:16px; }
+@media(min-width:768px){ .io-pkg-grid { grid-template-columns:repeat(3,1fr); } }
+
+.io-pkg-card {
+  background:#120F0A; border:1px solid rgba(212,175,99,0.15);
+  border-radius:4px; padding:28px 24px;
+  display:flex; flex-direction:column;
+  position:relative;
+}
+.io-pkg-featured {
+  border-color:rgba(212,175,99,0.5);
+  background:linear-gradient(160deg,#1a1510 0%,#120F0A 100%);
+}
+.io-pkg-badge {
+  position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+  background:linear-gradient(135deg,#D4AF63,#B8943F); color:#0A0907;
+  font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  padding:5px 14px; border-radius:100px; white-space:nowrap;
+}
+.io-pkg-name {
+  font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:500;
+  color:#D4AF63; text-align:center; margin-bottom:6px;
+}
+.io-pkg-tag {
+  font-size:11px; color:rgba(242,237,227,0.4); text-align:center;
+  margin-bottom:20px; line-height:1.5; min-height:32px;
+}
+.io-pkg-list { list-style:none; flex:1; }
+.io-pkg-list li {
+  font-size:12.5px; color:rgba(242,237,227,0.55); line-height:1.6;
+  padding:8px 0 8px 22px; position:relative;
+  border-bottom:1px solid rgba(212,175,99,0.06);
+}
+.io-pkg-list li:last-child { border-bottom:none; }
+.io-pkg-list li::before {
+  content:'✓'; position:absolute; left:0; top:8px;
+  color:#D4AF63; font-size:12px; font-weight:700;
+}
+.io-pkg-list li.io-pkg-highlight { color:#D4AF63; font-weight:600; }
+.io-pkg-foot {
+  margin-top:18px; padding-top:16px; border-top:1px solid rgba(212,175,99,0.1);
+  font-size:11px; color:#D4AF63; text-align:center; font-style:italic;
+  font-family:'Cormorant Garamond',serif; font-size:14px;
+}
+
+.io-perks {
+  margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:2px;
+  border-top:1px solid rgba(212,175,99,0.12); padding-top:24px;
+}
+@media(min-width:768px){ .io-perks { grid-template-columns:repeat(4,1fr); } }
+.io-perk { display:flex; align-items:center; gap:10px; padding:14px; background:#120F0A; }
+.io-perk-ico { font-size:20px; flex-shrink:0; }
+.io-perk-t { font-size:12px; font-weight:600; color:#F2EDE3; }
+.io-perk-d { font-size:10.5px; color:rgba(242,237,227,0.35); margin-top:2px; }
 .io-quote {
   font-family:'Cormorant Garamond',serif; font-size:clamp(20px,3.5vw,28px); font-weight:300; font-style:italic;
   color:#F2EDE3; line-height:1.5; margin-bottom:24px; text-align:center;
@@ -327,9 +383,9 @@ header, footer, .cookie-consent { display:none !important; }
 `;
 
 const GALLERY_LABELS = [
-  'Pe scenă, în lumini',
+  'Vioară live, emoție pură',
   'Energie de petrecere',
-  'Eleganță în costum',
+  'Orchestra completă',
   'Booking & Organizare',
   'Identitate Iordănescu',
 ];
@@ -464,6 +520,76 @@ export default async function IordanescuOrchestraPage() {
             )}
 
             {/* ABOUT */}
+{/* PACHETE */}
+            <div className="io-packages">
+              <div className="io-sh">
+                <div className="io-sh-pre">Ce oferim</div>
+                <h2 className="io-sh-title">Pachete pentru <em>Evenimentul Tău</em></h2>
+              </div>
+              <div className="io-pkg-grid">
+                <div className="io-pkg-card">
+                  <div className="io-pkg-name">Gold</div>
+                  <div className="io-pkg-tag">Pentru momente intime și elegante</div>
+                  <ul className="io-pkg-list">
+                    <li>Formație restrânsă</li>
+                    <li>1–2 soliști</li>
+                    <li>Program de muzică populară și lăutărească</li>
+                    <li>Program adaptat duratei evenimentului</li>
+                    <li>Sonorizare de bază</li>
+                  </ul>
+                  <div className="io-pkg-foot">Ideal pentru evenimente mai mici și private</div>
+                </div>
+                <div className="io-pkg-card io-pkg-featured">
+                  <div className="io-pkg-badge">★ Cel mai ales</div>
+                  <div className="io-pkg-name">Premium</div>
+                  <div className="io-pkg-tag">Echilibrul perfect între preț și experiență</div>
+                  <ul className="io-pkg-list">
+                    <li>Orchestră completă</li>
+                    <li>Vioară live</li>
+                    <li>2–3 soliști</li>
+                    <li>Repertoriu variat: popular, lăutăresc, grecesc, internațional</li>
+                    <li>Program adaptat evenimentului</li>
+                  </ul>
+                  <div className="io-pkg-foot">Pachetul preferat de majoritatea clienților</div>
+                </div>
+                <div className="io-pkg-card">
+                  <div className="io-pkg-name">All Inclusive</div>
+                  <div className="io-pkg-tag">Pentru evenimente de neuitat</div>
+                  <ul className="io-pkg-list">
+                    <li>Orchestră completă</li>
+                    <li>3–4 soliști</li>
+                    <li>Program artistic extins</li>
+                    <li>Obiceiuri și tradiții (opțional)</li>
+                    <li>Consultanță în organizarea evenimentului</li>
+                    <li>Sonorizare premium</li>
+                    <li>Momente artistice speciale (vioară show, moment surpriză)</li>
+                    <li className="io-pkg-highlight">Garanția continuității muzicale — fără pauze pe durata programului</li>
+                  </ul>
+                  <div className="io-pkg-foot">Pentru cei care își doresc spectacol și eleganță</div>
+                </div>
+              </div>
+
+              <div className="io-perks">
+                <div className="io-perk">
+                  <div className="io-perk-ico">📅</div>
+                  <div><div className="io-perk-t">Reducere Duminică</div><div className="io-perk-d">Pentru evenimentele de duminică</div></div>
+                </div>
+                <div className="io-perk">
+                  <div className="io-perk-ico">🏷️</div>
+                  <div><div className="io-perk-t">Reducere Extrasezon</div><div className="io-perk-d">Ianuarie – Aprilie</div></div>
+                </div>
+                <div className="io-perk">
+                  <div className="io-perk-ico">🎁</div>
+                  <div><div className="io-perk-t">Moment Artistic Bonus</div><div className="io-perk-d">Set live inclus</div></div>
+                </div>
+                <div className="io-perk">
+                  <div className="io-perk-ico">🤝</div>
+                  <div><div className="io-perk-t">Flexibilitate</div><div className="io-perk-d">Adaptare după dorințele voastre</div></div>
+                </div>
+              </div>
+            </div>
+
+            {/* ABOUT */}
             <div className="io-about">
               <div className="io-sh">
                 <div className="io-sh-pre">Despre noi</div>
@@ -471,13 +597,13 @@ export default async function IordanescuOrchestraPage() {
               </div>
               <div className="io-about-card">
                 <p className="io-quote">
-                  „Muzica nu doar acompaniază o nuntă — <span>o transformă</span> într-o amintire de neuitat."
+                  „Muzica noastră, <span>emoția voastră</span>! Transformăm fiecare eveniment într-o amintire de neuitat."
                 </p>
                 <p className="io-text">
                   Suntem <strong>Iordănescu Orchestra</strong>, o formație profesională din <strong>București</strong> dedicată evenimentelor de excepție. Vioara este semnătura noastră — fiecare interpretare e gândită să creeze emoție și să ridice atmosfera la următorul nivel.
                 </p>
                 <p className="io-text">
-                  Repertoriul nostru acoperă <strong>muzică populară, de petrecere și internațională</strong>, adaptat perfect pentru fiecare moment al evenimentului tău — de la intrarea miresei până la ultimul dans.
+                  Repertoriul nostru acoperă <strong>muzică populară, lăutărească, grecească și internațională</strong>, adaptat perfect pentru fiecare moment al evenimentului tău — de la intrarea miresei până la ultimul dans.
                 </p>
                 <p className="io-text">
                   Disponibili pentru <strong>nunți, botezuri și evenimente corporate</strong> în toată România.
