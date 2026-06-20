@@ -6,6 +6,7 @@ import ShareButton from '@/components/marketplace/ShareButton';
 import CallButton from '@/components/marketplace/CallButton';
 import WaButton from '@/components/marketplace/WaButton';
 import SocialLinks from '@/components/marketplace/SocialLinks';
+import IoGalleryItem from './IoGalleryItem';
 
 const CLOUD = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const SLUG = 'formatie-bucuresti-iordanescu-orchestra';
@@ -14,10 +15,6 @@ async function getProvider() {
   const sql = neon(process.env.DATABASE_URL!);
   const rows = await sql`SELECT * FROM mkt_providers WHERE slug = ${SLUG} AND is_active = true LIMIT 1`;
   return rows[0] || null;
-}
-
-function track(slug: string, type: 'social') {
-  return `fetch('/api/marketplace/track',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slug:'${slug}',type:'${type}'})})`;
 }
 
 const CSS = `
@@ -182,7 +179,7 @@ header, footer, .cookie-consent { display:none !important; }
 
 .io-gi {
   position:relative; overflow:hidden; cursor:pointer; aspect-ratio:3/4;
-  border:1px solid rgba(212,175,99,0.15);
+  border:1px solid rgba(212,175,99,0.15); display:block;
 }
 .io-gi:first-child { grid-column:1/-1; aspect-ratio:16/8; }
 @media(min-width:640px){ .io-gi:first-child { grid-column:1/3; aspect-ratio:16/10; } }
@@ -220,7 +217,8 @@ header, footer, .cookie-consent { display:none !important; }
   content:''; position:absolute; top:0; left:0; right:0; height:2px;
   background:linear-gradient(to right, transparent, #D4AF63, transparent);
 }
-  /* PACKAGES */
+
+/* PACKAGES */
 .io-packages { margin-bottom:56px; }
 .io-pkg-grid { display:grid; gap:16px; }
 @media(min-width:768px){ .io-pkg-grid { grid-template-columns:repeat(3,1fr); } }
@@ -276,6 +274,7 @@ header, footer, .cookie-consent { display:none !important; }
 .io-perk-ico { font-size:20px; flex-shrink:0; }
 .io-perk-t { font-size:12px; font-weight:600; color:#F2EDE3; }
 .io-perk-d { font-size:10.5px; color:rgba(242,237,227,0.35); margin-top:2px; }
+
 .io-quote {
   font-family:'Cormorant Garamond',serif; font-size:clamp(20px,3.5vw,28px); font-weight:300; font-style:italic;
   color:#F2EDE3; line-height:1.5; margin-bottom:24px; text-align:center;
@@ -496,31 +495,21 @@ export default async function IordanescuOrchestraPage() {
                 </div>
                 <div className="io-gal">
                   {galleryIds.map((id, i) => (
-                    <a
+                    <IoGalleryItem
                       key={id}
                       href={clickTarget}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="io-gi"
-                      onClick={() => {}}
-                    >
-                      <img
-                        src={`https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_1000/${id}.jpg`}
-                        alt={`${p.name} – ${GALLERY_LABELS[i] || 'eveniment'}`}
-                        loading={i === 0 ? 'eager' : 'lazy'}
-                      />
-                      <div className="io-gi-mask">
-                        <div className="io-gi-label">{GALLERY_LABELS[i]}</div>
-                        <span className="io-gi-cta">Vezi profilul →</span>
-                      </div>
-                    </a>
+                      slug={p.slug}
+                      imgSrc={`https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_1000/${id}.jpg`}
+                      alt={`${p.name} – ${GALLERY_LABELS[i] || 'eveniment'}`}
+                      label={GALLERY_LABELS[i]}
+                      eager={i === 0}
+                    />
                   ))}
                 </div>
               </div>
             )}
 
-            {/* ABOUT */}
-{/* PACHETE */}
+            {/* PACHETE */}
             <div className="io-packages">
               <div className="io-sh">
                 <div className="io-sh-pre">Ce oferim</div>
