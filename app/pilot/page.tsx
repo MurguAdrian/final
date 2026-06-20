@@ -983,7 +983,7 @@ export default function PilotConsentPage() {
       };
 
       art("ART. 1", "Obiectul acordului");
-      txt("Prezentul acord reglementeaza termenii in care Furnizorul autorizeaza Operatorul sa prelucreze si sa publice materialele fotografice, video si/sau textuale transmise in mod voluntar, exclusiv in scopul crearii si afisarii unei pagini de prezentare in cadrul marketplace-ului vibeinvite.ro, pe durata proiectului pilot (pana in august 2026).");
+      txt("Prezentul acord reglementeaza termenii in care Furnizorul autorizeaza Operatorul sa prelucreze si sa publice materialele fotografice, video si/sau textuale transmise in mod voluntar, exclusiv in scopul crearii si afisarii unei pagini de prezentare in cadrul marketplace-ului vibeinvite.ro, pe durata proiectului pilot (pana in august 2027).");
       ln(6);
 
       art("ART. 2", "Declaratiile si asumarile furnizorului");
@@ -992,7 +992,7 @@ export default function PilotConsentPage() {
         "Declar ca materialele transmise nu incalca drepturile de proprietate intelectuala ale tertilor si nu contin date personale ale altor persoane fara acordul expres al acestora.",
         "Imi asum in totalitate raspunderea juridica civila si penala pentru continutul materialelor furnizate. Operatorul MURGU ADRIAN PFA este exonerat de orice raspundere privind legalitatea continutului transmis.",
         "Inteleg ca activitatea paginii mele va fi inregistrata anonim, exclusiv in scopuri statistice interne, fara a fi comercializata sau transmisa tertilor.",
-        "Inteleg ca proiectul are caracter pilot pana in august 2026 si ca materialele vor fi sterse la cererea mea scrisa sau la finalul perioadei.",
+        "Inteleg ca proiectul are caracter pilot pana in august 2027 si ca materialele vor fi sterse la cererea mea scrisa sau la finalul perioadei.",
         "Confirm ca am varsta minima de 18 ani si capacitate juridica deplina de a incheia prezentul acord.",
       ];
       for (const item of a2) { txt(`• ${item}`); ln(2); }
@@ -1043,7 +1043,7 @@ export default function PilotConsentPage() {
       band(y, 16, "#0f172a");
       const fy = y + 6;
       doc.setFontSize(7); doc.setFont("helvetica", "normal"); doc.setTextColor(148, 163, 184);
-      doc.text("Document generat automat  |  vibeinvite.ro  |  office@vibeinvite.ro  |  Proiect Pilot 2025-2026", W / 2, fy, { align: "center" });
+      doc.text("Document generat automat  |  vibeinvite.ro  |  office@vibeinvite.ro  |  Proiect Pilot 2026-2027", W / 2, fy, { align: "center" });
       doc.text(`ID: ${dateTimeStr.replace(/[:.]/g, "-")}`, W / 2, fy + 5, { align: "center" });
 
       const pdfBlob = doc.output("blob");
@@ -1278,7 +1278,7 @@ export default function PilotConsentPage() {
     {
       nr: "Art. 1",
       title: "Obiectul Acordului",
-      body: "Prezentul acord reglementează termenii în care Furnizorul autorizează Operatorul să prelucreze și să publice materialele fotografice, video și/sau textuale transmise în mod voluntar, exclusiv în scopul creării și afișării unei pagini de prezentare în cadrul marketplace-ului vibeinvite.ro, pe durata proiectului pilot (până în august 2026).",
+      body: "Prezentul acord reglementează termenii în care Furnizorul autorizează Operatorul să prelucreze și să publice materialele fotografice, video și/sau textuale transmise în mod voluntar, exclusiv în scopul creării și afișării unei pagini de prezentare în cadrul marketplace-ului vibeinvite.ro, pe durata proiectului pilot (până în august 2027).",
     },
     {
       nr: "Art. 2",
@@ -1288,7 +1288,7 @@ export default function PilotConsentPage() {
         "Declar că materialele transmise nu încalcă drepturile de proprietate intelectuală ale terților și nu conțin date personale ale altor persoane fără acordul expres al acestora.",
         "Îmi asum în totalitate și exclusiv răspunderea juridică civilă și penală pentru conținutul materialelor furnizate. Operatorul MURGU ADRIAN PFA este exonerat complet de orice răspundere privind legalitatea conținutului transmis.",
         "Înțeleg că activitatea paginii mele (vizualizări, click-uri contact, click-uri social media) va fi înregistrată anonim, exclusiv în scopuri statistice interne, fără a fi comercializată sau transmisă terților.",
-        "Înțeleg că proiectul are caracter pilot până în august 2026 și că materialele vor fi șterse la cererea mea scrisă sau la finalul perioadei.",
+        "Înțeleg că proiectul are caracter pilot până în august 2027 și că materialele vor fi șterse la cererea mea scrisă sau la finalul perioadei.",
         "Confirm că am vârsta minimă de 18 ani și capacitate juridică deplină de a încheia prezentul acord.",
       ],
     },
