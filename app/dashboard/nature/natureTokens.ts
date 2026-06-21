@@ -1,8 +1,8 @@
 export const C = {
   // Verzi / Forest
-  crimson:        '#274422',
-  rose:           '#3A5E33',
-  peony:          '#5C8A52',
+  crimson:        '#1F3A1A',
+  rose:           '#2D4A26',
+  peony:          '#4A7340',
   blush:          '#A8C89A',
   blush2:         '#C8DEC2',
   blush3:         '#F0F5EE',
@@ -15,24 +15,24 @@ export const C = {
   creamDeep:      '#EDF5E8',
  
   // Aur / Honey
-  gold:           '#C9A84C',
+  gold:           '#9C7A2E',
   gold2:          '#E5D4A0',
  
   // Texte
   dark:           '#0F172A',
-  text:           '#1C2218',
-  textLight:      '#4A6741',
-  textMuted:      '#6B7A5E',
+  text:           '#14190F',
+  textLight:      '#2D4A26',
+  textMuted:      '#3E5234',
  
   // Borduri & Overlay
-  borderFaint:    'rgba(26,38,20,0.08)',
-  borderLight:    'rgba(26,38,20,0.15)',
-  borderMed:      'rgba(26,38,20,0.25)',
-  borderStrong:   'rgba(26,38,20,0.45)',
-  roseFaint:      'rgba(58,94,51,0.05)',
-  roseDim:        'rgba(58,94,51,0.6)',
-  roseAlpha08:    'rgba(58,94,51,0.08)',
-  roseAlpha12:    'rgba(58,94,51,0.12)',
+  borderFaint:    'rgba(26,38,20,0.14)',
+  borderLight:    'rgba(26,38,20,0.28)',
+  borderMed:      'rgba(26,38,20,0.42)',
+  borderStrong:   'rgba(26,38,20,0.65)',
+  roseFaint:      'rgba(45,74,38,0.10)',
+  roseDim:        'rgba(45,74,38,0.8)',
+  roseAlpha08:    'rgba(45,74,38,0.16)',
+  roseAlpha12:    'rgba(45,74,38,0.24)',
  
   // Overlay modal
   overlayBg:      'rgba(15,23,42,0.6)',
@@ -60,18 +60,18 @@ export const F = {
  
 // ─── FONT SIZES ──────────────────────────────────────────
 export const FS = {
-  micro:     7,
-  tiny:      8,
-  xs:        9,
-  sm:        10,
-  base:      11,
-  md:        13,
+  micro:     8,
+  tiny:      9,
+  xs:        10,
+  sm:        11,
+  base:      12,
+  md:        14,
   input:     16,
-  titleSm:   'clamp(16px, 3vw, 22px)',
-  titleMd:   'clamp(20px, 4vw, 30px)',
-  titleLg:   'clamp(22px, 5vw, 38px)',
-  titleXl:   'clamp(22px, 4vw, 34px)',
-  statNum:   'clamp(24px, 3.5vw, 38px)',
+  titleSm:   'clamp(17px, 3vw, 23px)',
+  titleMd:   'clamp(21px, 4vw, 31px)',
+  titleLg:   'clamp(23px, 5vw, 39px)',
+  titleXl:   'clamp(23px, 4vw, 35px)',
+  statNum:   'clamp(25px, 3.5vw, 39px)',
 } as const;
  
 // ─── SPACING ─────────────────────────────────────────────
@@ -112,15 +112,15 @@ export const IS = {
  
 // ─── SHADOWS ─────────────────────────────────────────────
 export const SH = {
-  card:        '0 2px 16px rgba(26,38,20,0.04), inset 0 1px 0 rgba(58,94,51,0.05)',
-  cardHover:   '0 8px 32px rgba(26,38,20,0.08), 0 0 0 1px rgba(58,94,51,0.15)',
-  cardActive:  '0 8px 32px rgba(26,38,20,0.09), inset 0 1px 0 rgba(255,255,255,0.8)',
-  modal:       '0 24px 64px rgba(20,40,18,0.25)',
-  sidebar:     '4px 0 30px rgba(26,38,20,0.06)',
-  btnRose:     '0 6px 22px rgba(26,38,20,0.25)',
-  btnRoseHover:'0 14px 40px rgba(26,38,20,0.38)',
-  btnSave:     '0 10px 36px rgba(26,38,20,0.35)',
-  toggleGlow:  '0 0 14px rgba(26,38,20,0.28)',
+  card:        '0 2px 16px rgba(26,38,20,0.06), inset 0 1px 0 rgba(45,74,38,0.08)',
+  cardHover:   '0 8px 32px rgba(26,38,20,0.12), 0 0 0 1px rgba(45,74,38,0.25)',
+  cardActive:  '0 8px 32px rgba(26,38,20,0.13), inset 0 1px 0 rgba(255,255,255,0.8)',
+  modal:       '0 24px 64px rgba(20,40,18,0.3)',
+  sidebar:     '4px 0 30px rgba(26,38,20,0.09)',
+  btnRose:     '0 6px 22px rgba(26,38,20,0.32)',
+  btnRoseHover:'0 14px 40px rgba(26,38,20,0.45)',
+  btnSave:     '0 10px 36px rgba(26,38,20,0.42)',
+  toggleGlow:  '0 0 14px rgba(26,38,20,0.35)',
 } as const;
  
 // ─── LAYOUT ──────────────────────────────────────────────
@@ -142,8 +142,8 @@ export const GR = {
   cardInactive:`rgba(253,250,242,0.5)`,
   masterActive:`linear-gradient(160deg, rgba(253,250,242,0.88) 0%, rgba(220,232,214,0.6) 100%)`,
   bgAtmosphere: `
-    radial-gradient(ellipse 70% 60% at 15% 50%, rgba(168,200,154,0.1) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 85% 80%, rgba(58,94,51,0.06) 0%, transparent 50%)
+    radial-gradient(ellipse 70% 60% at 15% 50%, rgba(168,200,154,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 85% 80%, rgba(45,74,38,0.09) 0%, transparent 50%)
   `,
 } as const;
  

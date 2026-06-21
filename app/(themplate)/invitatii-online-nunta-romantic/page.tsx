@@ -404,7 +404,7 @@ function InviteScreen({ onBack:_onBack }:{onBack:()=>void}) {
           {[
             {tag:'Cununia',label:'Ceremonia Religioasă',venue:'Catedrala Sfântul Iosif',addr:'Str. General Berthelot, București',time:'15:00',
               icon:<svg viewBox="0 0 24 24" fill="none" stroke={P.cream} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{width:20,height:20}}><path d="M12 2L12 6M10 4h4"/><rect x="4" y="9" width="16" height="12" rx="1"/><path d="M9 21V14a3 3 0 0 1 6 0v7"/><path d="M4 9l8-4 8 4"/></svg>},
-            {tag:'Recepția',label:'Banchetul & Petrecerea',venue:'Palazzo Brancoveanu',addr:'Bd. Unirii, București',time:'19:00',
+            {tag:'Recepția',label:'Petrecerea',venue:'Palazzo Brancoveanu',addr:'Bd. Unirii, București',time:'19:00',
               icon:<svg viewBox="0 0 24 24" fill="none" stroke={P.cream} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{width:20,height:20}}><path d="M8 18c0 1.65-1.35 3-3 3s-3-1.35-3-3c0-2 3-6 3-6s3 4 3 6z"/><path d="M5 12V4"/><path d="M19 14c0 1.1-.9 2-2 2s-2-.9-2-2c0-1.5 2-4 2-4s2 2.5 2 4z"/><path d="M17 10V6"/><path d="M12 8l2-2M12 8l-2-2M12 8v4"/><circle cx="12" cy="14" r=".8" fill={P.cream} stroke="none"/></svg>},
           ].map(card=>(
             <div key={card.tag} style={{borderRadius:20,overflow:'hidden',border:`1.5px solid rgba(196,80,106,.2)`,background:`rgba(255,251,251,.72)`,backdropFilter:'blur(10px)',boxShadow:`0 6px 28px rgba(123,26,46,.08)`,transition:'transform .24s ease,box-shadow .24s ease'}}

@@ -624,7 +624,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
             <FG><label style={labS}>Nume Mireasă</label><input className="ps-input" placeholder="ex: Maria"                  value={formData.brideName}   onChange={e => set('brideName',   e.target.value)} /></FG>
             <FG><label style={labS}>Nume Mire</label>   <input className="ps-input" placeholder="ex: Andrei"                 value={formData.groomName}   onChange={e => set('groomName',   e.target.value)} /></FG>
             <FG><label style={labS}>Nași</label>        <input className="ps-input" placeholder="ex: Popescu Ion și Elena"   value={formData.nasiNames}   onChange={e => set('nasiNames',   e.target.value)} /></FG>
-            <FG noMargin><label style={labS}>Părinți</label><input className="ps-input" style={{ marginBottom: 0 }} placeholder="ex: Din partea mirelui..." value={formData.parentsNames} onChange={e => set('parentsNames', e.target.value)} /></FG>
+            <FG noMargin><label style={labS}>Părinți</label><input className="ps-input" style={{ marginBottom: 0 }} placeholder="ex: Popescu Ion cu Maria si Murgu Adrian cu Andreea" value={formData.parentsNames} onChange={e => set('parentsNames', e.target.value)} /></FG>
           </SectionCard>
 
           {/* ─── START MODIFICARE WAZE/MAPS – secțiunea Restaurant ─── */}

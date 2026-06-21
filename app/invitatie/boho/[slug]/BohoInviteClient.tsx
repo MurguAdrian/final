@@ -401,7 +401,7 @@ function InviteScreen({ props }: { props: BohoInviteClientProps }) {
               </div>
               <div>
                 <span style={{ fontFamily:"'EB Garamond',serif", fontSize:9, letterSpacing:'.2em', textTransform:'uppercase', color:'rgba(232,200,138,.65)', display:'block', marginBottom:2, fontStyle:'italic' }}>Recepție</span>
-                <p style={{ fontFamily:"'Dancing Script',cursive", fontSize:'clamp(15px,1.9vw,19px)', color:'#F5EDD8', lineHeight:1.2 }}>Banchetul Nupțial</p>
+                <p style={{ fontFamily:"'Dancing Script',cursive", fontSize:'clamp(15px,1.9vw,19px)', color:'#F5EDD8', lineHeight:1.2 }}>Petrecerea</p>
               </div>
             </div>
             <div style={{ padding:'14px 18px 16px' }}>

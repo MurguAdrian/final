@@ -523,7 +523,7 @@ function InviteScreen({ props }: { props: NatureInviteClientProps }) {
               </div>
               <div>
                 <span style={{ fontFamily: "'Cinzel',serif", fontSize: 8.5, letterSpacing: '.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,.68)', display: 'block', marginBottom: 2 }}>Recepție &amp; Petrecere</span>
-                <p style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(14px,1.7vw,17px)', fontStyle: 'italic', fontWeight: 400, color: '#fff', lineHeight: 1.2 }}>Banchetul</p>
+                <p style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(14px,1.7vw,17px)', fontStyle: 'italic', fontWeight: 400, color: '#fff', lineHeight: 1.2 }}>Petrecerea</p>
               </div>
             </div>
             <div style={{ padding: '14px 18px 16px' }}>

@@ -391,7 +391,7 @@ function InviteScreen({ onBack: _onBack }: { onBack: () => void }) {
           {[
             { type:'Ceremonia Religioasă', name:'Cununia', venue:'Biserica Sfântul Prooroc Daniel', addr:'Șos. Nicolina, Iași, România', time:'13:00', bg:'linear-gradient(135deg,#3A5E33 0%,#274422 100%)',
               icon:<svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" style={{width:20,height:20}}><path d="M12 2L12 6M10 4h4"/><rect x="4" y="9" width="16" height="12" rx="1"/><path d="M9 21V14a3 3 0 0 1 6 0v7"/><path d="M4 9l8-4 8 4"/></svg> },
-            { type:'Recepție și Petrecere', name:'Banchetul', venue:'Chalette Events Paun', addr:'Iași, România', time:'17:00', bg:'linear-gradient(135deg,#6B4E1A 0%,#503A10 100%)',
+            { type:'Recepție și Petrecere', name:'Petrecerea', venue:'Chalette Events Paun', addr:'Iași, România', time:'17:00', bg:'linear-gradient(135deg,#6B4E1A 0%,#503A10 100%)',
               icon:<svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" style={{width:20,height:20}}><path d="M9 18c0 1.66-1.34 3-3 3s-3-1.34-3-3c0-2 3-6 3-6s3 4 3 6z"/><path d="M6 12V3"/><path d="M18 7c0 1.1-.9 2-2 2s-2-.9-2-2c0-1.5 2-4 2-4s2 2.5 2 4z"/><path d="M16 9V6"/><path d="M12 14l1.5-1.5"/><circle cx="12" cy="16" r=".8" fill="white" stroke="none"/></svg> },
           ].map(card => (
             <div key={card.type} style={{ borderRadius:18, overflow:'hidden', border:'1.5px solid rgba(154,123,63,.2)', background:'rgba(255,255,255,.72)', backdropFilter:'blur(10px)', boxShadow:'0 6px 28px rgba(26,38,20,.07)', transition:'transform .24s ease,box-shadow .24s ease' }} {...cardHover}>

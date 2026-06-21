@@ -487,7 +487,7 @@ function InviteScreen({ props }: { props: RoyalInviteClientProps }) {
               </div>
               <div>
                 <span style={{ fontFamily: "'Cinzel',serif", fontSize: 8, letterSpacing: '.22em', textTransform: 'uppercase', color: 'rgba(200,216,232,.55)', display: 'block', marginBottom: 2 }}>Recepție Regală</span>
-                <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(15px,1.8vw,19px)', fontStyle: 'italic', fontWeight: 300, color: '#E8F0F8', lineHeight: 1.2 }}>Banchetul Nupțial</p>
+                <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(15px,1.8vw,19px)', fontStyle: 'italic', fontWeight: 300, color: '#E8F0F8', lineHeight: 1.2 }}>Petrecerea</p>
               </div>
             </div>
             <div style={{ padding: '14px 18px 16px' }}>

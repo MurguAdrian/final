@@ -109,14 +109,6 @@ export default function RoyalRsvpForm({ orderId, showAccommodation, showTranspor
             }}>
               ◆ Confirmare Prezență ◆
             </p>
-            <h3 style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: 'clamp(28px,4vw,36px)',
-              fontStyle: 'italic', fontWeight: 300,
-              color: '#E8F0F8', marginBottom: 4
-            }}>
-              R.S.V.P.
-            </h3>
             <div style={{ width: 40, height: 1, background: 'linear-gradient(90deg, transparent, rgba(200,216,232,0.5), transparent)', margin: '8px auto 0' }}/>
           </div>
 
