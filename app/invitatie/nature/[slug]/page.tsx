@@ -62,10 +62,7 @@ export default async function InvitationPage({ params }: { params: { slug: strin
     WHERE id = ${s.id}
   `;
 
-  const isGalleryActive =
-    s.gallery_status === 'active' &&
-    s.photos_expires_at &&
-    new Date(s.photos_expires_at).getTime() > Date.now();
+  const isGalleryActive = s.gallery_status === 'active';
 
   const weddingDateISO = s.wedding_date ? new Date(s.wedding_date).toISOString() : null;
 

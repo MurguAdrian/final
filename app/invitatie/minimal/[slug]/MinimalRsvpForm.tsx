@@ -73,9 +73,7 @@ export default function MinimalRsvpForm({ orderId, showAccommodation, showTransp
               </p>
               <div style={{ width: 20, height: 2, background: '#C8503A' }} />
             </div>
-            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px,3.5vw,30px)', fontStyle: 'italic', fontWeight: 400, color: '#111111', marginBottom: 4 }}>
-              R.S.V.P.
-            </h3>
+
           </div>
 
           <div className="mn-field-block">

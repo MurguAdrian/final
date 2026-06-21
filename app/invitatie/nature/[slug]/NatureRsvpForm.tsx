@@ -67,9 +67,7 @@ export default function NatureRsvpForm({ orderId, showAccommodation, showTranspo
             <p style={{ fontFamily: "'Cinzel', serif", fontSize: 'clamp(9px,1.1vw,11px)', letterSpacing: '0.28em', textTransform: 'uppercase', color: '#9A7B3F', marginBottom: 8, opacity: .82 }}>
               ✦ Confirmare Prezență ✦
             </p>
-            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(28px,4vw,36px)', fontStyle: 'italic', fontWeight: 400, color: '#3A5E33', marginBottom: 4 }}>
-              R.S.V.P.
-            </h3>
+
             <div style={{ width: 40, height: 1, background: 'linear-gradient(90deg, transparent, rgba(154,123,63,.5), transparent)', margin: '8px auto 0' }} />
           </div>
 

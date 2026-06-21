@@ -577,7 +577,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         <RoseDividerLine />
 
         <SectionCard title="🔗 URL Personalizat" style={{ marginTop: SP.xxl }}>
-          <label style={labS}>Slug personalizat</label>
+          <label style={labS}>Link personalizat</label>
           <div style={{ display: 'flex', alignItems: 'stretch', borderRadius: BR.sm, overflow: 'hidden', border: `1px solid rgba(26,26,26,.12)`, background: C.cream }}>
             <span className="ps-slug-prefix" style={{ padding: `11px 12px`, color: 'rgba(26,26,26,.3)', background: 'rgba(26,26,26,.03)', fontSize: FS.base, fontFamily: F.heading, letterSpacing: '.06em', borderRight: `1px solid rgba(26,26,26,.08)`, whiteSpace: 'nowrap' as const, display: 'flex', alignItems: 'center' }}>
               www.vibeinvite.ro/

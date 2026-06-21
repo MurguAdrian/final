@@ -89,9 +89,7 @@ export default function BohoRsvpForm({ orderId, showAccommodation, showTransport
             <p style={{ fontFamily:"'EB Garamond', serif", fontSize:'clamp(9px,1.1vw,11px)', letterSpacing:'0.32em', textTransform:'uppercase', fontStyle:'italic', color:'rgba(139,99,67,.6)', marginBottom:8 }}>
               ✿ Confirmare Prezență ✿
             </p>
-            <h3 style={{ fontFamily:"'Dancing Script', cursive", fontSize:'clamp(28px,4vw,36px)', color:'#4A3728', marginBottom:4 }}>
-              R.S.V.P.
-            </h3>
+ 
             <div style={{ width:40, height:1, background:'linear-gradient(90deg, transparent, rgba(193,127,62,0.5), transparent)', margin:'8px auto 0' }}/>
           </div>
 
