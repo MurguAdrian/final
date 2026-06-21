@@ -175,9 +175,9 @@ export default function UploadPage({ params }: { params: { slug: string } }) {
   const [failedFiles, setFailedFiles] = useState(0);
 
   useEffect(() => {
-    fetch(`/api/dashboard/summary?slug=${params.slug}`)
+    fetch(`/api/public/order-id?slug=${params.slug}`)
       .then(res => res.json())
-      .then(data => setOrderId(data.weddingDetails.order_id));
+      .then(data => setOrderId(data.orderId));
   }, [params.slug]);
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
