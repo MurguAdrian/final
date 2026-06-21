@@ -1,9 +1,3 @@
-// FIȘIER: andre/app/dashboard/boho/components/MenuSection.tsx
-// MODIFICĂRI FAȚĂ DE ROMANTIC:
-//   - Culori: rose/crimson/blush → terracotta/rust/sand/ecru
-//   - Fonturi: Playfair Display / Cormorant Garamond / Cinzel → Crimson Pro / Lora / Josefin Sans
-//   - Import tokens: ../romanticTokens → ../bohoTokens
-//   - Google Fonts URL actualizat
 
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
