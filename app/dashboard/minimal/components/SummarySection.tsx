@@ -231,7 +231,84 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                   value={`https://www.vibeinvite.ro/invitatie/minimal/${userSlug}`}
                   style={{ flex: 1, minWidth: 0, padding: '10px 14px', background: 'rgba(249,250,251,.9)', border: '1px solid rgba(26,26,26,.12)', borderRadius: 8, color: '#1a1a1a', fontFamily: "'DM Sans', sans-serif", letterSpacing: '.04em', outline: 'none', width: '100%', boxSizing: 'border-box' as const, WebkitAppearance: 'none' as any }}
                 />
-                <button className="rm-copy-btn" onClick={() => { navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/minimal/${userSlug}`); alert("Copiat!"); }} style={{ padding: '10px 20px', borderRadius: 8, background: 'rgba(26,26,26,.08)', border: '1px solid rgba(26,26,26,.2)', color: '#0f0f0f', fontFamily: "'DM Sans', sans-serif", fontSize: 16, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap' as const }}>
+                <button className="rm-copy-btn" onClick={() => { navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/minimal/${userSlug}`); const el = document.createElement('div');
+
+el.style.cssText = `
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.92);
+  z-index: 9999;
+
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  border-radius: 14px;
+  padding: 18px 26px;
+  text-align: center;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  backdrop-filter: blur(10px);
+
+  opacity: 0;
+  transition: opacity .2s ease, transform .2s ease;
+
+  min-width: 200px;
+`;
+
+el.innerHTML = `
+  <div style="
+    width:36px;
+    height:36px;
+    border-radius:10px;
+    background: rgba(0,0,0,0.04);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 10px;
+  ">
+    <svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px">
+      <path d="M2.5 8.5L6 12L13.5 4"
+        stroke="#111"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div style="
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(0,0,0,0.45);
+    margin-bottom: 2px;
+  ">
+    Link
+  </div>
+
+  <div style="
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(0,0,0,0.85);
+  ">
+    Copiat
+  </div>
+`;
+
+document.body.appendChild(el);
+
+requestAnimationFrame(() => {
+  el.style.opacity = '1';
+  el.style.transform = 'translate(-50%, -50%) scale(1)';
+});
+
+setTimeout(() => {
+  el.style.opacity = '0';
+  el.style.transform = 'translate(-50%, -50%) scale(0.96)';
+  setTimeout(() => document.body.removeChild(el), 220);
+}, 1400);}} style={{ padding: '10px 20px', borderRadius: 8, background: 'rgba(26,26,26,.08)', border: '1px solid rgba(26,26,26,.2)', color: '#0f0f0f', fontFamily: "'DM Sans', sans-serif", fontSize: 16, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap' as const }}>
                   Copiază
                 </button>
                 <button className="rm-share-btn" onClick={() => { const url = `https://www.vibeinvite.ro/invitatie/minimal/${userSlug}`; if (navigator.share) { navigator.share({ title: 'Invitație Nuntă', text: 'Te invităm să fii alături de noi în ziua nunții noastre 💍', url }).catch(() => {}); } else { window.open(`https://wa.me/?text=${encodeURIComponent('Te invităm să fii alături de noi 💍 ' + url)}`, '_blank'); } }} style={{ padding: '10px 16px', borderRadius: 8, background: 'rgba(26,26,26,.04)', border: '1px solid rgba(26,26,26,.14)', color: 'rgba(26,26,26,.6)', fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', display: 'flex', alignItems: 'center', gap: 7, whiteSpace: 'nowrap' as const, flexShrink: 0 }}>

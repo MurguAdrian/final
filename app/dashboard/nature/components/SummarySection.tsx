@@ -633,7 +633,79 @@ export const SummarySection = ({ isComplete }: SummaryProps) => {
                   value={`https://www.vibeinvite.ro/invitatie/nature/${userSlug}`}
                   style={{ flex: 1, minWidth: 0, padding: '10px 14px', background: 'rgba(253,250,242,.8)', border: '1px solid rgba(58,94,51,.18)', borderRadius: 8, color: '#3A5E33', fontFamily: "'Cinzel', serif", letterSpacing: '.06em', outline: 'none', width: '100%', boxSizing: 'border-box' as const, WebkitAppearance: 'none' as any }}
                 />
-                <button className="rm-copy-btn" onClick={() => { navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/nature/${userSlug}`); alert("Copiat!"); }} style={{ padding: '10px 20px', borderRadius: 8, background: 'rgba(58,94,51,.12)', border: '1px solid rgba(58,94,51,.3)', color: '#274422', fontFamily: "'Cinzel', serif", fontSize: 16, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap' as const }}>
+                <button className="rm-copy-btn" onClick={() => { navigator.clipboard.writeText(`https://www.vibeinvite.ro/invitatie/nature/${userSlug}`); const el = document.createElement('div');
+
+el.style.cssText = `
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  z-index: 9999;
+
+  background: linear-gradient(145deg, #f3f7f2 0%, #e7efe6 100%);
+  border: 1px solid rgba(120, 150, 120, 0.25);
+
+  border-radius: 18px;
+  padding: 22px 34px;
+  text-align: center;
+
+  box-shadow: 0 18px 55px rgba(40, 60, 40, 0.15);
+
+  opacity: 0;
+  transition: opacity .25s ease, transform .25s ease;
+
+  min-width: 220px;
+`;
+
+el.innerHTML = `
+  <div style="
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background: rgba(120, 150, 120, 0.10);
+    border: 1px solid rgba(120, 150, 120, 0.25);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 12px;
+  ">
+    <span style="font-size:18px;">🌿</span>
+  </div>
+
+  <div style="
+    font-family: Georgia, serif;
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(80, 110, 80, .65);
+    margin-bottom: 6px;
+  ">
+    Link
+  </div>
+
+  <div style="
+    font-family: Georgia, serif;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    color: rgba(50, 80, 50, .9);
+  ">
+    Copiat
+  </div>
+`;
+
+document.body.appendChild(el);
+
+requestAnimationFrame(() => {
+  el.style.opacity = '1';
+  el.style.transform = 'translate(-50%, -50%) scale(1)';
+});
+
+setTimeout(() => {
+  el.style.opacity = '0';
+  el.style.transform = 'translate(-50%, -50%) scale(0.95)';
+  setTimeout(() => document.body.removeChild(el), 250);
+}, 1600); }} style={{ padding: '10px 20px', borderRadius: 8, background: 'rgba(58,94,51,.12)', border: '1px solid rgba(58,94,51,.3)', color: '#274422', fontFamily: "'Cinzel', serif", fontSize: 16, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap' as const }}>
                   Copiază
                 </button>
                 <button className="rm-share-btn" onClick={() => { const url = `https://www.vibeinvite.ro/invitatie/nature/${userSlug}`; if (navigator.share) { navigator.share({ title: 'Invitație Nuntă', text: 'Te invităm să fii alături de noi în ziua nunții noastre 🌿', url }).catch(() => {}); } else { window.open(`https://wa.me/?text=${encodeURIComponent('Te invităm să fii alături de noi 🌿 ' + url)}`, '_blank'); } }} style={{ padding: '10px 16px', borderRadius: 8, background: 'rgba(58,94,51,.06)', border: '1px solid rgba(58,94,51,.22)', color: 'rgba(58,94,51,.75)', fontFamily: "'Cinzel', serif", fontSize: 13, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase' as const, cursor: 'pointer', transition: 'all .2s', display: 'flex', alignItems: 'center', gap: 7, whiteSpace: 'nowrap' as const, flexShrink: 0 }}>
