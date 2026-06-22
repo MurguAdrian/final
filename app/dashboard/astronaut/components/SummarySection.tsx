@@ -1,574 +1,231 @@
 "use client";
-import React, { useState, useEffect, useCallback } from 'react';
-import { C, F, FS, SP, BR, SH, GR, LY, KEYFRAMES } from '../astronautTokens';
-import { useAutoSave } from '../hooks/useAutoSave';
+import React, { useState } from 'react';
 
-interface SummarySectionProps {
-  initialData: any;
-  orderId:     any;
-  onSave:      () => void;
+interface Props {
+  orderId: number;
 }
 
-interface FormState {
-  childName:          string;
-  customSlug:         string;
-  parentsNames:       string;
-  nasiNames:          string;
-  churchLocation:     string;
-  churchDate:         string;
-  churchTime:         string;
-  churchMaps:         string;
-  churchWaze:         string;
-  restaurantLocation: string;
-  restaurantDate:     string;
-  restaurantTime:     string;
-  restaurantMaps:     string;
-  restaurantWaze:     string;
-  contactPhone:       string;
-}
+export default function AstronautRsvpForm({ orderId }: Props) {
+  const [submitted, setSubmitted] = useState(false);
+  const [loading,   setLoading]   = useState(false);
+  const [isComing,  setIsComing]  = useState<boolean | null>(null);
+  const [name,      setName]      = useState('');
+  const [partner,   setPartner]   = useState('');
+  const [kids,      setKids]      = useState('');
+  const [gdpr,      setGdpr]      = useState(false);
 
-const EMPTY: FormState = {
-  childName: '', customSlug: '', parentsNames: '', nasiNames: '',
-  churchLocation: '', churchDate: '', churchTime: '', churchMaps: '', churchWaze: '',
-  restaurantLocation: '', restaurantDate: '', restaurantTime: '', restaurantMaps: '', restaurantWaze: '',
-  contactPhone: '',
-};
-
-const buildForm = (data: any): FormState => ({
-  childName:          data?.bride_name          || '',
-  customSlug:         data?.custom_slug          || '',
-  parentsNames:       data?.parents_names        || '',
-  nasiNames:          data?.nasi_names           || '',
-  churchLocation:     data?.religious_location   || '',
-  churchDate:         data?.religious_date
-    ? new Date(data.religious_date).toISOString().split('T')[0]
-    : '',
-  churchTime:         data?.religious_time ? String(data.religious_time).substring(0, 5) : '',
-  churchMaps:         data?.religious_maps_url   || '',
-  churchWaze:         data?.religious_waze       || '',
-  restaurantLocation: data?.location_name        || '',
-  restaurantDate:     data?.wedding_date
-    ? new Date(data.wedding_date).toISOString().split('T')[0]
-    : '',
-  restaurantTime:     data?.wedding_time ? String(data.wedding_time).substring(0, 5) : '',
-  restaurantMaps:     data?.google_maps_url      || '',
-  restaurantWaze:     data?.waze_url             || '',
-  contactPhone:       data?.contact_phone_bride  || '',
-});
-
-const sCard: React.CSSProperties = {
-  background:     C.surface,
-  border:         `1px solid ${C.border}`,
-  borderRadius:   BR.card,
-  backdropFilter: 'blur(12px)',
-  padding:        `clamp(${SP.lg}px,3vw,${SP.xxl + SP.xs}px)`,
-};
-
-const sLabel: React.CSSProperties = {
-  display:       'block',
-  fontFamily:    F.ui,
-  fontSize:      FS.tiny,
-  letterSpacing: '.18em',
-  textTransform: 'uppercase',
-  color:         C.textMuted,
-  fontWeight:    700,
-  marginBottom:  SP.sm,
-};
-
-const PS_CSS = `
-  ${KEYFRAMES}
-  .ps-input-astr {
-    width: 100%; padding: ${SP.md}px ${SP.lg - 2}px; border-radius: ${BR.md}px;
-    border: 1.5px solid ${C.border}; background: rgba(255,255,255,.06);
-    color: ${C.text}; font-family: ${F.mono}; font-size: ${FS.input}px;
-    outline: none; box-sizing: border-box; display: block;
-    transition: border-color .2s, box-shadow .2s;
-    -webkit-appearance: none; appearance: none;
-  }
-  .ps-input-astr:focus {
-    border-color: rgba(244,216,126,.55) !important;
-    box-shadow: ${SH.glow};
-  }
-  .ps-input-astr::placeholder { color: ${C.textFaint}; }
-  .ps-input-astr option { background: ${C.bgMid}; color: ${C.text}; }
-  .ps-select-astr {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%239CB6E8' stroke-opacity='.6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-color: rgba(255,255,255,.06);
-    padding-right: 28px !important;
-    cursor: pointer;
-  }
-  .ps-gen-btn-astr {
-    width: 100%; padding: ${SP.sm + 2}px ${SP.lg - 2}px; border-radius: ${BR.md}px;
-    border: 1.5px dashed ${C.borderAccent}; background: ${GR.btnGhost};
-    color: ${C.textMuted}; font-family: ${F.ui};
-    font-size: ${FS.tiny}px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
-    cursor: pointer; transition: all .18s; display: flex; align-items: center;
-    justify-content: center; gap: ${SP.xs + 2}px; margin-bottom: ${SP.lg - 2}px;
-  }
-  .ps-gen-btn-astr:hover:not(:disabled) {
-    background: rgba(124,107,196,.16) !important;
-    border-color: ${C.accent} !important;
-    color: ${C.gold} !important;
-  }
-  .ps-gen-btn-astr:disabled { opacity: .4; cursor: not-allowed; }
-  .ps-test-btn-astr {
-    flex-shrink: 0; padding: 0 10px; height: 44px;
-    background: rgba(124,107,196,.06); border: 1px solid ${C.borderAccent};
-    border-radius: ${BR.md}px; color: ${C.textMuted};
-    font-family: ${F.ui}; font-size: ${FS.tiny}px; font-weight: 700;
-    letter-spacing: .12em; text-transform: uppercase; cursor: pointer;
-    white-space: nowrap; transition: all .18s; display: flex; align-items: center; gap: ${SP.xs}px;
-  }
-  .ps-test-btn-astr:hover {
-    background: rgba(124,107,196,.16) !important;
-    border-color: ${C.accent} !important;
-    color: ${C.text} !important;
-  }
-  .ps-save-btn-astr {
-    width: 100%; padding: ${SP.lg}px 0; border-radius: ${BR.pill}px;
-    background: ${GR.btnPrimary};
-    color: ${C.white}; font-family: ${F.ui};
-    font-size: clamp(10px,2.5vw,13px); font-weight: 700;
-    letter-spacing: .22em; text-transform: uppercase;
-    border: none; cursor: pointer;
-    box-shadow: ${SH.btnPrimary};
-    position: relative; overflow: hidden;
-    transition: transform .22s, box-shadow .22s;
-  }
-  .ps-save-btn-astr:not(:disabled):hover {
-    transform: translateY(-2px);
-    box-shadow: ${SH.btnHover};
-  }
-  .ps-save-btn-astr:disabled { opacity: .55; cursor: not-allowed; }
-  .ps-save-btn-astr::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
-    background-size: 350px 100%; animation: ast-shimmer 3s linear infinite;
-  }
-  .ast-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: ${SP.lg - 2}px; }
-  .ast-grid-2-fixed { display: grid; grid-template-columns: 1fr 1fr; gap: ${SP.lg - 2}px; }
-  @media (max-width: ${LY.bpMobile + 80}px) { .ast-grid-2-fixed { grid-template-columns: 1fr !important; } }
-`;
-
-// ── LocationLinks Component ──────────────────────────────
-interface LocationLinksProps {
-  locationValue: string;
-  mapsValue:     string;
-  wazeValue:     string;
-  mapsKey:       keyof FormState;
-  wazeKey:       keyof FormState;
-  setter:        (key: keyof FormState, value: string) => void;
-}
-
-const LocationLinks = ({ locationValue, mapsValue, wazeValue, mapsKey, wazeKey, setter }: LocationLinksProps) => {
-  const generateLinks = () => {
-    const trimmed = locationValue.trim();
-    if (!trimmed) return;
-    const encoded = encodeURIComponent(trimmed);
-    setter(mapsKey, `https://www.google.com/maps/search/?api=1&query=${encoded}`);
-    setter(wazeKey,  `https://waze.com/ul?q=${encoded}&navigate=yes`);
-  };
-
-  return (
-    <>
-      <button
-        type="button"
-        className="ps-gen-btn-astr"
-        onClick={generateLinks}
-        disabled={!locationValue.trim()}
-      >
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ width: 12, height: 12, flexShrink: 0 }}>
-          <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" strokeLinecap="round"/>
-        </svg>
-        Generează automat din numele locației
-      </button>
-
-      <div style={{ marginBottom: SP.lg - 2 }}>
-        <label style={sLabel}>Link Google Maps</label>
-        <div style={{ display: 'flex', gap: SP.xs + 2 }}>
-          <input
-            className="ps-input-astr"
-            style={{ marginBottom: 0, flex: 1 }}
-            placeholder="https://maps.app.goo.gl/..."
-            value={mapsValue}
-            onChange={e => setter(mapsKey, e.target.value)}
-            inputMode="url" autoCapitalize="none" autoCorrect="off"
-          />
-          {mapsValue.trim() && (
-            <button type="button" className="ps-test-btn-astr" onClick={() => window.open(mapsValue.trim(), '_blank', 'noopener,noreferrer')}>
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ width: 11, height: 11 }}>
-                <path d="M7 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V9" strokeLinecap="round"/>
-                <path d="M10 2h4v4" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M14 2L8 8" strokeLinecap="round"/>
-              </svg>
-              Test
-            </button>
-          )}
-        </div>
-        <p style={{ fontFamily: F.body, fontSize: FS.xs, fontStyle: 'italic', color: C.textFaint, marginTop: SP.xs + 1 }}>
-          Sau deschide Google Maps → Share → Copy Link și lipește manual.
-        </p>
-      </div>
-
-      <div>
-        <label style={sLabel}>Link Waze</label>
-        <div style={{ display: 'flex', gap: SP.xs + 2 }}>
-          <input
-            className="ps-input-astr"
-            style={{ marginBottom: 0, flex: 1 }}
-            placeholder="https://waze.com/ul/..."
-            value={wazeValue}
-            onChange={e => setter(wazeKey, e.target.value)}
-            inputMode="url" autoCapitalize="none" autoCorrect="off"
-          />
-          {wazeValue.trim() && (
-            <button type="button" className="ps-test-btn-astr" onClick={() => window.open(wazeValue.trim(), '_blank', 'noopener,noreferrer')}>
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ width: 11, height: 11 }}>
-                <path d="M7 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V9" strokeLinecap="round"/>
-                <path d="M10 2h4v4" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M14 2L8 8" strokeLinecap="round"/>
-              </svg>
-              Test
-            </button>
-          )}
-        </div>
-        <p style={{ fontFamily: F.body, fontSize: FS.xs, fontStyle: 'italic', color: C.textFaint, marginTop: SP.xs + 1 }}>
-          Sau deschide Waze → caută locația → Share → Copy Link și lipește manual.
-        </p>
-      </div>
-    </>
-  );
-};
-
-// ── CustomDatePicker ────────────────────────────────────
-const CustomDatePicker = ({ value, onChange }: { value: string; onChange: (v: string) => void }) => {
-  const currentYear = new Date().getFullYear();
-  const maxYear     = currentYear + 5;
-  const parts       = value ? value.split('-') : ['', '', ''];
-  const [year, month, day] = parts;
-
-  const handleChange = (type: 'day' | 'month' | 'year', val: string) => {
-    if (!val) { onChange(''); return; }
-    const d = type === 'day'   ? val : (day   || '01');
-    const m = type === 'month' ? val : (month || '01');
-    const y = type === 'year'  ? val : (year  || String(currentYear));
-    onChange(`${y}-${m}-${d}`);
-  };
-
-  return (
-    <div style={{ display: 'flex', gap: SP.xs + 2, width: '100%' }}>
-      <select className="ps-input-astr ps-select-astr" style={{ flex: 1 }} value={day} onChange={e => handleChange('day', e.target.value)}>
-        <option value="">Zi</option>
-        {Array.from({ length: 31 }, (_, i) => (
-          <option key={i} value={String(i + 1).padStart(2, '0')}>{i + 1}</option>
-        ))}
-      </select>
-      <select className="ps-input-astr ps-select-astr" style={{ flex: 1 }} value={month} onChange={e => handleChange('month', e.target.value)}>
-        <option value="">Lună</option>
-        {['Ian','Feb','Mar','Apr','Mai','Iun','Iul','Aug','Sep','Oct','Nov','Dec'].map((m, i) => (
-          <option key={i} value={String(i + 1).padStart(2, '0')}>{m}</option>
-        ))}
-      </select>
-      <select className="ps-input-astr ps-select-astr" style={{ flex: 1 }} value={year} onChange={e => handleChange('year', e.target.value)}>
-        <option value="">An</option>
-        {Array.from({ length: maxYear - currentYear + 1 }, (_, i) => (
-          <option key={i} value={String(currentYear + i)}>{currentYear + i}</option>
-        ))}
-      </select>
-    </div>
-  );
-};
-
-// ── CustomTimePicker ────────────────────────────────────
-const CustomTimePicker = ({ value, onChange }: { value: string; onChange: (v: string) => void }) => {
-  const [hours, minutes] = value ? value.split(':') : ['', ''];
-
-  const handleChange = (type: 'h' | 'm', val: string) => {
-    if (!val) { onChange(''); return; }
-    const h = type === 'h' ? val : (hours   || '12');
-    const m = type === 'm' ? val : (minutes || '00');
-    onChange(`${h}:${m}`);
-  };
-
-  return (
-    <div style={{ display: 'flex', gap: SP.xs + 2, width: '100%', alignItems: 'center' }}>
-      <select className="ps-input-astr ps-select-astr" style={{ flex: 1 }} value={hours} onChange={e => handleChange('h', e.target.value)}>
-        <option value="">Ora</option>
-        {Array.from({ length: 24 }, (_, i) => (
-          <option key={i} value={String(i).padStart(2, '0')}>{String(i).padStart(2, '0')}</option>
-        ))}
-      </select>
-      <span style={{ color: C.gold, fontSize: FS.lg, fontWeight: 300, flexShrink: 0, opacity: 0.7 }}>:</span>
-      <select className="ps-input-astr ps-select-astr" style={{ flex: 1 }} value={minutes} onChange={e => handleChange('m', e.target.value)}>
-        <option value="">Min</option>
-        {Array.from({ length: 60 }, (_, i) => (
-          <option key={i} value={String(i).padStart(2, '0')}>{String(i).padStart(2, '0')}</option>
-        ))}
-      </select>
-    </div>
-  );
-};
-
-// ── MAIN COMPONENT ──────────────────────────────────────
-export const SummarySection = ({ initialData, orderId, onSave }: SummarySectionProps) => {
-  const [loading,  setLoading]  = useState(false);
-  const [formData, setFormData] = useState<FormState>(() => buildForm(initialData));
-
-  useEffect(() => {
-    if (initialData) {
-      const next = buildForm(initialData);
-      setFormData(prev => JSON.stringify(prev) === JSON.stringify(next) ? prev : next);
-    }
-  }, [initialData]);
-
-  const set = (key: keyof FormState, value: string) =>
-    setFormData(prev => ({ ...prev, [key]: value }));
-
-  const setFromEvent = (key: keyof FormState) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => set(key, e.target.value);
-
-  const autoSaveFn = useCallback(async (data: FormState) => {
-    if (!orderId) throw new Error('orderId missing');
-    const res = await fetch('/api/dashboard/personalize', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        orderId,
-        brideName:         data.childName,
-        customSlug:        data.customSlug,
-        parentsNames:      data.parentsNames,
-        nasiNames:         data.nasiNames,
-        religiousLocation: data.churchLocation,
-        religiousDate:     data.churchDate,
-        religiousTime:     data.churchTime,
-        religiousMapsUrl:  data.churchMaps,
-        religiousWaze:     data.churchWaze,
-        locationName:      data.restaurantLocation,
-        weddingDate:       data.restaurantDate,
-        weddingTime:       data.restaurantTime,
-        googleMapsUrl:     data.restaurantMaps,
-        wazeUrl:           data.restaurantWaze,
-        contactPhoneBride: data.contactPhone,
-      }),
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || `HTTP ${res.status}`);
-    }
-  }, [orderId]);
-
-  const { status: autoSaveStatus, setStatus: setAutoSaveStatus, cancelPending } =
-    useAutoSave(formData, autoSaveFn, 1200);
-
-  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    cancelPending();
+    if (!name.trim())      { alert('Introduceți numele și prenumele.'); return; }
+    if (isComing === null) { alert('Selectați dacă participați sau nu.'); return; }
+    if (!gdpr)             { alert('Acceptați politica de confidențialitate pentru a continua.'); return; }
+
+    const kidsCount    = parseInt(kids) || 0;
+    const adultsCount  = isComing ? (partner.trim() ? 2 : 1) : 0;
+
     setLoading(true);
     try {
-      const res = await fetch('/api/dashboard/personalize', {
+      const res = await fetch('/api/rsvp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           orderId,
-          brideName:         formData.childName,
-          customSlug:        formData.customSlug,
-          parentsNames:      formData.parentsNames,
-          nasiNames:         formData.nasiNames,
-          religiousLocation: formData.churchLocation,
-          religiousDate:     formData.churchDate,
-          religiousTime:     formData.churchTime,
-          religiousMapsUrl:  formData.churchMaps,
-          religiousWaze:     formData.churchWaze,
-          locationName:      formData.restaurantLocation,
-          weddingDate:       formData.restaurantDate,
-          weddingTime:       formData.restaurantTime,
-          googleMapsUrl:     formData.restaurantMaps,
-          wazeUrl:           formData.restaurantWaze,
-          contactPhoneBride: formData.contactPhone,
+          guestName:    name.trim(),
+          partnerName:  partner.trim() || null,
+          isComing,
+          adultsCount,
+          kidsCount,
+          plusOne:      !!partner.trim(),
         }),
       });
-      if (res.ok) {
-        setAutoSaveStatus('saved');
-        onSave();
-      } else {
-        setAutoSaveStatus('unsaved');
-      }
+      if (!res.ok) throw new Error('server error');
+      setSubmitted(true);
     } catch {
-      setAutoSaveStatus('unsaved');
+      alert('Eroare la trimitere. Încearcă din nou.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
-  const saveColor =
-    autoSaveStatus === 'saved'   ? C.success                :
-    autoSaveStatus === 'unsaved' ? C.gold                   :
-    C.textMuted;
+  if (submitted) {
+    return (
+      <div style={{ textAlign: 'center', padding: '32px 16px' }}>
+        <div style={{ fontSize: 44, marginBottom: 12 }}>🪐</div>
+        <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(22px,3.5vw,28px)', fontStyle: 'italic', fontWeight: 400, color: '#F4F6FB', marginBottom: 10 }}>
+          Mulțumim!
+        </h3>
+        <p style={{ fontFamily: "'Cormorant',serif", fontSize: 'clamp(14px,1.8vw,17px)', fontStyle: 'italic', color: '#B8C4E8', lineHeight: 1.8 }}>
+          Confirmarea a fost înregistrată cu succes.<br />Abia așteptăm să vă avem alături!
+        </p>
+      </div>
+    );
+  }
+
+  const chip = (active: boolean): React.CSSProperties => ({
+    flex: 1, textAlign: 'center', padding: '12px 8px', borderRadius: 12,
+    cursor: 'pointer', userSelect: 'none',
+    border: `1.5px solid ${active ? '#F4D87E' : 'rgba(156,182,232,.25)'}`,
+    background: active ? 'rgba(244,216,126,.14)' : 'rgba(255,255,255,.05)',
+    color: active ? '#F4D87E' : '#F4F6FB',
+    fontFamily: "'Quicksand',sans-serif", fontSize: 13, fontWeight: 700,
+    transition: 'all .18s',
+  });
+
+  const kidsChip = (opt: string): React.CSSProperties => ({
+    flex: '1 0 auto', minWidth: 44, maxWidth: 60, textAlign: 'center',
+    padding: '11px 6px', borderRadius: 12, cursor: 'pointer', userSelect: 'none',
+    border: `1.5px solid ${kids === opt ? '#F4D87E' : 'rgba(156,182,232,.25)'}`,
+    background: kids === opt ? 'rgba(244,216,126,.14)' : 'rgba(255,255,255,.05)',
+    color: kids === opt ? '#F4D87E' : '#F4F6FB',
+    fontFamily: "'Quicksand',sans-serif", fontSize: 13, fontWeight: 700,
+    transition: 'all .18s',
+  });
+
+  const canSubmit = !loading && gdpr && isComing !== null && name.trim().length > 0;
 
   return (
     <>
-      <style>{PS_CSS}</style>
-      <form
-        onSubmit={handleSave}
-        style={{
-          display: 'flex', flexDirection: 'column', gap: SP.xl,
-          animation: 'ast-fade-in .45s ease both',
-          paddingBottom: '10vh',
-        }}
-      >
+      <style>{RSVP_CSS}</style>
+      <form onSubmit={handleSubmit} style={{ width: '100%' }}>
 
         {/* HEADER */}
-        <div style={{ marginBottom: SP.sm }}>
-          <p style={{ fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.36em', textTransform: 'uppercase', color: C.textFaint, marginBottom: SP.sm }}>
-            Dashboard
+        <div style={{ textAlign: 'center', marginBottom: 22 }}>
+          <span style={{ fontSize: 34, display: 'block', marginBottom: 8 }}>👨‍🚀</span>
+          <p style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', color: '#9CB6E8', fontWeight: 700, marginBottom: 8 }}>
+            Confirmare Participare
           </p>
-          <h2 style={{ fontFamily: F.heading, fontSize: FS.titleMd, fontWeight: 400, fontStyle: 'italic', color: C.text, margin: 0, lineHeight: 1.1 }}>
-            Detalii Botez
-          </h2>
+          <div style={{ width: 36, height: 1, background: 'rgba(244,216,126,.4)', margin: '0 auto' }} />
         </div>
 
-        {/* COPIL + SLUG */}
-        <section style={sCard}>
-          <h3 style={{ fontFamily: F.heading, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
-            👶 Copil &amp; Link Invitație
-          </h3>
-          <div className="ast-grid-2">
-            <div style={{ marginBottom: SP.lg - 2 }}>
-              <label style={sLabel}>Prenumele Copilului</label>
-              <input className="ps-input-astr" value={formData.childName} onChange={setFromEvent('childName')} placeholder="ex. Zian" />
-            </div>
-            <div style={{ marginBottom: SP.lg - 2 }}>
-              <label style={sLabel}>Slug (Link Personalizat)</label>
+        {/* NUME */}
+        <div style={{ marginBottom: 20 }}>
+          <label className="astr-label">Nume și Prenume *</label>
+          <input
+            className="astr-input"
+            required
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="ex. Maria Ionescu"
+            autoComplete="name"
+            autoCapitalize="words"
+          />
+        </div>
+
+        {/* PARTICIPARE */}
+        <div style={{ marginBottom: 20 }}>
+          <label className="astr-label">Răspuns *</label>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <div onClick={() => setIsComing(true)}  style={chip(isComing === true)}>✓ Particip</div>
+            <div onClick={() => setIsComing(false)} style={chip(isComing === false)}>✗ Nu pot</div>
+          </div>
+        </div>
+
+        {/* PARTENER + COPII — doar daca vine */}
+        {isComing && (
+          <>
+            <div style={{ marginBottom: 20 }}>
+              <label className="astr-label">Nume Partener (opțional)</label>
               <input
-                className="ps-input-astr"
-                value={formData.customSlug}
-                onChange={e => set('customSlug', e.target.value.toLowerCase().replace(/\s/g, '-'))}
-                placeholder="ex. botez-zian"
-                autoCapitalize="none" autoCorrect="off"
+                className="astr-input"
+                value={partner}
+                onChange={e => setPartner(e.target.value)}
+                placeholder="ex. Ion Ionescu"
+                autoComplete="off"
+                autoCapitalize="words"
               />
-              <p style={{ fontFamily: F.mono, fontSize: FS.xs, color: C.textMuted, marginTop: SP.xs + 2, fontStyle: 'italic' }}>
-                /invitatie/astronaut/<strong style={{ color: C.gold }}>{formData.customSlug || 'slug-tau'}</strong>
+              <p style={{ fontFamily: "'Cormorant',serif", fontSize: 12, fontStyle: 'italic', color: 'rgba(156,182,232,.5)', marginTop: 6 }}>
+                Lăsați gol dacă veniți singur/ă.
               </p>
             </div>
-          </div>
-        </section>
 
-        {/* PĂRINȚI & NAȘI */}
-        <section style={sCard}>
-          <h3 style={{ fontFamily: F.heading, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
-            👨‍👩‍👧 Părinți &amp; Nași
-          </h3>
-          <div className="ast-grid-2">
-            <div style={{ marginBottom: SP.lg - 2 }}>
-              <label style={sLabel}>Numele Părinților</label>
-              <input className="ps-input-astr" value={formData.parentsNames} onChange={setFromEvent('parentsNames')} placeholder="ex. Ioana & Radu" />
-            </div>
-            <div style={{ marginBottom: SP.lg - 2 }}>
-              <label style={sLabel}>Numele Nașilor</label>
-              <input className="ps-input-astr" value={formData.nasiNames} onChange={setFromEvent('nasiNames')} placeholder="ex. Diana & Vlad" />
-            </div>
-          </div>
-        </section>
-
-        {/* BISERICĂ */}
-        <section style={sCard}>
-          <h3 style={{ fontFamily: F.heading, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
-            ⛪ Slujba Religioasă
-          </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: SP.lg - 2 }}>
-            <div>
-              <label style={sLabel}>Locație Biserică</label>
-              <input className="ps-input-astr" value={formData.churchLocation} onChange={setFromEvent('churchLocation')} placeholder="ex. Biserica Sfântul Andrei, Bacău" />
-            </div>
-            <div className="ast-grid-2-fixed">
-              <div>
-                <label style={sLabel}>Data</label>
-                <CustomDatePicker value={formData.churchDate} onChange={v => set('churchDate', v)} />
-              </div>
-              <div>
-                <label style={sLabel}>Ora (24h)</label>
-                <CustomTimePicker value={formData.churchTime} onChange={v => set('churchTime', v)} />
+            <div style={{ marginBottom: 20 }}>
+              <label className="astr-label">Număr Copii</label>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {['0','1','2','3','4+'].map(opt => (
+                  <div key={opt} onClick={() => setKids(opt === kids ? '' : opt)} style={kidsChip(opt)}>{opt}</div>
+                ))}
               </div>
             </div>
-            <LocationLinks
-              locationValue={formData.churchLocation}
-              mapsValue={formData.churchMaps}
-              wazeValue={formData.churchWaze}
-              mapsKey="churchMaps"
-              wazeKey="churchWaze"
-              setter={set}
-            />
-          </div>
-        </section>
+          </>
+        )}
 
-        {/* RESTAURANT */}
-        <section style={sCard}>
-          <h3 style={{ fontFamily: F.heading, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
-            🎉 Recepție / Restaurant
-          </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: SP.lg - 2 }}>
-            <div>
-              <label style={sLabel}>Locație Restaurant</label>
-              <input className="ps-input-astr" value={formData.restaurantLocation} onChange={setFromEvent('restaurantLocation')} placeholder="ex. Restaurant Orion, Bacău" />
-            </div>
-            <div className="ast-grid-2-fixed">
-              <div>
-                <label style={sLabel}>Data</label>
-                <CustomDatePicker value={formData.restaurantDate} onChange={v => set('restaurantDate', v)} />
-              </div>
-              <div>
-                <label style={sLabel}>Ora (24h)</label>
-                <CustomTimePicker value={formData.restaurantTime} onChange={v => set('restaurantTime', v)} />
-              </div>
-            </div>
-            <LocationLinks
-              locationValue={formData.restaurantLocation}
-              mapsValue={formData.restaurantMaps}
-              wazeValue={formData.restaurantWaze}
-              mapsKey="restaurantMaps"
-              wazeKey="restaurantWaze"
-              setter={set}
-            />
-          </div>
-        </section>
-
-        {/* CONTACT */}
-        <section style={sCard}>
-          <h3 style={{ fontFamily: F.heading, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
-            📞 Contact
-          </h3>
-          <div style={{ maxWidth: 320 }}>
-            <label style={sLabel}>Număr de Telefon</label>
+        {/* GDPR */}
+        <div style={{ background: 'rgba(124,107,196,.08)', border: '1px solid rgba(156,182,232,.16)', borderRadius: 12, padding: '12px 14px', marginBottom: 18 }}>
+          <p style={{ fontFamily: "'Cormorant',serif", fontSize: 12, color: '#B8C4E8', lineHeight: 1.5, marginBottom: 8, fontStyle: 'italic' }}>
+            <strong>🔒 Date Protejate:</strong> Datele tale se colectează și se șterg după 12 luni.{' '}
+            <a href="https://www.vibeinvite.ro/confidentialitate" target="_blank" rel="noopener noreferrer" style={{ color: '#F4D87E', textDecoration: 'underline' }}>Politica</a>
+          </p>
+          <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer' }}>
             <input
-              className="ps-input-astr"
-              type="tel" inputMode="tel" autoComplete="tel"
-              value={formData.contactPhone}
-              onChange={setFromEvent('contactPhone')}
-              placeholder="ex. 0740 000 000"
+              type="checkbox"
+              checked={gdpr}
+              onChange={e => setGdpr(e.target.checked)}
+              style={{ marginTop: 3, width: 16, height: 16, accentColor: '#7C6BC4', cursor: 'pointer', flexShrink: 0 }}
             />
-          </div>
-        </section>
-
-        {/* SAVE */}
-        <div style={{ marginTop: SP.sm }}>
-          {autoSaveStatus !== 'idle' && !loading && (
-            <div style={{ textAlign: 'center', marginBottom: SP.sm + 2 }}>
-              <span style={{ fontFamily: F.ui, fontSize: FS.tiny, letterSpacing: '.14em', color: saveColor, fontWeight: 700 }}>
-                {autoSaveStatus === 'saving'  && '⏳ Salvare automată...'}
-                {autoSaveStatus === 'saved'   && '✓ Salvat automat'}
-                {autoSaveStatus === 'unsaved' && '● Modificări nesalvate'}
-              </span>
-            </div>
-          )}
-          <button type="submit" disabled={loading} className="ps-save-btn-astr">
-            <span style={{ position: 'relative', zIndex: 1 }}>
-              {loading ? '⏳ Se salvează...' : '🚀 Salvează Modificările'}
+            <span style={{ fontFamily: "'Cormorant',serif", fontSize: 12, color: '#B8C4E8', fontStyle: 'italic', lineHeight: 1.5 }}>
+              Accept colectarea datelor conform Politicii de Confidențialitate. *
             </span>
-          </button>
+          </label>
         </div>
 
+        <button
+          type="submit"
+          className="astr-submit-btn"
+          disabled={!canSubmit}
+          style={{ opacity: canSubmit ? 1 : .5, cursor: canSubmit ? 'pointer' : 'not-allowed' }}
+        >
+          <span style={{ position: 'relative', zIndex: 1 }}>
+            {loading ? '⏳ Se trimite...' : '🚀 Confirmă Participarea'}
+          </span>
+        </button>
       </form>
     </>
   );
-};
+}
+
+const RSVP_CSS = `
+  .astr-label {
+    display: block; font-family: 'Quicksand', sans-serif;
+    font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+    color: #9CB6E8; font-weight: 700; margin-bottom: 10px;
+  }
+  .astr-input {
+    width: 100%; padding: 13px 14px; border-radius: 12px;
+    border: 1.5px solid rgba(156,182,232,.28);
+    background: rgba(255,255,255,.06);
+    font-family: 'Nunito', sans-serif; font-size: 16px; color: #F4F6FB;
+    outline: none; transition: border-color .2s, box-shadow .2s;
+    box-sizing: border-box; display: block; -webkit-appearance: none;
+  }
+  .astr-input::placeholder { color: rgba(156,182,232,.4); }
+  .astr-input:focus {
+    border-color: rgba(244,216,126,.55);
+    box-shadow: 0 0 0 3px rgba(124,107,196,.18);
+  }
+  .astr-submit-btn {
+    display: block; width: 100%; padding: 15px 0; border-radius: 100px;
+    background: linear-gradient(135deg, #7C6BC4 0%, #5848A0 100%);
+    color: #fff; text-align: center;
+    font-family: 'Quicksand', sans-serif;
+    font-size: clamp(11px,1.3vw,13px); font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase;
+    border: none; box-shadow: 0 10px 36px rgba(88,72,160,.5);
+    transition: transform .22s, box-shadow .22s;
+    position: relative; overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .astr-submit-btn:not(:disabled):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 46px rgba(88,72,160,.65);
+  }
+  .astr-submit-btn::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+    background-size: 350px 100%; animation: astr-shimmer 3s linear infinite;
+  }
+  @keyframes astr-shimmer { 0%{background-position:-350px 0} 100%{background-position:350px 0} }
+  @media(max-width:480px){
+    .astr-input { font-size: 16px; padding: 13px 12px; border-radius: 10px; }
+    .astr-submit-btn { font-size: 12px; }
+  }
+`;
