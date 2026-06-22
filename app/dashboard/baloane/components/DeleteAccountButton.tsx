@@ -30,7 +30,7 @@ export const DeleteAccountButton = () => {
         borderRadius:   BR.pill,
         background:     GR.btnDanger,
         border:         `1px solid rgba(232,64,64,.2)`,
-        color:          `rgba(232,64,64,.7)`,
+        color:          `rgba(200,80,80,.75)`,
         fontFamily:     F.ui,
         fontSize:       FS.tiny,
         fontWeight:     700,

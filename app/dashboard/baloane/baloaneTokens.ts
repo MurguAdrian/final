@@ -1,36 +1,31 @@
 export const C = {
-  // Primary palette (pastel)
-  accent:       '#E46BAE',   // roz balon
+  accent:       '#E46BAE',
   accentDark:   '#C44A8C',
   lavender:     '#BFA7F2',
   lavenderDark: '#9E86D9',
 
-  gold:         '#F6D27A',   // auriu soft
+  gold:         '#F6D27A',
   goldDim:      '#E2B95C',
 
-  // Text
-  text:         '#5B3A66',   // mov-cenușiu cald
+  text:         '#5B3A66',
   textSub:      '#7A5A86',
   textMuted:    '#9C7FB0',
   textFaint:    'rgba(123,90,140,.45)',
 
-  // Backgrounds
   bgDeep:       '#FFF4FA',
   bgMid:        '#FCEAF4',
   bgAccent:     '#F4DFF0',
-  surface:      'rgba(255,255,255,.75)',
-  surfaceHover: 'rgba(255,255,255,.9)',
+  surface:      'rgba(255,255,255,.82)',
+  surfaceHover: 'rgba(255,255,255,.96)',
 
-  // Borders
   border:       'rgba(228,107,174,.18)',
   borderFaint:  'rgba(228,107,174,.08)',
-  borderLight:  'rgba(191,167,242,.22)',
+  borderLight:  'rgba(191,167,242,.18)',
   borderMed:    'rgba(191,167,242,.32)',
   borderStrong: 'rgba(191,167,242,.48)',
   borderGold:   'rgba(246,210,122,.45)',
-  borderAccent: 'rgba(228,107,174,.35)',
+  borderAccent: 'rgba(228,107,174,.32)',
 
-  // Balloons / accents
   pink1:        '#F3A6C8',
   pink2:        '#E46BAE',
   purple1:      '#C7B4F6',
@@ -38,35 +33,32 @@ export const C = {
   blue1:        '#B8DDF2',
   blue2:        '#8FC1E3',
 
-  // Status
   success:      '#7BC8A4',
   error:        '#E57373',
   warning:      '#F6D27A',
 
-  // Util
   white:        '#ffffff',
   black:        '#000000',
 } as const;
-// ─── GRADIENTS ────────────────────────────────────────────────────────────────
+
 export const GR = {
-  bg: 'radial-gradient(ellipse 70% 60% at 20% 15%, rgba(80,70,160,.35) 0%, transparent 55%), radial-gradient(ellipse 65% 55% at 85% 85%, rgba(40,50,120,.4) 0%, transparent 55%), linear-gradient(160deg, #14152B 0%, #1E2046 45%, #2A1F4D 100%)',
-  header:         'rgba(20,21,43,.93)',
-  sidebar:        'rgba(20,21,43,.96)',
-  btnPrimary:     'linear-gradient(135deg, #7C6BC4 0%, #5848A0 100%)',
-  btnDanger:      'rgba(232,64,64,.13)',
-  btnGhost:       'rgba(124,107,196,.12)',
-  cardChurch:     'linear-gradient(135deg,#5848A0 0%,#3C2E78 100%)',
-  cardRestaurant: 'linear-gradient(135deg,#3C7E9C 0%,#2A5A78 100%)',
+  bg: 'radial-gradient(ellipse 75% 60% at 20% 15%, rgba(216,180,254,.3) 0%, transparent 55%), radial-gradient(ellipse 65% 55% at 85% 85%, rgba(255,214,165,.28) 0%, transparent 55%), linear-gradient(155deg, #FFF9F0 0%, #FDEFFA 45%, #F3E4FF 100%)',
+  header:         'rgba(255,249,250,.95)',
+  sidebar:        'rgba(255,249,250,.98)',
+  btnPrimary:     'linear-gradient(135deg, #E46BAE 0%, #C44A8C 100%)',
+  btnDanger:      'rgba(232,64,64,.08)',
+  btnGhost:       'rgba(228,107,174,.10)',
+  cardChurch:     'linear-gradient(135deg,#A78BFA 0%,#7C3AED 100%)',
+  cardRestaurant: 'linear-gradient(135deg,#F472B6 0%,#DB2777 100%)',
   flame:          'linear-gradient(180deg, #FFE6A0 0%, #F4A85E 50%, #E8602E 100%)',
   rocketBody:     'linear-gradient(180deg, #F0F4FB 0%, #C7D4EA 100%)',
-  dividerLeft:    'linear-gradient(90deg, transparent, rgba(156,182,232,.35), transparent)',
-  dividerRight:   'linear-gradient(90deg, rgba(156,182,232,.35), transparent)',
-  goldDivider:    'linear-gradient(90deg, transparent, rgba(244,216,126,.4), transparent)',
-  statusActive:   'linear-gradient(90deg, rgba(124,107,196,.12), transparent)',
+  dividerLeft:    'linear-gradient(90deg, transparent, rgba(191,167,242,.4), transparent)',
+  dividerRight:   'linear-gradient(90deg, rgba(191,167,242,.4), transparent)',
+  goldDivider:    'linear-gradient(90deg, transparent, rgba(246,210,122,.4), transparent)',
+  statusActive:   'linear-gradient(90deg, rgba(228,107,174,.10), transparent)',
   statusInactive: 'rgba(255,140,0,.05)',
 } as const;
 
-// ─── FONTS ────────────────────────────────────────────────────────────────────
 export const F = {
   display: "'Playfair Display', serif",
   heading: "'Quicksand', sans-serif",
@@ -75,7 +67,6 @@ export const F = {
   mono:    "'Nunito', sans-serif",
 } as const;
 
-// ─── FONT SIZES ───────────────────────────────────────────────────────────────
 export const FS = {
   micro:   7,
   tiny:    10,
@@ -97,7 +88,6 @@ export const FS = {
   label:    'clamp(9px,1.8vw,11px)',
 } as const;
 
-// ─── SPACING ─────────────────────────────────────────────────────────────────
 export const SP = {
   xs:      4,
   sm:      8,
@@ -111,7 +101,6 @@ export const SP = {
   mainPadH: 'clamp(14px,4vw,28px)',
 } as const;
 
-// ─── BORDER RADIUS ────────────────────────────────────────────────────────────
 export const BR = {
   xs:   4,
   sm:   8,
@@ -123,7 +112,6 @@ export const BR = {
   pill: 100,
 } as const;
 
-// ─── ICON SIZES ───────────────────────────────────────────────────────────────
 export const IS = {
   xs:  11,
   sm:  13,
@@ -133,20 +121,18 @@ export const IS = {
   xxl: 24,
 } as const;
 
-// ─── SHADOWS ─────────────────────────────────────────────────────────────────
 export const SH = {
-  card:       '0 6px 28px rgba(20,20,50,.3)',
-  cardHover:  '0 18px 48px rgba(80,70,160,.35)',
-  cardLight:  '0 4px 22px rgba(20,20,50,.3)',
-  btnPrimary: '0 10px 36px rgba(88,72,160,.5)',
-  btnHover:   '0 18px 46px rgba(88,72,160,.65)',
-  sidebar:    '4px 0 24px rgba(10,10,30,.3)',
-  header:     '0 2px 20px rgba(10,10,30,.4)',
-  glow:       '0 0 0 3px rgba(124,107,196,.18)',
-  goldGlow:   '0 0 0 3px rgba(244,216,126,.16)',
+  card:       '0 6px 28px rgba(167,139,250,.14)',
+  cardHover:  '0 18px 48px rgba(167,139,250,.24)',
+  cardLight:  '0 4px 22px rgba(167,139,250,.10)',
+  btnPrimary: '0 10px 36px rgba(196,74,140,.4)',
+  btnHover:   '0 18px 46px rgba(196,74,140,.55)',
+  sidebar:    '4px 0 24px rgba(167,139,250,.10)',
+  header:     '0 2px 20px rgba(167,139,250,.10)',
+  glow:       '0 0 0 3px rgba(228,107,174,.18)',
+  goldGlow:   '0 0 0 3px rgba(246,210,122,.16)',
 } as const;
 
-// ─── LAYOUT ───────────────────────────────────────────────────────────────────
 export const LY = {
   sidebarWidth:  240,
   mobileHeaderH: 56,
@@ -157,7 +143,6 @@ export const LY = {
   maxContent:    840,
 } as const;
 
-// ─── STAR CONFIG ─────────────────────────────────────────────────────────────
 export const STARS = [
   { t: '10%', l: '18%', w: 14, d: 2.8, delay: 0 },
   { t: '22%', l: '70%', w: 10, d: 3.4, delay: .5 },
@@ -170,7 +155,6 @@ export const STARS = [
   { t: '60%', l: '8%',  w: 8,  d: 3.9, delay: .9 },
 ] as const;
 
-// ─── KEYFRAMES ───────────────────────────────────────────────────────────────
 export const KEYFRAMES = `
   @keyframes ast-spin       { from{transform:rotate(0deg)}    to{transform:rotate(360deg)} }
   @keyframes ast-fade-in    { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
@@ -188,5 +172,4 @@ export const KEYFRAMES = `
   @keyframes ast-pulse      { 0%,100%{opacity:.42} 50%{opacity:.9} }
 `;
 
-// ─── FONTS IMPORT ─────────────────────────────────────────────────────────────
 export const FONTS_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,300;1,400;1,500&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Quicksand:wght@400;500;600;700&family=Nunito:wght@300;400;600;700&display=swap');`;
