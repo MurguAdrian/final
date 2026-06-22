@@ -194,9 +194,10 @@ import React, { useState } from 'react';
 
 interface Props {
   orderId: number;
+  onClose: () => void;
 }
 
-export default function AstronautRsvpForm({ orderId }: Props) {
+export default function AstronautRsvpForm({ orderId, onClose }: Props) {
   const [submitted, setSubmitted] = useState(false);
   const [loading,   setLoading]   = useState(false);
   const [isComing,  setIsComing]  = useState<boolean | null>(null);
@@ -240,14 +241,20 @@ export default function AstronautRsvpForm({ orderId }: Props) {
 
   if (submitted) {
     return (
-      <div style={{ textAlign: 'center', padding: '32px 16px' }}>
-        <div style={{ fontSize: 44, marginBottom: 12 }}>🪐</div>
-        <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(22px,3.5vw,28px)', fontStyle: 'italic', fontWeight: 400, color: '#F4F6FB', marginBottom: 10 }}>
+      <div style={{ textAlign: 'center', padding: '24px 0' }}>
+        <div style={{ fontSize: 48, marginBottom: 14 }}>🪐</div>
+        <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(20px,3.5vw,26px)', fontStyle: 'italic', fontWeight: 400, color: '#F4F6FB', marginBottom: 10 }}>
           Mulțumim!
         </h3>
         <p style={{ fontFamily: "'Cormorant',serif", fontSize: 'clamp(14px,1.8vw,17px)', fontStyle: 'italic', color: '#B8C4E8', lineHeight: 1.8 }}>
           Confirmarea a fost înregistrată cu succes.<br />Abia așteptăm să vă avem alături!
         </p>
+        <button
+          onClick={onClose}
+          style={{ marginTop: 20, background: 'none', border: '1px solid rgba(156,182,232,.3)', borderRadius: 100, padding: '8px 22px', cursor: 'pointer', fontFamily: "'Quicksand',sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: '#9CB6E8', transition: 'all .2s' }}
+        >
+          Închide
+        </button>
       </div>
     );
   }
@@ -279,7 +286,6 @@ export default function AstronautRsvpForm({ orderId }: Props) {
       <style>{RSVP_CSS}</style>
       <form onSubmit={handleSubmit} style={{ width: '100%' }}>
 
-        {/* HEADER */}
         <div style={{ textAlign: 'center', marginBottom: 22 }}>
           <span style={{ fontSize: 34, display: 'block', marginBottom: 8 }}>👨‍🚀</span>
           <p style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', color: '#9CB6E8', fontWeight: 700, marginBottom: 8 }}>
@@ -288,21 +294,11 @@ export default function AstronautRsvpForm({ orderId }: Props) {
           <div style={{ width: 36, height: 1, background: 'rgba(244,216,126,.4)', margin: '0 auto' }} />
         </div>
 
-        {/* NUME */}
         <div style={{ marginBottom: 20 }}>
           <label className="astr-label">Nume și Prenume *</label>
-          <input
-            className="astr-input"
-            required
-            value={name}
-            onChange={e => setName(e.target.value)}
-            placeholder="ex. Maria Ionescu"
-            autoComplete="name"
-            autoCapitalize="words"
-          />
+          <input className="astr-input" required value={name} onChange={e => setName(e.target.value)} placeholder="ex. Maria Ionescu" autoComplete="name" autoCapitalize="words" />
         </div>
 
-        {/* PARTICIPARE */}
         <div style={{ marginBottom: 20 }}>
           <label className="astr-label">Răspuns *</label>
           <div style={{ display: 'flex', gap: 10 }}>
@@ -311,19 +307,11 @@ export default function AstronautRsvpForm({ orderId }: Props) {
           </div>
         </div>
 
-        {/* PARTENER + COPII — doar daca vine */}
         {isComing && (
           <>
             <div style={{ marginBottom: 20 }}>
               <label className="astr-label">Nume Partener (opțional)</label>
-              <input
-                className="astr-input"
-                value={partner}
-                onChange={e => setPartner(e.target.value)}
-                placeholder="ex. Ion Ionescu"
-                autoComplete="off"
-                autoCapitalize="words"
-              />
+              <input className="astr-input" value={partner} onChange={e => setPartner(e.target.value)} placeholder="ex. Ion Ionescu" autoComplete="off" autoCapitalize="words" />
               <p style={{ fontFamily: "'Cormorant',serif", fontSize: 12, fontStyle: 'italic', color: 'rgba(156,182,232,.5)', marginTop: 6 }}>
                 Lăsați gol dacă veniți singur/ă.
               </p>
@@ -340,35 +328,30 @@ export default function AstronautRsvpForm({ orderId }: Props) {
           </>
         )}
 
-        {/* GDPR */}
         <div style={{ background: 'rgba(124,107,196,.08)', border: '1px solid rgba(156,182,232,.16)', borderRadius: 12, padding: '12px 14px', marginBottom: 18 }}>
           <p style={{ fontFamily: "'Cormorant',serif", fontSize: 12, color: '#B8C4E8', lineHeight: 1.5, marginBottom: 8, fontStyle: 'italic' }}>
             <strong>🔒 Date Protejate:</strong> Datele tale se colectează și se șterg după 12 luni.{' '}
             <a href="https://www.vibeinvite.ro/confidentialitate" target="_blank" rel="noopener noreferrer" style={{ color: '#F4D87E', textDecoration: 'underline' }}>Politica</a>
           </p>
           <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer' }}>
-            <input
-              type="checkbox"
-              checked={gdpr}
-              onChange={e => setGdpr(e.target.checked)}
-              style={{ marginTop: 3, width: 16, height: 16, accentColor: '#7C6BC4', cursor: 'pointer', flexShrink: 0 }}
-            />
+            <input type="checkbox" checked={gdpr} onChange={e => setGdpr(e.target.checked)} style={{ marginTop: 3, width: 16, height: 16, accentColor: '#7C6BC4', cursor: 'pointer', flexShrink: 0 }} />
             <span style={{ fontFamily: "'Cormorant',serif", fontSize: 12, color: '#B8C4E8', fontStyle: 'italic', lineHeight: 1.5 }}>
               Accept colectarea datelor conform Politicii de Confidențialitate. *
             </span>
           </label>
         </div>
 
-        <button
-          type="submit"
-          className="astr-submit-btn"
-          disabled={!canSubmit}
-          style={{ opacity: canSubmit ? 1 : .5, cursor: canSubmit ? 'pointer' : 'not-allowed' }}
-        >
+        <button type="submit" className="astr-submit-btn" disabled={!canSubmit} style={{ opacity: canSubmit ? 1 : .5, cursor: canSubmit ? 'pointer' : 'not-allowed' }}>
           <span style={{ position: 'relative', zIndex: 1 }}>
             {loading ? '⏳ Se trimite...' : '🚀 Confirmă Participarea'}
           </span>
         </button>
+
+        <div style={{ textAlign: 'center', marginTop: 14 }}>
+          <button type="button" onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Cormorant',serif", fontSize: 13, fontStyle: 'italic', color: 'rgba(184,196,232,.5)', textDecoration: 'underline' }}>
+            Închide
+          </button>
+        </div>
       </form>
     </>
   );
@@ -389,26 +372,18 @@ const RSVP_CSS = `
     box-sizing: border-box; display: block; -webkit-appearance: none;
   }
   .astr-input::placeholder { color: rgba(156,182,232,.4); }
-  .astr-input:focus {
-    border-color: rgba(244,216,126,.55);
-    box-shadow: 0 0 0 3px rgba(124,107,196,.18);
-  }
+  .astr-input:focus { border-color: rgba(244,216,126,.55); box-shadow: 0 0 0 3px rgba(124,107,196,.18); }
   .astr-submit-btn {
     display: block; width: 100%; padding: 15px 0; border-radius: 100px;
     background: linear-gradient(135deg, #7C6BC4 0%, #5848A0 100%);
-    color: #fff; text-align: center;
-    font-family: 'Quicksand', sans-serif;
+    color: #fff; text-align: center; font-family: 'Quicksand', sans-serif;
     font-size: clamp(11px,1.3vw,13px); font-weight: 700;
     letter-spacing: .18em; text-transform: uppercase;
     border: none; box-shadow: 0 10px 36px rgba(88,72,160,.5);
     transition: transform .22s, box-shadow .22s;
-    position: relative; overflow: hidden;
-    -webkit-tap-highlight-color: transparent;
+    position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent;
   }
-  .astr-submit-btn:not(:disabled):hover {
-    transform: translateY(-3px);
-    box-shadow: 0 18px 46px rgba(88,72,160,.65);
-  }
+  .astr-submit-btn:not(:disabled):hover { transform: translateY(-3px); box-shadow: 0 18px 46px rgba(88,72,160,.65); }
   .astr-submit-btn::after {
     content: ''; position: absolute; inset: 0;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
