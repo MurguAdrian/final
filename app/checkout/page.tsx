@@ -13,12 +13,12 @@ const THEME_STRIPE: Record<string, { productId: string; priceId: string }> = {
   royal:    { productId: 'prod_UbiaArWhOjNjF2', priceId: 'price_1TcV9iDLRG6cKGjIcPjYoUoK' },
   minimal:  { productId: 'prod_UWtBC0f4i3qLIg', priceId: 'price_1TXpP8DLRG6cKGjIWTkmUYUn' },
   romantic: { productId: 'prod_UWtCXrDQ6We3Du', priceId: 'price_1TXpPlDLRG6cKGjIGRosuloE' },
-  masinuta: { productId: 'prod_TODO_BOTEZB1',   priceId: 'price_TODO_BOTEZB1' },
+  masinuta: { productId: 'prod_UWtAhTz7QpGP2m', priceId: 'price_1TXpNtDLRG6cKGjIYlxLA2fP' },
   astronaut:{ productId: 'prod_UWtCXrDQ6We3Du', priceId: 'price_1TXpPlDLRG6cKGjIGRosuloE' },
-  fluture:  { productId: 'prod_TODO_BOTEZF1',   priceId: 'price_TODO_BOTEZF1' },
-  baloane:  { productId: 'prod_TODO_BOTEZF2',   priceId: 'price_TODO_BOTEZF2' },
-  ursulet:  { productId: 'prod_TODO_BOTEZN1',   priceId: 'price_TODO_BOTEZN1' },
-  steluta:  { productId: 'prod_TODO_BOTEZN2',   priceId: 'price_TODO_BOTEZN2' },
+  fluture:  { productId: 'prod_UWtAhTz7QpGP2m', priceId: 'price_1TXpNtDLRG6cKGjIYlxLA2fP' },
+  baloane:  { productId: 'prod_UWtAhTz7QpGP2m', priceId: 'price_1TXpNtDLRG6cKGjIYlxLA2fP' },
+  ursulet:  { productId: 'prod_UWtAhTz7QpGP2m', priceId: 'price_1TXpNtDLRG6cKGjIYlxLA2fP' },
+  steluta:  { productId: 'prod_UWtAhTz7QpGP2m', priceId: 'price_1TXpNtDLRG6cKGjIYlxLA2fP' }
 }
 
 type Category = 'nunta' | 'botez'
