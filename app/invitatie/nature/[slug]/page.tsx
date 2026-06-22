@@ -24,22 +24,35 @@ export async function generateMetadata(
     : '';
   const title = `${s.bride_name} & ${s.groom_name} — Invitație de Nuntă`;
   const description = `Vă invităm cu drag la nunta noastră${dateStr ? `, pe ${dateStr}` : ''}${s.location_name ? `, la ${s.location_name}` : ''}. Confirmați prezența online.`;
-  const url = `https://www.vibeinvite.ro/invitatie/nature/${params.slug}`;
+
+  const baseUrl = 'https://www.vibeinvite.ro';
+  const url = `${baseUrl}/invitatie/nature/${params.slug}`;
+  const ogImage = `${baseUrl}/api/og/nature/${params.slug}`;
 
   return {
     title,
     description,
+    metadataBase: new URL(baseUrl),
     openGraph: {
       type: 'website',
       url,
       title,
       description,
       siteName: 'VibeInvite',
-      images: [{ url: '/og-nature.jpg', width: 1200, height: 630, alt: title }],
       locale: 'ro_RO',
+      images: [{ url: ogImage, secureUrl: ogImage, width: 1200, height: 630, alt: title, type: 'image/png' }],
     },
-    twitter: { card: 'summary_large_image', title, description, images: ['/og-nature.jpg'] },
+    twitter: { card: 'summary_large_image', title, description, images: [ogImage] },
     alternates: { canonical: url },
+    other: {
+      'og:image': ogImage,
+      'og:image:secure_url': ogImage,
+      'og:image:type': 'image/png',
+      'og:image:width': '1200',
+      'og:image:height': '630',
+      'og:image:alt': title,
+      'fb:app_id': '1234567890123456',
+    },
   };
 }
 

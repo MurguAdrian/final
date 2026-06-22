@@ -9,7 +9,6 @@ export async function GET(
   { params }: { params: { slug: string } }
 ) {
   try {
-    // Font PRIMUL — înainte de orice
     const baseUrl = new URL(request.url).origin;
     const cinzelData = await fetch(`${baseUrl}/fonts/Cinzel-SemiBold.ttf`)
       .then(r => r.arrayBuffer());
@@ -26,7 +25,8 @@ export async function GET(
     const brideName = s?.bride_name || 'Mireasă';
     const groomName = s?.groom_name || 'Mire';
     const location  = s?.location_name || '';
-    const dateStr   = s?.wedding_date
+
+    const dateStr = s?.wedding_date
       ? new Date(s.wedding_date).toLocaleDateString('ro-RO', {
           day: 'numeric', month: 'long', year: 'numeric',
         })
@@ -46,155 +46,239 @@ export async function GET(
     const img = new ImageResponse(
       (
         <div style={{
-          width: 1200, height: 630,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: '#080602', position: 'relative', overflow: 'hidden',
+          width: 1200,
+          height: 630,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: '#0F1A14',
+          position: 'relative',
+          overflow: 'hidden',
         }}>
 
-          {/* BG */}
+          {/* FOREST DEPTH BACKGROUND */}
           <div style={{
-            position: 'absolute', inset: 0, display: 'flex',
-            background: 'radial-gradient(ellipse 90% 80% at 50% 35%, #1C1608 0%, #0C0A04 50%, #050401 100%)',
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            background: 'radial-gradient(ellipse at top, #1C2B22 0%, #0F1A14 45%, #070D0A 100%)',
           }} />
 
-          {/* Glow TL */}
+          {/* soft green glow (nature light) */}
           <div style={{
-            position: 'absolute', top: -100, left: -100, display: 'flex',
-            width: 600, height: 600,
-            background: 'radial-gradient(circle, rgba(212,175,55,0.14) 0%, transparent 65%)',
+            position: 'absolute',
+            top: -120,
+            left: -120,
+            width: 600,
+            height: 600,
+            display: 'flex',
+            background: 'radial-gradient(circle, rgba(120,180,140,0.18) 0%, transparent 65%)',
           }} />
 
-          {/* Glow BR */}
           <div style={{
-            position: 'absolute', bottom: -100, right: -100, display: 'flex',
-            width: 500, height: 500,
-            background: 'radial-gradient(circle, rgba(212,175,55,0.10) 0%, transparent 65%)',
+            position: 'absolute',
+            bottom: -120,
+            right: -120,
+            width: 600,
+            height: 600,
+            display: 'flex',
+            background: 'radial-gradient(circle, rgba(90,140,110,0.16) 0%, transparent 65%)',
           }} />
 
-          {/* Outer frame */}
+          {/* organic frame (rounded nature feel) */}
           <div style={{
-            position: 'absolute', top: 28, left: 28, right: 28, bottom: 28,
-            border: '1px solid rgba(212,175,55,0.30)', display: 'flex',
+            position: 'absolute',
+            top: 30,
+            left: 30,
+            right: 30,
+            bottom: 30,
+            border: '1px solid rgba(160,200,170,0.25)',
+            borderRadius: 28,
+            display: 'flex',
           }} />
 
-          {/* Inner frame */}
           <div style={{
-            position: 'absolute', top: 40, left: 40, right: 40, bottom: 40,
-            border: '1px solid rgba(212,175,55,0.10)', display: 'flex',
+            position: 'absolute',
+            top: 44,
+            left: 44,
+            right: 44,
+            bottom: 44,
+            border: '1px dashed rgba(160,200,170,0.14)',
+            borderRadius: 24,
+            display: 'flex',
           }} />
 
-          {/* Corner TL */}
-          <div style={{ position: 'absolute', top: 28, left: 28, width: 64, height: 2, background: '#D4AF37', display: 'flex' }} />
-          <div style={{ position: 'absolute', top: 28, left: 28, width: 2, height: 64, background: '#D4AF37', display: 'flex' }} />
-          <div style={{ position: 'absolute', top: 50, left: 50, width: 20, height: 1, background: 'rgba(212,175,55,0.45)', display: 'flex' }} />
-          <div style={{ position: 'absolute', top: 50, left: 50, width: 1, height: 20, background: 'rgba(212,175,55,0.45)', display: 'flex' }} />
+          {/* leaf-like corner accents */}
+          <div style={{
+            position: 'absolute',
+            top: 30,
+            left: 30,
+            width: 14,
+            height: 14,
+            background: '#7FBF9B',
+            borderRadius: '0 100% 100% 100%',
+            transform: 'rotate(45deg)',
+          }} />
 
-          {/* Corner TR */}
-          <div style={{ position: 'absolute', top: 28, right: 28, width: 64, height: 2, background: '#D4AF37', display: 'flex' }} />
-          <div style={{ position: 'absolute', top: 28, right: 28, width: 2, height: 64, background: '#D4AF37', display: 'flex' }} />
-          <div style={{ position: 'absolute', top: 50, right: 50, width: 20, height: 1, background: 'rgba(212,175,55,0.45)', display: 'flex' }} />
-          <div style={{ position: 'absolute', top: 50, right: 50, width: 1, height: 20, background: 'rgba(212,175,55,0.45)', display: 'flex' }} />
+          <div style={{
+            position: 'absolute',
+            top: 30,
+            right: 30,
+            width: 14,
+            height: 14,
+            background: '#7FBF9B',
+            borderRadius: '0 100% 100% 100%',
+            transform: 'rotate(135deg)',
+          }} />
 
-          {/* Corner BL */}
-          <div style={{ position: 'absolute', bottom: 28, left: 28, width: 64, height: 2, background: '#D4AF37', display: 'flex' }} />
-          <div style={{ position: 'absolute', bottom: 28, left: 28, width: 2, height: 64, background: '#D4AF37', display: 'flex' }} />
-          <div style={{ position: 'absolute', bottom: 50, left: 50, width: 20, height: 1, background: 'rgba(212,175,55,0.45)', display: 'flex' }} />
-          <div style={{ position: 'absolute', bottom: 50, left: 50, width: 1, height: 20, background: 'rgba(212,175,55,0.45)', display: 'flex' }} />
+          <div style={{
+            position: 'absolute',
+            bottom: 30,
+            left: 30,
+            width: 14,
+            height: 14,
+            background: '#7FBF9B',
+            borderRadius: '0 100% 100% 100%',
+            transform: 'rotate(-45deg)',
+          }} />
 
-          {/* Corner BR */}
-          <div style={{ position: 'absolute', bottom: 28, right: 28, width: 64, height: 2, background: '#D4AF37', display: 'flex' }} />
-          <div style={{ position: 'absolute', bottom: 28, right: 28, width: 2, height: 64, background: '#D4AF37', display: 'flex' }} />
-          <div style={{ position: 'absolute', bottom: 50, right: 50, width: 20, height: 1, background: 'rgba(212,175,55,0.45)', display: 'flex' }} />
-          <div style={{ position: 'absolute', bottom: 50, right: 50, width: 1, height: 20, background: 'rgba(212,175,55,0.45)', display: 'flex' }} />
-
-          {/* Accent lines */}
-          <div style={{ position: 'absolute', top: 82, left: 100, right: 100, height: 1, background: 'rgba(212,175,55,0.15)', display: 'flex' }} />
-          <div style={{ position: 'absolute', bottom: 82, left: 100, right: 100, height: 1, background: 'rgba(212,175,55,0.15)', display: 'flex' }} />
-
-          {/* Diamond top */}
-          <div style={{ position: 'absolute', top: 74, left: 592, display: 'flex', width: 16, height: 16, background: '#D4AF37', transform: 'rotate(45deg)', opacity: 0.65 }} />
-          {/* Diamond bottom */}
-          <div style={{ position: 'absolute', bottom: 74, left: 592, display: 'flex', width: 16, height: 16, background: '#D4AF37', transform: 'rotate(45deg)', opacity: 0.65 }} />
+          <div style={{
+            position: 'absolute',
+            bottom: 30,
+            right: 30,
+            width: 14,
+            height: 14,
+            background: '#7FBF9B',
+            borderRadius: '0 100% 100% 100%',
+            transform: 'rotate(225deg)',
+          }} />
 
           {/* CONTENT */}
           <div style={{
-            display: 'flex', flexDirection: 'column',
-            alignItems: 'center', justifyContent: 'center',
-            position: 'relative', zIndex: 10,
-            width: '100%', padding: '0 90px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+            zIndex: 10,
+            width: '100%',
+            padding: '0 90px',
           }}>
 
             {/* Label */}
             <div style={{
-              fontFamily: 'Cinzel', fontSize: 12, letterSpacing: 10,
-              textTransform: 'uppercase', color: 'rgba(212,175,55,0.50)',
-              marginBottom: 18, display: 'flex',
+              fontFamily: 'Cinzel',
+              fontSize: 12,
+              letterSpacing: 10,
+              textTransform: 'uppercase',
+              color: 'rgba(170,210,185,0.55)',
+              marginBottom: 18,
+              display: 'flex',
             }}>
               Invitatie de Nunta
             </div>
 
-            {/* Divider sus */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 22, width: 380 }}>
-              <div style={{ flex: 1, height: 1, background: 'rgba(212,175,55,0.38)', display: 'flex' }} />
-              <div style={{ width: 7, height: 7, background: '#D4AF37', transform: 'rotate(45deg)', display: 'flex', opacity: 0.75 }} />
-              <div style={{ flex: 1, height: 1, background: 'rgba(212,175,55,0.38)', display: 'flex' }} />
+            {/* divider */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 14,
+              marginBottom: 22,
+              width: 380,
+            }}>
+              <div style={{ flex: 1, height: 1, background: 'rgba(160,200,170,0.25)', display: 'flex' }} />
+              <div style={{ width: 6, height: 6, background: '#7FBF9B', borderRadius: 999 }} />
+              <div style={{ flex: 1, height: 1, background: 'rgba(160,200,170,0.25)', display: 'flex' }} />
             </div>
 
             {/* Bride */}
             <div style={{
-              fontFamily: 'Cinzel', fontSize: nameFontSize, fontWeight: 600,
-              color: '#F5E6A8', lineHeight: 1, letterSpacing: 3, display: 'flex',
+              fontFamily: 'Cinzel',
+              fontSize: nameFontSize,
+              fontWeight: 600,
+              color: '#E6F3EA',
+              letterSpacing: 2,
+              lineHeight: 1,
+              display: 'flex',
             }}>
               {bride}
             </div>
 
             {/* & */}
             <div style={{
-              fontFamily: 'Cinzel', fontSize: 28, color: 'rgba(212,175,55,0.42)',
-              margin: '6px 0', display: 'flex', letterSpacing: 10,
+              fontFamily: 'Cinzel',
+              fontSize: 28,
+              color: 'rgba(160,200,170,0.55)',
+              margin: '6px 0',
+              letterSpacing: 10,
+              display: 'flex',
             }}>
               &amp;
             </div>
 
             {/* Groom */}
             <div style={{
-              fontFamily: 'Cinzel', fontSize: nameFontSize, fontWeight: 600,
-              color: '#F5E6A8', lineHeight: 1, letterSpacing: 3, display: 'flex',
+              fontFamily: 'Cinzel',
+              fontSize: nameFontSize,
+              fontWeight: 600,
+              color: '#E6F3EA',
+              letterSpacing: 2,
+              lineHeight: 1,
+              display: 'flex',
             }}>
               {groom}
             </div>
 
-            {/* Divider jos */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 22, marginBottom: 16, width: 380 }}>
-              <div style={{ flex: 1, height: 1, background: 'rgba(212,175,55,0.38)', display: 'flex' }} />
-              <div style={{ width: 7, height: 7, background: '#D4AF37', transform: 'rotate(45deg)', display: 'flex', opacity: 0.75 }} />
-              <div style={{ flex: 1, height: 1, background: 'rgba(212,175,55,0.38)', display: 'flex' }} />
+            {/* divider */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 14,
+              marginTop: 22,
+              marginBottom: 16,
+              width: 380,
+            }}>
+              <div style={{ flex: 1, height: 1, background: 'rgba(160,200,170,0.25)', display: 'flex' }} />
+              <div style={{ width: 6, height: 6, background: '#7FBF9B', borderRadius: 999 }} />
+              <div style={{ flex: 1, height: 1, background: 'rgba(160,200,170,0.25)', display: 'flex' }} />
             </div>
 
-            {/* Data + Locatie */}
+            {/* Date + Location */}
             {(dateStr || loc) && (
               <div style={{
-                display: 'flex', alignItems: 'center', gap: 12,
-                fontFamily: 'Cinzel', fontSize: 14,
-                color: 'rgba(212,175,55,0.62)', letterSpacing: 2,
-                marginBottom: 6,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                fontFamily: 'Cinzel',
+                fontSize: 14,
+                color: 'rgba(170,210,185,0.65)',
+                letterSpacing: 2,
               }}>
                 {dateStr && <span style={{ display: 'flex' }}>{dateStr}</span>}
-                {dateStr && loc && <span style={{ display: 'flex', color: 'rgba(212,175,55,0.28)', fontSize: 11 }}>◆</span>}
+                {dateStr && loc && <span style={{ display: 'flex', opacity: 0.4 }}>◆</span>}
                 {loc && <span style={{ display: 'flex' }}>{loc}</span>}
               </div>
             )}
 
             {/* Brand */}
-            <div style={{ marginTop: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{ width: 36, height: 1, background: 'rgba(212,175,55,0.22)', display: 'flex' }} />
+            <div style={{
+              marginTop: 20,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+            }}>
+              <div style={{ width: 40, height: 1, background: 'rgba(160,200,170,0.22)', display: 'flex' }} />
               <div style={{
-                fontFamily: 'Cinzel', fontSize: 10, letterSpacing: 7,
-                color: 'rgba(212,175,55,0.32)', textTransform: 'uppercase', display: 'flex',
+                fontFamily: 'Cinzel',
+                fontSize: 10,
+                letterSpacing: 7,
+                color: 'rgba(160,200,170,0.35)',
+                textTransform: 'uppercase',
+                display: 'flex',
               }}>
                 www.vibeinvite.ro
               </div>
-              <div style={{ width: 36, height: 1, background: 'rgba(212,175,55,0.22)', display: 'flex' }} />
+              <div style={{ width: 40, height: 1, background: 'rgba(160,200,170,0.22)', display: 'flex' }} />
             </div>
 
           </div>
@@ -207,7 +291,6 @@ export async function GET(
       }
     );
 
-    // Headers explicite pentru Messenger / WhatsApp
     const headers = new Headers(img.headers);
     headers.set('Content-Type', 'image/png');
     headers.set('Cache-Control', 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400');
