@@ -1,9 +1,11 @@
+
+
 // "use client";
 // import React, { useState, useEffect, useCallback } from 'react';
 // import { C, F, FS, SP, BR, SH, GR, LY, KEYFRAMES } from '../astronautTokens';
 // import { useAutoSave } from '../hooks/useAutoSave';
 
-// interface SummarySectionProps {
+// interface PersonalizeSectionProps {
 //   initialData: any;
 //   orderId:     any;
 //   onSave:      () => void;
@@ -26,13 +28,6 @@
 //   restaurantWaze:     string;
 //   contactPhone:       string;
 // }
-
-// const EMPTY: FormState = {
-//   childName: '', customSlug: '', parentsNames: '', nasiNames: '',
-//   churchLocation: '', churchDate: '', churchTime: '', churchMaps: '', churchWaze: '',
-//   restaurantLocation: '', restaurantDate: '', restaurantTime: '', restaurantMaps: '', restaurantWaze: '',
-//   contactPhone: '',
-// };
 
 // const buildForm = (data: any): FormState => ({
 //   childName:          data?.bride_name          || '',
@@ -152,7 +147,7 @@
 //   @media (max-width: ${LY.bpMobile + 80}px) { .ast-grid-2-fixed { grid-template-columns: 1fr !important; } }
 // `;
 
-// // ── LocationLinks Component ──────────────────────────────
+// // ── LocationLinks ────────────────────────────────────────
 // interface LocationLinksProps {
 //   locationValue: string;
 //   mapsValue:     string;
@@ -173,12 +168,7 @@
 
 //   return (
 //     <>
-//       <button
-//         type="button"
-//         className="ps-gen-btn-astr"
-//         onClick={generateLinks}
-//         disabled={!locationValue.trim()}
-//       >
+//       <button type="button" className="ps-gen-btn-astr" onClick={generateLinks} disabled={!locationValue.trim()}>
 //         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ width: 12, height: 12, flexShrink: 0 }}>
 //           <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" strokeLinecap="round"/>
 //         </svg>
@@ -188,21 +178,10 @@
 //       <div style={{ marginBottom: SP.lg - 2 }}>
 //         <label style={sLabel}>Link Google Maps</label>
 //         <div style={{ display: 'flex', gap: SP.xs + 2 }}>
-//           <input
-//             className="ps-input-astr"
-//             style={{ marginBottom: 0, flex: 1 }}
-//             placeholder="https://maps.app.goo.gl/..."
-//             value={mapsValue}
-//             onChange={e => setter(mapsKey, e.target.value)}
-//             inputMode="url" autoCapitalize="none" autoCorrect="off"
-//           />
+//           <input className="ps-input-astr" style={{ marginBottom: 0, flex: 1 }} placeholder="https://maps.app.goo.gl/..." value={mapsValue} onChange={e => setter(mapsKey, e.target.value)} inputMode="url" autoCapitalize="none" autoCorrect="off" />
 //           {mapsValue.trim() && (
 //             <button type="button" className="ps-test-btn-astr" onClick={() => window.open(mapsValue.trim(), '_blank', 'noopener,noreferrer')}>
-//               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ width: 11, height: 11 }}>
-//                 <path d="M7 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V9" strokeLinecap="round"/>
-//                 <path d="M10 2h4v4" strokeLinecap="round" strokeLinejoin="round"/>
-//                 <path d="M14 2L8 8" strokeLinecap="round"/>
-//               </svg>
+//               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ width: 11, height: 11 }}><path d="M7 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V9" strokeLinecap="round"/><path d="M10 2h4v4" strokeLinecap="round" strokeLinejoin="round"/><path d="M14 2L8 8" strokeLinecap="round"/></svg>
 //               Test
 //             </button>
 //           )}
@@ -215,21 +194,10 @@
 //       <div>
 //         <label style={sLabel}>Link Waze</label>
 //         <div style={{ display: 'flex', gap: SP.xs + 2 }}>
-//           <input
-//             className="ps-input-astr"
-//             style={{ marginBottom: 0, flex: 1 }}
-//             placeholder="https://waze.com/ul/..."
-//             value={wazeValue}
-//             onChange={e => setter(wazeKey, e.target.value)}
-//             inputMode="url" autoCapitalize="none" autoCorrect="off"
-//           />
+//           <input className="ps-input-astr" style={{ marginBottom: 0, flex: 1 }} placeholder="https://waze.com/ul/..." value={wazeValue} onChange={e => setter(wazeKey, e.target.value)} inputMode="url" autoCapitalize="none" autoCorrect="off" />
 //           {wazeValue.trim() && (
 //             <button type="button" className="ps-test-btn-astr" onClick={() => window.open(wazeValue.trim(), '_blank', 'noopener,noreferrer')}>
-//               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ width: 11, height: 11 }}>
-//                 <path d="M7 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V9" strokeLinecap="round"/>
-//                 <path d="M10 2h4v4" strokeLinecap="round" strokeLinejoin="round"/>
-//                 <path d="M14 2L8 8" strokeLinecap="round"/>
-//               </svg>
+//               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ width: 11, height: 11 }}><path d="M7 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V9" strokeLinecap="round"/><path d="M10 2h4v4" strokeLinecap="round" strokeLinejoin="round"/><path d="M14 2L8 8" strokeLinecap="round"/></svg>
 //               Test
 //             </button>
 //           )}
@@ -242,7 +210,7 @@
 //   );
 // };
 
-// // ── CustomDatePicker ────────────────────────────────────
+// // ── CustomDatePicker ─────────────────────────────────────
 // const CustomDatePicker = ({ value, onChange }: { value: string; onChange: (v: string) => void }) => {
 //   const currentYear = new Date().getFullYear();
 //   const maxYear     = currentYear + 5;
@@ -261,27 +229,25 @@
 //     <div style={{ display: 'flex', gap: SP.xs + 2, width: '100%' }}>
 //       <select className="ps-input-astr ps-select-astr" style={{ flex: 1 }} value={day} onChange={e => handleChange('day', e.target.value)}>
 //         <option value="">Zi</option>
-//         {Array.from({ length: 31 }, (_, i) => (
-//           <option key={i} value={String(i + 1).padStart(2, '0')}>{i + 1}</option>
-//         ))}
+//         {Array.from({ length: 31 }, (_, i) => <option key={i} value={String(i+1).padStart(2,'0')}>{i+1}</option>)}
 //       </select>
 //       <select className="ps-input-astr ps-select-astr" style={{ flex: 1 }} value={month} onChange={e => handleChange('month', e.target.value)}>
 //         <option value="">Lună</option>
 //         {['Ian','Feb','Mar','Apr','Mai','Iun','Iul','Aug','Sep','Oct','Nov','Dec'].map((m, i) => (
-//           <option key={i} value={String(i + 1).padStart(2, '0')}>{m}</option>
+//           <option key={i} value={String(i+1).padStart(2,'0')}>{m}</option>
 //         ))}
 //       </select>
 //       <select className="ps-input-astr ps-select-astr" style={{ flex: 1 }} value={year} onChange={e => handleChange('year', e.target.value)}>
 //         <option value="">An</option>
 //         {Array.from({ length: maxYear - currentYear + 1 }, (_, i) => (
-//           <option key={i} value={String(currentYear + i)}>{currentYear + i}</option>
+//           <option key={i} value={String(currentYear+i)}>{currentYear+i}</option>
 //         ))}
 //       </select>
 //     </div>
 //   );
 // };
 
-// // ── CustomTimePicker ────────────────────────────────────
+// // ── CustomTimePicker ─────────────────────────────────────
 // const CustomTimePicker = ({ value, onChange }: { value: string; onChange: (v: string) => void }) => {
 //   const [hours, minutes] = value ? value.split(':') : ['', ''];
 
@@ -296,23 +262,19 @@
 //     <div style={{ display: 'flex', gap: SP.xs + 2, width: '100%', alignItems: 'center' }}>
 //       <select className="ps-input-astr ps-select-astr" style={{ flex: 1 }} value={hours} onChange={e => handleChange('h', e.target.value)}>
 //         <option value="">Ora</option>
-//         {Array.from({ length: 24 }, (_, i) => (
-//           <option key={i} value={String(i).padStart(2, '0')}>{String(i).padStart(2, '0')}</option>
-//         ))}
+//         {Array.from({ length: 24 }, (_, i) => <option key={i} value={String(i).padStart(2,'0')}>{String(i).padStart(2,'0')}</option>)}
 //       </select>
 //       <span style={{ color: C.gold, fontSize: FS.lg, fontWeight: 300, flexShrink: 0, opacity: 0.7 }}>:</span>
 //       <select className="ps-input-astr ps-select-astr" style={{ flex: 1 }} value={minutes} onChange={e => handleChange('m', e.target.value)}>
 //         <option value="">Min</option>
-//         {Array.from({ length: 60 }, (_, i) => (
-//           <option key={i} value={String(i).padStart(2, '0')}>{String(i).padStart(2, '0')}</option>
-//         ))}
+//         {Array.from({ length: 60 }, (_, i) => <option key={i} value={String(i).padStart(2,'0')}>{String(i).padStart(2,'0')}</option>)}
 //       </select>
 //     </div>
 //   );
 // };
 
-// // ── MAIN COMPONENT ──────────────────────────────────────
-// export const SummarySection = ({ initialData, orderId, onSave }: SummarySectionProps) => {
+// // ── MAIN COMPONENT ───────────────────────────────────────
+// export const PersonalizeSection = ({ initialData, orderId, onSave }: PersonalizeSectionProps) => {
 //   const [loading,  setLoading]  = useState(false);
 //   const [formData, setFormData] = useState<FormState>(() => buildForm(initialData));
 
@@ -402,8 +364,8 @@
 //   };
 
 //   const saveColor =
-//     autoSaveStatus === 'saved'   ? C.success                :
-//     autoSaveStatus === 'unsaved' ? C.gold                   :
+//     autoSaveStatus === 'saved'   ? C.success  :
+//     autoSaveStatus === 'unsaved' ? C.gold      :
 //     C.textMuted;
 
 //   return (
@@ -411,27 +373,22 @@
 //       <style>{PS_CSS}</style>
 //       <form
 //         onSubmit={handleSave}
-//         style={{
-//           display: 'flex', flexDirection: 'column', gap: SP.xl,
-//           animation: 'ast-fade-in .45s ease both',
-//           paddingBottom: '10vh',
-//         }}
+//         style={{ display: 'flex', flexDirection: 'column', gap: SP.xl, animation: 'ast-fade-in .45s ease both', paddingBottom: '10vh' }}
 //       >
-
 //         {/* HEADER */}
 //         <div style={{ marginBottom: SP.sm }}>
 //           <p style={{ fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.36em', textTransform: 'uppercase', color: C.textFaint, marginBottom: SP.sm }}>
 //             Dashboard
 //           </p>
-//           <h2 style={{ fontFamily: F.heading, fontSize: FS.titleMd, fontWeight: 400, fontStyle: 'italic', color: C.text, margin: 0, lineHeight: 1.1 }}>
-//             Detalii Botez
+//           <h2 style={{ fontFamily: F.display, fontSize: FS.titleMd, fontWeight: 400, fontStyle: 'italic', color: C.text, margin: 0, lineHeight: 1.1 }}>
+//             Personalizare Detalii
 //           </h2>
 //         </div>
 
 //         {/* COPIL + SLUG */}
 //         <section style={sCard}>
-//           <h3 style={{ fontFamily: F.heading, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
-//             👶 Copil &amp; Link Invitație
+//           <h3 style={{ fontFamily: F.display, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
+//             👶 Copil & Link Invitație
 //           </h3>
 //           <div className="ast-grid-2">
 //             <div style={{ marginBottom: SP.lg - 2 }}>
@@ -440,13 +397,7 @@
 //             </div>
 //             <div style={{ marginBottom: SP.lg - 2 }}>
 //               <label style={sLabel}>Slug (Link Personalizat)</label>
-//               <input
-//                 className="ps-input-astr"
-//                 value={formData.customSlug}
-//                 onChange={e => set('customSlug', e.target.value.toLowerCase().replace(/\s/g, '-'))}
-//                 placeholder="ex. botez-zian"
-//                 autoCapitalize="none" autoCorrect="off"
-//               />
+//               <input className="ps-input-astr" value={formData.customSlug} onChange={e => set('customSlug', e.target.value.toLowerCase().replace(/\s/g, '-'))} placeholder="ex. botez-zian" autoCapitalize="none" autoCorrect="off" />
 //               <p style={{ fontFamily: F.mono, fontSize: FS.xs, color: C.textMuted, marginTop: SP.xs + 2, fontStyle: 'italic' }}>
 //                 /invitatie/astronaut/<strong style={{ color: C.gold }}>{formData.customSlug || 'slug-tau'}</strong>
 //               </p>
@@ -456,8 +407,8 @@
 
 //         {/* PĂRINȚI & NAȘI */}
 //         <section style={sCard}>
-//           <h3 style={{ fontFamily: F.heading, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
-//             👨‍👩‍👧 Părinți &amp; Nași
+//           <h3 style={{ fontFamily: F.display, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
+//             👨‍👩‍👧 Părinți & Nași
 //           </h3>
 //           <div className="ast-grid-2">
 //             <div style={{ marginBottom: SP.lg - 2 }}>
@@ -473,7 +424,7 @@
 
 //         {/* BISERICĂ */}
 //         <section style={sCard}>
-//           <h3 style={{ fontFamily: F.heading, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
+//           <h3 style={{ fontFamily: F.display, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
 //             ⛪ Slujba Religioasă
 //           </h3>
 //           <div style={{ display: 'flex', flexDirection: 'column', gap: SP.lg - 2 }}>
@@ -491,20 +442,13 @@
 //                 <CustomTimePicker value={formData.churchTime} onChange={v => set('churchTime', v)} />
 //               </div>
 //             </div>
-//             <LocationLinks
-//               locationValue={formData.churchLocation}
-//               mapsValue={formData.churchMaps}
-//               wazeValue={formData.churchWaze}
-//               mapsKey="churchMaps"
-//               wazeKey="churchWaze"
-//               setter={set}
-//             />
+//             <LocationLinks locationValue={formData.churchLocation} mapsValue={formData.churchMaps} wazeValue={formData.churchWaze} mapsKey="churchMaps" wazeKey="churchWaze" setter={set} />
 //           </div>
 //         </section>
 
 //         {/* RESTAURANT */}
 //         <section style={sCard}>
-//           <h3 style={{ fontFamily: F.heading, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
+//           <h3 style={{ fontFamily: F.display, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
 //             🎉 Recepție / Restaurant
 //           </h3>
 //           <div style={{ display: 'flex', flexDirection: 'column', gap: SP.lg - 2 }}>
@@ -522,31 +466,18 @@
 //                 <CustomTimePicker value={formData.restaurantTime} onChange={v => set('restaurantTime', v)} />
 //               </div>
 //             </div>
-//             <LocationLinks
-//               locationValue={formData.restaurantLocation}
-//               mapsValue={formData.restaurantMaps}
-//               wazeValue={formData.restaurantWaze}
-//               mapsKey="restaurantMaps"
-//               wazeKey="restaurantWaze"
-//               setter={set}
-//             />
+//             <LocationLinks locationValue={formData.restaurantLocation} mapsValue={formData.restaurantMaps} wazeValue={formData.restaurantWaze} mapsKey="restaurantMaps" wazeKey="restaurantWaze" setter={set} />
 //           </div>
 //         </section>
 
 //         {/* CONTACT */}
 //         <section style={sCard}>
-//           <h3 style={{ fontFamily: F.heading, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
+//           <h3 style={{ fontFamily: F.display, fontSize: FS.titleSm, fontStyle: 'italic', fontWeight: 400, color: C.text, marginBottom: SP.lg + 2 }}>
 //             📞 Contact
 //           </h3>
 //           <div style={{ maxWidth: 320 }}>
 //             <label style={sLabel}>Număr de Telefon</label>
-//             <input
-//               className="ps-input-astr"
-//               type="tel" inputMode="tel" autoComplete="tel"
-//               value={formData.contactPhone}
-//               onChange={setFromEvent('contactPhone')}
-//               placeholder="ex. 0740 000 000"
-//             />
+//             <input className="ps-input-astr" type="tel" inputMode="tel" autoComplete="tel" value={formData.contactPhone} onChange={setFromEvent('contactPhone')} placeholder="ex. 0740 000 000" />
 //           </div>
 //         </section>
 
@@ -567,12 +498,12 @@
 //             </span>
 //           </button>
 //         </div>
-
 //       </form>
 //     </>
 //   );
 // };
 
+// export default PersonalizeSection;
 
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
@@ -604,7 +535,7 @@ interface FormState {
 }
 
 const buildForm = (data: any): FormState => ({
-  childName:          data?.bride_name          || '',
+  childName:          data?.bride_name           || '',
   customSlug:         data?.custom_slug          || '',
   parentsNames:       data?.parents_names        || '',
   nasiNames:          data?.nasi_names           || '',
@@ -736,6 +667,7 @@ const LocationLinks = ({ locationValue, mapsValue, wazeValue, mapsKey, wazeKey, 
     const trimmed = locationValue.trim();
     if (!trimmed) return;
     const encoded = encodeURIComponent(trimmed);
+    // Reparare bug template literal: înlocuit 0{encoded} cu ${encoded}
     setter(mapsKey, `https://www.google.com/maps/search/?api=1&query=${encoded}`);
     setter(wazeKey,  `https://waze.com/ul?q=${encoded}&navigate=yes`);
   };
@@ -752,7 +684,7 @@ const LocationLinks = ({ locationValue, mapsValue, wazeValue, mapsKey, wazeKey, 
       <div style={{ marginBottom: SP.lg - 2 }}>
         <label style={sLabel}>Link Google Maps</label>
         <div style={{ display: 'flex', gap: SP.xs + 2 }}>
-          <input className="ps-input-astr" style={{ marginBottom: 0, flex: 1 }} placeholder="https://maps.app.goo.gl/..." value={mapsValue} onChange={e => setter(mapsKey, e.target.value)} inputMode="url" autoCapitalize="none" autoCorrect="off" />
+          <input className="ps-input-astr" style={{ marginBottom: 0, flex: 1 }} placeholder="https://www.google.com/maps/..." value={mapsValue} onChange={e => setter(mapsKey, e.target.value)} inputMode="url" autoCapitalize="none" autoCorrect="off" />
           {mapsValue.trim() && (
             <button type="button" className="ps-test-btn-astr" onClick={() => window.open(mapsValue.trim(), '_blank', 'noopener,noreferrer')}>
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ width: 11, height: 11 }}><path d="M7 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V9" strokeLinecap="round"/><path d="M10 2h4v4" strokeLinecap="round" strokeLinejoin="round"/><path d="M14 2L8 8" strokeLinecap="round"/></svg>
@@ -865,6 +797,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
   const setFromEvent = (key: keyof FormState) =>
     (e: React.ChangeEvent<HTMLInputElement>) => set(key, e.target.value);
 
+  // Payload-ul JSON folosește acum exact coloanele din baza ta de date (wedding_settings)
   const autoSaveFn = useCallback(async (data: FormState) => {
     if (!orderId) throw new Error('orderId missing');
     const res = await fetch('/api/dashboard/personalize', {
@@ -872,21 +805,21 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         orderId,
-        brideName:         data.childName,
-        customSlug:        data.customSlug,
-        parentsNames:      data.parentsNames,
-        nasiNames:         data.nasiNames,
-        religiousLocation: data.churchLocation,
-        religiousDate:     data.churchDate,
-        religiousTime:     data.churchTime,
-        religiousMapsUrl:  data.churchMaps,
-        religiousWaze:     data.churchWaze,
-        locationName:      data.restaurantLocation,
-        weddingDate:       data.restaurantDate,
-        weddingTime:       data.restaurantTime,
-        googleMapsUrl:     data.restaurantMaps,
-        wazeUrl:           data.restaurantWaze,
-        contactPhoneBride: data.contactPhone,
+        bride_name:          data.childName,
+        custom_slug:         data.customSlug,
+        parents_names:       data.parentsNames,
+        nasi_names:          data.nasiNames,
+        religious_location:  data.churchLocation,
+        religious_date:      data.churchDate,
+        religious_time:      data.churchTime,
+        religious_maps_url:  data.churchMaps,
+        religious_waze:      data.churchWaze,
+        location_name:       data.restaurantLocation,
+        wedding_date:        data.restaurantDate,
+        wedding_time:        data.restaurantTime,
+        google_maps_url:     data.restaurantMaps,
+        waze_url:            data.restaurantWaze,
+        contact_phone_bride: data.contactPhone,
       }),
     });
     if (!res.ok) {
@@ -898,6 +831,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
   const { status: autoSaveStatus, setStatus: setAutoSaveStatus, cancelPending } =
     useAutoSave(formData, autoSaveFn, 1200);
 
+  // Payload-ul JSON de la salvare manuală folosește de asemenea denumirile corecte din baza de date
   const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     cancelPending();
@@ -908,21 +842,21 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           orderId,
-          brideName:         formData.childName,
-          customSlug:        formData.customSlug,
-          parentsNames:      formData.parentsNames,
-          nasiNames:         formData.nasiNames,
-          religiousLocation: formData.churchLocation,
-          religiousDate:     formData.churchDate,
-          religiousTime:     formData.churchTime,
-          religiousMapsUrl:  formData.churchMaps,
-          religiousWaze:     formData.churchWaze,
-          locationName:      formData.restaurantLocation,
-          weddingDate:       formData.restaurantDate,
-          weddingTime:       formData.restaurantTime,
-          googleMapsUrl:     formData.restaurantMaps,
-          wazeUrl:           formData.restaurantWaze,
-          contactPhoneBride: formData.contactPhone,
+          bride_name:          formData.childName,
+          custom_slug:         formData.customSlug,
+          parents_names:       formData.parentsNames,
+          nasi_names:          formData.nasiNames,
+          religious_location:  formData.churchLocation,
+          religious_date:      formData.churchDate,
+          religious_time:      formData.churchTime,
+          religious_maps_url:  formData.churchMaps,
+          religious_waze:      formData.churchWaze,
+          location_name:       formData.restaurantLocation,
+          wedding_date:        formData.restaurantDate,
+          wedding_time:        formData.restaurantTime,
+          google_maps_url:     formData.restaurantMaps,
+          waze_url:            formData.restaurantWaze,
+          contact_phone_bride: formData.contactPhone,
         }),
       });
       if (res.ok) {
