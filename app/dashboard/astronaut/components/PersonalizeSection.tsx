@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { C, F, FS, SP, BR, SH, GR, LY, KEYFRAMES } from '../astronautTokens';
 import { useAutoSave } from '../hooks/useAutoSave';
+import Swal from 'sweetalert2';
 
 interface PersonalizeSectionProps {
   initialData: any;
@@ -345,10 +346,39 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         setAutoSaveStatus('saved');
         onSave();
       } else {
+        const err = await res.json().catch(() => ({}));
         setAutoSaveStatus('unsaved');
+        const msg = (err.error || '').toLowerCase();
+        if (res.status === 409 || msg.includes('duplicate') || msg.includes('unique') || msg.includes('exist') || msg.includes('slug')) {
+          Swal.fire({
+            title: '<span style="color:#f4d87e;font-family:sans-serif;">Link deja utilizat 🚀</span>',
+            text: 'Link personalizat deja utilizat de alți părinți. Alege un alt Link unic.',
+            icon: 'warning',
+            confirmButtonColor: '#7c6bc4',
+            background: '#0d1117',
+            color: '#c9d1d9',
+          });
+        } else {
+          Swal.fire({
+            title: '<span style="color:#f4d87e;font-family:sans-serif;">Eroare la salvare</span>',
+            text: err.error || 'A apărut o problemă. Încearcă din nou.',
+            icon: 'error',
+            confirmButtonColor: '#7c6bc4',
+            background: '#0d1117',
+            color: '#c9d1d9',
+          });
+        }
       }
     } catch {
       setAutoSaveStatus('unsaved');
+      Swal.fire({
+        title: '<span style="color:#f4d87e;font-family:sans-serif;">Eroare de conexiune</span>',
+        text: 'Nu ne putem conecta la server momentan.',
+        icon: 'error',
+        confirmButtonColor: '#7c6bc4',
+        background: '#0d1117',
+        color: '#c9d1d9',
+      });
     }
     setLoading(false);
   };
