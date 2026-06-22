@@ -49,12 +49,16 @@ export async function GET(
       Math.min(108, Math.floor(1700 / Math.max(childName.length, 5)))
     );
 
-    const SPACE  = '#0B1410';
-    const MIST   = 'rgba(170,210,190,0.35)';
-    const SOFT   = 'rgba(190,230,210,0.55)';
-    const GOLD   = 'rgba(220,200,160,0.75)';
-    const TEXT   = '#EAF6EE';
-    const GREEN  = '#7FBF9B';
+    // Mint & Gold palette
+    const BG_DEEP  = '#F0FDF9';
+    const BG_MID   = '#ECFDF5';
+    const MINT     = 'rgba(110,231,183,0.45)';
+    const MINT_DIM = 'rgba(110,231,183,0.22)';
+    const GOLD     = 'rgba(252,211,77,0.85)';
+    const GOLD_DIM = 'rgba(252,211,77,0.45)';
+    const TEXT     = '#065F46';
+    const TEXT_SUB = '#059669';
+    const GREEN_DOT= '#34D399';
 
     const img = new ImageResponse(
       React.createElement(
@@ -66,51 +70,63 @@ export async function GET(
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: SPACE,
+            background: BG_DEEP,
             position: 'relative',
             overflow: 'hidden',
           },
         },
 
-        /* BACKGROUND */
+        /* BACKGROUND GRADIENT */
         React.createElement('div', {
           style: {
             position: 'absolute',
             inset: 0,
             display: 'flex',
             background:
-              'radial-gradient(ellipse at top, #1A2C22 0%, #0B1410 55%, #070C09 100%)',
+              'radial-gradient(ellipse 80% 60% at 10% 10%, rgba(110,231,183,0.18) 0%, transparent 50%), radial-gradient(ellipse 70% 55% at 92% 88%, rgba(252,211,77,0.20) 0%, transparent 52%), linear-gradient(148deg, #F0FDF9 0%, #ECFDF5 40%, #FFFBEB 100%)',
           },
         }),
 
-        /* GLOW */
+        /* SPARKLE ACCENT TOP-LEFT */
         React.createElement('div', {
           style: {
             position: 'absolute',
-            top: -120,
-            left: -80,
-            width: 600,
-            height: 600,
+            top: 60,
+            left: 80,
+            width: 120,
+            height: 120,
             display: 'flex',
-            background:
-              'radial-gradient(circle, rgba(127,191,155,0.20) 0%, transparent 65%)',
+            background: 'radial-gradient(circle, rgba(110,231,183,0.25) 0%, transparent 70%)',
           },
         }),
 
+        /* SPARKLE ACCENT BOTTOM-RIGHT */
         React.createElement('div', {
           style: {
             position: 'absolute',
-            bottom: -120,
-            right: -90,
-            width: 520,
-            height: 520,
+            bottom: 60,
+            right: 80,
+            width: 160,
+            height: 160,
             display: 'flex',
-            background:
-              'radial-gradient(circle, rgba(180,220,200,0.12) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(252,211,77,0.22) 0%, transparent 70%)',
           },
         }),
 
-        /* FRAME */
+        /* GOLD ACCENT TOP-RIGHT */
+        React.createElement('div', {
+          style: {
+            position: 'absolute',
+            top: 40,
+            right: 120,
+            width: 100,
+            height: 100,
+            display: 'flex',
+            background: 'radial-gradient(circle, rgba(252,211,77,0.18) 0%, transparent 65%)',
+          },
+        }),
+
+        /* OUTER FRAME */
         React.createElement('div', {
           style: {
             position: 'absolute',
@@ -118,20 +134,75 @@ export async function GET(
             left: 28,
             right: 28,
             bottom: 28,
-            border: '1px solid rgba(127,191,155,0.25)',
-            borderRadius: 26,
+            border: '1.5px solid rgba(110,231,183,0.38)',
+            borderRadius: 28,
           },
         }),
 
+        /* INNER DASHED FRAME */
         React.createElement('div', {
           style: {
             position: 'absolute',
-            top: 40,
-            left: 40,
-            right: 40,
-            bottom: 40,
-            border: '1px dashed rgba(127,191,155,0.12)',
+            top: 42,
+            left: 42,
+            right: 42,
+            bottom: 42,
+            border: '1px dashed rgba(110,231,183,0.18)',
             borderRadius: 22,
+          },
+        }),
+
+        /* CORNER SPARKLES */
+        React.createElement('div', {
+          style: {
+            position: 'absolute',
+            top: 54,
+            left: 54,
+            width: 16,
+            height: 16,
+            display: 'flex',
+            background: GOLD,
+            borderRadius: 999,
+            opacity: 0.6,
+          },
+        }),
+        React.createElement('div', {
+          style: {
+            position: 'absolute',
+            top: 54,
+            right: 54,
+            width: 16,
+            height: 16,
+            display: 'flex',
+            background: GOLD,
+            borderRadius: 999,
+            opacity: 0.6,
+          },
+        }),
+        React.createElement('div', {
+          style: {
+            position: 'absolute',
+            bottom: 54,
+            left: 54,
+            width: 16,
+            height: 16,
+            display: 'flex',
+            background: 'rgba(110,231,183,0.7)',
+            borderRadius: 999,
+            opacity: 0.6,
+          },
+        }),
+        React.createElement('div', {
+          style: {
+            position: 'absolute',
+            bottom: 54,
+            right: 54,
+            width: 16,
+            height: 16,
+            display: 'flex',
+            background: 'rgba(110,231,183,0.7)',
+            borderRadius: 999,
+            opacity: 0.6,
           },
         }),
 
@@ -147,7 +218,7 @@ export async function GET(
               position: 'relative',
               zIndex: 10,
               width: '100%',
-              padding: '0 90px',
+              padding: '0 100px',
             },
           },
 
@@ -160,15 +231,16 @@ export async function GET(
                 fontSize: 11,
                 letterSpacing: 9,
                 textTransform: 'uppercase',
-                color: MIST,
+                color: TEXT_SUB,
                 marginBottom: 18,
                 display: 'flex',
+                opacity: 0.75,
               },
             },
             'Invitatie la Botez'
           ),
 
-          /* DIVIDER */
+          /* DIVIDER TOP */
           React.createElement(
             'div',
             {
@@ -176,23 +248,32 @@ export async function GET(
                 display: 'flex',
                 alignItems: 'center',
                 gap: 14,
-                marginBottom: 22,
-                width: 380,
+                marginBottom: 24,
+                width: 400,
               },
             },
             React.createElement('div', {
-              style: { flex: 1, height: 1, background: MIST },
-            }),
-            React.createElement('div', {
               style: {
-                width: 7,
-                height: 7,
-                background: GREEN,
-                borderRadius: 999,
+                flex: 1,
+                height: 1,
+                background: 'linear-gradient(90deg, transparent, rgba(110,231,183,0.5))',
               },
             }),
             React.createElement('div', {
-              style: { flex: 1, height: 1, background: MIST },
+              style: {
+                width: 8,
+                height: 8,
+                background: GREEN_DOT,
+                borderRadius: 999,
+                boxShadow: '0 0 8px rgba(52,211,153,0.5)',
+              },
+            }),
+            React.createElement('div', {
+              style: {
+                flex: 1,
+                height: 1,
+                background: 'linear-gradient(90deg, rgba(110,231,183,0.5), transparent)',
+              },
             })
           ),
 
@@ -206,12 +287,13 @@ export async function GET(
                 fontSize: nameFontSize,
                 color: TEXT,
                 lineHeight: 1,
+                textShadow: '0 2px 20px rgba(110,231,183,0.15)',
               },
             },
             childName
           ),
 
-          /* PARENTS (SAFE - NO NULL) */
+          /* PARENTS */
           ...(parentsStr
             ? [
                 React.createElement(
@@ -221,10 +303,11 @@ export async function GET(
                     style: {
                       fontFamily: 'Cinzel',
                       fontSize: 13,
-                      color: 'rgba(170,210,190,0.65)',
+                      color: TEXT_SUB,
                       letterSpacing: 3,
-                      marginTop: 10,
+                      marginTop: 12,
                       display: 'flex',
+                      opacity: 0.7,
                     },
                   },
                   parentsStr
@@ -240,28 +323,37 @@ export async function GET(
                 display: 'flex',
                 alignItems: 'center',
                 gap: 14,
-                marginTop: 22,
-                marginBottom: 16,
-                width: 380,
+                marginTop: 24,
+                marginBottom: 18,
+                width: 400,
               },
             },
             React.createElement('div', {
-              style: { flex: 1, height: 1, background: MIST },
-            }),
-            React.createElement('div', {
               style: {
-                width: 7,
-                height: 7,
-                background: GREEN,
-                borderRadius: 999,
+                flex: 1,
+                height: 1,
+                background: 'linear-gradient(90deg, transparent, rgba(252,211,77,0.45))',
               },
             }),
             React.createElement('div', {
-              style: { flex: 1, height: 1, background: MIST },
+              style: {
+                width: 8,
+                height: 8,
+                background: '#FCD34D',
+                borderRadius: 999,
+                boxShadow: '0 0 8px rgba(252,211,77,0.4)',
+              },
+            }),
+            React.createElement('div', {
+              style: {
+                flex: 1,
+                height: 1,
+                background: 'linear-gradient(90deg, rgba(252,211,77,0.45), transparent)',
+              },
             })
           ),
 
-          /* DATE + LOCATION SAFE */
+          /* DATE + LOCATION */
           ...(dateStr || loc
             ? [
                 React.createElement(
@@ -274,15 +366,16 @@ export async function GET(
                       gap: 12,
                       fontFamily: 'Cinzel',
                       fontSize: 13,
-                      color: GOLD,
+                      color: '#92400E',
                       letterSpacing: 2,
+                      opacity: 0.8,
                     },
                   },
                   dateStr
                     ? React.createElement('span', null, dateStr)
                     : null,
                   dateStr && loc
-                    ? React.createElement('span', { style: { opacity: 0.4 } }, '◆')
+                    ? React.createElement('span', { style: { opacity: 0.4, color: '#D97706' } }, '◆')
                     : null,
                   loc ? React.createElement('span', null, loc) : null
                 ),
@@ -294,14 +387,18 @@ export async function GET(
             'div',
             {
               style: {
-                marginTop: 20,
+                marginTop: 22,
                 display: 'flex',
                 alignItems: 'center',
                 gap: 12,
               },
             },
             React.createElement('div', {
-              style: { width: 32, height: 1, background: 'rgba(127,191,155,0.25)' },
+              style: {
+                width: 36,
+                height: 1,
+                background: 'rgba(110,231,183,0.3)',
+              },
             }),
             React.createElement(
               'div',
@@ -310,14 +407,18 @@ export async function GET(
                   fontFamily: 'Cinzel',
                   fontSize: 10,
                   letterSpacing: 6,
-                  color: 'rgba(170,210,190,0.45)',
+                  color: 'rgba(5,150,105,0.5)',
                   textTransform: 'uppercase',
                 },
               },
               'www.vibeinvite.ro'
             ),
             React.createElement('div', {
-              style: { width: 32, height: 1, background: 'rgba(127,191,155,0.25)' },
+              style: {
+                width: 36,
+                height: 1,
+                background: 'rgba(110,231,183,0.3)',
+              },
             })
           )
         )

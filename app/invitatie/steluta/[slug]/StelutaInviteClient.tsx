@@ -359,17 +359,57 @@ export default function StelutaInviteClient(props: Props) {
     <>
       <style>{CSS_ANIM}</style>
 
-      <header style={{ position:'fixed', top:0, left:0, right:0, zIndex:200, height:56, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 clamp(16px,4vw,28px)', background:'rgba(240,253,249,.94)', borderBottom:'1px solid rgba(110,231,183,.2)', backdropFilter:'blur(14px)' }}>
-        <a href="/invitatii-digitale" style={{ fontFamily:"'Quicksand',sans-serif", fontSize:12, fontWeight:700, letterSpacing:'.22em', textTransform:'uppercase', color:'#065F46', textDecoration:'none', transition:'color .2s' }}
-          onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color='#D97706'}
-          onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color='#065F46'}>
-          Vibe<span style={{ color:'#059669' }}>Invite</span>
-        </a>
-        <div style={{ fontFamily:"'Cormorant',serif", fontSize:15, fontStyle:'italic', color:'#374151', letterSpacing:'.04em', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', maxWidth:'40%', textAlign:'center' }}>
-          {phase==='invite' ? (childName || 'Botez') : 'Invitație la Botez'}
-        </div>
-   
-      </header>
+<header style={{
+  position:'fixed',
+  top:0,
+  left:0,
+  right:0,
+  zIndex:200,
+  height:56,
+  display:'flex',
+  alignItems:'center',
+  padding:'0 clamp(16px,4vw,28px)',
+  background:'rgba(240,253,249,.94)',
+  borderBottom:'1px solid rgba(110,231,183,.2)',
+  backdropFilter:'blur(14px)'
+}}>
+  <a
+    href="/invitatii-digitale"
+    style={{
+      fontFamily:"'Quicksand',sans-serif",
+      fontSize:12,
+      fontWeight:700,
+      letterSpacing:'.22em',
+      textTransform:'uppercase',
+      color:'#065F46',
+      textDecoration:'none',
+      transition:'color .2s'
+    }}
+    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color='#D97706'}
+    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color='#065F46'}
+  >
+    Vibe<span style={{ color:'#059669' }}>Invite</span>
+  </a>
+
+  <div style={{
+    position:'absolute',
+    left:'50%',
+    transform:'translateX(-50%)',
+    fontFamily:"'Cormorant',serif",
+    fontSize:15,
+    fontStyle:'italic',
+    color:'#374151',
+    letterSpacing:'.04em',
+    overflow:'hidden',
+    textOverflow:'ellipsis',
+    whiteSpace:'nowrap',
+    maxWidth:'40%',
+    textAlign:'center',
+    pointerEvents:'none'
+  }}>
+    {phase === 'invite' ? (childName || 'Botez') : 'Invitație la Botez'}
+  </div>
+</header>
 
       {phase !== 'invite' && (
         <div style={{ position:'fixed', inset:0, top:56, overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center' }}>
@@ -581,20 +621,6 @@ export default function StelutaInviteClient(props: Props) {
               </div>
               <p style={{ fontFamily:"'Cormorant',serif", fontSize:'clamp(16px,2.2vw,22px)', fontStyle:'italic', color:'#065F46', lineHeight:1.7 }}>
                 Prezența voastră face totul perfect pentru această zi magică.
-              </p>
-            </div>
-
-            {/* footer cta */}
-            <div style={{ ...a(.48), ...glass, padding:'22px 24px 26px', display:'flex', flexDirection:'column', alignItems:'center', gap:14, position:'relative', overflow:'hidden' }}>
-              <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#6EE7B7,#FCD34D,#34D399)', backgroundSize:'300% 100%', animation:'stl-shimmer 3s linear infinite' }} />
-              <p style={{ fontFamily:"'Cormorant',serif", fontSize:16, fontStyle:'italic', color:'#374151', margin:0, textAlign:'center' }}>Îți place această temă? Personalizează-o pentru botezul copilului tău</p>
-              <a href="/preturi?tema=botez-steluta" style={{ display:'inline-flex', alignItems:'center', gap:10, padding:'14px 42px', borderRadius:100, background:'linear-gradient(135deg,#34D399 0%,#D97706 100%)', color:'#fff', textDecoration:'none', fontFamily:"'Quicksand',sans-serif", fontSize:12, fontWeight:700, letterSpacing:'.15em', textTransform:'uppercase', boxShadow:'0 10px 34px rgba(5,150,105,.38)', transition:'transform .2s,box-shadow .2s' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.transform='translateY(-2px) scale(1.02)'; (e.currentTarget as HTMLAnchorElement).style.boxShadow='0 18px 48px rgba(5,150,105,.54)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.transform=''; (e.currentTarget as HTMLAnchorElement).style.boxShadow='0 10px 34px rgba(5,150,105,.38)'; }}>
-                ✨ Alege Această Temă
-              </a>
-              <p style={{ fontFamily:"'Quicksand',sans-serif", fontSize:9, letterSpacing:'.2em', textTransform:'uppercase', color:'rgba(107,114,128,.5)', fontWeight:700, margin:0 }}>
-                VibeInvite © {new Date().getFullYear()} · Toate drepturile rezervate
               </p>
             </div>
 

@@ -359,21 +359,57 @@ export default function UrsuletInviteClient(props: Props) {
     <>
       <style>{CSS_ANIM}</style>
 
-      <header style={{ position:'fixed', top:0, left:0, right:0, zIndex:200, height:56, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 clamp(16px,4vw,28px)', background:'rgba(254,252,247,.93)', borderBottom:'1px solid rgba(122,170,192,.16)', backdropFilter:'blur(14px)' }}>
-        <a href="/invitatii-digitale" style={{ fontFamily:"'Quicksand',sans-serif", fontSize:12, fontWeight:700, letterSpacing:'.22em', textTransform:'uppercase', color:'#8B5E3C', textDecoration:'none', transition:'color .2s' }}
-          onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color='#7AAAC0'}
-          onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color='#8B5E3C'}>
-          Vibe<span style={{ color:'#7AAAC0' }}>Invite</span>
-        </a>
-        <div style={{ fontFamily:"'Cormorant',serif", fontSize:15, fontStyle:'italic', color:'#A07850', letterSpacing:'.04em', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', maxWidth:'40%', textAlign:'center' }}>
-          {phase==='invite' ? (childName || 'Botez') : 'Invitație la Botez'}
-        </div>
-        <a href="/invitatii-digitale" style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 14px', borderRadius:100, background:'rgba(122,170,192,.12)', border:'1px solid rgba(122,170,192,.26)', color:'#8B5E3C', fontFamily:"'Nunito',sans-serif", fontSize:11, fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase', cursor:'pointer', textDecoration:'none', transition:'all .2s' }}
-          onMouseEnter={e => { const b=e.currentTarget as HTMLAnchorElement; b.style.background='rgba(122,170,192,.2)'; b.style.borderColor='rgba(122,170,192,.42)'; }}
-          onMouseLeave={e => { const b=e.currentTarget as HTMLAnchorElement; b.style.background='rgba(122,170,192,.12)'; b.style.borderColor='rgba(122,170,192,.26)'; }}>
-          <BkArrow /> Înapoi
-        </a>
-      </header>
+<header style={{
+  position:'fixed',
+  top:0,
+  left:0,
+  right:0,
+  zIndex:200,
+  height:56,
+  display:'flex',
+  alignItems:'center',
+  padding:'0 clamp(16px,4vw,28px)',
+  background:'rgba(254,252,247,.93)',
+  borderBottom:'1px solid rgba(122,170,192,.16)',
+  backdropFilter:'blur(14px)'
+}}>
+  <a
+    href="/invitatii-digitale"
+    style={{
+      fontFamily:"'Quicksand',sans-serif",
+      fontSize:12,
+      fontWeight:700,
+      letterSpacing:'.22em',
+      textTransform:'uppercase',
+      color:'#8B5E3C',
+      textDecoration:'none',
+      transition:'color .2s'
+    }}
+    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color='#7AAAC0'}
+    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color='#8B5E3C'}
+  >
+    Vibe<span style={{ color:'#7AAAC0' }}>Invite</span>
+  </a>
+
+  <div style={{
+    position:'absolute',
+    left:'50%',
+    transform:'translateX(-50%)',
+    fontFamily:"'Cormorant',serif",
+    fontSize:15,
+    fontStyle:'italic',
+    color:'#A07850',
+    letterSpacing:'.04em',
+    overflow:'hidden',
+    textOverflow:'ellipsis',
+    whiteSpace:'nowrap',
+    maxWidth:'40%',
+    textAlign:'center',
+    pointerEvents:'none'
+  }}>
+    {phase==='invite' ? (childName || 'Botez') : 'Invitație la Botez'}
+  </div>
+</header>
 
       {phase !== 'invite' && (
         <div style={{ position:'fixed', inset:0, top:56, overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center' }}>

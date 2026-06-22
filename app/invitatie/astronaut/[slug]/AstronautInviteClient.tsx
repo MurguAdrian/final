@@ -245,14 +245,54 @@ export default function AstronautInviteClient(props: Props) {
       <style>{CSS_ANIM}</style>
 
       {/* HEADER */}
-      <header style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200, height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 clamp(16px,4vw,28px)', background: 'rgba(20,21,43,.9)', borderBottom: '1px solid rgba(156,182,232,.14)', backdropFilter: 'blur(14px)' }}>
-        <a href="/invitatii-digitale" style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: '.22em', textTransform: 'uppercase', color: '#F4F6FB', textDecoration: 'none' }}>
-          Vibe<span style={{ color: '#7C6BC4' }}>Invite</span>
-        </a>
-        <div style={{ fontFamily: "'Cormorant',serif", fontSize: 15, fontStyle: 'italic', color: '#B8C4E8', letterSpacing: '.04em', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '40%', textAlign: 'center' }}>
-          {phase === 'invite' ? (childName || 'Botez') : 'Invitație la Botez'}
-        </div>
-      </header>
+<header style={{
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  zIndex: 200,
+  height: 56,
+  display: 'flex',
+  alignItems: 'center',
+  padding: '0 clamp(16px,4vw,28px)',
+  background: 'rgba(20,21,43,.9)',
+  borderBottom: '1px solid rgba(156,182,232,.14)',
+  backdropFilter: 'blur(14px)'
+}}>
+  <a
+    href="/invitatii-digitale"
+    style={{
+      fontFamily: "'Quicksand',sans-serif",
+      fontSize: 12,
+      fontWeight: 700,
+      letterSpacing: '.22em',
+      textTransform: 'uppercase',
+      color: '#F4F6FB',
+      textDecoration: 'none'
+    }}
+  >
+    Vibe<span style={{ color: '#7C6BC4' }}>Invite</span>
+  </a>
+
+  <div style={{
+    position: 'absolute',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    fontFamily: "'Cormorant',serif",
+    fontSize: 15,
+    fontStyle: 'italic',
+    color: '#B8C4E8',
+    letterSpacing: '.04em',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    maxWidth: '40%',
+    textAlign: 'center',
+    pointerEvents: 'none'
+  }}>
+    {phase === 'invite' ? (childName || 'Botez') : 'Invitație la Botez'}
+  </div>
+</header>
 
       {/* INTRO / LAUNCH */}
       {phase !== 'invite' && (

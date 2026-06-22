@@ -296,16 +296,57 @@ export default function BaloaneClient(props: Props) {
     <>
       <style>{CSS_ANIM}</style>
 
-      <header style={{ position:'fixed', top:0, left:0, right:0, zIndex:200, height:56, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 clamp(16px,4vw,28px)', background:'rgba(253,242,255,.92)', borderBottom:'1px solid rgba(167,139,250,.2)', backdropFilter:'blur(14px)' }}>
-        <a href="/invitatii-digitale" style={{ fontFamily:"'Quicksand',sans-serif", fontSize:12, fontWeight:700, letterSpacing:'.22em', textTransform:'uppercase', color:'#7C3AED', textDecoration:'none', transition:'color .2s' }}
-          onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color='#F472B6'}
-          onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color='#7C3AED'}>
-          Vibe<span style={{ color:'#F472B6' }}>Invite</span>
-        </a>
-        <div style={{ fontFamily:"'Cormorant',serif", fontSize:15, fontStyle:'italic', color:'#9D7BB0', letterSpacing:'.04em', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', maxWidth:'40%', textAlign:'center' }}>
-          {phase === 'invite' ? (childName || 'Botez') : 'Invitație la Botez'}
-        </div>
-      </header>
+<header style={{
+  position:'fixed',
+  top:0,
+  left:0,
+  right:0,
+  zIndex:200,
+  height:56,
+  display:'flex',
+  alignItems:'center',
+  padding:'0 clamp(16px,4vw,28px)',
+  background:'rgba(253,242,255,.92)',
+  borderBottom:'1px solid rgba(167,139,250,.2)',
+  backdropFilter:'blur(14px)'
+}}>
+  <a
+    href="/invitatii-digitale"
+    style={{
+      fontFamily:"'Quicksand',sans-serif",
+      fontSize:12,
+      fontWeight:700,
+      letterSpacing:'.22em',
+      textTransform:'uppercase',
+      color:'#7C3AED',
+      textDecoration:'none',
+      transition:'color .2s'
+    }}
+    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color='#F472B6'}
+    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color='#7C3AED'}
+  >
+    Vibe<span style={{ color:'#F472B6' }}>Invite</span>
+  </a>
+
+  <div style={{
+    position:'absolute',
+    left:'50%',
+    transform:'translateX(-50%)',
+    fontFamily:"'Cormorant',serif",
+    fontSize:15,
+    fontStyle:'italic',
+    color:'#9D7BB0',
+    letterSpacing:'.04em',
+    overflow:'hidden',
+    textOverflow:'ellipsis',
+    whiteSpace:'nowrap',
+    maxWidth:'40%',
+    textAlign:'center',
+    pointerEvents:'none'
+  }}>
+    {phase === 'invite' ? (childName || 'Botez') : 'Invitație la Botez'}
+  </div>
+</header>
 
       {phase !== 'invite' && (
         <div style={{ position:'fixed', inset:0, top:56, overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center' }}>
