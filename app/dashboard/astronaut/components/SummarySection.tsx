@@ -1,231 +1,307 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { C, F, FS, SP, BR, SH, GR, LY, KEYFRAMES, FONTS_IMPORT } from '../astronautTokens';
 
-interface Props {
-  orderId: number;
+const thStyle: React.CSSProperties = {
+  padding: `clamp(10px,1.5vw,14px)`,
+  fontFamily: F.ui,
+  fontSize: 'clamp(9px,1.8vw,11px)',
+  letterSpacing: '.16em',
+  textTransform: 'uppercase',
+  color: C.textMuted,
+  textAlign: 'left',
+  fontWeight: 700,
+  borderBottom: `1px solid ${C.borderLight}`,
+  whiteSpace: 'nowrap',
+  position: 'sticky',
+  top: 0,
+  background: 'rgba(20,21,43,.97)',
+  zIndex: 2,
+};
+
+const tdStyle: React.CSSProperties = {
+  padding: `clamp(10px,1.5vw,14px)`,
+  verticalAlign: 'top',
+};
+
+const sCard: React.CSSProperties = {
+  background: C.surface,
+  border: `1px solid ${C.borderLight}`,
+  borderRadius: BR.card,
+  backdropFilter: 'blur(12px)',
+  overflow: 'hidden',
+};
+
+const SUMMARY_CSS = `
+  ${FONTS_IMPORT}
+  ${KEYFRAMES}
+  *, *::before, *::after { box-sizing: border-box; }
+  @keyframes ast-spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+  .ast-row:hover td { background: rgba(255,255,255,.025) !important; }
+  .ast-export-btn:hover {
+    background: rgba(124,107,196,.18) !important;
+    border-color: rgba(124,107,196,.45) !important;
+    color: ${C.text} !important;
+  }
+  .ast-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: clamp(8px,1.5vw,14px);
+    margin-bottom: 28px;
+  }
+  .ast-table-wrap {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: clamp(300px,55vh,620px);
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
+    touch-action: pan-y;
+    border-radius: 0 0 ${BR.card}px ${BR.card}px;
+  }
+  @media (max-width:900px) { .ast-stats-grid { grid-template-columns: repeat(3,1fr) !important; } }
+  @media (max-width:600px) {
+    .ast-stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .ast-export-btn span { display:none; }
+    .th-details, .td-details { display:none !important; }
+  }
+  @media (max-width:400px) { .ast-stats-grid { grid-template-columns: repeat(2,1fr) !important; } }
+`;
+
+interface Guest {
+  id?:                  number;
+  guest_name?:          string;
+  full_name?:           string;
+  name?:                string;
+  partner_name?:        string;
+  is_coming:            boolean;
+  adults_count:         number;
+  kids_count:           number;
+  dietary_preferences?: string;
+  other_mentions?:      string;
 }
 
-export default function AstronautRsvpForm({ orderId }: Props) {
-  const [submitted, setSubmitted] = useState(false);
-  const [loading,   setLoading]   = useState(false);
-  const [isComing,  setIsComing]  = useState<boolean | null>(null);
-  const [name,      setName]      = useState('');
-  const [partner,   setPartner]   = useState('');
-  const [kids,      setKids]      = useState('');
-  const [gdpr,      setGdpr]      = useState(false);
+export function SummarySection() {
+  const [data, setData]       = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const tableWrapRef          = useRef<HTMLDivElement>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name.trim())      { alert('Introduceți numele și prenumele.'); return; }
-    if (isComing === null) { alert('Selectați dacă participați sau nu.'); return; }
-    if (!gdpr)             { alert('Acceptați politica de confidențialitate pentru a continua.'); return; }
-
-    const kidsCount    = parseInt(kids) || 0;
-    const adultsCount  = isComing ? (partner.trim() ? 2 : 1) : 0;
-
-    setLoading(true);
-    try {
-      const res = await fetch('/api/rsvp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          orderId,
-          guestName:    name.trim(),
-          partnerName:  partner.trim() || null,
-          isComing,
-          adultsCount,
-          kidsCount,
-          plusOne:      !!partner.trim(),
-        }),
-      });
-      if (!res.ok) throw new Error('server error');
-      setSubmitted(true);
-    } catch {
-      alert('Eroare la trimitere. Încearcă din nou.');
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res    = await fetch(`/api/dashboard/summary?t=${Date.now()}`);
+        const result = await res.json();
+        setData(result);
+      } catch (err) {
+        console.error('Eroare API Summary:', err);
+      } finally {
+        setLoading(false);
+      }
     }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const el = tableWrapRef.current;
+    if (!el) return;
+    let startY = 0;
+    const onTouchStart = (e: TouchEvent) => { startY = e.touches[0].clientY; };
+    const onTouchMove  = (e: TouchEvent) => {
+      const deltaY   = e.touches[0].clientY - startY;
+      const atTop    = el.scrollTop === 0;
+      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+      if ((atTop && deltaY > 0) || (atBottom && deltaY < 0)) e.preventDefault();
+    };
+    el.addEventListener('touchstart', onTouchStart, { passive: true });
+    el.addEventListener('touchmove',  onTouchMove,  { passive: false });
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchmove',  onTouchMove);
+    };
+  }, []);
+
+  const exportToCSV = () => {
+    if (!data?.guests) return;
+    const headers = ['Nume Invitat', 'Partener', 'Status', 'Adulti', 'Copii'];
+    const rows    = data.guests.map((g: Guest) => [
+      g.guest_name ?? g.full_name ?? g.name ?? '',
+      g.partner_name || '-',
+      g.is_coming ? 'DA' : 'NU',
+      g.adults_count,
+      g.kids_count,
+    ]);
+    const csv  = [headers, ...rows].map(r => r.join(',')).join('\n');
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.setAttribute('href', URL.createObjectURL(blob));
+    link.setAttribute('download', `invitati_astronaut_${data?.weddingDetails?.custom_slug || 'export'}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
-  if (submitted) {
-    return (
-      <div style={{ textAlign: 'center', padding: '32px 16px' }}>
-        <div style={{ fontSize: 44, marginBottom: 12 }}>🪐</div>
-        <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(22px,3.5vw,28px)', fontStyle: 'italic', fontWeight: 400, color: '#F4F6FB', marginBottom: 10 }}>
-          Mulțumim!
-        </h3>
-        <p style={{ fontFamily: "'Cormorant',serif", fontSize: 'clamp(14px,1.8vw,17px)', fontStyle: 'italic', color: '#B8C4E8', lineHeight: 1.8 }}>
-          Confirmarea a fost înregistrată cu succes.<br />Abia așteptăm să vă avem alături!
-        </p>
-      </div>
-    );
-  }
+  if (loading) return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 20px', gap: 14, fontFamily: F.ui, fontSize: FS.xs, letterSpacing: '.28em', textTransform: 'uppercase', color: C.textMuted }}>
+      <div style={{ width: 18, height: 18, border: `1.5px solid rgba(156,182,232,.25)`, borderTopColor: C.accent, borderRadius: '50%', animation: 'ast-spin 1s linear infinite' }} />
+      Se încarcă...
+      <style>{`@keyframes ast-spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }`}</style>
+    </div>
+  );
 
-  const chip = (active: boolean): React.CSSProperties => ({
-    flex: 1, textAlign: 'center', padding: '12px 8px', borderRadius: 12,
-    cursor: 'pointer', userSelect: 'none',
-    border: `1.5px solid ${active ? '#F4D87E' : 'rgba(156,182,232,.25)'}`,
-    background: active ? 'rgba(244,216,126,.14)' : 'rgba(255,255,255,.05)',
-    color: active ? '#F4D87E' : '#F4F6FB',
-    fontFamily: "'Quicksand',sans-serif", fontSize: 13, fontWeight: 700,
-    transition: 'all .18s',
-  });
-
-  const kidsChip = (opt: string): React.CSSProperties => ({
-    flex: '1 0 auto', minWidth: 44, maxWidth: 60, textAlign: 'center',
-    padding: '11px 6px', borderRadius: 12, cursor: 'pointer', userSelect: 'none',
-    border: `1.5px solid ${kids === opt ? '#F4D87E' : 'rgba(156,182,232,.25)'}`,
-    background: kids === opt ? 'rgba(244,216,126,.14)' : 'rgba(255,255,255,.05)',
-    color: kids === opt ? '#F4D87E' : '#F4F6FB',
-    fontFamily: "'Quicksand',sans-serif", fontSize: 13, fontWeight: 700,
-    transition: 'all .18s',
-  });
-
-  const canSubmit = !loading && gdpr && isComing !== null && name.trim().length > 0;
+  const guests: Guest[] = data?.guests ?? [];
+  const stats           = data?.stats  ?? {};
+  const views           = data?.views  ?? 0;
 
   return (
     <>
-      <style>{RSVP_CSS}</style>
-      <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+      <style>{SUMMARY_CSS}</style>
+      <div style={{ animation: 'ast-fade-in .55s ease both', fontFamily: F.mono }}>
 
         {/* HEADER */}
-        <div style={{ textAlign: 'center', marginBottom: 22 }}>
-          <span style={{ fontSize: 34, display: 'block', marginBottom: 8 }}>👨‍🚀</span>
-          <p style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', color: '#9CB6E8', fontWeight: 700, marginBottom: 8 }}>
-            Confirmare Participare
-          </p>
-          <div style={{ width: 36, height: 1, background: 'rgba(244,216,126,.4)', margin: '0 auto' }} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: SP.md, marginBottom: SP.xxl }}>
+          <div>
+            <p style={{ fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.36em', textTransform: 'uppercase', color: C.textFaint, marginBottom: SP.sm }}>
+              Panou Principal
+            </p>
+            <h2 style={{ fontFamily: F.display, fontSize: FS.titleMd, fontWeight: 400, fontStyle: 'italic', color: C.text, margin: 0, lineHeight: 1.1 }}>
+              Centrul de Comandă
+            </h2>
+          </div>
+          {guests.length > 0 && (
+            <button className="ast-export-btn" onClick={exportToCSV} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '9px 16px', borderRadius: BR.pill, background: 'rgba(124,107,196,.08)', border: `1px solid ${C.borderAccent}`, color: C.textMuted, fontFamily: F.ui, fontSize: FS.tiny, fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap', flexShrink: 0 }}>
+              <svg viewBox="0 0 20 20" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
+                <path d="M10 13V4M6 9l4 4 4-4M4 16h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span>Exportă Lista</span>
+            </button>
+          )}
         </div>
 
-        {/* NUME */}
-        <div style={{ marginBottom: 20 }}>
-          <label className="astr-label">Nume și Prenume *</label>
-          <input
-            className="astr-input"
-            required
-            value={name}
-            onChange={e => setName(e.target.value)}
-            placeholder="ex. Maria Ionescu"
-            autoComplete="name"
-            autoCapitalize="words"
-          />
+        {/* STATS GRID */}
+        <div className="ast-stats-grid">
+          {[
+            { icon: '👁️', label: 'Vizualizări',   value: views,                                     color: C.textMuted   },
+            { icon: '✅',  label: 'Confirmați',     value: stats.da     ?? 0,                         color: C.success     },
+            { icon: '❌',  label: 'Refuzuri',       value: stats.nu     ?? 0,                         color: C.error       },
+            { icon: '👥',  label: 'Adulți',         value: stats.adulti ?? 0,                         color: C.gold        },
+            { icon: '👶',  label: 'Copii',          value: stats.copii  ?? 0,                         color: C.accent      },
+          ].map(s => (
+            <div key={s.label} style={{ ...sCard, textAlign: 'center', padding: 'clamp(14px,2.5vw,22px) 10px' }}>
+              <div style={{ fontSize: 'clamp(22px,3.5vw,28px)', marginBottom: 6 }}>{s.icon}</div>
+              <div style={{ fontFamily: F.display, fontSize: FS.stat, fontWeight: 300, color: s.color, lineHeight: 1 }}>
+                {s.value}
+              </div>
+              <div style={{ fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.15em', textTransform: 'uppercase', color: C.textMuted, marginTop: 6, fontWeight: 700 }}>
+                {s.label}
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* PARTICIPARE */}
-        <div style={{ marginBottom: 20 }}>
-          <label className="astr-label">Răspuns *</label>
-          <div style={{ display: 'flex', gap: 10 }}>
-            <div onClick={() => setIsComing(true)}  style={chip(isComing === true)}>✓ Particip</div>
-            <div onClick={() => setIsComing(false)} style={chip(isComing === false)}>✗ Nu pot</div>
+        {/* DIVIDER */}
+        <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: SP.xxl }}>
+          <div style={{ flex: 1, height: 1, background: GR.dividerLeft }} />
+          <svg viewBox="0 0 60 20" width="54" height="18" fill="none" style={{ flexShrink: 0 }}>
+            <path d="M5 10 L20 10" stroke={C.textMuted} strokeWidth=".8" strokeOpacity=".5" />
+            <path d="M40 10 L55 10" stroke={C.textMuted} strokeWidth=".8" strokeOpacity=".5" />
+            <path d="M30 4 Q34 7 34 10 Q34 13 30 16 Q26 13 26 10 Q26 7 30 4Z" fill="none" stroke={C.gold} strokeWidth="1" strokeOpacity=".8" />
+            <circle cx="30" cy="10" r="2" fill={C.gold} fillOpacity=".7" />
+          </svg>
+          <div style={{ flex: 1, height: 1, background: GR.dividerRight }} />
+        </div>
+
+        {/* GUEST TABLE */}
+        <div style={{ ...sCard, padding: 0 }}>
+          <div style={{ padding: 'clamp(16px,3vw,24px)', borderBottom: `1px solid ${C.borderLight}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: SP.md }}>
+            <div>
+              <p style={{ fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.32em', textTransform: 'uppercase', color: C.textFaint, marginBottom: 5 }}>
+                Registrul Invitaților
+              </p>
+              <h3 style={{ fontFamily: F.display, fontSize: 'clamp(16px,3vw,24px)', fontStyle: 'italic', fontWeight: 400, color: C.text, margin: 0 }}>
+                Detalii Răspunsuri
+                {guests.length > 0 && (
+                  <span style={{ fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.18em', color: C.textFaint, marginLeft: 12, fontStyle: 'normal', fontWeight: 700 }}>
+                    {guests.length} {guests.length === 1 ? 'răspuns' : 'răspunsuri'}
+                  </span>
+                )}
+              </h3>
+            </div>
+          </div>
+
+          <div className="ast-table-wrap" ref={tableWrapRef}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 360 }}>
+              <thead>
+                <tr>
+                  <th style={thStyle}>Nume</th>
+                  <th style={thStyle}>Status</th>
+                  <th style={thStyle}>Persoane</th>
+                  <th style={thStyle} className="th-details">Partener / Copii</th>
+                </tr>
+              </thead>
+              <tbody>
+                {guests.length > 0 ? (
+                  guests.map((guest, i) => {
+                    const guestName = guest.guest_name ?? guest.full_name ?? guest.name ?? '—';
+                    const totalPersons = (guest.adults_count ?? 0) + (guest.kids_count ?? 0);
+                    return (
+                      <tr key={guest.id ?? i} className="ast-row" style={{ borderBottom: `1px solid rgba(156,182,232,.07)`, transition: 'background .2s' }}>
+                        <td style={tdStyle}>
+                          <span style={{ fontFamily: F.mono, fontSize: 'clamp(13px,2vw,15px)', fontWeight: 600, color: C.text }}>{guestName}</span>
+                        </td>
+                        <td style={tdStyle}>
+                          {guest.is_coming
+                            ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: BR.pill, background: 'rgba(76,175,80,.14)', border: '1px solid rgba(76,175,80,.28)', fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.12em', fontWeight: 700, color: C.success, whiteSpace: 'nowrap' }}>✓ VINE</span>
+                            : <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: BR.pill, background: 'rgba(232,64,64,.12)', border: '1px solid rgba(232,64,64,.24)', fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.12em', fontWeight: 700, color: C.error, whiteSpace: 'nowrap' }}>✗ NU</span>
+                          }
+                        </td>
+                        <td style={tdStyle}>
+                          <span style={{ fontFamily: F.ui, fontSize: FS.xs, color: C.textSub, letterSpacing: '.06em', fontWeight: 700 }}>
+                            {totalPersons}
+                          </span>
+                        </td>
+                        <td style={tdStyle} className="td-details">
+                          {guest.partner_name && (
+                            <div style={{ marginBottom: guest.kids_count > 0 ? 4 : 0 }}>
+                              <span style={{ fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.14em', textTransform: 'uppercase', color: C.textFaint, display: 'block', marginBottom: 2 }}>Partener</span>
+                              <span style={{ fontFamily: F.mono, fontSize: FS.sm, color: C.textSub }}>{guest.partner_name}</span>
+                            </div>
+                          )}
+                          {guest.kids_count > 0 && (
+                            <div>
+                              <span style={{ fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.14em', textTransform: 'uppercase', color: C.textFaint, display: 'block', marginBottom: 2 }}>Copii</span>
+                              <span style={{ fontFamily: F.mono, fontSize: FS.sm, color: C.textSub }}>{guest.kids_count}</span>
+                            </div>
+                          )}
+                          {!guest.partner_name && !guest.kids_count && (
+                            <span style={{ color: 'rgba(156,182,232,.25)', fontSize: 14 }}>—</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={4} style={{ padding: 'clamp(32px,5vw,56px)', textAlign: 'center' }}>
+                      <div style={{ marginBottom: 10, opacity: .4, fontSize: 40 }}>🪐</div>
+                      <p style={{ fontFamily: F.display, fontSize: 17, fontStyle: 'italic', fontWeight: 400, color: C.textMuted, marginBottom: 5 }}>
+                        Niciun răspuns încă
+                      </p>
+                      <p style={{ fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.22em', textTransform: 'uppercase', color: C.textFaint }}>
+                        Distribuie invitația pentru a primi confirmări
+                      </p>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
 
-        {/* PARTENER + COPII — doar daca vine */}
-        {isComing && (
-          <>
-            <div style={{ marginBottom: 20 }}>
-              <label className="astr-label">Nume Partener (opțional)</label>
-              <input
-                className="astr-input"
-                value={partner}
-                onChange={e => setPartner(e.target.value)}
-                placeholder="ex. Ion Ionescu"
-                autoComplete="off"
-                autoCapitalize="words"
-              />
-              <p style={{ fontFamily: "'Cormorant',serif", fontSize: 12, fontStyle: 'italic', color: 'rgba(156,182,232,.5)', marginTop: 6 }}>
-                Lăsați gol dacă veniți singur/ă.
-              </p>
-            </div>
-
-            <div style={{ marginBottom: 20 }}>
-              <label className="astr-label">Număr Copii</label>
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                {['0','1','2','3','4+'].map(opt => (
-                  <div key={opt} onClick={() => setKids(opt === kids ? '' : opt)} style={kidsChip(opt)}>{opt}</div>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
-
-        {/* GDPR */}
-        <div style={{ background: 'rgba(124,107,196,.08)', border: '1px solid rgba(156,182,232,.16)', borderRadius: 12, padding: '12px 14px', marginBottom: 18 }}>
-          <p style={{ fontFamily: "'Cormorant',serif", fontSize: 12, color: '#B8C4E8', lineHeight: 1.5, marginBottom: 8, fontStyle: 'italic' }}>
-            <strong>🔒 Date Protejate:</strong> Datele tale se colectează și se șterg după 12 luni.{' '}
-            <a href="https://www.vibeinvite.ro/confidentialitate" target="_blank" rel="noopener noreferrer" style={{ color: '#F4D87E', textDecoration: 'underline' }}>Politica</a>
-          </p>
-          <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer' }}>
-            <input
-              type="checkbox"
-              checked={gdpr}
-              onChange={e => setGdpr(e.target.checked)}
-              style={{ marginTop: 3, width: 16, height: 16, accentColor: '#7C6BC4', cursor: 'pointer', flexShrink: 0 }}
-            />
-            <span style={{ fontFamily: "'Cormorant',serif", fontSize: 12, color: '#B8C4E8', fontStyle: 'italic', lineHeight: 1.5 }}>
-              Accept colectarea datelor conform Politicii de Confidențialitate. *
-            </span>
-          </label>
-        </div>
-
-        <button
-          type="submit"
-          className="astr-submit-btn"
-          disabled={!canSubmit}
-          style={{ opacity: canSubmit ? 1 : .5, cursor: canSubmit ? 'pointer' : 'not-allowed' }}
-        >
-          <span style={{ position: 'relative', zIndex: 1 }}>
-            {loading ? '⏳ Se trimite...' : '🚀 Confirmă Participarea'}
-          </span>
-        </button>
-      </form>
+        <div style={{ height: 32 }} />
+      </div>
     </>
   );
-}
+};
 
-const RSVP_CSS = `
-  .astr-label {
-    display: block; font-family: 'Quicksand', sans-serif;
-    font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
-    color: #9CB6E8; font-weight: 700; margin-bottom: 10px;
-  }
-  .astr-input {
-    width: 100%; padding: 13px 14px; border-radius: 12px;
-    border: 1.5px solid rgba(156,182,232,.28);
-    background: rgba(255,255,255,.06);
-    font-family: 'Nunito', sans-serif; font-size: 16px; color: #F4F6FB;
-    outline: none; transition: border-color .2s, box-shadow .2s;
-    box-sizing: border-box; display: block; -webkit-appearance: none;
-  }
-  .astr-input::placeholder { color: rgba(156,182,232,.4); }
-  .astr-input:focus {
-    border-color: rgba(244,216,126,.55);
-    box-shadow: 0 0 0 3px rgba(124,107,196,.18);
-  }
-  .astr-submit-btn {
-    display: block; width: 100%; padding: 15px 0; border-radius: 100px;
-    background: linear-gradient(135deg, #7C6BC4 0%, #5848A0 100%);
-    color: #fff; text-align: center;
-    font-family: 'Quicksand', sans-serif;
-    font-size: clamp(11px,1.3vw,13px); font-weight: 700;
-    letter-spacing: .18em; text-transform: uppercase;
-    border: none; box-shadow: 0 10px 36px rgba(88,72,160,.5);
-    transition: transform .22s, box-shadow .22s;
-    position: relative; overflow: hidden;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .astr-submit-btn:not(:disabled):hover {
-    transform: translateY(-3px);
-    box-shadow: 0 18px 46px rgba(88,72,160,.65);
-  }
-  .astr-submit-btn::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
-    background-size: 350px 100%; animation: astr-shimmer 3s linear infinite;
-  }
-  @keyframes astr-shimmer { 0%{background-position:-350px 0} 100%{background-position:350px 0} }
-  @media(max-width:480px){
-    .astr-input { font-size: 16px; padding: 13px 12px; border-radius: 10px; }
-    .astr-submit-btn { font-size: 12px; }
-  }
-`;
+export default SummarySection;
