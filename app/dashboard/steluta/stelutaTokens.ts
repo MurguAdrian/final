@@ -1,73 +1,63 @@
 export const C = {
-  // Primary palette
-  accent:      '#3A8453',   // verde magic (Matei Radu)
-  accentDark:  '#275E39',
+  accent:      '#059669',
+  accentDark:  '#065F46',
 
-  blush:        '#76C291',   // verde mentă deschis (baghetă)
-  blushLight:   '#E2F7EB',
+  mint:        '#6EE7B7',
+  mintLight:   '#D1FAE5',
 
-  gold:         '#F7CE46',   // galben steluțe / baghetă
-  goldDim:      '#EBB92B',
+  gold:        '#FCD34D',
+  goldDim:     '#FBBF24',
 
-  // Text
-  text:         '#317047',   // verde elegant închis pentru text principal
-  textSub:      '#498F62',
-  textMuted:    '#70A884',
-  textFaint:    'rgba(49,112,71,.45)',
+  text:        '#065F46',
+  textSub:     '#374151',
+  textMuted:   '#6B7280',
+  textFaint:   'rgba(5,95,70,.42)',
 
-  // Backgrounds
-  bgDeep:       '#E7F7F0',   // fundal mentă pastelat foarte deschis
-  bgMid:        '#F3FAF6',
-  bgAccent:     '#D5EFE2',
+  bgDeep:      '#F0FDF9',
+  bgMid:       '#ECFDF5',
+  bgAccent:    '#D1FAE5',
 
-  surface:      'rgba(255,255,255,.85)',
-  surfaceHover: 'rgba(255,255,255,.95)',
+  surface:      'rgba(255,255,255,.82)',
+  surfaceHover: 'rgba(255,255,255,.96)',
 
-  // Borders
-  border:       'rgba(49,112,71,.18)',
-  borderFaint:  'rgba(49,112,71,.08)',
-  borderLight:  'rgba(118,194,145,.35)',
-  borderMed:    'rgba(49,112,71,.35)',
-  borderStrong: 'rgba(39,94,57,.45)',
-  borderGold:   'rgba(247,206,70,.45)',
-  borderAccent: 'rgba(49,112,71,.35)',
+  border:       'rgba(110,231,183,.25)',
+  borderFaint:  'rgba(110,231,183,.10)',
+  borderLight:  'rgba(110,231,183,.22)',
+  borderMed:    'rgba(5,150,105,.3)',
+  borderStrong: 'rgba(5,95,70,.42)',
+  borderGold:   'rgba(252,211,77,.45)',
+  borderAccent: 'rgba(5,150,105,.28)',
 
-  // Floral accents
-  pink1:        '#76C291',   // adaptat la tematica verde/mentă
-  pink2:        '#3A8453',
-  cream:        '#FFF9E3',   // crem deschis / reflexie aurie
+  green1:      '#6EE7B7',
+  green2:      '#34D399',
+  cream:       '#FFFBEB',
 
-  // Status
-  success:      '#7BC8A4',
-  error:        '#E57373',
-  warning:      '#F7CE46',
+  success:     '#34D399',
+  error:       '#E57373',
+  warning:     '#FCD34D',
 
-  // Util
-  white:        '#ffffff',
-  black:        '#000000',
+  white:       '#ffffff',
+  black:       '#000000',
 } as const;
 
-// ─── GRADIENTS ────────────────────────────────────────────────────────────────
 export const GR = {
-  bg: 'linear-gradient(135deg, #E2F5EE 0%, #FAF6E6 100%)', // gradientul fin de pe fundal de la mentă la galben foarte pal
-  header:         'rgba(226,245,238,.93)',
-  sidebar:        'rgba(226,245,238,.96)',
-  btnPrimary:     'linear-gradient(135deg, #3A8453 0%, #275E39 100%)',
-  btnDanger:      'rgba(229,115,115,.13)',
-  btnGhost:       'rgba(58,132,83,.12)',
-  cardChurch:     'linear-gradient(135deg, #3A8453 0%, #225232 100%)',
-  cardRestaurant: 'linear-gradient(135deg, #2D6B43 0%, #1B4228 100%)',
-  flame:          'linear-gradient(180deg, #FFF194 0%, #F7CE46 100%)',
-  rocketBody:     'linear-gradient(180deg, #F3FAF6 0%, #D5EFE2 100%)',
-  dividerLeft:    'linear-gradient(90deg, transparent, rgba(73,143,98,.35), transparent)',
-  dividerRight:   'linear-gradient(90deg, rgba(73,143,98,.35), transparent)',
-  goldDivider:    'linear-gradient(90deg, transparent, rgba(247,206,70,.4), transparent)',
-  statusActive:   'linear-gradient(90deg, rgba(58,132,83,.12), transparent)',
-  statusInactive: 'rgba(247,206,70,.05)',
+  bg: 'radial-gradient(ellipse 80% 60% at 10% 10%, rgba(110,231,183,.18) 0%, transparent 50%), radial-gradient(ellipse 70% 55% at 92% 88%, rgba(252,211,77,.22) 0%, transparent 52%), linear-gradient(148deg, #F0FDF9 0%, #ECFDF5 40%, #FFFBEB 100%)',
+  header:         'rgba(240,253,249,.95)',
+  sidebar:        'rgba(240,253,249,.98)',
+  btnPrimary:     'linear-gradient(135deg, #34D399 0%, #059669 100%)',
+  btnDanger:      'rgba(229,115,115,.08)',
+  btnGhost:       'rgba(5,150,105,.10)',
+  cardChurch:     'linear-gradient(135deg, #34D399 0%, #059669 100%)',
+  cardRestaurant: 'linear-gradient(135deg, #FBBF24 0%, #D97706 100%)',
+  flame:          'linear-gradient(180deg, #FEF3C7 0%, #FCD34D 100%)',
+  rocketBody:     'linear-gradient(180deg, #F0FDF9 0%, #D1FAE5 100%)',
+  dividerLeft:    'linear-gradient(90deg, transparent, rgba(110,231,183,.4), transparent)',
+  dividerRight:   'linear-gradient(90deg, rgba(110,231,183,.4), transparent)',
+  goldDivider:    'linear-gradient(90deg, transparent, rgba(252,211,77,.4), transparent)',
+  statusActive:   'linear-gradient(90deg, rgba(5,150,105,.10), transparent)',
+  statusInactive: 'rgba(252,211,77,.05)',
 } as const;
 
-// Restul constantelor (F, FS, SP, BR, IS, SH, LY, STARS, KEYFRAMES, FONTS_IMPORT) rămân nemodificate conform structurii tale originale.
-// ─── FONTS ────────────────────────────────────────────────────────────────────
 export const F = {
   display: "'Playfair Display', serif",
   heading: "'Quicksand', sans-serif",
@@ -76,7 +66,6 @@ export const F = {
   mono:    "'Nunito', sans-serif",
 } as const;
 
-// ─── FONT SIZES ───────────────────────────────────────────────────────────────
 export const FS = {
   micro:   7,
   tiny:    10,
@@ -98,7 +87,6 @@ export const FS = {
   label:    'clamp(9px,1.8vw,11px)',
 } as const;
 
-// ─── SPACING ─────────────────────────────────────────────────────────────────
 export const SP = {
   xs:      4,
   sm:      8,
@@ -112,7 +100,6 @@ export const SP = {
   mainPadH: 'clamp(14px,4vw,28px)',
 } as const;
 
-// ─── BORDER RADIUS ────────────────────────────────────────────────────────────
 export const BR = {
   xs:   4,
   sm:   8,
@@ -124,7 +111,6 @@ export const BR = {
   pill: 100,
 } as const;
 
-// ─── ICON SIZES ───────────────────────────────────────────────────────────────
 export const IS = {
   xs:  11,
   sm:  13,
@@ -134,20 +120,18 @@ export const IS = {
   xxl: 24,
 } as const;
 
-// ─── SHADOWS ─────────────────────────────────────────────────────────────────
 export const SH = {
-  card:       '0 6px 28px rgba(20,20,50,.3)',
-  cardHover:  '0 18px 48px rgba(80,70,160,.35)',
-  cardLight:  '0 4px 22px rgba(20,20,50,.3)',
-  btnPrimary: '0 10px 36px rgba(88,72,160,.5)',
-  btnHover:   '0 18px 46px rgba(88,72,160,.65)',
-  sidebar:    '4px 0 24px rgba(10,10,30,.3)',
-  header:     '0 2px 20px rgba(10,10,30,.4)',
-  glow:       '0 0 0 3px rgba(124,107,196,.18)',
-  goldGlow:   '0 0 0 3px rgba(244,216,126,.16)',
+  card:       '0 6px 28px rgba(5,150,105,.12)',
+  cardHover:  '0 18px 48px rgba(5,150,105,.2)',
+  cardLight:  '0 4px 22px rgba(5,150,105,.08)',
+  btnPrimary: '0 10px 36px rgba(5,150,105,.38)',
+  btnHover:   '0 18px 46px rgba(5,150,105,.52)',
+  sidebar:    '4px 0 24px rgba(5,150,105,.08)',
+  header:     '0 2px 20px rgba(5,150,105,.08)',
+  glow:       '0 0 0 3px rgba(110,231,183,.22)',
+  goldGlow:   '0 0 0 3px rgba(252,211,77,.18)',
 } as const;
 
-// ─── LAYOUT ───────────────────────────────────────────────────────────────────
 export const LY = {
   sidebarWidth:  240,
   mobileHeaderH: 56,
@@ -158,7 +142,6 @@ export const LY = {
   maxContent:    840,
 } as const;
 
-// ─── STAR CONFIG ─────────────────────────────────────────────────────────────
 export const STARS = [
   { t: '10%', l: '18%', w: 14, d: 2.8, delay: 0 },
   { t: '22%', l: '70%', w: 10, d: 3.4, delay: .5 },
@@ -171,7 +154,6 @@ export const STARS = [
   { t: '60%', l: '8%',  w: 8,  d: 3.9, delay: .9 },
 ] as const;
 
-// ─── KEYFRAMES ───────────────────────────────────────────────────────────────
 export const KEYFRAMES = `
   @keyframes ast-spin       { from{transform:rotate(0deg)}    to{transform:rotate(360deg)} }
   @keyframes ast-fade-in    { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
@@ -189,5 +171,4 @@ export const KEYFRAMES = `
   @keyframes ast-pulse      { 0%,100%{opacity:.42} 50%{opacity:.9} }
 `;
 
-// ─── FONTS IMPORT ─────────────────────────────────────────────────────────────
 export const FONTS_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,300;1,400;1,500&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Quicksand:wght@400;500;600;700&family=Nunito:wght@300;400;600;700&display=swap');`;

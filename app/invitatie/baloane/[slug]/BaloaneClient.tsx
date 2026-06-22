@@ -305,11 +305,6 @@ export default function BaloaneClient(props: Props) {
         <div style={{ fontFamily:"'Cormorant',serif", fontSize:15, fontStyle:'italic', color:'#9D7BB0', letterSpacing:'.04em', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', maxWidth:'40%', textAlign:'center' }}>
           {phase === 'invite' ? (childName || 'Botez') : 'Invitație la Botez'}
         </div>
-        <a href="/invitatii-digitale" style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 14px', borderRadius:100, background:'rgba(167,139,250,.12)', border:'1px solid rgba(167,139,250,.25)', color:'#7C3AED', fontFamily:"'Nunito',sans-serif", fontSize:11, fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase', cursor:'pointer', textDecoration:'none', transition:'all .2s' }}
-          onMouseEnter={e => { const b=e.currentTarget as HTMLAnchorElement; b.style.background='rgba(167,139,250,.2)'; b.style.borderColor='rgba(167,139,250,.4)'; }}
-          onMouseLeave={e => { const b=e.currentTarget as HTMLAnchorElement; b.style.background='rgba(167,139,250,.12)'; b.style.borderColor='rgba(167,139,250,.25)'; }}>
-          <BackArrow /> Înapoi
-        </a>
       </header>
 
       {phase !== 'invite' && (
