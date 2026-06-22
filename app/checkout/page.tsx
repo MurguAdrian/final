@@ -14,7 +14,7 @@ const THEME_STRIPE: Record<string, { productId: string; priceId: string }> = {
   minimal:  { productId: 'prod_UWtBC0f4i3qLIg', priceId: 'price_1TXpP8DLRG6cKGjIWTkmUYUn' },
   romantic: { productId: 'prod_UWtCXrDQ6We3Du', priceId: 'price_1TXpPlDLRG6cKGjIGRosuloE' },
   masinuta: { productId: 'prod_TODO_BOTEZB1',   priceId: 'price_TODO_BOTEZB1' },
-  astronaut:{ productId: 'prod_TODO_BOTEZB2',   priceId: 'price_TODO_BOTEZB2' },
+  astronaut:{ productId: 'prod_UWtCXrDQ6We3Du', priceId: 'price_1TXpPlDLRG6cKGjIGRosuloE' },
   fluture:  { productId: 'prod_TODO_BOTEZF1',   priceId: 'price_TODO_BOTEZF1' },
   baloane:  { productId: 'prod_TODO_BOTEZF2',   priceId: 'price_TODO_BOTEZF2' },
   ursulet:  { productId: 'prod_TODO_BOTEZN1',   priceId: 'price_TODO_BOTEZN1' },
