@@ -11,11 +11,11 @@ const thStyle: React.CSSProperties = {
   color: C.textMuted,
   textAlign: 'left',
   fontWeight: 700,
-  borderBottom: `1px solid ${C.borderLight}`,
+  borderBottom: `1px solid rgba(74,139,194,.14)`,
   whiteSpace: 'nowrap',
   position: 'sticky',
   top: 0,
-  background: 'rgba(20,21,43,.97)',
+  background: 'rgba(240,247,253,.97)',
   zIndex: 2,
 };
 
@@ -26,7 +26,7 @@ const tdStyle: React.CSSProperties = {
 
 const sCard: React.CSSProperties = {
   background: C.surface,
-  border: `1px solid ${C.borderLight}`,
+  border: `1px solid rgba(74,139,194,.14)`,
   borderRadius: BR.card,
   backdropFilter: 'blur(12px)',
   overflow: 'hidden',
@@ -38,11 +38,11 @@ const SUMMARY_CSS = `
   *, *::before, *::after { box-sizing: border-box; }
   @keyframes ast-spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
 
-  .ast-row:hover td { background: rgba(255,255,255,.025) !important; }
+  .ast-row:hover td { background: rgba(74,139,194,.04) !important; }
   .ast-export-btn:hover {
-    background: rgba(124,107,196,.18) !important;
-    border-color: rgba(124,107,196,.45) !important;
-    color: ${C.text} !important;
+    background: rgba(74,139,194,.14) !important;
+    border-color: rgba(74,139,194,.4) !important;
+    color: ${C.accentDark} !important;
   }
   .ast-stats-grid {
     display: grid;
@@ -143,7 +143,7 @@ export function SummarySection() {
 
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 20px', gap: 14, fontFamily: F.ui, fontSize: FS.xs, letterSpacing: '.28em', textTransform: 'uppercase', color: C.textMuted }}>
-      <div style={{ width: 18, height: 18, border: `1.5px solid rgba(156,182,232,.25)`, borderTopColor: C.accent, borderRadius: '50%', animation: 'ast-spin 1s linear infinite' }} />
+      <div style={{ width: 18, height: 18, border: `1.5px solid rgba(74,139,194,.2)`, borderTopColor: C.accent, borderRadius: '50%', animation: 'ast-spin 1s linear infinite' }} />
       Se încarcă...
       <style>{`@keyframes ast-spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }`}</style>
     </div>
@@ -169,7 +169,7 @@ export function SummarySection() {
             </h2>
           </div>
           {guests.length > 0 && (
-            <button className="ast-export-btn" onClick={exportToCSV} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '9px 16px', borderRadius: BR.pill, background: 'rgba(124,107,196,.08)', border: `1px solid ${C.borderAccent}`, color: C.textMuted, fontFamily: F.ui, fontSize: FS.tiny, fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap', flexShrink: 0 }}>
+            <button className="ast-export-btn" onClick={exportToCSV} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '9px 16px', borderRadius: BR.pill, background: 'rgba(74,139,194,.07)', border: `1px solid rgba(74,139,194,.22)`, color: C.textMuted, fontFamily: F.ui, fontSize: FS.tiny, fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', cursor: 'pointer', transition: 'all .2s', whiteSpace: 'nowrap', flexShrink: 0 }}>
               <svg viewBox="0 0 20 20" fill="none" style={{ width: 13, height: 13, flexShrink: 0 }}>
                 <path d="M10 13V4M6 9l4 4 4-4M4 16h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -181,13 +181,13 @@ export function SummarySection() {
         {/* STATS GRID */}
         <div className="ast-stats-grid">
           {[
-            { icon: '👁️', label: 'Vizualizări',   value: views,                                     color: C.textMuted   },
-            { icon: '✅',  label: 'Confirmați',     value: stats.da     ?? 0,                         color: C.success     },
-            { icon: '❌',  label: 'Refuzuri',       value: stats.nu     ?? 0,                         color: C.error       },
-            { icon: '👥',  label: 'Adulți',         value: stats.adulti ?? 0,                         color: C.gold        },
-            { icon: '👶',  label: 'Copii',          value: stats.copii  ?? 0,                         color: C.accent      },
+            { icon: '👁️', label: 'Vizualizări',   value: views,                color: C.textMuted   },
+            { icon: '✅',  label: 'Confirmați',     value: stats.da     ?? 0,    color: C.success     },
+            { icon: '❌',  label: 'Refuzuri',       value: stats.nu     ?? 0,    color: C.error       },
+            { icon: '👥',  label: 'Adulți',         value: stats.adulti ?? 0,    color: C.accentDark  },
+            { icon: '👶',  label: 'Copii',          value: stats.copii  ?? 0,    color: C.accent      },
           ].map(s => (
-            <div key={s.label} style={{ ...sCard, textAlign: 'center', padding: 'clamp(14px,2.5vw,22px) 10px' }}>
+            <div key={s.label} style={{ ...sCard, textAlign: 'center', padding: 'clamp(14px,2.5vw,22px) 10px', boxShadow: SH.cardLight }}>
               <div style={{ fontSize: 'clamp(22px,3.5vw,28px)', marginBottom: 6 }}>{s.icon}</div>
               <div style={{ fontFamily: F.display, fontSize: FS.stat, fontWeight: 300, color: s.color, lineHeight: 1 }}>
                 {s.value}
@@ -205,15 +205,15 @@ export function SummarySection() {
           <svg viewBox="0 0 60 20" width="54" height="18" fill="none" style={{ flexShrink: 0 }}>
             <path d="M5 10 L20 10" stroke={C.textMuted} strokeWidth=".8" strokeOpacity=".5" />
             <path d="M40 10 L55 10" stroke={C.textMuted} strokeWidth=".8" strokeOpacity=".5" />
-            <path d="M30 4 Q34 7 34 10 Q34 13 30 16 Q26 13 26 10 Q26 7 30 4Z" fill="none" stroke={C.gold} strokeWidth="1" strokeOpacity=".8" />
-            <circle cx="30" cy="10" r="2" fill={C.gold} fillOpacity=".7" />
+            <path d="M30 4 Q34 7 34 10 Q34 13 30 16 Q26 13 26 10 Q26 7 30 4Z" fill="none" stroke={C.accent} strokeWidth="1" strokeOpacity=".8" />
+            <circle cx="30" cy="10" r="2" fill={C.accent} fillOpacity=".7" />
           </svg>
           <div style={{ flex: 1, height: 1, background: GR.dividerRight }} />
         </div>
 
         {/* GUEST TABLE */}
-        <div style={{ ...sCard, padding: 0 }}>
-          <div style={{ padding: 'clamp(16px,3vw,24px)', borderBottom: `1px solid ${C.borderLight}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: SP.md }}>
+        <div style={{ ...sCard, padding: 0, boxShadow: SH.card }}>
+          <div style={{ padding: 'clamp(16px,3vw,24px)', borderBottom: `1px solid rgba(74,139,194,.12)`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: SP.md }}>
             <div>
               <p style={{ fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.32em', textTransform: 'uppercase', color: C.textFaint, marginBottom: 5 }}>
                 Registrul Invitaților
@@ -245,14 +245,14 @@ export function SummarySection() {
                     const guestName = guest.guest_name ?? guest.full_name ?? guest.name ?? '—';
                     const totalPersons = (guest.adults_count ?? 0) + (guest.kids_count ?? 0);
                     return (
-                      <tr key={guest.id ?? i} className="ast-row" style={{ borderBottom: `1px solid rgba(156,182,232,.07)`, transition: 'background .2s' }}>
+                      <tr key={guest.id ?? i} className="ast-row" style={{ borderBottom: `1px solid rgba(74,139,194,.08)`, transition: 'background .2s' }}>
                         <td style={tdStyle}>
                           <span style={{ fontFamily: F.mono, fontSize: 'clamp(13px,2vw,15px)', fontWeight: 600, color: C.text }}>{guestName}</span>
                         </td>
                         <td style={tdStyle}>
                           {guest.is_coming
-                            ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: BR.pill, background: 'rgba(76,175,80,.14)', border: '1px solid rgba(76,175,80,.28)', fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.12em', fontWeight: 700, color: C.success, whiteSpace: 'nowrap' }}>✓ VINE</span>
-                            : <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: BR.pill, background: 'rgba(232,64,64,.12)', border: '1px solid rgba(232,64,64,.24)', fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.12em', fontWeight: 700, color: C.error, whiteSpace: 'nowrap' }}>✗ NU</span>
+                            ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: BR.pill, background: 'rgba(76,175,80,.10)', border: '1px solid rgba(76,175,80,.22)', fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.12em', fontWeight: 700, color: C.success, whiteSpace: 'nowrap' }}>✓ VINE</span>
+                            : <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: BR.pill, background: 'rgba(232,64,64,.08)', border: '1px solid rgba(232,64,64,.18)', fontFamily: F.ui, fontSize: FS.micro, letterSpacing: '.12em', fontWeight: 700, color: C.error, whiteSpace: 'nowrap' }}>✗ NU</span>
                           }
                         </td>
                         <td style={tdStyle}>
@@ -274,7 +274,7 @@ export function SummarySection() {
                             </div>
                           )}
                           {!guest.partner_name && !guest.kids_count && (
-                            <span style={{ color: 'rgba(156,182,232,.25)', fontSize: 14 }}>—</span>
+                            <span style={{ color: 'rgba(74,139,194,.25)', fontSize: 14 }}>—</span>
                           )}
                         </td>
                       </tr>
@@ -283,7 +283,7 @@ export function SummarySection() {
                 ) : (
                   <tr>
                     <td colSpan={4} style={{ padding: 'clamp(32px,5vw,56px)', textAlign: 'center' }}>
-                      <div style={{ marginBottom: 10, opacity: .4, fontSize: 40 }}>🪐</div>
+                      <div style={{ marginBottom: 10, opacity: .4, fontSize: 40 }}>🚗</div>
                       <p style={{ fontFamily: F.display, fontSize: 17, fontStyle: 'italic', fontWeight: 400, color: C.textMuted, marginBottom: 5 }}>
                         Niciun răspuns încă
                       </p>

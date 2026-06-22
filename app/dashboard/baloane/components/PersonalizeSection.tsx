@@ -416,7 +416,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
               <input className="ps-input-astr" value={formData.brideName} onChange={setFromEvent('brideName')} placeholder="ex. Zian" />
             </div>
             <div style={{ marginBottom: SP.lg - 2 }}>
-              <label style={sLabel}>Slug (Link Personalizat)</label>
+              <label style={sLabel}>Link Personalizat</label>
               <input className="ps-input-astr" value={formData.customSlug} onChange={e => set('customSlug', e.target.value.toLowerCase().replace(/\s/g, '-'))} placeholder="ex. botez-zian" autoCapitalize="none" autoCorrect="off" />
               <p style={{ fontFamily: F.mono, fontSize: FS.xs, color: C.textMuted, marginTop: SP.xs + 2, fontStyle: 'italic' }}>
                 /invitatie/baloane/<strong style={{ color: C.gold }}>{formData.customSlug || 'slug-tau'}</strong>

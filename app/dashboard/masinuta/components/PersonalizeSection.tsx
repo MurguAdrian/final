@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { C, F, FS, SP, BR, SH, GR, LY, KEYFRAMES } from '../masinutaTokens';
@@ -53,10 +52,11 @@ const buildForm = (data: any): FormState => ({
 
 const sCard: React.CSSProperties = {
   background:     C.surface,
-  border:         `1px solid ${C.border}`,
+  border:         `1px solid rgba(74,139,194,.16)`,
   borderRadius:   BR.card,
   backdropFilter: 'blur(12px)',
   padding:        `clamp(${SP.lg}px,3vw,${SP.xxl + SP.xs}px)`,
+  boxShadow:      SH.cardLight,
 };
 
 const sLabel: React.CSSProperties = {
@@ -74,52 +74,52 @@ const PS_CSS = `
   ${KEYFRAMES}
   .ps-input-astr {
     width: 100%; padding: ${SP.md}px ${SP.lg - 2}px; border-radius: ${BR.md}px;
-    border: 1.5px solid ${C.border}; background: rgba(255,255,255,.06);
+    border: 1.5px solid rgba(74,139,194,.22); background: rgba(255,255,255,.7);
     color: ${C.text}; font-family: ${F.mono}; font-size: ${FS.input}px;
     outline: none; box-sizing: border-box; display: block;
     transition: border-color .2s, box-shadow .2s;
     -webkit-appearance: none; appearance: none;
   }
   .ps-input-astr:focus {
-    border-color: rgba(244,216,126,.55) !important;
+    border-color: rgba(74,139,194,.6) !important;
     box-shadow: ${SH.glow};
   }
   .ps-input-astr::placeholder { color: ${C.textFaint}; }
   .ps-input-astr option { background: ${C.bgMid}; color: ${C.text}; }
   .ps-select-astr {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%239CB6E8' stroke-opacity='.6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%234A8BC2' stroke-opacity='.6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 10px center;
-    background-color: rgba(255,255,255,.06);
+    background-color: rgba(255,255,255,.7);
     padding-right: 28px !important;
     cursor: pointer;
   }
   .ps-gen-btn-astr {
     width: 100%; padding: ${SP.sm + 2}px ${SP.lg - 2}px; border-radius: ${BR.md}px;
-    border: 1.5px dashed ${C.borderAccent}; background: ${GR.btnGhost};
+    border: 1.5px dashed rgba(74,139,194,.35); background: rgba(74,139,194,.06);
     color: ${C.textMuted}; font-family: ${F.ui};
     font-size: ${FS.tiny}px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
     cursor: pointer; transition: all .18s; display: flex; align-items: center;
     justify-content: center; gap: ${SP.xs + 2}px; margin-bottom: ${SP.lg - 2}px;
   }
   .ps-gen-btn-astr:hover:not(:disabled) {
-    background: rgba(124,107,196,.16) !important;
+    background: rgba(74,139,194,.14) !important;
     border-color: ${C.accent} !important;
-    color: ${C.gold} !important;
+    color: ${C.accentDark} !important;
   }
   .ps-gen-btn-astr:disabled { opacity: .4; cursor: not-allowed; }
   .ps-test-btn-astr {
     flex-shrink: 0; padding: 0 10px; height: 44px;
-    background: rgba(124,107,196,.06); border: 1px solid ${C.borderAccent};
+    background: rgba(74,139,194,.06); border: 1px solid rgba(74,139,194,.22);
     border-radius: ${BR.md}px; color: ${C.textMuted};
     font-family: ${F.ui}; font-size: ${FS.tiny}px; font-weight: 700;
     letter-spacing: .12em; text-transform: uppercase; cursor: pointer;
     white-space: nowrap; transition: all .18s; display: flex; align-items: center; gap: ${SP.xs}px;
   }
   .ps-test-btn-astr:hover {
-    background: rgba(124,107,196,.16) !important;
+    background: rgba(74,139,194,.14) !important;
     border-color: ${C.accent} !important;
-    color: ${C.text} !important;
+    color: ${C.accentDark} !important;
   }
   .ps-save-btn-astr {
     width: 100%; padding: ${SP.lg}px 0; border-radius: ${BR.pill}px;
@@ -264,7 +264,7 @@ const CustomTimePicker = ({ value, onChange }: { value: string; onChange: (v: st
         <option value="">Ora</option>
         {Array.from({ length: 24 }, (_, i) => <option key={i} value={String(i).padStart(2,'0')}>{String(i).padStart(2,'0')}</option>)}
       </select>
-      <span style={{ color: C.gold, fontSize: FS.lg, fontWeight: 300, flexShrink: 0, opacity: 0.7 }}>:</span>
+      <span style={{ color: C.accent, fontSize: FS.lg, fontWeight: 300, flexShrink: 0, opacity: 0.7 }}>:</span>
       <select className="ps-input-astr ps-select-astr" style={{ flex: 1 }} value={minutes} onChange={e => handleChange('m', e.target.value)}>
         <option value="">Min</option>
         {Array.from({ length: 60 }, (_, i) => <option key={i} value={String(i).padStart(2,'0')}>{String(i).padStart(2,'0')}</option>)}
@@ -351,33 +351,33 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
         const msg = (err.error || '').toLowerCase();
         if (res.status === 409 || msg.includes('duplicate') || msg.includes('unique') || msg.includes('exist') || msg.includes('slug')) {
           Swal.fire({
-            title: '<span style="color:#f4d87e;font-family:sans-serif;">Link deja utilizat 🚀</span>',
+            title: '<span style="color:#2E6299;font-family:sans-serif;">Link deja utilizat 🚗</span>',
             text: 'Link personalizat deja utilizat de alți părinți. Alege un alt Link unic.',
             icon: 'warning',
-            confirmButtonColor: '#7c6bc4',
-            background: '#0d1117',
-            color: '#c9d1d9',
+            confirmButtonColor: '#4A8BC2',
+            background: '#EAF4FC',
+            color: '#1E466E',
           });
         } else {
           Swal.fire({
-            title: '<span style="color:#f4d87e;font-family:sans-serif;">Eroare la salvare</span>',
+            title: '<span style="color:#2E6299;font-family:sans-serif;">Eroare la salvare</span>',
             text: err.error || 'A apărut o problemă. Încearcă din nou.',
             icon: 'error',
-            confirmButtonColor: '#7c6bc4',
-            background: '#0d1117',
-            color: '#c9d1d9',
+            confirmButtonColor: '#4A8BC2',
+            background: '#EAF4FC',
+            color: '#1E466E',
           });
         }
       }
     } catch {
       setAutoSaveStatus('unsaved');
       Swal.fire({
-        title: '<span style="color:#f4d87e;font-family:sans-serif;">Eroare de conexiune</span>',
+        title: '<span style="color:#2E6299;font-family:sans-serif;">Eroare de conexiune</span>',
         text: 'Nu ne putem conecta la server momentan.',
         icon: 'error',
-        confirmButtonColor: '#7c6bc4',
-        background: '#0d1117',
-        color: '#c9d1d9',
+        confirmButtonColor: '#4A8BC2',
+        background: '#EAF4FC',
+        color: '#1E466E',
       });
     }
     setLoading(false);
@@ -385,7 +385,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
 
   const saveColor =
     autoSaveStatus === 'saved'   ? C.success  :
-    autoSaveStatus === 'unsaved' ? C.gold      :
+    autoSaveStatus === 'unsaved' ? C.accentDark :
     C.textMuted;
 
   return (
@@ -416,10 +416,10 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
               <input className="ps-input-astr" value={formData.brideName} onChange={setFromEvent('brideName')} placeholder="ex. Zian" />
             </div>
             <div style={{ marginBottom: SP.lg - 2 }}>
-              <label style={sLabel}>Slug (Link Personalizat)</label>
+              <label style={sLabel}>Link Personalizat</label>
               <input className="ps-input-astr" value={formData.customSlug} onChange={e => set('customSlug', e.target.value.toLowerCase().replace(/\s/g, '-'))} placeholder="ex. botez-zian" autoCapitalize="none" autoCorrect="off" />
               <p style={{ fontFamily: F.mono, fontSize: FS.xs, color: C.textMuted, marginTop: SP.xs + 2, fontStyle: 'italic' }}>
-                /invitatie/masinuta/<strong style={{ color: C.gold }}>{formData.customSlug || 'slug-tau'}</strong>
+                /invitatie/masinuta/<strong style={{ color: C.accentDark }}>{formData.customSlug || 'slug-tau'}</strong>
               </p>
             </div>
           </div>
@@ -514,7 +514,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
           )}
           <button type="submit" disabled={loading} className="ps-save-btn-astr">
             <span style={{ position: 'relative', zIndex: 1 }}>
-              {loading ? '⏳ Se salvează...' : '🚀 Salvează Modificările'}
+              {loading ? '⏳ Se salvează...' : '🚗 Salvează Modificările'}
             </span>
           </button>
         </div>

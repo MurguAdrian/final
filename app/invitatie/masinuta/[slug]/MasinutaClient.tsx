@@ -287,11 +287,6 @@ export default function MasinutaClient(props: Props) {
         <div style={{ fontFamily:"'Cormorant',serif", fontSize:15, fontStyle:'italic', color:'#5E7C95', letterSpacing:'.04em', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', maxWidth:'40%', textAlign:'center' }}>
           {phase === 'invite' ? (childName || 'Botez') : 'Invitație la Botez'}
         </div>
-        <a href="/invitatii-digitale" style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 14px', borderRadius:100, background:'rgba(74,139,194,.1)', border:'1px solid rgba(74,139,194,.2)', color:'#2E6299', fontFamily:"'Nunito',sans-serif", fontSize:11, fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase', cursor:'pointer', textDecoration:'none', transition:'all .2s' }}
-          onMouseEnter={e => { const b=e.currentTarget as HTMLAnchorElement; b.style.background='rgba(74,139,194,.18)'; b.style.borderColor='rgba(74,139,194,.34)'; }}
-          onMouseLeave={e => { const b=e.currentTarget as HTMLAnchorElement; b.style.background='rgba(74,139,194,.1)'; b.style.borderColor='rgba(74,139,194,.2)'; }}>
-          <BackArrow /> Înapoi
-        </a>
       </header>
 
       {phase !== 'invite' && (
