@@ -71,45 +71,55 @@ const CSS = `
 
 .au-layout { display: grid; grid-template-columns: 400px 1fr; gap: 48px; align-items: start; }
 .au-inv-wrap { position: sticky; top: 72px; }
-.au-inv { width: 100%; max-width: 360px; background: #FEFBF3; border: 1px solid #C9A84C; position: relative; overflow: hidden; padding: 28px 22px 32px; box-shadow: 0 0 0 6px #FEFBF3, 0 0 0 7px #C9A84C; margin: 8px auto; }
 
-.au-corner { position: absolute; width: 56px; height: 56px; opacity: .55; }
-.au-corner.tl { top: 14px; left: 14px; }
-.au-corner.tr { top: 14px; right: 14px; transform: scaleX(-1); }
-.au-corner.bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
-.au-corner.br { bottom: 14px; right: 14px; transform: scale(-1); }
+/* Wrapper care mentine proportia A4 794x1123 */
+.au-inv-ratio { width: 100%; max-width: 360px; margin: 0 auto; position: relative; }
+.au-inv-ratio::before { content: ''; display: block; padding-top: calc(1123 / 794 * 100%); }
+.au-inv-inner { position: absolute; inset: 0; }
 
-.au-divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, #C9A84C 30%, #C9A84C 70%, transparent); margin: 12px 0; opacity: .6; }
-.au-divider-sm { width: 60%; height: 1px; margin: 8px auto; background: linear-gradient(90deg, transparent, #C9A84C 30%, #C9A84C 70%, transparent); opacity: .4; }
+/* Invitatie scalata sa umple wrapper-ul */
+.au-inv-scale { width: 794px; height: 1123px; transform-origin: top left; position: absolute; top: 0; left: 0; }
 
-.au-top { text-align: center; padding: 0 16px; }
-.au-intro { font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: .22em; text-transform: uppercase; color: #8B6914; margin-bottom: 5px; }
-.au-parents { font-size: 11px; color: #5C4A1E; line-height: 1.7; font-style: italic; }
-.au-and { font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: .2em; color: #C9A84C; text-transform: uppercase; margin: 2px 0; }
-.au-names { text-align: center; padding: 4px 0; }
-.au-bride, .au-groom { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 300; font-style: italic; color: #1A1208; line-height: 1.1; }
-.au-amp { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 300; color: #C9A84C; line-height: 1; display: block; margin: 2px 0; }
-.au-invite { text-align: center; font-size: 11px; color: #5C4A1E; line-height: 1.8; padding: 0 14px; font-style: italic; }
-.au-invite strong { font-style: normal; font-family: 'Cinzel', serif; font-size: 7.5px; letter-spacing: .16em; color: #8B6914; display: block; margin-bottom: 4px; }
-.au-date-block { text-align: center; padding: 4px 0; }
-.au-date-main { font-family: 'Cinzel', serif; font-size: 12px; color: #1A1208; letter-spacing: .1em; }
-.au-date-year { font-family: 'Cinzel', serif; font-size: 20px; font-weight: 600; color: #C9A84C; display: block; letter-spacing: .08em; }
-.au-events { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 4px 0; }
-.au-event { text-align: center; padding: 7px 5px; border: 1px solid rgba(201,168,76,.35); border-radius: 4px; background: rgba(201,168,76,.04); }
-.au-ev-label { font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: .16em; color: #C9A84C; text-transform: uppercase; margin-bottom: 3px; }
-.au-ev-name { font-size: 9.5px; color: #1A1208; font-style: italic; line-height: 1.4; margin-bottom: 2px; }
-.au-ev-time { font-family: 'Cinzel', serif; font-size: 8px; color: #8B6914; letter-spacing: .08em; }
-.au-nasi { text-align: center; font-size: 10px; color: #5C4A1E; line-height: 1.7; font-style: italic; padding: 0 10px; }
-.au-nasi strong { font-style: normal; font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: .16em; color: #8B6914; display: block; margin-bottom: 3px; }
-.au-fleuron { font-size: 14px; color: #C9A84C; opacity: .5; display: block; text-align: center; margin: 4px 0; }
-.au-rsvp { text-align: center; padding: 6px 14px; background: rgba(201,168,76,.08); border-top: 1px solid rgba(201,168,76,.3); margin: 8px -22px -32px; font-size: 9px; color: #5C4A1E; font-style: italic; }
+.au-inv { width: 794px; height: 1123px; background: #FEFBF3; border: 2px solid #C9A84C; position: relative; overflow: hidden; padding: 60px 70px 100px; box-sizing: border-box; }
+.au-inv::before { content: ''; position: absolute; inset: 10px; border: 1px solid rgba(201,168,76,.3); pointer-events: none; }
+
+.au-corner { position: absolute; width: 90px; height: 90px; opacity: .55; }
+.au-corner.tl { top: 20px; left: 20px; }
+.au-corner.tr { top: 20px; right: 20px; transform: scaleX(-1); }
+.au-corner.bl { bottom: 20px; left: 20px; transform: scaleY(-1); }
+.au-corner.br { bottom: 20px; right: 20px; transform: scale(-1); }
+
+.au-divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, #C9A84C 30%, #C9A84C 70%, transparent); margin: 20px 0; opacity: .6; }
+.au-divider-sm { width: 50%; height: 1px; margin: 14px auto; background: linear-gradient(90deg, transparent, #C9A84C 30%, #C9A84C 70%, transparent); opacity: .4; }
+
+.au-top { text-align: center; padding: 0 40px; }
+.au-intro { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: .25em; text-transform: uppercase; color: #8B6914; margin-bottom: 8px; }
+.au-parents { font-size: 16px; color: #5C4A1E; line-height: 1.8; font-style: italic; }
+.au-and { font-family: 'Cormorant Garamond', serif; font-size: 13px; letter-spacing: .2em; color: #C9A84C; text-transform: uppercase; margin: 4px 0; }
+.au-names { text-align: center; padding: 8px 0; }
+.au-bride, .au-groom { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; font-style: italic; color: #1A1208; line-height: 1.1; }
+.au-amp { font-family: 'Cormorant Garamond', serif; font-size: 72px; font-weight: 300; color: #C9A84C; line-height: 1; display: block; margin: 4px 0; text-align: center; }
+.au-invite { text-align: center; font-size: 15px; color: #5C4A1E; line-height: 2; padding: 0 60px; font-style: italic; }
+.au-invite strong { font-style: normal; font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: .2em; color: #8B6914; display: block; margin-bottom: 6px; }
+.au-date-block { text-align: center; padding: 6px 0; }
+.au-date-main { font-family: 'Cinzel', serif; font-size: 18px; color: #1A1208; letter-spacing: .12em; }
+.au-date-year { font-family: 'Cinzel', serif; font-size: 32px; font-weight: 600; color: #C9A84C; display: block; letter-spacing: .08em; }
+.au-events { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 6px 0; }
+.au-event { text-align: center; padding: 14px 10px; border: 1px solid rgba(201,168,76,.4); border-radius: 6px; background: rgba(201,168,76,.04); }
+.au-ev-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: .2em; color: #C9A84C; text-transform: uppercase; margin-bottom: 6px; }
+.au-ev-name { font-size: 14px; color: #1A1208; font-style: italic; line-height: 1.5; margin-bottom: 4px; }
+.au-ev-time { font-family: 'Cinzel', serif; font-size: 12px; color: #8B6914; letter-spacing: .1em; }
+.au-nasi { text-align: center; font-size: 15px; color: #5C4A1E; line-height: 1.8; font-style: italic; padding: 0 20px; }
+.au-nasi strong { font-style: normal; font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: .2em; color: #8B6914; display: block; margin-bottom: 4px; }
+.au-fleuron { font-size: 20px; color: #C9A84C; opacity: .5; display: block; text-align: center; margin: 6px 0; }
+.au-rsvp { text-align: center; padding: 14px 30px; background: rgba(201,168,76,.08); border-top: 1px solid rgba(201,168,76,.3); position: absolute; bottom: 0; left: 0; right: 0; font-size: 13px; color: #5C4A1E; font-style: italic; }
 .au-rsvp span { color: #C9A84C; font-style: normal; font-weight: 600; }
 
 .au-wm { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
 .au-wm-grid { position: absolute; inset: -60px; display: flex; flex-direction: column; gap: 0; transform: rotate(-30deg); }
 .au-wm-row { display: flex; gap: 0; white-space: nowrap; }
-.au-wm-item { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: .1em; color: #8B6914; opacity: .22; padding: 18px 20px; white-space: nowrap; user-select: none; }
-.au-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(201,168,76,.18); border-top: 1px solid rgba(201,168,76,.45); padding: 5px 10px; text-align: center; font-size: 9px; color: #8B6914; font-family: 'Cinzel', serif; letter-spacing: .06em; z-index: 25; }
+.au-wm-item { font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: .1em; color: #8B6914; opacity: .22; padding: 28px 30px; white-space: nowrap; user-select: none; }
+.au-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(201,168,76,.18); border-top: 1px solid rgba(201,168,76,.45); padding: 8px 10px; text-align: center; font-size: 11px; color: #8B6914; font-family: 'Cinzel', serif; letter-spacing: .06em; z-index: 25; }
 
 .au-form h2 { font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: .14em; color: #1A1208; margin-bottom: 24px; text-transform: uppercase; border-bottom: 1px solid rgba(201,168,76,.3); padding-bottom: 10px; }
 .au-section { margin-bottom: 18px; }
@@ -146,6 +156,18 @@ const CSS = `
 .au-footer-btn:hover { background: #B8952E; }
 .au-footer-copy { font-size: 11px; color: rgba(26,18,8,.3); margin-top: 16px; font-style: italic; }
 
+.au-alert-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.au-alert-box { background: #fff; border: 1px solid rgba(201,168,76,.3); border-radius: 16px; padding: 36px 28px; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
+.au-alert-icon { font-size: 36px; margin-bottom: 12px; }
+.au-alert-title { font-family: 'Cinzel', serif; font-size: 16px; font-weight: 600; color: #1A1208; letter-spacing: .08em; margin-bottom: 14px; }
+.au-alert-text { font-size: 13px; color: rgba(26,18,8,.65); line-height: 1.8; font-style: italic; margin-bottom: 24px; }
+.au-alert-text strong { font-style: normal; color: #1A1208; }
+.au-alert-btns { display: flex; gap: 10px; }
+.au-alert-cancel { flex: 1; padding: 11px; border: 1.5px solid rgba(201,168,76,.4); border-radius: 8px; background: #fff; color: rgba(26,18,8,.5); font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: .08em; cursor: pointer; }
+.au-alert-confirm { flex: 2; padding: 11px; border: none; border-radius: 8px; background: #C9A84C; color: #1A1208; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: .08em; font-weight: 600; cursor: pointer; }
+.au-alert-cancel:hover { background: rgba(201,168,76,.08); }
+.au-alert-confirm:hover { background: #B8952E; }
+
 @media (max-width: 800px) {
   .au-layout { grid-template-columns: 1fr; gap: 32px; }
   .au-inv-wrap { position: static; }
@@ -160,6 +182,7 @@ export default function InvitatieNuntaAuriu() {
   const [fields, setFields] = useState<Fields>(DEFAULTS)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [showAlert, setShowAlert] = useState(false)
 
   const set = (k: keyof Fields) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setFields(f => ({ ...f, [k]: e.target.value }))
@@ -187,9 +210,9 @@ export default function InvitatieNuntaAuriu() {
     }
   }, [fields])
 
-  const WM_TEXTS = Array(12).fill(null).map((_, i) => (
+  const WM_TEXTS = Array(16).fill(null).map((_, i) => (
     <div key={i} className="au-wm-row">
-      {Array(6).fill(null).map((_, j) => (
+      {Array(8).fill(null).map((_, j) => (
         <span key={j} className="au-wm-item">VibeInvite.ro · 30 lei</span>
       ))}
     </div>
@@ -199,6 +222,25 @@ export default function InvitatieNuntaAuriu() {
     <>
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="au">
+
+        {showAlert && (
+          <div className="au-alert-overlay" onClick={() => setShowAlert(false)}>
+            <div className="au-alert-box" onClick={(e) => e.stopPropagation()}>
+              <div className="au-alert-icon">⚠️</div>
+              <h3 className="au-alert-title">Înainte să continui</h3>
+              <p className="au-alert-text">
+                După efectuarea plății, <strong>salvați imediat</strong> invitația (PDF și JPG) și distribuiți-o.<br /><br />
+                Nu ne asumăm răspunderea pentru fișierele nesalvate sau nedistribuite după descărcare.
+              </p>
+              <div className="au-alert-btns">
+                <button className="au-alert-cancel" onClick={() => setShowAlert(false)}>Anulează</button>
+                <button className="au-alert-confirm" onClick={() => { setShowAlert(false); handlePay() }}>
+                  Am înțeles, continuă
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <header className="au-topbar">
           <Link href="/" className="au-topbar-logo">Vibe<span>Invite</span></Link>
@@ -214,78 +256,86 @@ export default function InvitatieNuntaAuriu() {
           <div className="au-layout">
 
             <div className="au-inv-wrap">
-              <div className="au-inv">
-                <svg className="au-corner tl" viewBox="0 0 56 56" fill="none">
-                  <path d="M2 54 L2 2 L54 2" stroke="#C9A84C" strokeWidth="1" fill="none"/>
-                  <path d="M2 54 Q8 40 2 28 Q8 16 14 8 Q20 2 28 2" stroke="#C9A84C" strokeWidth=".5" fill="none" opacity=".5"/>
-                  <circle cx="2" cy="2" r="2.5" fill="#C9A84C" opacity=".7"/>
-                  <circle cx="28" cy="2" r="1.5" fill="#C9A84C" opacity=".4"/>
-                  <circle cx="2" cy="28" r="1.5" fill="#C9A84C" opacity=".4"/>
-                </svg>
-                <svg className="au-corner tr" viewBox="0 0 56 56" fill="none">
-                  <path d="M2 54 L2 2 L54 2" stroke="#C9A84C" strokeWidth="1" fill="none"/>
-                  <path d="M2 54 Q8 40 2 28 Q8 16 14 8 Q20 2 28 2" stroke="#C9A84C" strokeWidth=".5" fill="none" opacity=".5"/>
-                  <circle cx="2" cy="2" r="2.5" fill="#C9A84C" opacity=".7"/>
-                </svg>
-                <svg className="au-corner bl" viewBox="0 0 56 56" fill="none">
-                  <path d="M2 54 L2 2 L54 2" stroke="#C9A84C" strokeWidth="1" fill="none"/>
-                  <path d="M2 54 Q8 40 2 28 Q8 16 14 8 Q20 2 28 2" stroke="#C9A84C" strokeWidth=".5" fill="none" opacity=".5"/>
-                  <circle cx="2" cy="2" r="2.5" fill="#C9A84C" opacity=".7"/>
-                </svg>
-                <svg className="au-corner br" viewBox="0 0 56 56" fill="none">
-                  <path d="M2 54 L2 2 L54 2" stroke="#C9A84C" strokeWidth="1" fill="none"/>
-                  <path d="M2 54 Q8 40 2 28 Q8 16 14 8 Q20 2 28 2" stroke="#C9A84C" strokeWidth=".5" fill="none" opacity=".5"/>
-                  <circle cx="2" cy="2" r="2.5" fill="#C9A84C" opacity=".7"/>
-                </svg>
+              <div className="au-inv-ratio">
+                <div className="au-inv-inner">
+                  <div
+                    className="au-inv-scale"
+                    style={{ transform: `scale(${360 / 794})` }}
+                  >
+                    <div className="au-inv">
+                      <svg className="au-corner tl" viewBox="0 0 90 90" fill="none">
+                        <path d="M4 86 L4 4 L86 4" stroke="#C9A84C" strokeWidth="1.5" fill="none"/>
+                        <path d="M4 86 Q12 64 4 46 Q12 28 22 14 Q34 4 46 4" stroke="#C9A84C" strokeWidth=".8" fill="none" opacity=".5"/>
+                        <circle cx="4" cy="4" r="4" fill="#C9A84C" opacity=".7"/>
+                        <circle cx="46" cy="4" r="2.5" fill="#C9A84C" opacity=".4"/>
+                        <circle cx="4" cy="46" r="2.5" fill="#C9A84C" opacity=".4"/>
+                      </svg>
+                      <svg className="au-corner tr" viewBox="0 0 90 90" fill="none">
+                        <path d="M4 86 L4 4 L86 4" stroke="#C9A84C" strokeWidth="1.5" fill="none"/>
+                        <path d="M4 86 Q12 64 4 46 Q12 28 22 14 Q34 4 46 4" stroke="#C9A84C" strokeWidth=".8" fill="none" opacity=".5"/>
+                        <circle cx="4" cy="4" r="4" fill="#C9A84C" opacity=".7"/>
+                      </svg>
+                      <svg className="au-corner bl" viewBox="0 0 90 90" fill="none">
+                        <path d="M4 86 L4 4 L86 4" stroke="#C9A84C" strokeWidth="1.5" fill="none"/>
+                        <path d="M4 86 Q12 64 4 46 Q12 28 22 14 Q34 4 46 4" stroke="#C9A84C" strokeWidth=".8" fill="none" opacity=".5"/>
+                        <circle cx="4" cy="4" r="4" fill="#C9A84C" opacity=".7"/>
+                      </svg>
+                      <svg className="au-corner br" viewBox="0 0 90 90" fill="none">
+                        <path d="M4 86 L4 4 L86 4" stroke="#C9A84C" strokeWidth="1.5" fill="none"/>
+                        <path d="M4 86 Q12 64 4 46 Q12 28 22 14 Q34 4 46 4" stroke="#C9A84C" strokeWidth=".8" fill="none" opacity=".5"/>
+                        <circle cx="4" cy="4" r="4" fill="#C9A84C" opacity=".7"/>
+                      </svg>
 
-                <div className="au-top">
-                  <p className="au-intro">Cu binecuvântarea părinților</p>
-                  <p className="au-parents">{fields.parentsGroom}</p>
-                  <p className="au-and">și</p>
-                  <p className="au-parents">{fields.parentsBride}</p>
-                </div>
-                <div className="au-divider" />
-                <div className="au-names">
-                  <p className="au-bride">{fields.bride || 'Mireasă'}</p>
-                  <span className="au-amp">&amp;</span>
-                  <p className="au-groom">{fields.groom || 'Mire'}</p>
-                </div>
-                <div className="au-divider-sm" />
-                <span className="au-fleuron">✦</span>
-                <div className="au-invite">
-                  <strong>vă invită cu drag la nunta lor</strong>
-                  Vă așteptăm alături de noi în ziua<br />în care ne unim destinele
-                </div>
-                <div className="au-divider-sm" />
-                <div className="au-date-block">
-                  <p className="au-date-main">{weddingDateFormatted || 'Ziua nunții'}</p>
-                  <span className="au-date-year">{weddingYear}</span>
-                </div>
-                <div className="au-divider" />
-                <div className="au-events">
-                  <div className="au-event">
-                    <p className="au-ev-label">Cununie</p>
-                    <p className="au-ev-name">{fields.church || 'Biserica'}</p>
-                    <p className="au-ev-time">ora {fields.churchTime}</p>
+                      <div className="au-top">
+                        <p className="au-intro">Cu binecuvântarea părinților</p>
+                        <p className="au-parents">{fields.parentsGroom}</p>
+                        <p className="au-and">și</p>
+                        <p className="au-parents">{fields.parentsBride}</p>
+                      </div>
+                      <div className="au-divider" />
+                      <div className="au-names">
+                        <p className="au-bride">{fields.bride || 'Mireasă'}</p>
+                        <span className="au-amp">&amp;</span>
+                        <p className="au-groom">{fields.groom || 'Mire'}</p>
+                      </div>
+                      <div className="au-divider-sm" />
+                      <span className="au-fleuron">✦</span>
+                      <div className="au-invite">
+                        <strong>vă invită cu drag la nunta lor</strong>
+                        Vă așteptăm alături de noi în ziua în care ne unim destinele
+                      </div>
+                      <div className="au-divider-sm" />
+                      <div className="au-date-block">
+                        <p className="au-date-main">{weddingDateFormatted || 'Ziua nunții'}</p>
+                        <span className="au-date-year">{weddingYear}</span>
+                      </div>
+                      <div className="au-divider" />
+                      <div className="au-events">
+                        <div className="au-event">
+                          <p className="au-ev-label">Cununie</p>
+                          <p className="au-ev-name">{fields.church || 'Biserica'}</p>
+                          <p className="au-ev-time">ora {fields.churchTime}</p>
+                        </div>
+                        <div className="au-event">
+                          <p className="au-ev-label">Recepție</p>
+                          <p className="au-ev-name">{fields.restaurant || 'Restaurantul'}</p>
+                          <p className="au-ev-time">ora {fields.restTime}</p>
+                        </div>
+                      </div>
+                      <div className="au-divider-sm" />
+                      <div className="au-nasi">
+                        <strong>Nași de cununie</strong>
+                        {fields.nasi}
+                      </div>
+                      <div className="au-rsvp">
+                        Confirmați prezența până pe <span>{rsvpFormatted || fields.rsvpDate}</span> &nbsp;·&nbsp; Tel: <span>{fields.rsvpTel}</span>
+                      </div>
+                      <div className="au-wm">
+                        <div className="au-wm-grid">{WM_TEXTS}</div>
+                        <div className="au-wm-notice">Watermark dispare după plata de 30 lei</div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="au-event">
-                    <p className="au-ev-label">Recepție</p>
-                    <p className="au-ev-name">{fields.restaurant || 'Restaurantul'}</p>
-                    <p className="au-ev-time">ora {fields.restTime}</p>
-                  </div>
-                </div>
-                <div className="au-divider-sm" />
-                <div className="au-nasi">
-                  <strong>Nași de cununie</strong>
-                  {fields.nasi}
-                </div>
-                <div className="au-rsvp">
-                  Confirmați prezența până pe <span>{rsvpFormatted || fields.rsvpDate}</span><br />
-                  Tel: <span>{fields.rsvpTel}</span>
-                </div>
-                <div className="au-wm">
-                  <div className="au-wm-grid">{WM_TEXTS}</div>
-                  <div className="au-wm-notice">Watermark dispare după plata de 30 lei</div>
                 </div>
               </div>
             </div>
@@ -326,20 +376,9 @@ export default function InvitatieNuntaAuriu() {
                 <p className="au-section-label">Data nunții</p>
                 <div className="au-grid1">
                   <div className="au-date-wrap">
-                    <input
-                      className="au-input"
-                      type="text"
-                      placeholder="ZZ.LL.AAAA"
-                      readOnly
-                      value={formatDisplayDate(fields.weddingDate)}
-                    />
+                    <input className="au-input" type="text" placeholder="ZZ.LL.AAAA" readOnly value={formatDisplayDate(fields.weddingDate)} />
                     <span className="au-cal-icon">📅</span>
-                    <input
-                      className="au-date-native"
-                      type="date"
-                      value={fields.weddingDate}
-                      onChange={(e) => setFields(f => ({ ...f, weddingDate: e.target.value }))}
-                    />
+                    <input className="au-date-native" type="date" value={fields.weddingDate} onChange={(e) => setFields(f => ({ ...f, weddingDate: e.target.value }))} />
                   </div>
                 </div>
               </div>
@@ -349,14 +388,7 @@ export default function InvitatieNuntaAuriu() {
                 <div className="au-grid2">
                   <input className="au-input" placeholder="Numele bisericii" value={fields.church} onChange={set('church')} />
                   <div className="au-input-wrap">
-                    <input
-                      className="au-input"
-                      type="text"
-                      placeholder="13:00"
-                      maxLength={5}
-                      value={fields.churchTime}
-                      onChange={(e) => setFields(f => ({ ...f, churchTime: e.target.value.replace(/[^0-9:]/g, '') }))}
-                    />
+                    <input className="au-input" type="text" placeholder="13:00" maxLength={5} value={fields.churchTime} onChange={(e) => setFields(f => ({ ...f, churchTime: e.target.value.replace(/[^0-9:]/g, '') }))} />
                     <span className="au-input-hint">HH:MM</span>
                   </div>
                 </div>
@@ -367,14 +399,7 @@ export default function InvitatieNuntaAuriu() {
                 <div className="au-grid2">
                   <input className="au-input" placeholder="Numele restaurantului" value={fields.restaurant} onChange={set('restaurant')} />
                   <div className="au-input-wrap">
-                    <input
-                      className="au-input"
-                      type="text"
-                      placeholder="19:00"
-                      maxLength={5}
-                      value={fields.restTime}
-                      onChange={(e) => setFields(f => ({ ...f, restTime: e.target.value.replace(/[^0-9:]/g, '') }))}
-                    />
+                    <input className="au-input" type="text" placeholder="19:00" maxLength={5} value={fields.restTime} onChange={(e) => setFields(f => ({ ...f, restTime: e.target.value.replace(/[^0-9:]/g, '') }))} />
                     <span className="au-input-hint">HH:MM</span>
                   </div>
                 </div>
@@ -384,20 +409,9 @@ export default function InvitatieNuntaAuriu() {
                 <p className="au-section-label">RSVP</p>
                 <div className="au-grid2">
                   <div className="au-date-wrap">
-                    <input
-                      className="au-input"
-                      type="text"
-                      placeholder="ZZ.LL.AAAA"
-                      readOnly
-                      value={formatDisplayDate(fields.rsvpDate)}
-                    />
+                    <input className="au-input" type="text" placeholder="ZZ.LL.AAAA" readOnly value={formatDisplayDate(fields.rsvpDate)} />
                     <span className="au-cal-icon">📅</span>
-                    <input
-                      className="au-date-native"
-                      type="date"
-                      value={fields.rsvpDate}
-                      onChange={(e) => setFields(f => ({ ...f, rsvpDate: e.target.value }))}
-                    />
+                    <input className="au-date-native" type="date" value={fields.rsvpDate} onChange={(e) => setFields(f => ({ ...f, rsvpDate: e.target.value }))} />
                   </div>
                   <input className="au-input" type="tel" placeholder="Nr. telefon" value={fields.rsvpTel} onChange={set('rsvpTel')} />
                 </div>
@@ -405,7 +419,7 @@ export default function InvitatieNuntaAuriu() {
 
               {error && <div className="au-error">⚠️ {error}</div>}
 
-              <button className="au-pay-btn" onClick={handlePay} disabled={loading}>
+              <button className="au-pay-btn" onClick={() => setShowAlert(true)} disabled={loading}>
                 {loading ? 'Se procesează...' : '🔒 Plătește 30 lei și descarcă'}
               </button>
               <p className="au-pay-note">
