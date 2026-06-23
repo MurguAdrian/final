@@ -14,6 +14,10 @@ const REGISTRY: Record<string, (fields: Record<string, string>) => string> = {
   // 'invitatie-nunta-pdf-royal': buildHTML_royal,
 }
 
+function toBase64(str: string): string {
+  return Buffer.from(str, 'utf-8').toString('base64')
+}
+
 async function renderPDF(html: string): Promise<Uint8Array> {
   const res = await fetch('https://api.doppio.sh/v1/render/pdf/direct', {
     method: 'POST',
@@ -23,7 +27,10 @@ async function renderPDF(html: string): Promise<Uint8Array> {
     },
     body: JSON.stringify({
       page: {
-        setContent: { html },
+        setContent: {
+          html: toBase64(html),
+          options: { waitUntil: ['networkidle0'] },
+        },
         pdf: {
           printBackground: true,
           width: '794px',
@@ -45,16 +52,19 @@ async function renderJPG(html: string): Promise<Uint8Array> {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
+      launch: {
+        defaultViewport: { width: 794, height: 1123 },
+      },
       page: {
-        setContent: { html },
+        setContent: {
+          html: toBase64(html),
+          options: { waitUntil: ['networkidle0'] },
+        },
         screenshot: {
           type: 'jpeg',
           quality: 95,
           fullPage: false,
         },
-      },
-      launch: {
-        defaultViewport: { width: 794, height: 1123 },
       },
     }),
   })
