@@ -9,6 +9,8 @@ export async function POST(req: Request) {
   try {
     const { fields, template } = await req.json()
 
+    const origin = req.headers.get('origin') || req.headers.get('referer')?.split('/').slice(0,3).join('/') || 'https://www.vibeinvite.ro'
+
     const fieldsStr = JSON.stringify(fields)
     if (fieldsStr.length > 490) {
       return NextResponse.json({ error: 'Datele introduse sunt prea lungi. Scurtează textele și încearcă din nou.' }, { status: 400 })
@@ -16,14 +18,9 @@ export async function POST(req: Request) {
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      line_items: [
-        {
-          price: 'price_1TlThUDLRG6cKGjIZat9Jjvp',
-          quantity: 1,
-        },
-      ],
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/invitatii-pdf/download?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/${template}`,
+      line_items: [{ price: 'price_1TlThUDLRG6cKGjIZat9Jjvp', quantity: 1 }],
+      success_url: `${origin}/api/invitatii-pdf/download?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/${template}`,
       metadata: {
         template,
         fields: fieldsStr,
