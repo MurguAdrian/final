@@ -475,11 +475,11 @@ export default function StelutaInviteClient(props: Props) {
                   <span style={{ display:'block', fontFamily:"'Playfair Display',serif", fontSize:'clamp(48px,9vw,100px)', fontWeight:600, fontStyle:'italic', lineHeight:.95, background:'linear-gradient(135deg,#059669,#D97706)', WebkitBackgroundClip:'text', backgroundClip:'text', color:'transparent' }}>
                     {childName}
                   </span>
-                  {parentsNames && (
+                  {/* {parentsNames && (
                     <span style={{ fontFamily:"'Cormorant',serif", fontSize:'clamp(14px,1.8vw,19px)', fontStyle:'italic', color:'#6B7280', display:'block', marginTop:6 }}>
                       Fiul lui {parentsNames}
                     </span>
-                  )}
+                  )} */}
                 </div>
                 <div style={{ width:60, animation:'stl-starSpin 8s linear infinite reverse', flexShrink:0 }}><WandSVG /></div>
               </div>

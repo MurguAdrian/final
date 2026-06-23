@@ -351,11 +351,11 @@ export default function AstronautInviteClient(props: Props) {
               <span style={{ display: 'block', fontFamily: "'Playfair Display',serif", fontSize: 'clamp(52px,9vw,100px)', fontWeight: 500, fontStyle: 'italic', color: '#F4F6FB', lineHeight: .95, textShadow: '0 4px 32px rgba(124,107,196,.5)', letterSpacing: '-.01em' }}>
                 {childName}
               </span>
-              {parentsNames && (
+              {/* {parentsNames && (
                 <span style={{ display: 'block', fontFamily: "'Cormorant',serif", fontSize: 'clamp(14px,1.9vw,19px)', fontStyle: 'italic', color: '#B8C4E8', marginTop: 6 }}>
                   Fiul lui {parentsNames}
                 </span>
-              )}
+              )} */}
             </div>
 
             {/* COUNTDOWN */}
