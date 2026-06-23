@@ -1,13 +1,15 @@
-// // /** @type {import('next').NextConfig} */
-// // const nextConfig = {
-// //   reactStrictMode: true,
-// // };
-
-// // module.exports = nextConfig;
 
 // /** @type {import('next').NextConfig} */
 // const nextConfig = {
 //   reactStrictMode: true,
+//   images: {
+//     remotePatterns: [
+//       {
+//         protocol: 'https',
+//         hostname: 'res.cloudinary.com',
+//       },
+//     ],
+//   },
 //   async headers() {
 //     return [
 //       {
@@ -37,10 +39,10 @@
 // };
 
 // module.exports = nextConfig;
-// next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  serverExternalPackages: ['@sparticuz/chromium', 'puppeteer-core'],
   images: {
     remotePatterns: [
       {

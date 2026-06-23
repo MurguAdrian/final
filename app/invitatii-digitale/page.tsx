@@ -2048,8 +2048,8 @@ export default function InvitatiiDigitalePage() {
 
           <div className="vid-cta">
             <h2 className="vid-cta-h">Ai ales tema? <em>Pasul următor e simplu.</em></h2>
-            <p className="vid-cta-sub">Toate cele 13 teme sunt incluse în pachetul de 300 lei. Poți schimba tema oricând.</p>
-            <div><p className="vid-cta-pill"><span aria-hidden="true">💸</span>300 Lei · Plată Unică · Toate Temele Incluse</p></div>
+            <p className="vid-cta-sub">Toate cele 13 teme sunt incluse în pachetul de 300 lei</p>
+            <div><p className="vid-cta-pill"><span aria-hidden="true">💸</span>300 Lei · Plată Unică </p></div>
             <div style={{ marginTop: 8 }}>
               <Link href="/checkout" className="vid-cta-btn">
                 <span aria-hidden="true">✨</span>Creează Invitația

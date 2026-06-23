@@ -384,7 +384,6 @@ const TICKER = [
 
 const FAQ = [
   { q: 'Cât durează să primesc răspuns?', a: 'Răspundem în maximum 24h, de obicei în câteva ore în timpul programului.' },
-  { q: 'Pot schimba tema după activare?', a: 'Da, poți modifica tema și conținutul oricând, fără costuri suplimentare.' },
   { q: 'Oferiți ajutor la setup?', a: 'Absolut — te ghidăm pas cu pas până când invitația este trimisă primului invitat.' },
 ]
 
