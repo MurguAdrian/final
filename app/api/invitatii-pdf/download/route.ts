@@ -1,11 +1,20 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { buildHTML as buildHTML_auriu } from '@/app/(invitatii-pdf)/invitatie-nunta-pdf-auriu/buildHTML'
+// import { buildHTML as buildHTML_royal } from '@/app/(invitatii-pdf)/invitatie-nunta-pdf-royal/buildHTML'
+// import { buildHTML as buildHTML_botez_bleu } from '@/app/(invitatii-pdf)/invitatie-botez-pdf-bleu/buildHTML'
 
 export const maxDuration = 60
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
   apiVersion: '2026-04-22.dahlia' as any,
 })
+
+const REGISTRY: Record<string, (fields: Record<string, string>) => string> = {
+  'invitatie-nunta-pdf-auriu': buildHTML_auriu,
+  // 'invitatie-nunta-pdf-royal': buildHTML_royal,
+  // 'invitatie-botez-pdf-bleu': buildHTML_botez_bleu,
+}
 
 async function renderFile(html: string, format: 'pdf' | 'jpg'): Promise<Uint8Array> {
   const chromium = await import('@sparticuz/chromium')
@@ -19,8 +28,8 @@ async function renderFile(html: string, format: 'pdf' | 'jpg'): Promise<Uint8Arr
   })
   const page = await browser.newPage()
   await page.setViewport({ width: 794, height: 1123 })
-  await page.setContent(html, { waitUntil: 'load' })
-  await new Promise(r => setTimeout(r, 2000))
+ await page.setContent(html, { waitUntil: 'load' })
+  await new Promise(r => setTimeout(r, 1500))
 
   let bytes: Uint8Array
   if (format === 'jpg') {
@@ -57,20 +66,19 @@ export async function GET(req: Request) {
     const filename = `invitatie-${fields.bride || fields.babyName || 'vibeinvite'}`
 
     if (format === 'pdf' || format === 'jpg') {
-      let buildHTML: (fields: Record<string, string>) => string
-      try {
-        const mod = await import(`@/app/(invitatii-pdf)/${template}/buildHTML`)
-        buildHTML = mod.buildHTML
-      } catch {
+      const buildHTML = REGISTRY[template]
+      if (!buildHTML) {
         return new NextResponse(`Template necunoscut: ${template}`, { status: 400 })
       }
 
       const html = buildHTML(fields)
       const bytes = await renderFile(html, format)
+
       return new Response(bytes.buffer as ArrayBuffer, {
         headers: {
           'Content-Type': format === 'pdf' ? 'application/pdf' : 'image/jpeg',
           'Content-Disposition': `attachment; filename="${filename}.${format}"`,
+          'Cache-Control': 'no-store',
         },
       })
     }
@@ -82,6 +90,6 @@ export async function GET(req: Request) {
 
   } catch (err: any) {
     console.error('Download error:', err)
-    return new NextResponse('Eroare la generare. Te rugăm să încerci din nou.', { status: 500 })
+    return new NextResponse(`Eroare: ${err.message}`, { status: 500 })
   }
 }
