@@ -221,7 +221,85 @@ function PreviewAuriu() {
     </div>
   )
 }
+function PreviewVara() {
+  return (
+    <div style={{ width:'794px', height:'1123px', background:'#D1E2D3', position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', fontFamily:"'Montserrat',sans-serif" }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400&family=Montserrat:wght@300;400;500&display=swap');`}</style>
 
+      {/* Frunza dreapta sus */}
+      <svg style={{ position:'absolute', top:'36px', right:'52px', opacity:.55 }} width="52" height="90" viewBox="0 0 52 90" fill="none">
+        <path d="M26 88 C26 88 2 60 2 34 C2 16 12 2 26 2 C40 2 50 16 50 34 C50 60 26 88 26 88Z" fill="#5F8575" opacity=".35"/>
+        <path d="M26 88 L26 2" stroke="#1B3B2B" strokeWidth=".8" opacity=".4"/>
+        <path d="M26 30 C16 24 8 20 4 16" stroke="#1B3B2B" strokeWidth=".6" opacity=".25"/>
+        <path d="M26 45 C36 38 44 34 48 30" stroke="#1B3B2B" strokeWidth=".6" opacity=".25"/>
+      </svg>
+
+      {/* Frunza stanga jos */}
+      <svg style={{ position:'absolute', bottom:'72px', left:'44px', opacity:.5, transform:'rotate(15deg)' }} width="44" height="76" viewBox="0 0 44 76" fill="none">
+        <path d="M22 74 C22 74 2 50 2 28 C2 13 10 2 22 2 C34 2 42 13 42 28 C42 50 22 74 22 74Z" fill="#5F8575" opacity=".3"/>
+        <path d="M22 74 L22 2" stroke="#1B3B2B" strokeWidth=".7" opacity=".35"/>
+        <path d="M22 25 C14 20 8 17 4 14" stroke="#1B3B2B" strokeWidth=".5" opacity=".22"/>
+        <path d="M22 38 C30 32 36 29 40 26" stroke="#1B3B2B" strokeWidth=".5" opacity=".22"/>
+      </svg>
+
+      {/* Zona superioara */}
+      <div style={{ flex:'0 0 35%', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'flex-end', padding:'48px 80px 32px' }}>
+        <p style={{ fontSize:'8px', fontWeight:300, letterSpacing:'.32em', textTransform:'uppercase', color:'#1B3B2B', opacity:.65, textAlign:'center', marginBottom:'18px' }}>Cu bucurie vă invităm la nunta noastră</p>
+        <div style={{ textAlign:'center' }}>
+          <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'14px', fontWeight:300, fontStyle:'italic', color:'#1B3B2B', lineHeight:'2' }}>Ion și Maria Popescu</p>
+          <span style={{ fontSize:'7px', letterSpacing:'.28em', textTransform:'uppercase', color:'#5F8575', margin:'2px 0', display:'block' }}>și</span>
+          <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'14px', fontWeight:300, fontStyle:'italic', color:'#1B3B2B', lineHeight:'2' }}>Gheorghe și Elena Ionescu</p>
+        </div>
+      </div>
+
+      {/* Banda acuarela */}
+      <div style={{ flex:'0 0 auto', position:'relative' }}>
+        <svg style={{ display:'block', width:'100%' }} viewBox="0 0 794 200" preserveAspectRatio="none">
+          <defs>
+            <filter id="wcp" x="-5%" y="-5%" width="110%" height="110%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.035 0.06" numOctaves="4" seed="8" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+              <feGaussianBlur in="displaced" stdDeviation="1.2" result="blurred"/>
+              <feComposite in="blurred" in2="SourceGraphic" operator="in"/>
+            </filter>
+          </defs>
+          <path d="M-10 28 Q60 18 160 24 Q280 32 400 20 Q520 8 640 22 Q720 30 804 18 L804 172 Q740 182 620 176 Q500 168 380 180 Q260 192 140 178 Q60 170 -10 180 Z" fill="#5F8575" filter="url(#wcp)" opacity=".88"/>
+          <path d="M-10 38 Q80 26 200 34 Q340 44 460 30 Q580 16 700 32 Q760 40 804 28 L804 162 Q730 174 600 166 Q470 158 350 170 Q220 182 100 168 Q40 162 -10 170 Z" fill="#5F8575" filter="url(#wcp)" opacity=".35"/>
+        </svg>
+        <div style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
+          <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'58px', fontWeight:300, fontStyle:'italic', color:'#FDFBF7', lineHeight:1.05 }}>Andreea</p>
+          <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'36px', fontWeight:300, fontStyle:'italic', color:'rgba(253,251,247,.7)', lineHeight:1, display:'block', textAlign:'center' }}>&amp;</span>
+          <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'58px', fontWeight:300, fontStyle:'italic', color:'#FDFBF7', lineHeight:1.05 }}>Alexandru</p>
+        </div>
+      </div>
+
+      {/* Zona inferioara */}
+      <div style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', padding:'28px 80px 80px' }}>
+        <p style={{ fontSize:'7.5px', fontWeight:300, letterSpacing:'.28em', textTransform:'uppercase', color:'#1B3B2B', opacity:.6, marginBottom:'24px', textAlign:'center' }}>vă invită cu drag la celebrarea căsătoriei lor</p>
+        <div style={{ width:'40px', height:'1px', background:'#5F8575', opacity:.5, margin:'0 auto 24px' }} />
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontWeight:300, fontStyle:'italic', color:'#1B3B2B', letterSpacing:'.06em', textAlign:'center', marginBottom:'4px' }}>Sâmbătă, 14 Iunie</p>
+        <p style={{ fontSize:'11px', fontWeight:300, letterSpacing:'.32em', textTransform:'uppercase', color:'#5F8575', textAlign:'center', marginBottom:'28px' }}>2025</p>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', width:'100%', marginBottom:'24px' }}>
+          {[['Cununie','Biserica Sf. Nicolae','13:00',true],['Recepție','Restaurant Dolce Vita','18:00',false]].map(([label,name,time,border]) => (
+            <div key={label as string} style={{ textAlign:'center', padding:'16px 12px', borderRight: border ? '1px solid rgba(95,133,117,.25)' : 'none' }}>
+              <p style={{ fontSize:'7px', fontWeight:500, letterSpacing:'.24em', textTransform:'uppercase', color:'#5F8575', marginBottom:'7px' }}>{label}</p>
+              <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'13px', fontWeight:300, fontStyle:'italic', color:'#1B3B2B', lineHeight:1.5, marginBottom:'4px' }}>{name}</p>
+              <p style={{ fontSize:'8px', fontWeight:300, letterSpacing:'.18em', color:'#5F8575' }}>ora {time}</p>
+            </div>
+          ))}
+        </div>
+        <div style={{ width:'40px', height:'1px', background:'#5F8575', opacity:.4, margin:'0 auto 20px' }} />
+        <p style={{ fontSize:'7px', fontWeight:500, letterSpacing:'.24em', textTransform:'uppercase', color:'#5F8575', textAlign:'center', marginBottom:'6px' }}>Nași de cununie</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'14px', fontWeight:300, fontStyle:'italic', color:'#1B3B2B', textAlign:'center', lineHeight:1.6 }}>Mihai și Cristina Dumitrescu</p>
+      </div>
+
+      {/* RSVP */}
+      <div style={{ position:'absolute', bottom:0, left:0, right:0, padding:'14px 48px', background:'rgba(27,59,43,.06)', borderTop:'1px solid rgba(95,133,117,.2)', textAlign:'center', fontSize:'7.5px', fontWeight:300, letterSpacing:'.18em', textTransform:'uppercase', color:'#1B3B2B', opacity:.7 }}>
+        Confirmați prezența până pe <span style={{ color:'#5F8575', fontWeight:500, opacity:1 }}>1 Iunie 2025</span> · Tel: <span style={{ color:'#5F8575', fontWeight:500, opacity:1 }}>0700 000 000</span>
+      </div>
+    </div>
+  )
+}
 // Wrapper care masoara latimea reala si aplica scale corect
 function ScaledPreview({ PreviewComp }: { PreviewComp: React.FC }) {
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -248,8 +326,7 @@ function ScaledPreview({ PreviewComp }: { PreviewComp: React.FC }) {
 
 const CARDS_NUNTA: Card[] = [
   { id: 1, name: 'Aur & Lumină',    desc: 'Rafinament clasic cu accente aurii și tipografie elegantă.', category: 'nunta', available: true,  slug: 'invitatie-nunta-pdf-auriu', PreviewComp: PreviewAuriu },
-  { id: 2, name: 'Rosa Eternă',     desc: 'Floral romantic cu accente roz și typography clasică.',       category: 'nunta', available: false, slug: null, PreviewComp: null },
-  { id: 3, name: 'Grădina Secretă', desc: 'Verde botanical, elegant și plin de prospețime.',             category: 'nunta', available: false, slug: null, PreviewComp: null },
+{ id: 2, name: 'Vară Organică', desc: 'Verde salvie, eucalipt și bandă acuarelă — minimalism cald.', category: 'nunta', available: true, slug: 'invitatie-nunta-de-vara', PreviewComp: PreviewVara },  { id: 3, name: 'Grădina Secretă', desc: 'Verde botanical, elegant și plin de prospețime.',             category: 'nunta', available: false, slug: null, PreviewComp: null },
   { id: 4, name: 'Rustic Cald',     desc: 'Tonuri de portocaliu și teracotă, atmosferă de toamnă.',     category: 'nunta', available: false, slug: null, PreviewComp: null },
   { id: 5, name: 'Boho Chic',       desc: 'Liber, creativ, cu accente de mov pastelat și flori.',       category: 'nunta', available: false, slug: null, PreviewComp: null },
   { id: 6, name: 'Vintage 1920',    desc: 'Art deco, aur și nostalgie — o eră de neuitat.',             category: 'nunta', available: false, slug: null, PreviewComp: null },
