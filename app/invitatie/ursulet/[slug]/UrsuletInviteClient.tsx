@@ -457,12 +457,6 @@ export default function UrsuletInviteClient(props: Props) {
               <div style={{ flex:'1 1 240px', textAlign:'left' }}>
                 <p style={{ fontFamily:"'Quicksand',sans-serif", fontSize:'clamp(9px,1.1vw,11px)', letterSpacing:'.3em', textTransform:'uppercase', color:'#7AAAC0', fontWeight:700, marginBottom:8 }}>Invitație la Botez</p>
                 <span style={{ display:'block', fontFamily:"'Playfair Display',serif", fontSize:'clamp(42px,8vw,90px)', fontWeight:500, fontStyle:'italic', color:'#8B5E3C', lineHeight:.95, textShadow:'0 4px 24px rgba(139,94,60,.12)' }}>{childName}</span>
-                {parentsNames && (
-                  <span style={{ display:'block', fontFamily:"'Cormorant',serif", fontSize:'clamp(14px,1.8vw,18px)', fontStyle:'italic', color:'#A07850', marginTop:10, lineHeight:1.5 }}>
-                    Fiul lui {parentsNames}
-                    {mainDateDisplay && <><br /><span style={{ fontSize:'clamp(11px,1.3vw,14px)', letterSpacing:'.05em' }}>{mainDateDisplay}</span></>}
-                  </span>
-                )}
               </div>
             </div>
 

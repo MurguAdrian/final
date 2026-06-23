@@ -404,11 +404,11 @@ export default function BaloaneClient(props: Props) {
               <span style={{ display:'block', fontFamily:"'Playfair Display',serif", fontSize:'clamp(52px,9vw,100px)', fontWeight:600, fontStyle:'italic', lineHeight:.95, letterSpacing:'-.01em', backgroundImage:'linear-gradient(90deg,#F472B6,#FBBF24,#A78BFA,#F472B6)', backgroundSize:'300% 100%', WebkitBackgroundClip:'text', backgroundClip:'text', color:'transparent', animation:'blc-shineText 5s linear infinite' }}>
                 {childName}
               </span>
-              {parentsNames && (
+              {/* {parentsNames && (
                 <span style={{ display:'block', fontFamily:"'Cormorant',serif", fontSize:'clamp(14px,1.9vw,19px)', fontStyle:'italic', color:'#9D7BB0', marginTop:6 }}>
                   Fiica lui {parentsNames}
                 </span>
-              )}
+              )} */}
             </div>
 
             {/* date badge */}

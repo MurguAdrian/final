@@ -377,11 +377,11 @@ export default function FlutureClient(props: Props) {
               <span style={{ display:'block', fontFamily:"'Playfair Display',serif", fontSize:'clamp(54px,9.5vw,104px)', fontWeight:500, fontStyle:'italic', color:'#C2487A', lineHeight:.95, textShadow:'0 4px 28px rgba(247,140,190,.22)', letterSpacing:'-.01em' }}>
                 {childName}
               </span>
-              {parentsNames && (
+              {/* {parentsNames && (
                 <span style={{ display:'block', fontFamily:"'Cormorant',serif", fontSize:'clamp(15px,1.9vw,20px)', fontStyle:'italic', fontWeight:400, color:'#B57890', marginTop:6 }}>
                   Fiica lui {parentsNames}
                 </span>
-              )}
+              )} */}
             </div>
 
             {/* divider */}

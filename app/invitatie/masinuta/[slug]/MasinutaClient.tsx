@@ -389,11 +389,11 @@ export default function MasinutaClient(props: Props) {
               <span style={{ display:'block', fontFamily:"'Playfair Display',serif", fontSize:'clamp(54px,9.5vw,104px)', fontWeight:500, fontStyle:'italic', color:'#1E466E', lineHeight:.95, textShadow:'0 4px 28px rgba(60,120,190,.16)', letterSpacing:'-.01em' }}>
                 {childName}
               </span>
-              {parentsNames && (
+              {/* {parentsNames && (
                 <span style={{ display:'block', fontFamily:"'Cormorant',serif", fontSize:'clamp(15px,1.9vw,20px)', fontStyle:'italic', fontWeight:400, color:'#5E7C95', marginTop:6 }}>
                   Fiul lui {parentsNames}
                 </span>
-              )}
+              )} */}
             </div>
 
             {/* divider */}
