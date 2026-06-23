@@ -9,6 +9,11 @@ export async function POST(req: Request) {
   try {
     const { fields, template } = await req.json()
 
+    const fieldsStr = JSON.stringify(fields)
+    if (fieldsStr.length > 490) {
+      return NextResponse.json({ error: 'Datele introduse sunt prea lungi. Scurtează textele și încearcă din nou.' }, { status: 400 })
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: [
@@ -21,7 +26,7 @@ export async function POST(req: Request) {
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/${template}`,
       metadata: {
         template,
-        fields: JSON.stringify(fields),
+        fields: fieldsStr,
         paymentType: 'invitatie_pdf',
       },
       payment_intent_data: {
@@ -34,7 +39,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ url: session.url })
   } catch (err: any) {
-    console.error('Checkout error:', err)
+    console.error('Checkout error:', err.message)
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }

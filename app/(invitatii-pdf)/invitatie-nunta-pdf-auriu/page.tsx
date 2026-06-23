@@ -21,11 +21,6 @@ function formatDisplayDate(val: string) {
   const [y, m, d] = val.split('-')
   return `${d}.${m}.${y}`
 }
-function formatDisplayRsvp(val: string) {
-  if (!val) return ''
-  const [y, m, d] = val.split('-')
-  return `${d}.${m}.${y}`
-}
 
 interface Fields {
   bride: string
@@ -61,91 +56,22 @@ const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;1,400&family=Cinzel:wght@400;600&display=swap');
 
 .au * { box-sizing: border-box; margin: 0; padding: 0; }
-.au {
-  font-family: 'EB Garamond', serif;
-  background: #FDFAF6;
-  color: #1A1208;
-  min-height: 100vh;
-}
+.au { font-family: 'EB Garamond', serif; background: #FDFAF6; color: #1A1208; min-height: 100vh; }
 
-.au-topbar {
-  background: #fff;
-  border-bottom: 1px solid rgba(201,168,76,.2);
-  padding: 12px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.au-topbar-logo {
-  font-family: 'Cinzel', serif;
-  font-size: 14px;
-  letter-spacing: .14em;
-  color: #1A1208;
-  text-decoration: none;
-  font-weight: 600;
-}
+.au-topbar { background: #fff; border-bottom: 1px solid rgba(201,168,76,.2); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.au-topbar-logo { font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: .14em; color: #1A1208; text-decoration: none; font-weight: 600; }
 .au-topbar-logo span { color: #C9A84C; }
-.au-topbar-btn {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 8px 18px; border-radius: 100px;
-  border: 1.5px solid #C9A84C; color: #8B6914;
-  font-family: 'Cinzel', serif; font-size: 11px;
-  letter-spacing: .08em; font-weight: 600;
-  text-decoration: none; background: #fff;
-  transition: background .2s, color .2s;
-}
+.au-topbar-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 18px; border-radius: 100px; border: 1.5px solid #C9A84C; color: #8B6914; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: .08em; font-weight: 600; text-decoration: none; background: #fff; transition: background .2s, color .2s; }
 .au-topbar-btn:hover { background: #C9A84C; color: #1A1208; }
 
-.au-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 48px 24px 80px;
-}
+.au-inner { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.au-title { text-align: center; margin-bottom: 40px; }
+.au-title h1 { font-family: 'Cinzel', serif; font-size: clamp(18px, 3vw, 28px); font-weight: 400; letter-spacing: .14em; color: #1A1208; margin-bottom: 8px; }
+.au-title p { font-size: 14px; color: rgba(26,18,8,.55); font-style: italic; }
 
-.au-title {
-  text-align: center;
-  margin-bottom: 40px;
-}
-.au-title h1 {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(18px, 3vw, 28px);
-  font-weight: 400;
-  letter-spacing: .14em;
-  color: #1A1208;
-  margin-bottom: 8px;
-}
-.au-title p {
-  font-size: 14px;
-  color: rgba(26,18,8,.55);
-  font-style: italic;
-}
-
-.au-layout {
-  display: grid;
-  grid-template-columns: 400px 1fr;
-  gap: 48px;
-  align-items: start;
-}
-
-.au-inv-wrap {
-  position: sticky;
-  top: 72px;
-}
-
-.au-inv {
-  width: 100%;
-  max-width: 360px;
-  background: #FEFBF3;
-  border: 1px solid #C9A84C;
-  position: relative;
-  overflow: hidden;
-  padding: 28px 22px 32px;
-  box-shadow: 0 0 0 6px #FEFBF3, 0 0 0 7px #C9A84C;
-  margin: 8px auto;
-}
+.au-layout { display: grid; grid-template-columns: 400px 1fr; gap: 48px; align-items: start; }
+.au-inv-wrap { position: sticky; top: 72px; }
+.au-inv { width: 100%; max-width: 360px; background: #FEFBF3; border: 1px solid #C9A84C; position: relative; overflow: hidden; padding: 28px 22px 32px; box-shadow: 0 0 0 6px #FEFBF3, 0 0 0 7px #C9A84C; margin: 8px auto; }
 
 .au-corner { position: absolute; width: 56px; height: 56px; opacity: .55; }
 .au-corner.tl { top: 14px; left: 14px; }
@@ -160,29 +86,22 @@ const CSS = `
 .au-intro { font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: .22em; text-transform: uppercase; color: #8B6914; margin-bottom: 5px; }
 .au-parents { font-size: 11px; color: #5C4A1E; line-height: 1.7; font-style: italic; }
 .au-and { font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: .2em; color: #C9A84C; text-transform: uppercase; margin: 2px 0; }
-
 .au-names { text-align: center; padding: 4px 0; }
 .au-bride, .au-groom { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 300; font-style: italic; color: #1A1208; line-height: 1.1; }
 .au-amp { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 300; color: #C9A84C; line-height: 1; display: block; margin: 2px 0; }
-
 .au-invite { text-align: center; font-size: 11px; color: #5C4A1E; line-height: 1.8; padding: 0 14px; font-style: italic; }
 .au-invite strong { font-style: normal; font-family: 'Cinzel', serif; font-size: 7.5px; letter-spacing: .16em; color: #8B6914; display: block; margin-bottom: 4px; }
-
 .au-date-block { text-align: center; padding: 4px 0; }
 .au-date-main { font-family: 'Cinzel', serif; font-size: 12px; color: #1A1208; letter-spacing: .1em; }
 .au-date-year { font-family: 'Cinzel', serif; font-size: 20px; font-weight: 600; color: #C9A84C; display: block; letter-spacing: .08em; }
-
 .au-events { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 4px 0; }
 .au-event { text-align: center; padding: 7px 5px; border: 1px solid rgba(201,168,76,.35); border-radius: 4px; background: rgba(201,168,76,.04); }
 .au-ev-label { font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: .16em; color: #C9A84C; text-transform: uppercase; margin-bottom: 3px; }
 .au-ev-name { font-size: 9.5px; color: #1A1208; font-style: italic; line-height: 1.4; margin-bottom: 2px; }
 .au-ev-time { font-family: 'Cinzel', serif; font-size: 8px; color: #8B6914; letter-spacing: .08em; }
-
 .au-nasi { text-align: center; font-size: 10px; color: #5C4A1E; line-height: 1.7; font-style: italic; padding: 0 10px; }
 .au-nasi strong { font-style: normal; font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: .16em; color: #8B6914; display: block; margin-bottom: 3px; }
-
 .au-fleuron { font-size: 14px; color: #C9A84C; opacity: .5; display: block; text-align: center; margin: 4px 0; }
-
 .au-rsvp { text-align: center; padding: 6px 14px; background: rgba(201,168,76,.08); border-top: 1px solid rgba(201,168,76,.3); margin: 8px -22px -32px; font-size: 9px; color: #5C4A1E; font-style: italic; }
 .au-rsvp span { color: #C9A84C; font-style: normal; font-weight: 600; }
 
@@ -202,8 +121,15 @@ const CSS = `
 .au-input:focus { border-color: #C9A84C; }
 .au-input::placeholder { color: rgba(26,18,8,.35); font-style: italic; }
 
+.au-date-wrap { position: relative; display: flex; align-items: center; }
+.au-date-wrap .au-input { padding-right: 40px; }
+.au-date-native { position: absolute; right: 0; top: 0; width: 40px; height: 100%; opacity: 0; cursor: pointer; }
+.au-cal-icon { position: absolute; right: 10px; font-size: 16px; pointer-events: none; color: #C9A84C; }
+
 .au-input-wrap { position: relative; }
 .au-input-hint { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 10px; color: rgba(26,18,8,.3); font-family: 'Cinzel', serif; pointer-events: none; letter-spacing: .06em; }
+
+.au-error { background: rgba(220,38,38,.08); border: 1px solid rgba(220,38,38,.3); border-radius: 8px; padding: 10px 14px; margin-top: 16px; font-size: 12px; color: #dc2626; font-style: italic; }
 
 .au-pay-btn { width: 100%; padding: 14px; margin-top: 24px; background: #C9A84C; color: #1A1208; border: none; border-radius: 8px; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: .1em; cursor: pointer; font-weight: 600; transition: background .2s, opacity .2s; }
 .au-pay-btn:hover { background: #B8952E; }
@@ -214,30 +140,11 @@ const CSS = `
 .au-gi { display: flex; align-items: center; gap: 6px; font-size: 11px; color: rgba(26,18,8,.6); }
 .au-gi span { font-size: 14px; }
 
-.au-footer {
-  border-top: 1px solid rgba(201,168,76,.2);
-  background: #fff;
-  padding: 28px 24px;
-  text-align: center;
-}
-.au-footer-text {
-  font-family: 'Cinzel', serif;
-  font-size: 12px; letter-spacing: .08em;
-  color: rgba(26,18,8,.45); margin-bottom: 14px;
-}
-.au-footer-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 10px 24px; border-radius: 100px;
-  background: #C9A84C; color: #1A1208;
-  font-family: 'Cinzel', serif; font-size: 12px;
-  letter-spacing: .08em; font-weight: 600;
-  text-decoration: none; transition: background .2s;
-}
+.au-footer { border-top: 1px solid rgba(201,168,76,.2); background: #fff; padding: 28px 24px; text-align: center; }
+.au-footer-text { font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: .08em; color: rgba(26,18,8,.45); margin-bottom: 14px; }
+.au-footer-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; border-radius: 100px; background: #C9A84C; color: #1A1208; font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: .08em; font-weight: 600; text-decoration: none; transition: background .2s; }
 .au-footer-btn:hover { background: #B8952E; }
-.au-footer-copy {
-  font-size: 11px; color: rgba(26,18,8,.3);
-  margin-top: 16px; font-style: italic;
-}
+.au-footer-copy { font-size: 11px; color: rgba(26,18,8,.3); margin-top: 16px; font-style: italic; }
 
 @media (max-width: 800px) {
   .au-layout { grid-template-columns: 1fr; gap: 32px; }
@@ -252,6 +159,7 @@ const CSS = `
 export default function InvitatieNuntaAuriu() {
   const [fields, setFields] = useState<Fields>(DEFAULTS)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const set = (k: keyof Fields) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setFields(f => ({ ...f, [k]: e.target.value }))
@@ -261,6 +169,7 @@ export default function InvitatieNuntaAuriu() {
   const rsvpFormatted = formatRsvp(fields.rsvpDate)
 
   const handlePay = useCallback(async () => {
+    setError('')
     setLoading(true)
     try {
       const res = await fetch('/api/invitatii-pdf/checkout', {
@@ -268,12 +177,11 @@ export default function InvitatieNuntaAuriu() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fields, template: 'invitatie-nunta-pdf-auriu' }),
       })
-      const { url, error } = await res.json()
-      if (error) throw new Error(error)
+      const { url, error: err } = await res.json()
+      if (err) { setError(err); return }
       window.location.href = url
-    } catch (err) {
-      console.error(err)
-      alert('A apărut o eroare. Încearcă din nou.')
+    } catch (e) {
+      setError('A apărut o eroare. Încearcă din nou.')
     } finally {
       setLoading(false)
     }
@@ -292,18 +200,12 @@ export default function InvitatieNuntaAuriu() {
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="au">
 
-        {/* ── TOPBAR ── */}
         <header className="au-topbar">
-          <Link href="/" className="au-topbar-logo">
-            Vibe<span>Invite</span>
-          </Link>
-          <Link href="/invitatii-PDF" className="au-topbar-btn">
-            ← Alege alt model
-          </Link>
+          <Link href="/" className="au-topbar-logo">Vibe<span>Invite</span></Link>
+          <Link href="/invitatii-PDF" className="au-topbar-btn">← Alege alt model</Link>
         </header>
 
         <div className="au-inner">
-
           <div className="au-title">
             <h1>Invitație Nuntă — Auriu Elegant</h1>
             <p>Personalizează câmpurile din dreapta și previzualizează în timp real</p>
@@ -312,7 +214,7 @@ export default function InvitatieNuntaAuriu() {
           <div className="au-layout">
 
             <div className="au-inv-wrap">
-              <div className="au-inv" id="invitation-preview">
+              <div className="au-inv">
                 <svg className="au-corner tl" viewBox="0 0 56 56" fill="none">
                   <path d="M2 54 L2 2 L54 2" stroke="#C9A84C" strokeWidth="1" fill="none"/>
                   <path d="M2 54 Q8 40 2 28 Q8 16 14 8 Q20 2 28 2" stroke="#C9A84C" strokeWidth=".5" fill="none" opacity=".5"/>
@@ -423,26 +325,21 @@ export default function InvitatieNuntaAuriu() {
               <div className="au-section">
                 <p className="au-section-label">Data nunții</p>
                 <div className="au-grid1">
-                  <div className="au-input-wrap">
+                  <div className="au-date-wrap">
                     <input
                       className="au-input"
                       type="text"
                       placeholder="ZZ.LL.AAAA"
-                      maxLength={10}
+                      readOnly
                       value={formatDisplayDate(fields.weddingDate)}
-                      onChange={(e) => {
-                        const v = e.target.value.replace(/\D/g, '')
-                        const d = v.slice(0,2), m = v.slice(2,4), y = v.slice(4,8)
-                        if (y.length === 4) setFields(f => ({ ...f, weddingDate: `${y}-${m}-${d}` }))
-                        else if (v.length < 8) setFields(f => ({ ...f, weddingDate: '' }))
-                      }}
-                      onBlur={(e) => {
-                        const v = e.target.value.replace(/\D/g, '')
-                        const d = v.slice(0,2), m = v.slice(2,4), y = v.slice(4,8)
-                        if (y.length === 4) setFields(f => ({ ...f, weddingDate: `${y}-${m}-${d}` }))
-                      }}
                     />
-                    <span className="au-input-hint">ZZ.LL.AAAA</span>
+                    <span className="au-cal-icon">📅</span>
+                    <input
+                      className="au-date-native"
+                      type="date"
+                      value={fields.weddingDate}
+                      onChange={(e) => setFields(f => ({ ...f, weddingDate: e.target.value }))}
+                    />
                   </div>
                 </div>
               </div>
@@ -458,10 +355,7 @@ export default function InvitatieNuntaAuriu() {
                       placeholder="13:00"
                       maxLength={5}
                       value={fields.churchTime}
-                      onChange={(e) => {
-                        const v = e.target.value.replace(/[^0-9:]/g, '')
-                        setFields(f => ({ ...f, churchTime: v }))
-                      }}
+                      onChange={(e) => setFields(f => ({ ...f, churchTime: e.target.value.replace(/[^0-9:]/g, '') }))}
                     />
                     <span className="au-input-hint">HH:MM</span>
                   </div>
@@ -479,10 +373,7 @@ export default function InvitatieNuntaAuriu() {
                       placeholder="19:00"
                       maxLength={5}
                       value={fields.restTime}
-                      onChange={(e) => {
-                        const v = e.target.value.replace(/[^0-9:]/g, '')
-                        setFields(f => ({ ...f, restTime: v }))
-                      }}
+                      onChange={(e) => setFields(f => ({ ...f, restTime: e.target.value.replace(/[^0-9:]/g, '') }))}
                     />
                     <span className="au-input-hint">HH:MM</span>
                   </div>
@@ -492,25 +383,27 @@ export default function InvitatieNuntaAuriu() {
               <div className="au-section">
                 <p className="au-section-label">RSVP</p>
                 <div className="au-grid2">
-                  <div className="au-input-wrap">
+                  <div className="au-date-wrap">
                     <input
                       className="au-input"
                       type="text"
                       placeholder="ZZ.LL.AAAA"
-                      maxLength={10}
-                      value={formatDisplayRsvp(fields.rsvpDate)}
-                      onChange={(e) => {
-                        const v = e.target.value.replace(/\D/g, '')
-                        const d = v.slice(0,2), m = v.slice(2,4), y = v.slice(4,8)
-                        if (y.length === 4) setFields(f => ({ ...f, rsvpDate: `${y}-${m}-${d}` }))
-                        else if (v.length < 8) setFields(f => ({ ...f, rsvpDate: '' }))
-                      }}
+                      readOnly
+                      value={formatDisplayDate(fields.rsvpDate)}
                     />
-                    <span className="au-input-hint">ZZ.LL.AAAA</span>
+                    <span className="au-cal-icon">📅</span>
+                    <input
+                      className="au-date-native"
+                      type="date"
+                      value={fields.rsvpDate}
+                      onChange={(e) => setFields(f => ({ ...f, rsvpDate: e.target.value }))}
+                    />
                   </div>
                   <input className="au-input" type="tel" placeholder="Nr. telefon" value={fields.rsvpTel} onChange={set('rsvpTel')} />
                 </div>
               </div>
+
+              {error && <div className="au-error">⚠️ {error}</div>}
 
               <button className="au-pay-btn" onClick={handlePay} disabled={loading}>
                 {loading ? 'Se procesează...' : '🔒 Plătește 30 lei și descarcă'}
@@ -530,12 +423,9 @@ export default function InvitatieNuntaAuriu() {
           </div>
         </div>
 
-        {/* ── FOOTER ── */}
         <footer className="au-footer">
           <p className="au-footer-text">Nu ai găsit modelul potrivit?</p>
-          <Link href="/invitatii-PDF" className="au-footer-btn">
-            ← Vezi toate modelele
-          </Link>
+          <Link href="/invitatii-PDF" className="au-footer-btn">← Vezi toate modelele</Link>
           <p className="au-footer-copy">© {new Date().getFullYear()} VibeInvite · Făcut cu ♥ în România</p>
         </footer>
 
