@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       },
     })
 
-    return NextResponse.json({ sessionId: session.id })
+    return NextResponse.json({ url: session.url })
   } catch (err: any) {
     console.error('Checkout error:', err)
     return NextResponse.json({ error: err.message }, { status: 500 })

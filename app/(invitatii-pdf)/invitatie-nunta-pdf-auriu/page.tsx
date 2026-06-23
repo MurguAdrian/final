@@ -266,7 +266,7 @@ export default function InvitatieNuntaAuriu() {
   const weddingYear = fields.weddingDate ? new Date(fields.weddingDate).getFullYear() : '2025'
   const rsvpFormatted = formatRsvp(fields.rsvpDate)
 
-  const handlePay = useCallback(async () => {
+const handlePay = useCallback(async () => {
     setLoading(true)
     try {
       const res = await fetch('/api/invitatii-pdf/checkout', {
@@ -274,10 +274,9 @@ export default function InvitatieNuntaAuriu() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fields, template: 'invitatie-nunta-pdf-auriu' }),
       })
-      const { sessionId, error } = await res.json()
+      const { url, error } = await res.json()
       if (error) throw new Error(error)
-      const stripe = await stripePromise
-      await stripe?.redirectToCheckout({ sessionId })
+      window.location.href = url
     } catch (err) {
       console.error(err)
       alert('A apărut o eroare. Încearcă din nou.')
