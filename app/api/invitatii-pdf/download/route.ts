@@ -6,7 +6,7 @@ import { buildHTML as buildHTML_auriu } from '@/app/(invitatii-pdf)/invitatie-nu
 export const maxDuration = 60
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
-  apiVersion: '2026-04-22.dahlia' as any,
+  apiVersion: '2026-05-27.dahlia' as any,
 })
 
 const REGISTRY: Record<string, (fields: Record<string, string>) => string> = {
@@ -24,7 +24,6 @@ async function renderPDF(html: string): Promise<Uint8Array> {
     body: JSON.stringify({
       page: {
         setContent: { html },
-        setViewport: { width: 794, height: 1123 },
         pdf: {
           printBackground: true,
           width: '794px',
@@ -48,12 +47,14 @@ async function renderJPG(html: string): Promise<Uint8Array> {
     body: JSON.stringify({
       page: {
         setContent: { html },
-        setViewport: { width: 794, height: 1123 },
         screenshot: {
           type: 'jpeg',
           quality: 95,
           fullPage: false,
         },
+      },
+      launch: {
+        defaultViewport: { width: 794, height: 1123 },
       },
     }),
   })
