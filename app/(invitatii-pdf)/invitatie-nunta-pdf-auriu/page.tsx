@@ -1,9 +1,7 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
-import { loadStripe } from '@stripe/stripe-js'
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
+import { useState, useCallback } from 'react'
+import Link from 'next/link'
 
 const MONTHS = ['Ianuarie','Februarie','Martie','Aprilie','Mai','Iunie','Iulie','August','Septembrie','Octombrie','Noiembrie','Decembrie']
 const DAYS   = ['Duminică','Luni','Marți','Miercuri','Joi','Vineri','Sâmbătă']
@@ -17,6 +15,16 @@ function formatRsvp(val: string) {
   const d = new Date(val)
   if (isNaN(d.getTime())) return ''
   return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`
+}
+function formatDisplayDate(val: string) {
+  if (!val) return ''
+  const [y, m, d] = val.split('-')
+  return `${d}.${m}.${y}`
+}
+function formatDisplayRsvp(val: string) {
+  if (!val) return ''
+  const [y, m, d] = val.split('-')
+  return `${d}.${m}.${y}`
 }
 
 interface Fields {
@@ -60,6 +68,37 @@ const CSS = `
   min-height: 100vh;
 }
 
+.au-topbar {
+  background: #fff;
+  border-bottom: 1px solid rgba(201,168,76,.2);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.au-topbar-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  letter-spacing: .14em;
+  color: #1A1208;
+  text-decoration: none;
+  font-weight: 600;
+}
+.au-topbar-logo span { color: #C9A84C; }
+.au-topbar-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 18px; border-radius: 100px;
+  border: 1.5px solid #C9A84C; color: #8B6914;
+  font-family: 'Cinzel', serif; font-size: 11px;
+  letter-spacing: .08em; font-weight: 600;
+  text-decoration: none; background: #fff;
+  transition: background .2s, color .2s;
+}
+.au-topbar-btn:hover { background: #C9A84C; color: #1A1208; }
+
 .au-inner {
   max-width: 1100px;
   margin: 0 auto;
@@ -91,16 +130,14 @@ const CSS = `
   align-items: start;
 }
 
-/* ── INVITATION ── */
 .au-inv-wrap {
   position: sticky;
-  top: 24px;
+  top: 72px;
 }
 
 .au-inv {
   width: 100%;
   max-width: 360px;
-  margin: 0 auto;
   background: #FEFBF3;
   border: 1px solid #C9A84C;
   position: relative;
@@ -116,34 +153,17 @@ const CSS = `
 .au-corner.bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
 .au-corner.br { bottom: 14px; right: 14px; transform: scale(-1); }
 
-.au-divider {
-  width: 100%; height: 1px;
-  background: linear-gradient(90deg, transparent, #C9A84C 30%, #C9A84C 70%, transparent);
-  margin: 12px 0; opacity: .6;
-}
-.au-divider-sm {
-  width: 60%; height: 1px; margin: 8px auto;
-  background: linear-gradient(90deg, transparent, #C9A84C 30%, #C9A84C 70%, transparent);
-  opacity: .4;
-}
+.au-divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, #C9A84C 30%, #C9A84C 70%, transparent); margin: 12px 0; opacity: .6; }
+.au-divider-sm { width: 60%; height: 1px; margin: 8px auto; background: linear-gradient(90deg, transparent, #C9A84C 30%, #C9A84C 70%, transparent); opacity: .4; }
 
 .au-top { text-align: center; padding: 0 16px; }
-.au-intro {
-  font-family: 'Cinzel', serif; font-size: 8px;
-  letter-spacing: .22em; text-transform: uppercase; color: #8B6914; margin-bottom: 5px;
-}
+.au-intro { font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: .22em; text-transform: uppercase; color: #8B6914; margin-bottom: 5px; }
 .au-parents { font-size: 11px; color: #5C4A1E; line-height: 1.7; font-style: italic; }
 .au-and { font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: .2em; color: #C9A84C; text-transform: uppercase; margin: 2px 0; }
 
 .au-names { text-align: center; padding: 4px 0; }
-.au-bride, .au-groom {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 30px; font-weight: 300; font-style: italic; color: #1A1208; line-height: 1.1;
-}
-.au-amp {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 42px; font-weight: 300; color: #C9A84C; line-height: 1; display: block; margin: 2px 0;
-}
+.au-bride, .au-groom { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 300; font-style: italic; color: #1A1208; line-height: 1.1; }
+.au-amp { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 300; color: #C9A84C; line-height: 1; display: block; margin: 2px 0; }
 
 .au-invite { text-align: center; font-size: 11px; color: #5C4A1E; line-height: 1.8; padding: 0 14px; font-style: italic; }
 .au-invite strong { font-style: normal; font-family: 'Cinzel', serif; font-size: 7.5px; letter-spacing: .16em; color: #8B6914; display: block; margin-bottom: 4px; }
@@ -163,92 +183,66 @@ const CSS = `
 
 .au-fleuron { font-size: 14px; color: #C9A84C; opacity: .5; display: block; text-align: center; margin: 4px 0; }
 
-.au-rsvp {
-  text-align: center; padding: 6px 14px;
-  background: rgba(201,168,76,.08);
-  border-top: 1px solid rgba(201,168,76,.3);
-  margin: 8px -22px -32px;
-  font-size: 9px; color: #5C4A1E; font-style: italic;
-}
+.au-rsvp { text-align: center; padding: 6px 14px; background: rgba(201,168,76,.08); border-top: 1px solid rgba(201,168,76,.3); margin: 8px -22px -32px; font-size: 9px; color: #5C4A1E; font-style: italic; }
 .au-rsvp span { color: #C9A84C; font-style: normal; font-weight: 600; }
 
-/* ── WATERMARK ── */
-.au-wm {
-  position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden;
-}
-.au-wm-grid {
-  position: absolute; inset: -60px;
-  display: flex; flex-direction: column; gap: 0;
-  transform: rotate(-30deg);
-}
-.au-wm-row {
-  display: flex; gap: 0; white-space: nowrap;
-}
-.au-wm-item {
-  font-family: 'Cinzel', serif;
-  font-size: 10px; letter-spacing: .1em; color: #8B6914;
-  opacity: .22; padding: 18px 20px; white-space: nowrap;
-  user-select: none;
-}
-.au-wm-notice {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  background: rgba(201,168,76,.18);
-  border-top: 1px solid rgba(201,168,76,.45);
-  padding: 5px 10px; text-align: center;
-  font-size: 9px; color: #8B6914;
-  font-family: 'Cinzel', serif; letter-spacing: .06em; z-index: 25;
-}
+.au-wm { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
+.au-wm-grid { position: absolute; inset: -60px; display: flex; flex-direction: column; gap: 0; transform: rotate(-30deg); }
+.au-wm-row { display: flex; gap: 0; white-space: nowrap; }
+.au-wm-item { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: .1em; color: #8B6914; opacity: .22; padding: 18px 20px; white-space: nowrap; user-select: none; }
+.au-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(201,168,76,.18); border-top: 1px solid rgba(201,168,76,.45); padding: 5px 10px; text-align: center; font-size: 9px; color: #8B6914; font-family: 'Cinzel', serif; letter-spacing: .06em; z-index: 25; }
 
-/* ── FORM ── */
-.au-form h2 {
-  font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: .14em;
-  color: #1A1208; margin-bottom: 24px; text-transform: uppercase;
-  border-bottom: 1px solid rgba(201,168,76,.3); padding-bottom: 10px;
-}
+.au-form h2 { font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: .14em; color: #1A1208; margin-bottom: 24px; text-transform: uppercase; border-bottom: 1px solid rgba(201,168,76,.3); padding-bottom: 10px; }
 .au-section { margin-bottom: 18px; }
-.au-section-label {
-  font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: .16em;
-  text-transform: uppercase; color: #8B6914; margin-bottom: 7px;
-}
+.au-section-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: #8B6914; margin-bottom: 7px; }
 .au-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .au-grid1 { display: grid; grid-template-columns: 1fr; gap: 8px; }
 
-.au-input {
-  width: 100%; padding: 9px 12px; font-size: 13px;
-  border: 1px solid rgba(201,168,76,.35); border-radius: 6px;
-  background: #fff; color: #1A1208;
-  font-family: 'EB Garamond', serif;
-  outline: none; transition: border-color .2s;
-}
+.au-input { width: 100%; padding: 9px 12px; font-size: 13px; border: 1px solid rgba(201,168,76,.35); border-radius: 6px; background: #fff; color: #1A1208; font-family: 'EB Garamond', serif; outline: none; transition: border-color .2s; }
 .au-input:focus { border-color: #C9A84C; }
 .au-input::placeholder { color: rgba(26,18,8,.35); font-style: italic; }
 
-.au-pay-btn {
-  width: 100%; padding: 14px; margin-top: 24px;
-  background: #C9A84C; color: #1A1208;
-  border: none; border-radius: 8px;
-  font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: .1em;
-  cursor: pointer; font-weight: 600; transition: background .2s, opacity .2s;
-}
+.au-input-wrap { position: relative; }
+.au-input-hint { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 10px; color: rgba(26,18,8,.3); font-family: 'Cinzel', serif; pointer-events: none; letter-spacing: .06em; }
+
+.au-pay-btn { width: 100%; padding: 14px; margin-top: 24px; background: #C9A84C; color: #1A1208; border: none; border-radius: 8px; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: .1em; cursor: pointer; font-weight: 600; transition: background .2s, opacity .2s; }
 .au-pay-btn:hover { background: #B8952E; }
 .au-pay-btn:disabled { opacity: .6; cursor: not-allowed; }
-.au-pay-note {
-  font-size: 11px; color: rgba(26,18,8,.45); text-align: center;
-  margin-top: 8px; font-style: italic; line-height: 1.6;
-}
+.au-pay-note { font-size: 11px; color: rgba(26,18,8,.45); text-align: center; margin-top: 8px; font-style: italic; line-height: 1.6; }
 
-.au-guarantee {
-  display: flex; flex-wrap: wrap; gap: 12px 20px;
-  margin-top: 16px; padding: 14px 16px;
-  background: rgba(201,168,76,.06); border: 1px solid rgba(201,168,76,.2);
-  border-radius: 8px;
-}
+.au-guarantee { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 16px; padding: 14px 16px; background: rgba(201,168,76,.06); border: 1px solid rgba(201,168,76,.2); border-radius: 8px; }
 .au-gi { display: flex; align-items: center; gap: 6px; font-size: 11px; color: rgba(26,18,8,.6); }
 .au-gi span { font-size: 14px; }
+
+.au-footer {
+  border-top: 1px solid rgba(201,168,76,.2);
+  background: #fff;
+  padding: 28px 24px;
+  text-align: center;
+}
+.au-footer-text {
+  font-family: 'Cinzel', serif;
+  font-size: 12px; letter-spacing: .08em;
+  color: rgba(26,18,8,.45); margin-bottom: 14px;
+}
+.au-footer-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 24px; border-radius: 100px;
+  background: #C9A84C; color: #1A1208;
+  font-family: 'Cinzel', serif; font-size: 12px;
+  letter-spacing: .08em; font-weight: 600;
+  text-decoration: none; transition: background .2s;
+}
+.au-footer-btn:hover { background: #B8952E; }
+.au-footer-copy {
+  font-size: 11px; color: rgba(26,18,8,.3);
+  margin-top: 16px; font-style: italic;
+}
 
 @media (max-width: 800px) {
   .au-layout { grid-template-columns: 1fr; gap: 32px; }
   .au-inv-wrap { position: static; }
+  .au-topbar-logo { font-size: 12px; }
 }
 @media (max-width: 480px) {
   .au-inner { padding: 28px 16px 60px; }
@@ -266,7 +260,7 @@ export default function InvitatieNuntaAuriu() {
   const weddingYear = fields.weddingDate ? new Date(fields.weddingDate).getFullYear() : '2025'
   const rsvpFormatted = formatRsvp(fields.rsvpDate)
 
-const handlePay = useCallback(async () => {
+  const handlePay = useCallback(async () => {
     setLoading(true)
     try {
       const res = await fetch('/api/invitatii-pdf/checkout', {
@@ -297,6 +291,17 @@ const handlePay = useCallback(async () => {
     <>
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="au">
+
+        {/* ── TOPBAR ── */}
+        <header className="au-topbar">
+          <Link href="/" className="au-topbar-logo">
+            Vibe<span>Invite</span>
+          </Link>
+          <Link href="/invitatii-PDF" className="au-topbar-btn">
+            ← Alege alt model
+          </Link>
+        </header>
+
         <div className="au-inner">
 
           <div className="au-title">
@@ -306,10 +311,8 @@ const handlePay = useCallback(async () => {
 
           <div className="au-layout">
 
-            {/* ── PREVIEW INVITAȚIE ── */}
             <div className="au-inv-wrap">
               <div className="au-inv" id="invitation-preview">
-                {/* Colțuri decorative */}
                 <svg className="au-corner tl" viewBox="0 0 56 56" fill="none">
                   <path d="M2 54 L2 2 L54 2" stroke="#C9A84C" strokeWidth="1" fill="none"/>
                   <path d="M2 54 Q8 40 2 28 Q8 16 14 8 Q20 2 28 2" stroke="#C9A84C" strokeWidth=".5" fill="none" opacity=".5"/>
@@ -333,39 +336,30 @@ const handlePay = useCallback(async () => {
                   <circle cx="2" cy="2" r="2.5" fill="#C9A84C" opacity=".7"/>
                 </svg>
 
-                {/* Conținut */}
                 <div className="au-top">
                   <p className="au-intro">Cu binecuvântarea părinților</p>
                   <p className="au-parents">{fields.parentsGroom}</p>
                   <p className="au-and">și</p>
                   <p className="au-parents">{fields.parentsBride}</p>
                 </div>
-
                 <div className="au-divider" />
-
                 <div className="au-names">
                   <p className="au-bride">{fields.bride || 'Mireasă'}</p>
                   <span className="au-amp">&amp;</span>
                   <p className="au-groom">{fields.groom || 'Mire'}</p>
                 </div>
-
                 <div className="au-divider-sm" />
                 <span className="au-fleuron">✦</span>
-
                 <div className="au-invite">
                   <strong>vă invită cu drag la nunta lor</strong>
                   Vă așteptăm alături de noi în ziua<br />în care ne unim destinele
                 </div>
-
                 <div className="au-divider-sm" />
-
                 <div className="au-date-block">
                   <p className="au-date-main">{weddingDateFormatted || 'Ziua nunții'}</p>
                   <span className="au-date-year">{weddingYear}</span>
                 </div>
-
                 <div className="au-divider" />
-
                 <div className="au-events">
                   <div className="au-event">
                     <p className="au-ev-label">Cununie</p>
@@ -378,20 +372,15 @@ const handlePay = useCallback(async () => {
                     <p className="au-ev-time">ora {fields.restTime}</p>
                   </div>
                 </div>
-
                 <div className="au-divider-sm" />
-
                 <div className="au-nasi">
                   <strong>Nași de cununie</strong>
                   {fields.nasi}
                 </div>
-
                 <div className="au-rsvp">
                   Confirmați prezența până pe <span>{rsvpFormatted || fields.rsvpDate}</span><br />
                   Tel: <span>{fields.rsvpTel}</span>
                 </div>
-
-                {/* WATERMARK */}
                 <div className="au-wm">
                   <div className="au-wm-grid">{WM_TEXTS}</div>
                   <div className="au-wm-notice">Watermark dispare după plata de 30 lei</div>
@@ -399,7 +388,6 @@ const handlePay = useCallback(async () => {
               </div>
             </div>
 
-            {/* ── FORMULAR ── */}
             <div className="au-form">
               <h2>Personalizează invitația</h2>
 
@@ -435,7 +423,27 @@ const handlePay = useCallback(async () => {
               <div className="au-section">
                 <p className="au-section-label">Data nunții</p>
                 <div className="au-grid1">
-                  <input className="au-input" type="date" value={fields.weddingDate} onChange={set('weddingDate')} />
+                  <div className="au-input-wrap">
+                    <input
+                      className="au-input"
+                      type="text"
+                      placeholder="ZZ.LL.AAAA"
+                      maxLength={10}
+                      value={formatDisplayDate(fields.weddingDate)}
+                      onChange={(e) => {
+                        const v = e.target.value.replace(/\D/g, '')
+                        const d = v.slice(0,2), m = v.slice(2,4), y = v.slice(4,8)
+                        if (y.length === 4) setFields(f => ({ ...f, weddingDate: `${y}-${m}-${d}` }))
+                        else if (v.length < 8) setFields(f => ({ ...f, weddingDate: '' }))
+                      }}
+                      onBlur={(e) => {
+                        const v = e.target.value.replace(/\D/g, '')
+                        const d = v.slice(0,2), m = v.slice(2,4), y = v.slice(4,8)
+                        if (y.length === 4) setFields(f => ({ ...f, weddingDate: `${y}-${m}-${d}` }))
+                      }}
+                    />
+                    <span className="au-input-hint">ZZ.LL.AAAA</span>
+                  </div>
                 </div>
               </div>
 
@@ -443,7 +451,20 @@ const handlePay = useCallback(async () => {
                 <p className="au-section-label">Cununie religioasă</p>
                 <div className="au-grid2">
                   <input className="au-input" placeholder="Numele bisericii" value={fields.church} onChange={set('church')} />
-                  <input className="au-input" type="time" value={fields.churchTime} onChange={set('churchTime')} />
+                  <div className="au-input-wrap">
+                    <input
+                      className="au-input"
+                      type="text"
+                      placeholder="13:00"
+                      maxLength={5}
+                      value={fields.churchTime}
+                      onChange={(e) => {
+                        const v = e.target.value.replace(/[^0-9:]/g, '')
+                        setFields(f => ({ ...f, churchTime: v }))
+                      }}
+                    />
+                    <span className="au-input-hint">HH:MM</span>
+                  </div>
                 </div>
               </div>
 
@@ -451,14 +472,42 @@ const handlePay = useCallback(async () => {
                 <p className="au-section-label">Recepție</p>
                 <div className="au-grid2">
                   <input className="au-input" placeholder="Numele restaurantului" value={fields.restaurant} onChange={set('restaurant')} />
-                  <input className="au-input" type="time" value={fields.restTime} onChange={set('restTime')} />
+                  <div className="au-input-wrap">
+                    <input
+                      className="au-input"
+                      type="text"
+                      placeholder="19:00"
+                      maxLength={5}
+                      value={fields.restTime}
+                      onChange={(e) => {
+                        const v = e.target.value.replace(/[^0-9:]/g, '')
+                        setFields(f => ({ ...f, restTime: v }))
+                      }}
+                    />
+                    <span className="au-input-hint">HH:MM</span>
+                  </div>
                 </div>
               </div>
 
               <div className="au-section">
                 <p className="au-section-label">RSVP</p>
                 <div className="au-grid2">
-                  <input className="au-input" type="date" value={fields.rsvpDate} onChange={set('rsvpDate')} />
+                  <div className="au-input-wrap">
+                    <input
+                      className="au-input"
+                      type="text"
+                      placeholder="ZZ.LL.AAAA"
+                      maxLength={10}
+                      value={formatDisplayRsvp(fields.rsvpDate)}
+                      onChange={(e) => {
+                        const v = e.target.value.replace(/\D/g, '')
+                        const d = v.slice(0,2), m = v.slice(2,4), y = v.slice(4,8)
+                        if (y.length === 4) setFields(f => ({ ...f, rsvpDate: `${y}-${m}-${d}` }))
+                        else if (v.length < 8) setFields(f => ({ ...f, rsvpDate: '' }))
+                      }}
+                    />
+                    <span className="au-input-hint">ZZ.LL.AAAA</span>
+                  </div>
                   <input className="au-input" type="tel" placeholder="Nr. telefon" value={fields.rsvpTel} onChange={set('rsvpTel')} />
                 </div>
               </div>
@@ -480,6 +529,16 @@ const handlePay = useCallback(async () => {
             </div>
           </div>
         </div>
+
+        {/* ── FOOTER ── */}
+        <footer className="au-footer">
+          <p className="au-footer-text">Nu ai găsit modelul potrivit?</p>
+          <Link href="/invitatii-PDF" className="au-footer-btn">
+            ← Vezi toate modelele
+          </Link>
+          <p className="au-footer-copy">© {new Date().getFullYear()} VibeInvite · Făcut cu ♥ în România</p>
+        </footer>
+
       </div>
     </>
   )
