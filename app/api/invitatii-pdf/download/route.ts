@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { buildHTML as buildHTML_auriu } from '@/app/(invitatii-pdf)/invitatie-nunta-pdf-auriu/buildHTML'
 // import { buildHTML as buildHTML_royal } from '@/app/(invitatii-pdf)/invitatie-nunta-pdf-royal/buildHTML'
-// import { buildHTML as buildHTML_botez_bleu } from '@/app/(invitatii-pdf)/invitatie-botez-pdf-bleu/buildHTML'
 
 export const maxDuration = 60
 
@@ -13,40 +12,53 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder'
 const REGISTRY: Record<string, (fields: Record<string, string>) => string> = {
   'invitatie-nunta-pdf-auriu': buildHTML_auriu,
   // 'invitatie-nunta-pdf-royal': buildHTML_royal,
-  // 'invitatie-botez-pdf-bleu': buildHTML_botez_bleu,
 }
 
-async function renderFile(html: string, format: 'pdf' | 'jpg'): Promise<Uint8Array> {
-  const chromium = await import('@sparticuz/chromium')
-  const puppeteer = await import('puppeteer-core')
-  const executablePath = await chromium.default.executablePath()
-  const browser = await puppeteer.default.launch({
-    args: chromium.default.args,
-    defaultViewport: { width: 794, height: 1123 },
-    executablePath,
-    headless: true as any,
+async function renderPDF(html: string): Promise<Uint8Array> {
+  const res = await fetch('https://api.doppio.sh/v1/render/pdf/direct', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.DOPPIO_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      page: {
+        setContent: { html },
+        setViewport: { width: 794, height: 1123 },
+        pdf: {
+          printBackground: true,
+          width: '794px',
+          height: '1123px',
+          margin: { top: '0', right: '0', bottom: '0', left: '0' },
+        },
+      },
+    }),
   })
-  const page = await browser.newPage()
-  await page.setViewport({ width: 794, height: 1123 })
- await page.setContent(html, { waitUntil: 'load' })
-  await new Promise(r => setTimeout(r, 1500))
+  if (!res.ok) throw new Error(`Doppio PDF error: ${await res.text()}`)
+  return new Uint8Array(await res.arrayBuffer())
+}
 
-  let bytes: Uint8Array
-  if (format === 'jpg') {
-    const shot = await page.screenshot({
-      type: 'jpeg', quality: 95, encoding: 'binary', fullPage: false,
-      clip: { x: 0, y: 0, width: 794, height: 1123 },
-    }) as Buffer
-    bytes = new Uint8Array(shot)
-  } else {
-    const pdf = await page.pdf({
-      width: '794px', height: '1123px', printBackground: true,
-      margin: { top: '0', right: '0', bottom: '0', left: '0' },
-    })
-    bytes = new Uint8Array(pdf.buffer as ArrayBuffer)
-  }
-  await browser.close()
-  return bytes
+async function renderJPG(html: string): Promise<Uint8Array> {
+  const res = await fetch('https://api.doppio.sh/v1/render/screenshot/direct', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.DOPPIO_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      page: {
+        setContent: { html },
+        setViewport: { width: 794, height: 1123 },
+        screenshot: {
+          type: 'jpeg',
+          quality: 95,
+          fullPage: false,
+        },
+      },
+    }),
+  })
+  if (!res.ok) throw new Error(`Doppio JPG error: ${await res.text()}`)
+  return new Uint8Array(await res.arrayBuffer())
 }
 
 export async function GET(req: Request) {
@@ -67,12 +79,10 @@ export async function GET(req: Request) {
 
     if (format === 'pdf' || format === 'jpg') {
       const buildHTML = REGISTRY[template]
-      if (!buildHTML) {
-        return new NextResponse(`Template necunoscut: ${template}`, { status: 400 })
-      }
+      if (!buildHTML) return new NextResponse(`Template necunoscut: ${template}`, { status: 400 })
 
       const html = buildHTML(fields)
-      const bytes = await renderFile(html, format)
+      const bytes = format === 'pdf' ? await renderPDF(html) : await renderJPG(html)
 
       return new Response(bytes.buffer as ArrayBuffer, {
         headers: {
