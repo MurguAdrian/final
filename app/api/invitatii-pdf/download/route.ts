@@ -6,6 +6,9 @@ import { buildHTML_ocean } from '@/app/(invitatii-pdf)/invitatii-nunta-ocean/bui
 import { buildHTML_simpla } from '@/app/(invitatii-pdf)/invitatie-nunta-pdf-simpla/buildHTML'
 import { buildHTML_coral } from '@/app/(invitatii-pdf)/invitatie-nunta-img-coral/buildHTML'
 import { buildHTML_poza } from '@/app/(invitatii-pdf)/invitatie-nunta-poza/buildHTML'
+import { buildHTML_rustic } from '@/app/(invitatii-pdf)/invitatie-nunta-rustic/buildHTML'
+import { buildHTML_casa } from '@/app/(invitatii-pdf)/invitatie-nunta-casa/buildHTML'
+import { buildHTML_stele } from '@/app/(invitatii-pdf)/invitatii-nunta-sub-stele/buildHTML'
 // import { buildHTML as buildHTML_royal } from '@/app/(invitatii-pdf)/invitatie-nunta-pdf-royal/buildHTML'
 
 export const maxDuration = 60
@@ -21,6 +24,10 @@ const REGISTRY: Record<string, (fields: Record<string, string>) => string> = {
   'invitatie-nunta-pdf-simpla': buildHTML_simpla,
   'invitatie-nunta-img-coral': buildHTML_coral,
   'invitatie-nunta-poza': buildHTML_poza,
+  'invitatie-nunta-casa': buildHTML_casa,
+  'invitatie-nunta-rustic': buildHTML_rustic,
+  'invitatie-nunta-sub-stele': buildHTML_stele,
+
 
 
   // 'invitatie-nunta-pdf-royal': buildHTML_royal,

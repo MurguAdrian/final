@@ -30,6 +30,10 @@ export default function HeaderWrapper() {
  '/invitatie-nunta-pdf-simpla',
  '/invitatie-nunta-poza',
  '/invitatie-nunta-img-coral',
+ '/invitatie-nunta-casa',
+
+
+
   ]
 
 

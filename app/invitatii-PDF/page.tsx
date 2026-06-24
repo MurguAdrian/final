@@ -418,7 +418,164 @@ const MonogramPozaPreview = ({ init1, init2 }: { init1: string; init2: string })
     <text x="55" y="76" textAnchor="middle" fontFamily="Playfair Display, serif" fontSize="26" fontStyle="italic" fill="white" opacity=".95">{init2}</text>
   </svg>
 )
-
+const CelestialBgPreview = () => {
+  const stars = Array.from({ length: 220 }, (_, i) => ({
+    x: ((i * 137.508 + 47) % 794).toFixed(1),
+    y: ((i * 97.3 + 23) % 1123).toFixed(1),
+    r: i % 7 === 0 ? 1.8 : i % 3 === 0 ? 1.2 : 0.7,
+    op: (0.3 + (i % 10) * 0.07).toFixed(2),
+  }))
+  const brightStars = [
+    { x: 120, y: 180 }, { x: 680, y: 140 }, { x: 400, y: 80 },
+    { x: 80, y: 400 }, { x: 720, y: 380 }, { x: 200, y: 900 },
+    { x: 650, y: 920 }, { x: 380, y: 980 },
+  ]
+  return (
+    <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:0 }} viewBox="0 0 794 1123">
+      <defs>
+        <radialGradient id="cbp-space" cx="50%" cy="35%" r="70%">
+          <stop offset="0%" stopColor="#0d1535"/><stop offset="40%" stopColor="#080c22"/><stop offset="100%" stopColor="#030508"/>
+        </radialGradient>
+        <radialGradient id="cbp-neb1" cx="25%" cy="20%" r="60%">
+          <stop offset="0%" stopColor="#1a2860" stopOpacity=".6"/><stop offset="100%" stopColor="transparent"/>
+        </radialGradient>
+        <radialGradient id="cbp-neb2" cx="75%" cy="75%" r="55%">
+          <stop offset="0%" stopColor="#2a1050" stopOpacity=".5"/><stop offset="100%" stopColor="transparent"/>
+        </radialGradient>
+        <linearGradient id="cbp-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#e8c840"/><stop offset="25%" stopColor="#f8e870"/>
+          <stop offset="50%" stopColor="#c8a020"/><stop offset="75%" stopColor="#f0d050"/><stop offset="100%" stopColor="#d4b030"/>
+        </linearGradient>
+        <radialGradient id="cbp-copper" cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stopColor="#c87040"/><stop offset="40%" stopColor="#a85020"/><stop offset="100%" stopColor="#6a2c08"/>
+        </radialGradient>
+        <filter id="cbp-glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="cbp-soft"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="cbp-sglow"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <radialGradient id="cbp-vign" cx="50%" cy="50%" r="70%">
+          <stop offset="55%" stopColor="transparent"/><stop offset="100%" stopColor="#020408" stopOpacity=".75"/>
+        </radialGradient>
+        <linearGradient id="cbp-tf" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#030508" stopOpacity=".6"/><stop offset="100%" stopColor="transparent"/>
+        </linearGradient>
+        <linearGradient id="cbp-bf" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="transparent"/><stop offset="100%" stopColor="#030508" stopOpacity=".6"/>
+        </linearGradient>
+      </defs>
+      <rect width="794" height="1123" fill="url(#cbp-space)"/>
+      <ellipse cx="200" cy="220" rx="340" ry="260" fill="url(#cbp-neb1)"/>
+      <ellipse cx="600" cy="860" rx="300" ry="240" fill="url(#cbp-neb2)"/>
+      <path d="M0 350 Q200 300 397 320 Q594 340 794 280" stroke="#3040a0" strokeWidth="80" fill="none" opacity=".06" filter="url(#cbp-soft)"/>
+      {stars.map((s, i) => <circle key={i} cx={s.x} cy={s.y} r={s.r} fill="#f0d880" opacity={s.op}/>)}
+      {brightStars.map((s, i) => (
+        <g key={i}>
+          <circle cx={s.x} cy={s.y} r="3" fill="#f8e890" opacity=".9"/>
+          <line x1={s.x-10} y1={s.y} x2={s.x+10} y2={s.y} stroke="#f8e890" strokeWidth=".6" opacity=".5"/>
+          <line x1={s.x} y1={s.y-10} x2={s.x} y2={s.y+10} stroke="#f8e890" strokeWidth=".6" opacity=".5"/>
+        </g>
+      ))}
+      {/* Orion */}
+      <g opacity=".55" filter="url(#cbp-sglow)">
+        {[[110,230,2.5],[145,195,2],[160,220,2.5],[125,258,2],[155,270,2],[128,240,1.5],[140,240,1.5],[152,240,1.5]].map(([cx,cy,r],i)=><circle key={i} cx={cx} cy={cy} r={r} fill={i>=5?"#f8f0a0":"#f0d880"}/>)}
+        {[[110,230,145,195],[145,195,160,220],[110,230,128,240],[160,220,152,240],[128,240,152,240]].map(([x1,y1,x2,y2],i)=><line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#c8a840" strokeWidth=".7" opacity=".4"/>)}
+      </g>
+      {/* Cassiopeia */}
+      <g opacity=".5" filter="url(#cbp-sglow)">
+        {[[640,170,2.2],[665,148,2.5],[690,162,2.2],[715,145,2.5],[738,160,2]].map(([cx,cy,r],i)=><circle key={i} cx={cx} cy={cy} r={r} fill="#f0d880"/>)}
+        {[[640,170,665,148],[665,148,690,162],[690,162,715,145],[715,145,738,160]].map(([x1,y1,x2,y2],i)=><line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#c8a840" strokeWidth=".7" opacity=".4"/>)}
+      </g>
+      {/* Scorpius */}
+      <g opacity=".45" filter="url(#cbp-sglow)">
+        {[[80,820,2.5],[100,845,2],[110,868,2],[95,888,1.8],[80,905,1.8],[70,925,2],[85,942,2.2],[100,955,1.8]].map(([cx,cy,r],i)=><circle key={i} cx={cx} cy={cy} r={r} fill={i===0?"#f8a060":"#f0d880"}/>)}
+        {[[80,820,100,845],[100,845,110,868],[110,868,95,888],[95,888,80,905],[80,905,70,925],[70,925,85,942],[85,942,100,955]].map(([x1,y1,x2,y2],i)=><line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#c8a840" strokeWidth=".6" opacity=".35"/>)}
+      </g>
+      {/* Fazele lunii */}
+      <circle cx="260" cy="68" r="18" fill="#080c22" stroke="#c8a840" strokeWidth="1" opacity=".6"/>
+      <g transform="translate(310,50)"><circle r="18" fill="#c8a840" opacity=".15"/><path d="M0,-18 A18,18 0 0,1 0,18 A10,18 0 0,0 0,-18" fill="#c8a840" opacity=".65"/></g>
+      <g transform="translate(360,50)"><circle r="18" fill="#080c22" stroke="#c8a840" strokeWidth="1" opacity=".5"/><path d="M0,-18 A18,18 0 0,1 0,18 L0,-18" fill="#c8a840" opacity=".6"/></g>
+      <circle cx="397" cy="50" r="22" fill="none" stroke="#c8a840" strokeWidth="1.5" opacity=".7" filter="url(#cbp-glow)"/>
+      <circle cx="397" cy="50" r="14" fill="#f0d880" opacity=".3"/>
+      <g transform="translate(434,50)"><circle r="18" fill="#080c22" stroke="#c8a840" strokeWidth="1" opacity=".5"/><path d="M0,-18 A18,18 0 0,0 0,18 L0,-18" fill="#c8a840" opacity=".6"/></g>
+      <g transform="translate(484,50)"><circle r="18" fill="#c8a840" opacity=".15"/><path d="M0,-18 A18,18 0 0,0 0,18 A10,18 0 0,1 0,-18" fill="#c8a840" opacity=".65"/></g>
+      <circle cx="534" cy="68" r="18" fill="#080c22" stroke="#c8a840" strokeWidth="1" opacity=".6"/>
+      {/* Chenar auriu */}
+      <rect x="32" y="32" width="730" height="1059" fill="none" stroke="url(#cbp-gold)" strokeWidth="1.5" opacity=".5"/>
+      <rect x="44" y="44" width="706" height="1035" fill="none" stroke="url(#cbp-gold)" strokeWidth=".6" opacity=".3"/>
+      <g opacity=".7" filter="url(#cbp-glow)">
+        <path d="M32 72 L32 32 L72 32" fill="none" stroke="url(#cbp-gold)" strokeWidth="2"/>
+        <circle cx="32" cy="32" r="3" fill="#f0d060"/>
+        <path d="M52 32 L60 40 L52 48 L44 40 Z" fill="#f0d060" opacity=".6"/>
+        <path d="M722 32 L762 32 L762 72" fill="none" stroke="url(#cbp-gold)" strokeWidth="2"/>
+        <circle cx="762" cy="32" r="3" fill="#f0d060"/>
+        <path d="M742 32 L750 40 L742 48 L734 40 Z" fill="#f0d060" opacity=".6"/>
+        <path d="M32 1051 L32 1091 L72 1091" fill="none" stroke="url(#cbp-gold)" strokeWidth="2"/>
+        <circle cx="32" cy="1091" r="3" fill="#f0d060"/>
+        <path d="M722 1091 L762 1091 L762 1051" fill="none" stroke="url(#cbp-gold)" strokeWidth="2"/>
+        <circle cx="762" cy="1091" r="3" fill="#f0d060"/>
+      </g>
+      {/* Ornament stea */}
+      <g transform="translate(397,100)" opacity=".65" filter="url(#cbp-glow)">
+        <path d="M0,-14 L3,-3 L14,0 L3,3 L0,14 L-3,3 L-14,0 L-3,-3 Z" fill="#f0d060"/>
+      </g>
+      {/* Sigiliu cupru */}
+      <g transform="translate(634,990)" filter="url(#cbp-soft)">
+        <ellipse cx="4" cy="6" rx="46" ry="46" fill="#000" opacity=".4"/>
+        <circle r="44" fill="url(#cbp-copper)"/>
+        <ellipse cx="-12" cy="-16" rx="18" ry="12" fill="#e08050" opacity=".25" transform="rotate(-30)"/>
+        <circle r="36" fill="none" stroke="#c06030" strokeWidth="1" opacity=".5"/>
+        <circle r="22" fill="none" stroke="#f0c090" strokeWidth="1.5" opacity=".4"/>
+        <path d="M-2,-18 A20,20 0 0,1 14,14 A14,20 0 0,0 -2,-18" fill="#f0c090" opacity=".7"/>
+        <circle cx="12" cy="-8" r="2" fill="#f8d880" opacity=".8"/>
+        <circle cx="8" cy="14" r="1.5" fill="#f8d880" opacity=".7"/>
+        <circle cx="-14" cy="4" r="1.5" fill="#f8d880" opacity=".6"/>
+      </g>
+      <rect width="794" height="1123" fill="url(#cbp-vign)"/>
+      <rect width="794" height="200" fill="url(#cbp-tf)"/>
+      <rect y="920" width="794" height="203" fill="url(#cbp-bf)"/>
+    </svg>
+  )
+}
+function PreviewSubStele() {
+  return (
+    <div style={{ width:'794px', height:'1123px', position:'relative', overflow:'hidden', background:'#080c1a', fontFamily:"'Cormorant Garamond',serif" }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Raleway:wght@300;400&display=swap');`}</style>
+      <CelestialBgPreview />
+      <div style={{ position:'absolute', inset:0, zIndex:5, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'flex-start', padding:'108px 88px 52px', textAlign:'center' }}>
+        <div style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:'16px', marginBottom:'18px', fontSize:'20px' }}>
+          <span style={{ opacity:.55 }}>🌑</span><span style={{ opacity:.5, fontSize:'18px' }}>🌒</span>
+          <span style={{ opacity:.75, fontSize:'22px' }}>🌕</span>
+          <span style={{ opacity:.5, fontSize:'18px' }}>🌘</span><span style={{ opacity:.55 }}>🌑</span>
+        </div>
+        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'11px', letterSpacing:'.38em', textTransform:'uppercase', color:'#b8a050', marginBottom:'8px' }}>Sub cerul înstelat, cu dragoste</p>
+        <div style={{ display:'flex', alignItems:'center', gap:'12px', width:'100%', marginBottom:'18px' }}>
+          <div style={{ flex:1, height:'1px', background:'linear-gradient(90deg,transparent,#c8a840,transparent)', opacity:.5 }} />
+          <span style={{ fontSize:'14px', color:'#c8a840', opacity:.7 }}>✦</span>
+          <div style={{ flex:1, height:'1px', background:'linear-gradient(90deg,transparent,#c8a840,transparent)', opacity:.5 }} />
+        </div>
+        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'11px', letterSpacing:'.28em', textTransform:'uppercase', color:'#7080b0', marginBottom:'6px' }}>Cu binecuvântarea părinților</p>
+        <p style={{ fontSize:'22px', fontStyle:'italic', color:'#c8d4f0', lineHeight:1.6, marginBottom:'4px' }}>Ion și Maria Popescu</p>
+        <p style={{ fontSize:'22px', fontStyle:'italic', color:'#c8d4f0', lineHeight:1.6, marginBottom:'14px' }}>Gheorghe și Elena Ionescu</p>
+        <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'96px', fontWeight:300, fontStyle:'italic', color:'#f0d060', lineHeight:1, display:'block', textShadow:'0 0 40px rgba(240,208,96,.25)', marginBottom:'4px' }}>
+          Adrian <span style={{ fontSize:'72px', color:'#c8b878' }}>&amp;</span> Andreea
+        </span>
+        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'11px', letterSpacing:'.28em', textTransform:'uppercase', color:'#7080b0', marginBottom:'14px' }}>vă invită cu drag la nunta lor</p>
+        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'9px', letterSpacing:'.28em', textTransform:'uppercase', color:'#b8a050', marginBottom:'5px', opacity:.8 }}>Nași de cununie</p>
+        <p style={{ fontSize:'24px', fontStyle:'italic', color:'#c8d4f0', marginBottom:'14px' }}>Mihai și Cristina Dumitrescu</p>
+        <p style={{ fontSize:'30px', fontWeight:600, color:'#e8d080', letterSpacing:'.06em', marginBottom:'12px' }}>Duminică, 14 Septembrie 2025</p>
+        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'9px', letterSpacing:'.28em', textTransform:'uppercase', color:'#b8a050', marginBottom:'4px', opacity:.8 }}>Cununie Religioasă</p>
+        <p style={{ fontSize:'24px', fontStyle:'italic', color:'#c8d4f0', marginBottom:'3px' }}>Catedrala Sf. Iosif</p>
+        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'13px', fontWeight:300, color:'#8090b8', letterSpacing:'.1em', marginBottom:'12px' }}>ora 16:00</p>
+        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'9px', letterSpacing:'.28em', textTransform:'uppercase', color:'#b8a050', marginBottom:'4px', opacity:.8 }}>Recepție</p>
+        <p style={{ fontSize:'24px', fontStyle:'italic', color:'#c8d4f0', marginBottom:'3px' }}>Château des Étoiles</p>
+        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'13px', fontWeight:300, color:'#8090b8', letterSpacing:'.1em', marginBottom:'12px' }}>ora 19:00</p>
+        <p style={{ fontSize:'18px', fontStyle:'italic', color:'#8090b8', lineHeight:1.9 }}>
+          Confirmați până la <strong style={{ color:'#c8d4f0', fontStyle:'normal', fontWeight:400 }}>1 August 2025</strong><br/>
+          Tel: <strong style={{ color:'#c8d4f0', fontStyle:'normal', fontWeight:400 }}>0700 000 000</strong>
+        </p>
+      </div>
+    </div>
+  )
+}
 function PreviewPoza() {
   return (
     <div style={{ width:'794px', height:'1123px', position:'relative', overflow:'hidden', fontFamily:"'Raleway',sans-serif" }}>
@@ -449,7 +606,190 @@ function PreviewPoza() {
     </div>
   )
 }
+const GeoMonogram = ({ init1, init2 }: { init1: string; init2: string }) => (
+  <svg viewBox="0 0 200 200" fill="none" width="200" height="200">
+    <defs>
+      <linearGradient id="cs-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#d4a840"/>
+        <stop offset="50%" stopColor="#f0cc70"/>
+        <stop offset="100%" stopColor="#b8900c"/>
+      </linearGradient>
+    </defs>
+    <polygon points="100,12 172,52 172,148 100,188 28,148 28,52" fill="none" stroke="url(#cs-gold)" strokeWidth="1.5" opacity=".9"/>
+    <polygon points="100,28 158,62 158,138 100,172 42,138 42,62" fill="none" stroke="url(#cs-gold)" strokeWidth=".7" opacity=".5"/>
+    <line x1="28" y1="52" x2="100" y2="100" stroke="url(#cs-gold)" strokeWidth=".6" opacity=".35"/>
+    <line x1="172" y1="52" x2="100" y2="100" stroke="url(#cs-gold)" strokeWidth=".6" opacity=".35"/>
+    <line x1="28" y1="148" x2="100" y2="100" stroke="url(#cs-gold)" strokeWidth=".6" opacity=".35"/>
+    <line x1="172" y1="148" x2="100" y2="100" stroke="url(#cs-gold)" strokeWidth=".6" opacity=".35"/>
+    {/* Frunze stanga */}
+    <path d="M28 100 Q10 80 5 60 Q18 72 28 100Z" fill="#8faa90" opacity=".8"/>
+    <path d="M28 100 Q12 112 8 130 Q22 118 28 100Z" fill="#8faa90" opacity=".7"/>
+    <path d="M5 60 Q16 80 28 100 Q22 118 8 130" stroke="#6a8a6a" strokeWidth="1" fill="none" opacity=".6"/>
+    {/* Frunze dreapta */}
+    <path d="M172 100 Q190 80 195 60 Q182 72 172 100Z" fill="#8faa90" opacity=".8"/>
+    <path d="M172 100 Q188 112 192 130 Q178 118 172 100Z" fill="#8faa90" opacity=".7"/>
+    <path d="M195 60 Q184 80 172 100 Q178 118 192 130" stroke="#6a8a6a" strokeWidth="1" fill="none" opacity=".6"/>
+    {/* Initiale */}
+    <text x="100" y="90" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="38" fontStyle="italic" fill="url(#cs-gold)" opacity=".95">{init1}</text>
+    <line x1="70" y1="100" x2="130" y2="100" stroke="url(#cs-gold)" strokeWidth="1" opacity=".6"/>
+    <text x="100" y="136" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="38" fontStyle="italic" fill="url(#cs-gold)" opacity=".95">{init2}</text>
+  </svg>
+)
+const KraftBg = () => (
+  <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:0 }} viewBox="0 0 794 1123" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="rk-kraft" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#d4b07a"/>
+        <stop offset="30%" stopColor="#c8a060"/>
+        <stop offset="60%" stopColor="#be9458"/>
+        <stop offset="100%" stopColor="#c4a068"/>
+      </linearGradient>
+      <filter id="rk-blur-heavy"><feGaussianBlur stdDeviation="8"/></filter>
+    </defs>
+    <rect width="794" height="1123" fill="url(#rk-kraft)"/>
+    <ellipse cx="200" cy="300" rx="250" ry="180" fill="#a07840" opacity=".12" filter="url(#rk-blur-heavy)"/>
+    <ellipse cx="600" cy="800" rx="220" ry="160" fill="#8a6030" opacity=".1" filter="url(#rk-blur-heavy)"/>
+    {/* Margini franjurate */}
+    <path d="M0 0 Q30 12 60 5 Q90 -2 120 8 Q150 18 180 6 Q210 -4 240 10 Q270 24 300 8 Q330 -4 360 12 Q390 28 420 8 Q450 -8 480 10 Q510 28 540 6 Q570 -8 600 12 Q630 32 660 8 Q690 -8 720 12 Q750 32 780 8 Q794 4 794 0 L0 0Z" fill="#e8c888" opacity=".45"/>
+    <path d="M0 1123 Q30 1111 60 1118 Q90 1125 120 1115 Q150 1105 180 1117 Q210 1129 240 1113 Q270 1097 300 1115 Q330 1133 360 1111 Q390 1089 420 1115 Q450 1141 480 1113 Q510 1085 540 1117 Q570 1149 600 1115 Q630 1081 660 1115 Q690 1149 720 1115 Q750 1081 780 1115 Q794 1123 794 1123 L0 1123Z" fill="#e8c888" opacity=".45"/>
+    {/* Portative watermark */}
+    <g opacity=".12">
+      <line x1="40" y1="380" x2="754" y2="380" stroke="#3a2010" strokeWidth="1.2"/>
+      <line x1="40" y1="395" x2="754" y2="395" stroke="#3a2010" strokeWidth="1.2"/>
+      <line x1="40" y1="410" x2="754" y2="410" stroke="#3a2010" strokeWidth="1.2"/>
+      <line x1="40" y1="425" x2="754" y2="425" stroke="#3a2010" strokeWidth="1.2"/>
+      <line x1="40" y1="440" x2="754" y2="440" stroke="#3a2010" strokeWidth="1.2"/>
+    </g>
+    <g opacity=".08">
+      <line x1="40" y1="720" x2="754" y2="720" stroke="#3a2010" strokeWidth="1.2"/>
+      <line x1="40" y1="735" x2="754" y2="735" stroke="#3a2010" strokeWidth="1.2"/>
+      <line x1="40" y1="750" x2="754" y2="750" stroke="#3a2010" strokeWidth="1.2"/>
+      <line x1="40" y1="765" x2="754" y2="765" stroke="#3a2010" strokeWidth="1.2"/>
+      <line x1="40" y1="780" x2="754" y2="780" stroke="#3a2010" strokeWidth="1.2"/>
+    </g>
+    {/* Cheie Sol watermark */}
+    <text x="397" y="620" textAnchor="middle" fontFamily="serif" fontSize="280" fill="#3a2010" opacity=".05">𝄞</text>
+    {/* Silueta vioara */}
+    <g transform="translate(610,780) scale(0.7)" opacity=".13">
+      <path d="M60 0 C80 0 95 15 95 35 C95 50 85 60 75 68 C85 78 92 90 92 105 C92 130 75 148 60 148 C45 148 28 130 28 105 C28 90 35 78 45 68 C35 60 25 50 25 35 C25 15 40 0 60 0Z" fill="none" stroke="#3a1a08" strokeWidth="3"/>
+      <rect x="55" y="148" width="10" height="80" fill="none" stroke="#3a1a08" strokeWidth="2"/>
+      <path d="M55 228 C50 240 45 250 50 258 C55 266 65 258 60 248" fill="none" stroke="#3a1a08" strokeWidth="2"/>
+      <line x1="60" y1="40" x2="60" y2="145" stroke="#3a1a08" strokeWidth="1" opacity=".5"/>
+      <line x1="48" y1="80" x2="72" y2="80" stroke="#3a1a08" strokeWidth="1.5"/>
+    </g>
+    {/* Bordura */}
+    <rect x="28" y="28" width="738" height="1067" fill="none" stroke="#5a3a1a" strokeWidth="1.5" opacity=".45"/>
+    <rect x="38" y="38" width="718" height="1047" fill="none" stroke="#5a3a1a" strokeWidth=".7" opacity=".3"/>
+    <g opacity=".5">
+      <path d="M28 80 L28 28 L80 28" stroke="#5a3a1a" strokeWidth="2.5" fill="none"/>
+      <circle cx="28" cy="28" r="4" fill="#8b5e2e" opacity=".6"/>
+      <path d="M714 28 L766 28 L766 80" stroke="#5a3a1a" strokeWidth="2.5" fill="none"/>
+      <circle cx="766" cy="28" r="4" fill="#8b5e2e" opacity=".6"/>
+      <path d="M28 1043 L28 1095 L80 1095" stroke="#5a3a1a" strokeWidth="2.5" fill="none"/>
+      <circle cx="28" cy="1095" r="4" fill="#8b5e2e" opacity=".6"/>
+      <path d="M714 1095 L766 1095 L766 1043" stroke="#5a3a1a" strokeWidth="2.5" fill="none"/>
+      <circle cx="766" cy="1095" r="4" fill="#8b5e2e" opacity=".6"/>
+    </g>
+  </svg>
+)
+const StaffSVG = ({ opacity = '.4', notes = true }: { opacity?: string; notes?: boolean }) => (
+  <svg viewBox="0 0 614 28" style={{ width:'100%', height:'28px', display:'block' }} fill="none">
+    {[4,10,16,22,28].map(y => (
+      <line key={y} x1="0" y1={y} x2="614" y2={y} stroke="#5a3a1a" strokeWidth="1" opacity={opacity}/>
+    ))}
+    <text x="4" y="26" fontFamily="serif" fontSize="32" fill="#8b5e2e" opacity=".65">𝄞</text>
+    {notes && <>
+      <text x="60" y="8" fontFamily="serif" fontSize="18" fill="#3a2010" opacity=".5">♩</text>
+      <text x="110" y="14" fontFamily="serif" fontSize="16" fill="#3a2010" opacity=".45">♪</text>
+      <text x="180" y="6" fontFamily="serif" fontSize="20" fill="#3a2010" opacity=".45">♫</text>
+      <text x="260" y="20" fontFamily="serif" fontSize="16" fill="#3a2010" opacity=".4">♩</text>
+      <text x="350" y="8" fontFamily="serif" fontSize="18" fill="#3a2010" opacity=".4">♪</text>
+      <text x="440" y="16" fontFamily="serif" fontSize="20" fill="#3a2010" opacity=".45">♫</text>
+      <text x="540" y="10" fontFamily="serif" fontSize="16" fill="#3a2010" opacity=".45">♩</text>
+    </>}
+  </svg>
+)
 
+function PreviewRustic() {
+  return (
+    <div style={{ width:'794px', height:'1123px', position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', alignItems:'center', fontFamily:"'Cormorant Garamond',serif" }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Raleway:wght@300;400;500&display=swap');`}</style>
+      <KraftBg />
+      <div style={{ position:'relative', zIndex:4, textAlign:'center', width:'100%', padding:'52px 90px 48px', display:'flex', flexDirection:'column', alignItems:'center' }}>
+        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'12px', fontWeight:400, letterSpacing:'.32em', textTransform:'uppercase', color:'#5a3a1a', opacity:.75, marginBottom:'14px' }}>Cu dragoste vă invită</p>
+        <StaffSVG />
+        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'11px', letterSpacing:'.28em', textTransform:'uppercase', color:'#5a3a1a', opacity:.7, marginBottom:'4px', marginTop:'10px' }}>Cu binecuvântarea părinților</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontStyle:'italic', color:'#1a0e06', lineHeight:1.5, marginBottom:'4px' }}>Ion și Maria Popescu</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontStyle:'italic', color:'#1a0e06', lineHeight:1.5, marginBottom:'8px' }}>Gheorghe și Elena Ionescu</p>
+        <div style={{ margin:'6px 0' }}>
+          <span style={{ fontFamily:"'IM Fell English',serif", fontSize:'72px', color:'#8b5e2e', opacity:.55, lineHeight:1, display:'inline-block', margin:'0 12px' }}>ƒ</span>
+          <span style={{ fontFamily:"'Playfair Display',serif", fontSize:'80px', fontWeight:400, fontStyle:'italic', color:'#1a0e06', lineHeight:1, display:'block' }}>Adrian</span>
+          <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'64px', fontWeight:300, fontStyle:'italic', color:'#8b5e2e', display:'block', lineHeight:1 }}>&amp;</span>
+          <span style={{ fontFamily:"'Playfair Display',serif", fontSize:'80px', fontWeight:400, fontStyle:'italic', color:'#1a0e06', lineHeight:1, display:'block' }}>Andreea</span>
+          <span style={{ fontFamily:"'IM Fell English',serif", fontSize:'72px', color:'#8b5e2e', opacity:.55, lineHeight:1, display:'inline-block', margin:'0 12px', transform:'scaleX(-1)' }}>ƒ</span>
+        </div>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontWeight:300, fontStyle:'italic', color:'#3a2010', margin:'14px 0 6px' }}>vă invită cu drag la nunta lor</p>
+        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'11px', letterSpacing:'.28em', textTransform:'uppercase', color:'#5a3a1a', opacity:.7, marginBottom:'4px' }}>Nași de cununie</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'26px', fontStyle:'italic', color:'#1a0e06', marginBottom:'10px' }}>Mihai și Cristina Dumitrescu</p>
+        <p style={{ fontSize:'28px', color:'#8b5e2e', opacity:.6, margin:'8px 0', letterSpacing:'8px' }}>✦ ♪ ✦</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'30px', fontWeight:600, color:'#1a0e06', marginBottom:'10px' }}>Duminică, 14 Septembrie 2025</p>
+        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'11px', letterSpacing:'.28em', textTransform:'uppercase', color:'#5a3a1a', opacity:.7, marginBottom:'4px' }}>Cununie Religioasă</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontStyle:'italic', color:'#1a0e06', marginBottom:'4px' }}>Biserica Sf. Nicolae</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontStyle:'italic', color:'#3a2010' }}>ora 13:00</p>
+        <p style={{ fontSize:'18px', color:'#8b5e2e', opacity:.6, margin:'8px 0' }}>♫</p>
+        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'11px', letterSpacing:'.28em', textTransform:'uppercase', color:'#5a3a1a', opacity:.7, marginBottom:'4px' }}>Recepție</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontStyle:'italic', color:'#1a0e06', marginBottom:'4px' }}>Restaurant La Conac</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontStyle:'italic', color:'#3a2010' }}>ora 18:00</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'20px', fontStyle:'italic', color:'#5a3a1a', lineHeight:1.8, marginTop:'14px' }}>
+          Confirmați prezența până la <strong style={{ fontStyle:'normal', color:'#1a0e06' }}>1 August 2025</strong><br/>
+          Tel: <strong style={{ fontStyle:'normal', color:'#1a0e06' }}>0700 000 000</strong>
+        </p>
+      </div>
+    </div>
+  )
+}
+// ── SVG Pete acuarela sage ────────────────────────────────────────────────────
+const SageBlobs = () => (
+  <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:1, pointerEvents:'none' }} viewBox="0 0 794 1123" preserveAspectRatio="none">
+    <defs>
+      <filter id="cs-blur"><feGaussianBlur stdDeviation="18"/></filter>
+      <filter id="cs-blur-sm"><feGaussianBlur stdDeviation="10"/></filter>
+    </defs>
+    <ellipse cx="80" cy="120" rx="160" ry="100" fill="#8faa90" opacity=".28" filter="url(#cs-blur)"/>
+    <ellipse cx="40" cy="80" rx="90" ry="60" fill="#7a9a80" opacity=".2" filter="url(#cs-blur-sm)"/>
+    <ellipse cx="140" cy="160" rx="110" ry="70" fill="#a0b8a0" opacity=".18" filter="url(#cs-blur)"/>
+    <ellipse cx="720" cy="100" rx="140" ry="90" fill="#8faa90" opacity=".25" filter="url(#cs-blur)"/>
+    <ellipse cx="760" cy="60" rx="80" ry="50" fill="#7a9a80" opacity=".18" filter="url(#cs-blur-sm)"/>
+    <ellipse cx="100" cy="1020" rx="150" ry="90" fill="#8faa90" opacity=".22" filter="url(#cs-blur)"/>
+    <ellipse cx="700" cy="1010" rx="140" ry="85" fill="#8faa90" opacity=".22" filter="url(#cs-blur)"/>
+    <ellipse cx="750" cy="1060" rx="90" ry="55" fill="#7a9a80" opacity=".16" filter="url(#cs-blur-sm)"/>
+  </svg>
+)
+function PreviewCasa() {
+  return (
+    <div style={{ width:'794px', height:'1123px', background:'#f8f5ef', position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'60px 90px 70px', fontFamily:"'Raleway',sans-serif" }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Cormorant+Garamond:ital,wght@1,400&family=Raleway:wght@300;400;500&display=swap');`}</style>
+      <SageBlobs />
+      <div style={{ position:'relative', zIndex:3, textAlign:'center', width:'100%', display:'flex', flexDirection:'column', alignItems:'center' }}>
+        <div style={{ marginBottom:'28px' }}><GeoMonogram init1="A" init2="A" /></div>
+        <p style={{ fontSize:'13px', fontWeight:500, letterSpacing:'.28em', textTransform:'uppercase', color:'#5a5a4a', marginBottom:'10px' }}>TOGETHER WITH THEIR FAMILIES</p>
+        <p style={{ fontFamily:"'Playfair Display',serif", fontSize:'80px', fontWeight:700, color:'#1a1a14', lineHeight:1, marginBottom:'10px' }}>
+          Adrian <span style={{ fontStyle:'italic', fontWeight:400, color:'#b8a060' }}>&amp;</span> Andreea
+        </p>
+        <p style={{ fontSize:'13px', fontWeight:500, letterSpacing:'.22em', textTransform:'uppercase', color:'#5a5a4a', marginBottom:'28px' }}>INVITE YOU TO CELEBRATE THEIR UNION</p>
+        <div style={{ width:'80px', height:'1px', background:'#b8a060', opacity:.5, margin:'0 auto 28px' }} />
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'32px', fontStyle:'italic', color:'#1a1a14', marginBottom:'20px' }}>Sâmbătă | 12 SEPTEMBRIE 2027</p>
+        <p style={{ fontFamily:"'Playfair Display',serif", fontSize:'30px', fontWeight:700, color:'#1a1a14', marginBottom:'6px' }}>Biserica Sf. Gheorghe</p>
+        <p style={{ fontSize:'14px', fontWeight:500, letterSpacing:'.2em', textTransform:'uppercase', color:'#5a5a4a', marginBottom:'18px' }}>RECEPȚIE, CINĂ ȘI DANS</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontStyle:'italic', color:'#3a3a2e', lineHeight:1.7 }}>Ora 16:00, Catedrala Ortodoxă, Onești</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontStyle:'italic', color:'#3a3a2e', lineHeight:1.7 }}>Ora 18:00, Restaurant "Vatra", Bacău</p>
+        <div style={{ width:'80px', height:'1px', background:'#b8a060', opacity:.4, margin:'24px auto' }} />
+        <div style={{ display:'inline-block', padding:'14px 52px', background:'#6b8a70', color:'#fff', fontSize:'16px', fontWeight:500, letterSpacing:'.1em', borderRadius:'4px', marginBottom:'22px' }}>Confirmare Prezență</div>
+        <p style={{ fontSize:'14px', fontWeight:300, fontStyle:'italic', color:'#5a5a4a' }}>Vă rugăm să confirmați până la 15 IULIE 2027</p>
+      </div>
+    </div>
+  )
+}
 function PreviewOcean() {
   return (
     <div style={{ width:'794px', height:'1123px', background:'#f0f5fa', position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', alignItems:'center', padding:'0 80px 60px', fontFamily:"'Raleway',sans-serif" }}>
@@ -703,6 +1043,10 @@ const CARDS_NUNTA: Card[] = [
 { id: 4, name: 'Simplă Elegantă', desc: 'Hârtie texturată, text centrat și sigiliu ceară albastru.', category: 'nunta', available: true, slug: 'invitatie-nunta-pdf-simpla', PreviewComp: PreviewSimpla }, 
 { id: 5, name: 'Botanică Mov & Coral', desc: 'Coroană florală mov, coral și auriu cu monogramă hexagonală.', category: 'nunta', available: true, slug: 'invitatie-nunta-img-coral', PreviewComp: PreviewCoral },
 { id: 6, name: 'Pădure de Toamnă', desc: 'Fundal forestier întunecat, monogramă elegantă și text alb.', category: 'nunta', available: true, slug: 'invitatie-nunta-poza', PreviewComp: PreviewPoza },
+{ id: 7, name: 'Geometric Sage', desc: 'Monogramă geometrică aurie, pete acuarelă sage și hârtie texturată.', category: 'nunta', available: true, slug: 'invitatie-nunta-casa', PreviewComp: PreviewCasa },
+{ id: 8, name: 'Rustic Simfonic', desc: 'Hârtie kraft, portativ muzical, siluetă vioară și font caligrafic.', category: 'nunta', available: true, slug: 'invitatie-nunta-rustic', PreviewComp: PreviewRustic },
+{ id: 9, name: 'Sub Stele', desc: 'Midnight blue celestial cu constelații aurii, faze ale lunii și sigiliu cupru.', category: 'nunta', available: true, slug: 'invitatie-nunta-sub-stele', PreviewComp: PreviewSubStele },
+
 
 ]
 
