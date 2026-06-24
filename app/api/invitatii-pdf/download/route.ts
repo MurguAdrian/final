@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { buildHTML as buildHTML_auriu } from '@/app/(invitatii-pdf)/invitatie-nunta-pdf-auriu/buildHTML'
 import { buildHTML_vara } from '@/app/(invitatii-pdf)/invitatie-nunta-de-vara/buildHTML'
+import { buildHTML_ocean } from '@/app/(invitatii-pdf)/invitatii-nunta-ocean/buildHTML'
 // import { buildHTML as buildHTML_royal } from '@/app/(invitatii-pdf)/invitatie-nunta-pdf-royal/buildHTML'
 
 export const maxDuration = 60
@@ -13,6 +14,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder'
 const REGISTRY: Record<string, (fields: Record<string, string>) => string> = {
   'invitatie-nunta-pdf-auriu': buildHTML_auriu,
   'invitatie-nunta-de-vara': buildHTML_vara,
+    'invitatii-nunta-ocean': buildHTML_ocean,
 
   // 'invitatie-nunta-pdf-royal': buildHTML_royal,
 }
