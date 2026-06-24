@@ -99,6 +99,8 @@ export default async function InvitationPage({ params }: { params: { slug: strin
       initials={initials}
       nasiNames={s.nasi_names || ''}
       parentsNames={s.parents_names || ''}
+      parentsBride={s.parents_bride || ''}
+      parentsGroom={s.parents_groom || ''}
       weddingDateISO={weddingDateISO}
       weddingDateDisplay={weddingDateDisplay}
       weddingTime={s.wedding_time || ''}

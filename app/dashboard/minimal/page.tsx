@@ -80,7 +80,6 @@ img, svg { max-width: 100%; }
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-  touch-action: pan-y;
   position: relative;
   z-index: 5;
   background: ${C.cream};

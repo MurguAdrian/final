@@ -16,7 +16,8 @@ interface FormData {
   brideName:              string;
   groomName:              string;
   nasiNames:              string;
-  parentsNames:           string;
+  parentsBride:           string;
+  parentsGroom:           string;
   weddingDate:            string;
   weddingTime:            string;
   locationName:           string;
@@ -311,29 +312,44 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
   const currentYear = new Date().getFullYear();
   const maxYear     = currentYear + 5;
 
- const buildForm = (data: any): FormData => ({
-    customSlug:            data?.custom_slug            || '',
-    brideName:             data?.bride_name             || '',
-    groomName:             data?.groom_name             || '',
-    nasiNames:             data?.nasi_names             || '',
-    parentsNames:          data?.parents_names          || '',
-    weddingDate:           data?.wedding_date           ? new Date(data.wedding_date).toISOString().split('T')[0]    : '',
-    weddingTime:           data?.wedding_time           ? data.wedding_time.substring(0, 5)                          : '',
-    locationName:          data?.location_name          || '',
-    googleMapsUrl:         data?.google_maps_url        || '',
-    wazeUrl:               data?.waze_url               || '',
-    religiousDate:         data?.religious_date         ? new Date(data.religious_date).toISOString().split('T')[0]  : '',
-    religiousTime:         data?.religious_time         ? data.religious_time.substring(0, 5)                        : '',
-    religiousLocation:     data?.religious_location     || '',
-    religiousMaps:         data?.religious_maps_url     || '',
-    religiousWaze:         data?.religious_waze         || '',
-    ourStory:              data?.our_story              || '',
-    contactPhoneBride:     data?.contact_phone_bride    || '',
-    contactPhoneGroom:     data?.contact_phone_groom    || '',
-    isReligiousActive:     data?.is_religious_active    ?? false,
-    isAccommodationActive: data?.is_accommodation_active ?? false,
-    isTransportActive:     data?.is_transport_active    ?? false,
-  });
+ const buildForm = (data: any): FormData => {
+    const existingParentsNames = data?.parents_names || '';
+    let parentsBride = data?.parents_bride || '';
+    let parentsGroom = data?.parents_groom || '';
+    if (!parentsBride && !parentsGroom && existingParentsNames) {
+      const parts = existingParentsNames.split(' si ');
+      if (parts.length >= 2) {
+        parentsBride = parts[0].trim();
+        parentsGroom = parts.slice(1).join(' si ').trim();
+      } else {
+        parentsBride = existingParentsNames;
+      }
+    }
+    return {
+      customSlug:            data?.custom_slug            || '',
+      brideName:             data?.bride_name             || '',
+      groomName:             data?.groom_name             || '',
+      nasiNames:             data?.nasi_names             || '',
+      parentsBride,
+      parentsGroom,
+      weddingDate:           data?.wedding_date           ? new Date(data.wedding_date).toISOString().split('T')[0]    : '',
+      weddingTime:           data?.wedding_time           ? data.wedding_time.substring(0, 5)                          : '',
+      locationName:          data?.location_name          || '',
+      googleMapsUrl:         data?.google_maps_url        || '',
+      wazeUrl:               data?.waze_url               || '',
+      religiousDate:         data?.religious_date         ? new Date(data.religious_date).toISOString().split('T')[0]  : '',
+      religiousTime:         data?.religious_time         ? data.religious_time.substring(0, 5)                        : '',
+      religiousLocation:     data?.religious_location     || '',
+      religiousMaps:         data?.religious_maps_url     || '',
+      religiousWaze:         data?.religious_waze         || '',
+      ourStory:              data?.our_story              || '',
+      contactPhoneBride:     data?.contact_phone_bride    || '',
+      contactPhoneGroom:     data?.contact_phone_groom    || '',
+      isReligiousActive:     data?.is_religious_active    ?? false,
+      isAccommodationActive: data?.is_accommodation_active ?? false,
+      isTransportActive:     data?.is_transport_active    ?? false,
+    };
+  };
 
   const [formData, setFormData] = useState<FormData>(() => buildForm(initialData));
 
@@ -348,12 +364,19 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
   const set = (key: keyof FormData, value: any) =>
     setFormData(prev => ({ ...prev, [key]: value }));
 
+  const buildPayload = (data: FormData) => ({
+    ...data,
+    parents_names: [data.parentsBride, data.parentsGroom].filter(Boolean).join(' si '),
+    parents_bride: data.parentsBride,
+    parents_groom: data.parentsGroom,
+  });
+
   const autoSaveFn = useCallback(async (data: FormData) => {
     if (!orderId) throw new Error('orderId missing');
     const res = await fetch('/api/dashboard/personalize', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ orderId, ...data }),
+      body: JSON.stringify({ orderId, ...buildPayload(data) }),
     });
     if (!res.ok) {
       const error = await res.json().catch(() => ({}));
@@ -372,7 +395,7 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
       const res = await fetch('/api/dashboard/personalize', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId, ...formData }),
+        body: JSON.stringify({ orderId, ...buildPayload(formData) }),
       });
       if (res.ok) {
         setAutoSaveStatus('saved');
@@ -634,7 +657,8 @@ export const PersonalizeSection = ({ initialData, orderId, onSave }: Personalize
             <FG><label style={labS}>Nume Mireasă</label><input className="ps-input" placeholder="ex: Maria"                  value={formData.brideName}   onChange={e => set('brideName',   e.target.value)} /></FG>
             <FG><label style={labS}>Nume Mire</label>   <input className="ps-input" placeholder="ex: Andrei"                 value={formData.groomName}   onChange={e => set('groomName',   e.target.value)} /></FG>
             <FG><label style={labS}>Nași</label>        <input className="ps-input" placeholder="ex: Popescu Ion și Elena"   value={formData.nasiNames}   onChange={e => set('nasiNames',   e.target.value)} /></FG>
-            <FG noMargin><label style={labS}>Părinți</label><input className="ps-input" style={{ marginBottom: 0 }} placeholder="ex: Popescu Ion cu Maria si Murgu Adrian cu Andreea" value={formData.parentsNames} onChange={e => set('parentsNames', e.target.value)} /></FG>
+            <FG><label style={labS}>Părinți Mireasă</label><input className="ps-input" placeholder="ex: Ion și Maria Popescu" value={formData.parentsBride} onChange={e => set('parentsBride', e.target.value)} /></FG>
+            <FG noMargin><label style={labS}>Părinți Mire</label><input className="ps-input" style={{ marginBottom: 0 }} placeholder="ex: Adrian și Andreea Murgu" value={formData.parentsGroom} onChange={e => set('parentsGroom', e.target.value)} /></FG>
           </SectionCard>
 
           <SectionCard title="Petrecere Restaurant" icon="🥂">

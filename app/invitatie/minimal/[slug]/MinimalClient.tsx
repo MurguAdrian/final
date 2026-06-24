@@ -13,6 +13,8 @@ export interface MinimalClientProps {
   initials: string;
   nasiNames: string;
   parentsNames: string;
+  parentsBride?: string;
+  parentsGroom?: string;
   weddingDateISO: string | null;
   weddingDateDisplay: string | null;
   weddingTime: string;
@@ -298,8 +300,21 @@ function EnvelopeScreen({
 }
 
 function InviteScreen({ props }: { props: MinimalClientProps }) {
-  const { slug, brideName, groomName, nasiNames, parentsNames, religiousMaps, weddingDateISO, weddingDateDisplay, weddingTime, locationName, wazeUrl, googleMapsUrl, isReligiousActive, religiousDateDisplay, religiousTime, religiousLocation, religiousWaze, ourStory, isMenuActive, menuDetails, isGalleryActive, isAccommodationActive, isTransportActive, contactPhoneBride, contactPhoneGroom, orderId } = props;
+  const { slug, brideName, groomName, nasiNames, parentsNames, parentsBride, parentsGroom, religiousMaps, weddingDateISO, weddingDateDisplay, weddingTime, locationName, wazeUrl, googleMapsUrl, isReligiousActive, religiousDateDisplay, religiousTime, religiousLocation, religiousWaze, ourStory, isMenuActive, menuDetails, isGalleryActive, isAccommodationActive, isTransportActive, contactPhoneBride, contactPhoneGroom, orderId } = props;
 
+  const resolvedParentsBride = parentsBride?.trim() || '';
+  const resolvedParentsGroom = parentsGroom?.trim() || '';
+  const hasSeparateParents = !!(resolvedParentsBride || resolvedParentsGroom);
+  let fallbackBride = '';
+  let fallbackGroom = '';
+  if (!hasSeparateParents && parentsNames) {
+    const parts = parentsNames.split(' si ');
+    fallbackBride = parts[0]?.trim() || '';
+    fallbackGroom = parts.slice(1).join(' si ').trim() || '';
+  }
+  const displayParentsBride = resolvedParentsBride || fallbackBride;
+  const displayParentsGroom = resolvedParentsGroom || fallbackGroom;
+  const hasAnyParents = !!(displayParentsBride || displayParentsGroom);
   const weddingDate = weddingDateISO ? new Date(weddingDateISO) : null;
   const cd = useCountdown(weddingDate);
   const [flipS, setFlipS] = useState(false);
@@ -391,10 +406,19 @@ function InviteScreen({ props }: { props: MinimalClientProps }) {
         )}
 
         {/* PARENTS */}
-        {parentsNames && (
+        {hasAnyParents && (
           <div style={{ ...a(.18), width: '100%', marginBottom: 28, paddingBottom: 24, borderBottom: `1px solid ${RULE}` }}>
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 9, letterSpacing: '.3em', textTransform: 'uppercase', color: LIGHT, marginBottom: 6, fontWeight: 500 }}>Împreună cu părinții</p>
-            <p style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(14px,1.6vw,17px)', fontStyle: 'italic', fontWeight: 400, color: MID }}>{parentsNames}</p>
+            {displayParentsBride && (
+              <p style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(14px,1.6vw,17px)', fontStyle: 'italic', fontWeight: 400, color: MID, marginBottom: displayParentsGroom ? 4 : 0 }}>
+                {displayParentsBride}
+              </p>
+            )}
+            {displayParentsGroom && (
+              <p style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(14px,1.6vw,17px)', fontStyle: 'italic', fontWeight: 400, color: MID, marginBottom: 0 }}>
+                {displayParentsGroom}
+              </p>
+            )}
           </div>
         )}
 

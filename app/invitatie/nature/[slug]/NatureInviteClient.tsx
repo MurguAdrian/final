@@ -12,6 +12,8 @@ export interface NatureInviteClientProps {
   initials: string;
   nasiNames: string;
   parentsNames: string;
+  parentsBride?: string;
+  parentsGroom?: string;
   weddingDateISO: string | null;
   weddingDateDisplay: string | null;
   weddingTime: string;
@@ -344,13 +346,26 @@ function EnvelopeScreen({
 
 function InviteScreen({ props }: { props: NatureInviteClientProps }) {
   const {
-    slug, brideName, groomName, nasiNames, parentsNames,
+    slug, brideName, groomName, nasiNames, parentsNames, parentsBride, parentsGroom,
     weddingDateISO, weddingDateDisplay, weddingTime, locationName, wazeUrl, googleMapsUrl,
     isReligiousActive, religiousDateDisplay, religiousTime, religiousLocation, religiousWaze,religiousMaps,
     ourStory, isMenuActive, menuDetails, isGalleryActive,
     isAccommodationActive, isTransportActive, contactPhoneBride, contactPhoneGroom, orderId,
   } = props;
 
+  const resolvedParentsBride = parentsBride?.trim() || '';
+  const resolvedParentsGroom = parentsGroom?.trim() || '';
+  const hasSeparateParents = !!(resolvedParentsBride || resolvedParentsGroom);
+  let fallbackBride = '';
+  let fallbackGroom = '';
+  if (!hasSeparateParents && parentsNames) {
+    const parts = parentsNames.split(' si ');
+    fallbackBride = parts[0]?.trim() || '';
+    fallbackGroom = parts.slice(1).join(' si ').trim() || '';
+  }
+  const displayParentsBride = resolvedParentsBride || fallbackBride;
+  const displayParentsGroom = resolvedParentsGroom || fallbackGroom;
+  const hasAnyParents = !!(displayParentsBride || displayParentsGroom);
   const weddingDate = weddingDateISO ? new Date(weddingDateISO) : null;
   const cd = useCountdown(weddingDate);
   const [flipS, setFlipS] = useState(false);
@@ -428,10 +443,19 @@ function InviteScreen({ props }: { props: NatureInviteClientProps }) {
           </div>
         )}
 
-        {parentsNames && (
+        {hasAnyParents && (
           <div style={{ ...a(.32), textAlign: 'center', marginTop: 14, marginBottom: 4 }}>
             <p style={{ fontFamily: "'Cormorant',serif", fontSize: 'clamp(12px,1.4vw,14px)', fontStyle: 'italic', color: 'rgba(107,122,94,.7)', letterSpacing: '.04em' }}>Împreună cu părinții</p>
-            <p style={{ fontFamily: "'Cormorant',serif", fontSize: 'clamp(14px,1.6vw,17px)', fontStyle: 'italic', fontWeight: 400, color: '#6B7A5E' }}>{parentsNames}</p>
+            {displayParentsBride && (
+              <p style={{ fontFamily: "'Cormorant',serif", fontSize: 'clamp(14px,1.6vw,17px)', fontStyle: 'italic', fontWeight: 400, color: '#6B7A5E', marginBottom: displayParentsGroom ? 4 : 0 }}>
+                {displayParentsBride}
+              </p>
+            )}
+            {displayParentsGroom && (
+              <p style={{ fontFamily: "'Cormorant',serif", fontSize: 'clamp(14px,1.6vw,17px)', fontStyle: 'italic', fontWeight: 400, color: '#6B7A5E', marginBottom: 0 }}>
+                {displayParentsGroom}
+              </p>
+            )}
           </div>
         )}
 
