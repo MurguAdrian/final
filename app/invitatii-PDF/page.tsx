@@ -155,7 +155,7 @@ type Card = {
   category: 'nunta' | 'botez'
   available: boolean
   slug: string | null
-  PreviewComp: React.FC | null
+  PreviewComp: React.FC<any> | null
 }
 
 function PreviewAuriu() {
@@ -462,6 +462,105 @@ function PreviewSimpla() {
     </div>
   )
 }
+const PreviewCoral = ({ init1, init2 }: { init1: string; init2: string }) => (
+  <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:1, pointerEvents:'none' }} viewBox="0 0 794 1123" fill="none">
+    <defs>
+      <radialGradient id="cr-b1" cx="30%" cy="25%" r="70%">
+        <stop offset="0%" stopColor="#4a2d7a" stopOpacity=".7"/>
+        <stop offset="40%" stopColor="#6a3a9a" stopOpacity=".5"/>
+        <stop offset="100%" stopColor="#3a1a6a" stopOpacity="0"/>
+      </radialGradient>
+      <radialGradient id="cr-b2" cx="70%" cy="25%" r="70%">
+        <stop offset="0%" stopColor="#c87040" stopOpacity=".65"/>
+        <stop offset="40%" stopColor="#d4884a" stopOpacity=".45"/>
+        <stop offset="100%" stopColor="#b85a20" stopOpacity="0"/>
+      </radialGradient>
+      <radialGradient id="cr-b3" cx="20%" cy="80%" r="60%">
+        <stop offset="0%" stopColor="#1a5a4a" stopOpacity=".6"/>
+        <stop offset="100%" stopColor="#2a7a5a" stopOpacity="0"/>
+      </radialGradient>
+      <radialGradient id="cr-b4" cx="80%" cy="80%" r="60%">
+        <stop offset="0%" stopColor="#5a2a7a" stopOpacity=".65"/>
+        <stop offset="100%" stopColor="#3a1a5a" stopOpacity="0"/>
+      </radialGradient>
+      <filter id="cr-blur-sm"><feGaussianBlur stdDeviation="8"/></filter>
+      <filter id="cr-blur-md"><feGaussianBlur stdDeviation="14"/></filter>
+    </defs>
+    <ellipse cx="140" cy="200" rx="180" ry="140" fill="url(#cr-b1)" filter="url(#cr-blur-md)" opacity=".85"/>
+    <ellipse cx="80" cy="280" rx="120" ry="100" fill="#5a2a8a" opacity=".4" filter="url(#cr-blur-sm)"/>
+    <ellipse cx="660" cy="180" rx="160" ry="130" fill="url(#cr-b2)" filter="url(#cr-blur-md)" opacity=".85"/>
+    <ellipse cx="720" cy="260" rx="110" ry="90" fill="#c86840" opacity=".4" filter="url(#cr-blur-sm)"/>
+    <ellipse cx="120" cy="900" rx="160" ry="120" fill="url(#cr-b3)" filter="url(#cr-blur-md)" opacity=".8"/>
+    <ellipse cx="680" cy="880" rx="150" ry="120" fill="url(#cr-b4)" filter="url(#cr-blur-md)" opacity=".8"/>
+    <g opacity=".9">
+      <path d="M50 80 Q120 140 80 240 Q60 290 90 340" stroke="#2d4a1e" strokeWidth="1.5" fill="none"/>
+      {[140,165,190,215,238].map((y,i) => (<g key={i}>
+        <path d={`M${80-i} ${y} Q${50-i*2} ${y-13} ${35-i*2} ${y-26}`} stroke="#3a5a28" strokeWidth="1" fill="none"/>
+        <path d={`M${80-i} ${y} Q${108+i} ${y-12} ${118+i} ${y-25}`} stroke="#3a5a28" strokeWidth="1" fill="none"/>
+      </g>))}
+    </g>
+    <g opacity=".85">
+      <path d="M20 180 Q80 220 60 320 Q50 370 80 420" stroke="#4a6a3a" strokeWidth="1.2" fill="none"/>
+      {[[45,220,-30],[55,255,15],[48,290,-20],[60,325,25],[52,358,-15],[65,390,20]].map(([cx,cy,r],i) => (
+        <ellipse key={i} cx={cx} cy={cy} rx="22" ry="10" fill="#5a7a44" opacity=".65" transform={`rotate(${r} ${cx} ${cy})`}/>
+      ))}
+    </g>
+    <g opacity=".8">
+      <ellipse cx="100" cy="120" rx="35" ry="14" fill="#4a1a6a" opacity=".6" transform="rotate(-40 100 120)"/>
+      <ellipse cx="140" cy="95" rx="30" ry="12" fill="#5a2a7a" opacity=".55" transform="rotate(-60 140 95)"/>
+      <ellipse cx="75" cy="150" rx="32" ry="13" fill="#3a1258" opacity=".55" transform="rotate(-25 75 150)"/>
+      <ellipse cx="165" cy="130" rx="28" ry="11" fill="#4a1a6a" opacity=".5" transform="rotate(-50 165 130)"/>
+    </g>
+    <g opacity=".85">
+      <circle cx="180" cy="105" r="10" fill="#e8783a" opacity=".8"/>
+      <circle cx="168" cy="90" r="7" fill="#f0904a" opacity=".7"/>
+      <circle cx="130" cy="78" r="5" fill="#e87030" opacity=".7"/>
+      <circle cx="148" cy="70" r="4" fill="#f0884a" opacity=".65"/>
+    </g>
+    <g transform="translate(794,0) scale(-1,1)" opacity=".9">
+      <path d="M50 80 Q120 140 80 240 Q60 290 90 340" stroke="#2d4a1e" strokeWidth="1.5" fill="none"/>
+      {[140,165,190,215].map((y,i) => (<g key={i}>
+        <path d={`M${80-i} ${y} Q${50-i*2} ${y-13} ${35-i*2} ${y-26}`} stroke="#3a5a28" strokeWidth="1" fill="none"/>
+        <path d={`M${80-i} ${y} Q${108+i} ${y-12} ${118+i} ${y-25}`} stroke="#3a5a28" strokeWidth="1" fill="none"/>
+      </g>))}
+    </g>
+    <g transform="translate(794,0) scale(-1,1)" opacity=".85">
+      <path d="M20 180 Q80 220 60 320 Q50 370 80 420" stroke="#4a6a3a" strokeWidth="1.2" fill="none"/>
+      {[[45,220,30],[55,255,-15],[48,290,20],[60,325,-25]].map(([cx,cy,r],i) => (
+        <ellipse key={i} cx={cx} cy={cy} rx="22" ry="10" fill="#5a7a44" opacity=".65" transform={`rotate(${r} ${cx} ${cy})`}/>
+      ))}
+    </g>
+    <g transform="translate(794,0) scale(-1,1)" opacity=".8">
+      <ellipse cx="100" cy="120" rx="35" ry="14" fill="#4a1a6a" opacity=".6" transform="rotate(40 100 120)"/>
+      <ellipse cx="140" cy="95" rx="30" ry="12" fill="#5a2a7a" opacity=".55" transform="rotate(60 140 95)"/>
+    </g>
+    <g transform="translate(794,0) scale(-1,1)" opacity=".85">
+      <circle cx="180" cy="105" r="10" fill="#e8783a" opacity=".8"/>
+      <circle cx="130" cy="78" r="5" fill="#e87030" opacity=".7"/>
+    </g>
+    <g opacity=".88" transform="translate(0,1123) scale(1,-1)">
+      <path d="M30 60 Q100 100 80 200 Q65 250 100 300" stroke="#2d4a1e" strokeWidth="1.5" fill="none"/>
+      <ellipse cx="50" cy="185" rx="26" ry="11" fill="#5a7a4a" opacity=".65" transform="rotate(-20 50 185)"/>
+      <ellipse cx="90" cy="115" rx="34" ry="14" fill="#4a1a6a" opacity=".55" transform="rotate(-42 90 115)"/>
+      <ellipse cx="130" cy="90" rx="30" ry="12" fill="#5a2a7a" opacity=".5" transform="rotate(-62 130 90)"/>
+      <circle cx="160" cy="80" r="9" fill="#e8783a" opacity=".75"/>
+      <circle cx="120" cy="70" r="5" fill="#e87030" opacity=".65"/>
+    </g>
+    <g opacity=".88" transform="translate(794,1123) scale(-1,-1)">
+      <path d="M30 60 Q100 100 80 200 Q65 250 100 300" stroke="#2d4a1e" strokeWidth="1.5" fill="none"/>
+      <ellipse cx="50" cy="185" rx="26" ry="11" fill="#5a7a4a" opacity=".65" transform="rotate(20 50 185)"/>
+      <ellipse cx="90" cy="115" rx="34" ry="14" fill="#4a1a6a" opacity=".55" transform="rotate(42 90 115)"/>
+      <circle cx="160" cy="80" r="9" fill="#e8783a" opacity=".75"/>
+    </g>
+    <g transform="translate(397,130)">
+      <polygon points="0,-52 45,-26 45,26 0,52 -45,26 -45,-26" fill="none" stroke="#b8860b" strokeWidth="1.8" opacity=".9"/>
+      <polygon points="0,-44 38,-22 38,22 0,44 -38,22 -38,-22" fill="none" stroke="#b8860b" strokeWidth="1" opacity=".5"/>
+      <path d="M-12,-50 Q-6,-62 0,-58 Q6,-62 12,-50" stroke="#b8860b" strokeWidth="1.2" fill="none" opacity=".8"/>
+      <text x="0" y="-8" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="24" fontStyle="italic" fill="#b8860b" opacity=".95">{init1}</text>
+      <text x="0" y="22" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="24" fontStyle="italic" fill="#b8860b" opacity=".95">{init2}</text>
+    </g>
+  </svg>
+)
 function PreviewVara() {
   return (
     <div style={{ width:'794px', height:'1123px', background:'#f9f7f2', position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'60px 80px', fontFamily:"'Lato',sans-serif" }}>
@@ -496,8 +595,7 @@ function PreviewVara() {
   )
 }
 // Wrapper care masoara latimea reala si aplica scale corect
-function ScaledPreview({ PreviewComp }: { PreviewComp: React.FC }) {
-  const wrapRef = useRef<HTMLDivElement>(null)
+function ScaledPreview({ PreviewComp }: { PreviewComp: React.FC<any> }) {  const wrapRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
 
   useEffect(() => {
@@ -523,8 +621,9 @@ const CARDS_NUNTA: Card[] = [
   { id: 1, name: 'Aur & Lumină',    desc: 'Rafinament clasic cu accente aurii și tipografie elegantă.', category: 'nunta', available: true,  slug: 'invitatie-nunta-pdf-auriu', PreviewComp: PreviewAuriu },
 { id: 2, name: 'Vară Organică', desc: 'Verde salvie, eucalipt și bandă acuarelă — minimalism cald.', category: 'nunta', available: true, slug: 'invitatie-nunta-de-vara', PreviewComp: PreviewVara }, 
 { id: 3, name: 'Ocean', desc: 'Albastru acuarelă, coroană florală și sigiliu ceară — eleganță maritimă.', category: 'nunta', available: true, slug: 'invitatii-nunta-ocean', PreviewComp: PreviewOcean },
-{ id: 4, name: 'Simplă Elegantă', desc: 'Hârtie texturată, text centrat și sigiliu ceară albastru.', category: 'nunta', available: true, slug: 'invitatie-nunta-pdf-simpla', PreviewComp: PreviewSimpla },  { id: 5, name: 'Boho Chic',       desc: 'Liber, creativ, cu accente de mov pastelat și flori.',       category: 'nunta', available: false, slug: null, PreviewComp: null },
-  { id: 6, name: 'Vintage 1920',    desc: 'Art deco, aur și nostalgie — o eră de neuitat.',             category: 'nunta', available: false, slug: null, PreviewComp: null },
+{ id: 4, name: 'Simplă Elegantă', desc: 'Hârtie texturată, text centrat și sigiliu ceară albastru.', category: 'nunta', available: true, slug: 'invitatie-nunta-pdf-simpla', PreviewComp: PreviewSimpla }, 
+{ id: 5, name: 'Botanică Mov & Coral', desc: 'Coroană florală mov, coral și auriu cu monogramă hexagonală.', category: 'nunta', available: true, slug: 'invitatie-nunta-img-coral', PreviewComp: () => <PreviewCoral init1="M" init2="S" /> },
+ { id: 6, name: 'Vintage 1920',    desc: 'Art deco, aur și nostalgie — o eră de neuitat.',             category: 'nunta', available: false, slug: null, PreviewComp: null },
 ]
 
 const CARDS_BOTEZ: Card[] = [
