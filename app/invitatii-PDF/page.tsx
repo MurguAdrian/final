@@ -363,6 +363,92 @@ const SealOcean = () => (
     <circle cx="45" cy="45" r="4" fill="#a8c8e8" opacity=".6"/>
   </svg>
 )
+const ForestBgPreview = () => (
+  <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:0 }} viewBox="0 0 794 1123" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="fpv-sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#4a3020"/>
+        <stop offset="25%" stopColor="#6b4a2a"/>
+        <stop offset="50%" stopColor="#8a6035"/>
+        <stop offset="70%" stopColor="#5a3a18"/>
+        <stop offset="100%" stopColor="#2a1808"/>
+      </linearGradient>
+      <linearGradient id="fpv-ground" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#1a1005"/>
+        <stop offset="100%" stopColor="#0a0803"/>
+      </linearGradient>
+      <linearGradient id="fpv-top" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#050302" stopOpacity=".7"/>
+        <stop offset="100%" stopColor="#050302" stopOpacity="0"/>
+      </linearGradient>
+      <linearGradient id="fpv-bot" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#050302" stopOpacity="0"/>
+        <stop offset="100%" stopColor="#050302" stopOpacity=".8"/>
+      </linearGradient>
+      <filter id="fpv-fog"><feGaussianBlur stdDeviation="12"/></filter>
+    </defs>
+    <rect width="794" height="1123" fill="url(#fpv-sky)"/>
+    <ellipse cx="397" cy="500" rx="500" ry="200" fill="#a08050" opacity=".08" filter="url(#fpv-fog)"/>
+    <path d="M0 680 Q100 620 200 640 Q300 660 400 620 Q500 580 600 610 Q700 640 794 600 L794 780 L0 780Z" fill="#3a2510" opacity=".7"/>
+    <path d="M0 700 Q150 650 280 670 Q400 690 520 650 Q640 610 794 640 L794 800 L0 800Z" fill="#2a1a08" opacity=".8"/>
+    <path d="M60 1123 L60 400 L20 500 L60 480 L15 560 L60 540 L10 630 L60 600 L5 700 L60 670 L0 760 L60 730 L0 830 L60 800 L10 900 L60 870 L60 1123Z" fill="#0a0a05"/>
+    <path d="M60 400 L100 500 L60 480 L105 560 L60 540 L110 630 L60 600 L115 700 L60 670 L120 760 L60 730 L120 830 L60 800 L110 900 L60 870 L60 400Z" fill="#0d0d06"/>
+    <path d="M-20 1123 L-20 320 L-65 430 L-20 405 L-75 510 L-20 480 L-80 590 L-20 560 L-85 680 L-20 645 L-85 770 L-20 740 L-80 860 L-20 830 L-20 1123Z" fill="#080805"/>
+    <path d="M140 1123 L140 500 L105 585 L140 565 L100 645 L140 620 L95 705 L140 680 L90 775 L140 745 L88 845 L140 815 L95 915 L140 885 L140 1123Z" fill="#0a0a06"/>
+    <path d="M734 1123 L734 380 L694 480 L734 460 L689 545 L734 520 L684 615 L734 585 L679 685 L734 655 L674 755 L734 725 L679 835 L734 805 L689 905 L734 875 L734 1123Z" fill="#080805"/>
+    <path d="M734 380 L774 480 L734 460 L779 545 L734 520 L784 615 L734 585 L789 685 L734 655 L794 755 L734 725 L794 835 L734 805 L784 905 L734 875 L734 380Z" fill="#0d0d06"/>
+    <path d="M800 1123 L800 300 L755 410 L800 385 L750 500 L800 470 L745 590 L800 555 L740 675 L800 645 L735 760 L800 730 L740 855 L800 825 L800 1123Z" fill="#060603"/>
+    <path d="M650 1123 L650 480 L615 565 L650 545 L610 625 L650 600 L605 690 L650 660 L600 755 L650 725 L596 820 L650 790 L605 890 L650 860 L650 1123Z" fill="#080806"/>
+    <path d="M650 480 L685 565 L650 545 L690 625 L650 600 L695 690 L650 660 L700 755 L650 725 L704 820 L650 790 L695 890 L650 860 L650 480Z" fill="#0c0c07"/>
+    <rect y="880" width="794" height="243" fill="url(#fpv-ground)"/>
+    <rect width="794" height="300" fill="url(#fpv-top)"/>
+    <rect y="700" width="794" height="423" fill="url(#fpv-bot)"/>
+  </svg>
+)
+
+const MonogramPozaPreview = ({ init1, init2 }: { init1: string; init2: string }) => (
+  <svg viewBox="0 0 110 110" fill="none" style={{ width:'110px', height:'110px' }}>
+    <rect x="20" y="20" width="70" height="70" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="1.5" transform="rotate(45 55 55)"/>
+    <rect x="28" y="28" width="54" height="54" fill="none" stroke="rgba(255,255,255,.4)" strokeWidth=".8" transform="rotate(45 55 55)"/>
+    <polygon points="55,4 59,10 55,16 51,10" fill="rgba(255,255,255,.7)"/>
+    <polygon points="55,94 59,100 55,106 51,100" fill="rgba(255,255,255,.7)"/>
+    <polygon points="4,55 10,51 16,55 10,59" fill="rgba(255,255,255,.7)"/>
+    <polygon points="94,55 100,51 106,55 100,59" fill="rgba(255,255,255,.7)"/>
+    <text x="55" y="48" textAnchor="middle" fontFamily="Playfair Display, serif" fontSize="26" fontStyle="italic" fill="white" opacity=".95">{init1}</text>
+    <text x="55" y="76" textAnchor="middle" fontFamily="Playfair Display, serif" fontSize="26" fontStyle="italic" fill="white" opacity=".95">{init2}</text>
+  </svg>
+)
+
+function PreviewPoza() {
+  return (
+    <div style={{ width:'794px', height:'1123px', position:'relative', overflow:'hidden', fontFamily:"'Raleway',sans-serif" }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Raleway:wght@300;400;500&display=swap');`}</style>
+      <ForestBgPreview />
+      <div style={{ position:'absolute', inset:0, zIndex:2, background:'linear-gradient(180deg,rgba(15,10,5,.45) 0%,rgba(20,13,6,.35) 30%,rgba(25,15,5,.5) 70%,rgba(10,6,2,.7) 100%)' }} />
+      <div style={{ position:'absolute', inset:0, zIndex:3, background:'radial-gradient(ellipse at center,transparent 40%,rgba(5,3,1,.65) 100%)' }} />
+      <div style={{ position:'absolute', inset:0, zIndex:4, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'space-between', padding:'60px 80px 56px', color:'#fff', textAlign:'center' }}>
+        <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:'6px' }}>
+          <p style={{ fontSize:'11px', fontWeight:400, letterSpacing:'.32em', textTransform:'uppercase', color:'rgba(255,255,255,.65)', marginBottom:'6px' }}>VĂ INVITĂM ÎMPREUNĂ</p>
+          <MonogramPozaPreview init1="M" init2="S" />
+        </div>
+        <div style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
+          <span style={{ fontFamily:"'Playfair Display',serif", fontSize:'96px', fontWeight:400, fontStyle:'italic', color:'#fff', lineHeight:1, display:'block', textShadow:'0 2px 20px rgba(0,0,0,.4)' }}>
+            Miruna <span style={{ fontSize:'72px', fontWeight:300 }}>&amp;</span> Ștefan
+          </span>
+        </div>
+        <div style={{ width:'100%' }}>
+          <div style={{ width:'100%', height:'1px', background:'rgba(255,255,255,.3)', marginBottom:'24px' }} />
+          <p style={{ fontSize:'17px', fontWeight:400, letterSpacing:'.1em', textTransform:'uppercase', color:'rgba(255,255,255,.9)', lineHeight:1.7, marginBottom:'20px' }}>
+            Elena și Constantin Vasiliu<br/>Ana și Gheorghe Ionescu
+          </p>
+          <p style={{ fontSize:'26px', fontWeight:600, letterSpacing:'.18em', textTransform:'uppercase', color:'#fff', marginBottom:'18px' }}>14 SEPTEMBRIE 2024</p>
+          <div style={{ width:'100%', height:'1px', background:'rgba(255,255,255,.3)', marginBottom:'18px' }} />
+          <p style={{ fontSize:'15px', fontWeight:300, letterSpacing:'.1em', color:'rgba(255,255,255,.6)', fontStyle:'italic' }}>Cununie-generatii.trust / Ora 14:00 · Restaurant Forest View / Ora 18:00</p>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function PreviewOcean() {
   return (
@@ -462,104 +548,97 @@ function PreviewSimpla() {
     </div>
   )
 }
-const PreviewCoral = ({ init1, init2 }: { init1: string; init2: string }) => (
-  <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:1, pointerEvents:'none' }} viewBox="0 0 794 1123" fill="none">
-    <defs>
-      <radialGradient id="cr-b1" cx="30%" cy="25%" r="70%">
-        <stop offset="0%" stopColor="#4a2d7a" stopOpacity=".7"/>
-        <stop offset="40%" stopColor="#6a3a9a" stopOpacity=".5"/>
-        <stop offset="100%" stopColor="#3a1a6a" stopOpacity="0"/>
-      </radialGradient>
-      <radialGradient id="cr-b2" cx="70%" cy="25%" r="70%">
-        <stop offset="0%" stopColor="#c87040" stopOpacity=".65"/>
-        <stop offset="40%" stopColor="#d4884a" stopOpacity=".45"/>
-        <stop offset="100%" stopColor="#b85a20" stopOpacity="0"/>
-      </radialGradient>
-      <radialGradient id="cr-b3" cx="20%" cy="80%" r="60%">
-        <stop offset="0%" stopColor="#1a5a4a" stopOpacity=".6"/>
-        <stop offset="100%" stopColor="#2a7a5a" stopOpacity="0"/>
-      </radialGradient>
-      <radialGradient id="cr-b4" cx="80%" cy="80%" r="60%">
-        <stop offset="0%" stopColor="#5a2a7a" stopOpacity=".65"/>
-        <stop offset="100%" stopColor="#3a1a5a" stopOpacity="0"/>
-      </radialGradient>
-      <filter id="cr-blur-sm"><feGaussianBlur stdDeviation="8"/></filter>
-      <filter id="cr-blur-md"><feGaussianBlur stdDeviation="14"/></filter>
-    </defs>
-    <ellipse cx="140" cy="200" rx="180" ry="140" fill="url(#cr-b1)" filter="url(#cr-blur-md)" opacity=".85"/>
-    <ellipse cx="80" cy="280" rx="120" ry="100" fill="#5a2a8a" opacity=".4" filter="url(#cr-blur-sm)"/>
-    <ellipse cx="660" cy="180" rx="160" ry="130" fill="url(#cr-b2)" filter="url(#cr-blur-md)" opacity=".85"/>
-    <ellipse cx="720" cy="260" rx="110" ry="90" fill="#c86840" opacity=".4" filter="url(#cr-blur-sm)"/>
-    <ellipse cx="120" cy="900" rx="160" ry="120" fill="url(#cr-b3)" filter="url(#cr-blur-md)" opacity=".8"/>
-    <ellipse cx="680" cy="880" rx="150" ry="120" fill="url(#cr-b4)" filter="url(#cr-blur-md)" opacity=".8"/>
-    <g opacity=".9">
-      <path d="M50 80 Q120 140 80 240 Q60 290 90 340" stroke="#2d4a1e" strokeWidth="1.5" fill="none"/>
-      {[140,165,190,215,238].map((y,i) => (<g key={i}>
-        <path d={`M${80-i} ${y} Q${50-i*2} ${y-13} ${35-i*2} ${y-26}`} stroke="#3a5a28" strokeWidth="1" fill="none"/>
-        <path d={`M${80-i} ${y} Q${108+i} ${y-12} ${118+i} ${y-25}`} stroke="#3a5a28" strokeWidth="1" fill="none"/>
-      </g>))}
-    </g>
-    <g opacity=".85">
-      <path d="M20 180 Q80 220 60 320 Q50 370 80 420" stroke="#4a6a3a" strokeWidth="1.2" fill="none"/>
-      {[[45,220,-30],[55,255,15],[48,290,-20],[60,325,25],[52,358,-15],[65,390,20]].map(([cx,cy,r],i) => (
-        <ellipse key={i} cx={cx} cy={cy} rx="22" ry="10" fill="#5a7a44" opacity=".65" transform={`rotate(${r} ${cx} ${cy})`}/>
-      ))}
-    </g>
-    <g opacity=".8">
-      <ellipse cx="100" cy="120" rx="35" ry="14" fill="#4a1a6a" opacity=".6" transform="rotate(-40 100 120)"/>
-      <ellipse cx="140" cy="95" rx="30" ry="12" fill="#5a2a7a" opacity=".55" transform="rotate(-60 140 95)"/>
-      <ellipse cx="75" cy="150" rx="32" ry="13" fill="#3a1258" opacity=".55" transform="rotate(-25 75 150)"/>
-      <ellipse cx="165" cy="130" rx="28" ry="11" fill="#4a1a6a" opacity=".5" transform="rotate(-50 165 130)"/>
-    </g>
-    <g opacity=".85">
-      <circle cx="180" cy="105" r="10" fill="#e8783a" opacity=".8"/>
-      <circle cx="168" cy="90" r="7" fill="#f0904a" opacity=".7"/>
-      <circle cx="130" cy="78" r="5" fill="#e87030" opacity=".7"/>
-      <circle cx="148" cy="70" r="4" fill="#f0884a" opacity=".65"/>
-    </g>
-    <g transform="translate(794,0) scale(-1,1)" opacity=".9">
-      <path d="M50 80 Q120 140 80 240 Q60 290 90 340" stroke="#2d4a1e" strokeWidth="1.5" fill="none"/>
-      {[140,165,190,215].map((y,i) => (<g key={i}>
-        <path d={`M${80-i} ${y} Q${50-i*2} ${y-13} ${35-i*2} ${y-26}`} stroke="#3a5a28" strokeWidth="1" fill="none"/>
-        <path d={`M${80-i} ${y} Q${108+i} ${y-12} ${118+i} ${y-25}`} stroke="#3a5a28" strokeWidth="1" fill="none"/>
-      </g>))}
-    </g>
-    <g transform="translate(794,0) scale(-1,1)" opacity=".85">
-      <path d="M20 180 Q80 220 60 320 Q50 370 80 420" stroke="#4a6a3a" strokeWidth="1.2" fill="none"/>
-      {[[45,220,30],[55,255,-15],[48,290,20],[60,325,-25]].map(([cx,cy,r],i) => (
-        <ellipse key={i} cx={cx} cy={cy} rx="22" ry="10" fill="#5a7a44" opacity=".65" transform={`rotate(${r} ${cx} ${cy})`}/>
-      ))}
-    </g>
-    <g transform="translate(794,0) scale(-1,1)" opacity=".8">
-      <ellipse cx="100" cy="120" rx="35" ry="14" fill="#4a1a6a" opacity=".6" transform="rotate(40 100 120)"/>
-      <ellipse cx="140" cy="95" rx="30" ry="12" fill="#5a2a7a" opacity=".55" transform="rotate(60 140 95)"/>
-    </g>
-    <g transform="translate(794,0) scale(-1,1)" opacity=".85">
-      <circle cx="180" cy="105" r="10" fill="#e8783a" opacity=".8"/>
-      <circle cx="130" cy="78" r="5" fill="#e87030" opacity=".7"/>
-    </g>
-    <g opacity=".88" transform="translate(0,1123) scale(1,-1)">
-      <path d="M30 60 Q100 100 80 200 Q65 250 100 300" stroke="#2d4a1e" strokeWidth="1.5" fill="none"/>
-      <ellipse cx="50" cy="185" rx="26" ry="11" fill="#5a7a4a" opacity=".65" transform="rotate(-20 50 185)"/>
-      <ellipse cx="90" cy="115" rx="34" ry="14" fill="#4a1a6a" opacity=".55" transform="rotate(-42 90 115)"/>
-      <ellipse cx="130" cy="90" rx="30" ry="12" fill="#5a2a7a" opacity=".5" transform="rotate(-62 130 90)"/>
-      <circle cx="160" cy="80" r="9" fill="#e8783a" opacity=".75"/>
-      <circle cx="120" cy="70" r="5" fill="#e87030" opacity=".65"/>
-    </g>
-    <g opacity=".88" transform="translate(794,1123) scale(-1,-1)">
-      <path d="M30 60 Q100 100 80 200 Q65 250 100 300" stroke="#2d4a1e" strokeWidth="1.5" fill="none"/>
-      <ellipse cx="50" cy="185" rx="26" ry="11" fill="#5a7a4a" opacity=".65" transform="rotate(20 50 185)"/>
-      <ellipse cx="90" cy="115" rx="34" ry="14" fill="#4a1a6a" opacity=".55" transform="rotate(42 90 115)"/>
-      <circle cx="160" cy="80" r="9" fill="#e8783a" opacity=".75"/>
-    </g>
-    <g transform="translate(397,130)">
-      <polygon points="0,-52 45,-26 45,26 0,52 -45,26 -45,-26" fill="none" stroke="#b8860b" strokeWidth="1.8" opacity=".9"/>
-      <polygon points="0,-44 38,-22 38,22 0,44 -38,22 -38,-22" fill="none" stroke="#b8860b" strokeWidth="1" opacity=".5"/>
-      <path d="M-12,-50 Q-6,-62 0,-58 Q6,-62 12,-50" stroke="#b8860b" strokeWidth="1.2" fill="none" opacity=".8"/>
-      <text x="0" y="-8" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="24" fontStyle="italic" fill="#b8860b" opacity=".95">{init1}</text>
-      <text x="0" y="22" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="24" fontStyle="italic" fill="#b8860b" opacity=".95">{init2}</text>
-    </g>
-  </svg>
+const PreviewCoral = () => (
+  <div style={{ width:'794px', height:'1123px', background:'#faf8f5', position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', alignItems:'center', fontFamily:"'Raleway',sans-serif" }}>
+    <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Cormorant+Garamond:ital,wght@1,400&family=Raleway:wght@300;400;500;600&display=swap');`}</style>
+    {/* SVG coroana */}
+    <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:1, pointerEvents:'none' }} viewBox="0 0 794 1123" fill="none">
+      <defs>
+        <radialGradient id="cp-b1" cx="30%" cy="25%" r="70%"><stop offset="0%" stopColor="#4a2d7a" stopOpacity=".7"/><stop offset="100%" stopColor="#3a1a6a" stopOpacity="0"/></radialGradient>
+        <radialGradient id="cp-b2" cx="70%" cy="25%" r="70%"><stop offset="0%" stopColor="#c87040" stopOpacity=".65"/><stop offset="100%" stopColor="#b85a20" stopOpacity="0"/></radialGradient>
+        <radialGradient id="cp-b3" cx="20%" cy="80%" r="60%"><stop offset="0%" stopColor="#1a5a4a" stopOpacity=".6"/><stop offset="100%" stopColor="#2a7a5a" stopOpacity="0"/></radialGradient>
+        <radialGradient id="cp-b4" cx="80%" cy="80%" r="60%"><stop offset="0%" stopColor="#5a2a7a" stopOpacity=".65"/><stop offset="100%" stopColor="#3a1a5a" stopOpacity="0"/></radialGradient>
+        <filter id="cp-blur-sm"><feGaussianBlur stdDeviation="8"/></filter>
+        <filter id="cp-blur-md"><feGaussianBlur stdDeviation="14"/></filter>
+      </defs>
+      <ellipse cx="140" cy="200" rx="180" ry="140" fill="url(#cp-b1)" filter="url(#cp-blur-md)" opacity=".85"/>
+      <ellipse cx="660" cy="180" rx="160" ry="130" fill="url(#cp-b2)" filter="url(#cp-blur-md)" opacity=".85"/>
+      <ellipse cx="120" cy="900" rx="160" ry="120" fill="url(#cp-b3)" filter="url(#cp-blur-md)" opacity=".8"/>
+      <ellipse cx="680" cy="880" rx="150" ry="120" fill="url(#cp-b4)" filter="url(#cp-blur-md)" opacity=".8"/>
+      <g opacity=".9"><path d="M50 80 Q120 140 80 240 Q60 290 90 340" stroke="#2d4a1e" strokeWidth="1.5" fill="none"/>
+        {[140,165,190,215,238].map((y,i) => (<g key={i}><path d={`M${80-i} ${y} Q${50-i*2} ${y-13} ${35-i*2} ${y-26}`} stroke="#3a5a28" strokeWidth="1" fill="none"/><path d={`M${80-i} ${y} Q${108+i} ${y-12} ${118+i} ${y-25}`} stroke="#3a5a28" strokeWidth="1" fill="none"/></g>))}
+      </g>
+      <g opacity=".85"><path d="M20 180 Q80 220 60 320 Q50 370 80 420" stroke="#4a6a3a" strokeWidth="1.2" fill="none"/>
+        {[[45,220,-30],[55,255,15],[48,290,-20],[60,325,25],[52,358,-15]].map(([cx,cy,r],i) => (<ellipse key={i} cx={cx} cy={cy} rx="22" ry="10" fill="#5a7a44" opacity=".65" transform={`rotate(${r} ${cx} ${cy})`}/>))}
+      </g>
+      <g opacity=".8">
+        <ellipse cx="100" cy="120" rx="35" ry="14" fill="#4a1a6a" opacity=".6" transform="rotate(-40 100 120)"/>
+        <ellipse cx="140" cy="95" rx="30" ry="12" fill="#5a2a7a" opacity=".55" transform="rotate(-60 140 95)"/>
+        <ellipse cx="75" cy="150" rx="32" ry="13" fill="#3a1258" opacity=".55" transform="rotate(-25 75 150)"/>
+      </g>
+      <g opacity=".85">
+        <circle cx="180" cy="105" r="10" fill="#e8783a" opacity=".8"/>
+        <circle cx="168" cy="90" r="7" fill="#f0904a" opacity=".7"/>
+        <circle cx="130" cy="78" r="5" fill="#e87030" opacity=".7"/>
+      </g>
+      <g transform="translate(794,0) scale(-1,1)" opacity=".9"><path d="M50 80 Q120 140 80 240 Q60 290 90 340" stroke="#2d4a1e" strokeWidth="1.5" fill="none"/>
+        {[140,165,190,215].map((y,i) => (<g key={i}><path d={`M${80-i} ${y} Q${50-i*2} ${y-13} ${35-i*2} ${y-26}`} stroke="#3a5a28" strokeWidth="1" fill="none"/><path d={`M${80-i} ${y} Q${108+i} ${y-12} ${118+i} ${y-25}`} stroke="#3a5a28" strokeWidth="1" fill="none"/></g>))}
+      </g>
+      <g transform="translate(794,0) scale(-1,1)" opacity=".85"><path d="M20 180 Q80 220 60 320 Q50 370 80 420" stroke="#4a6a3a" strokeWidth="1.2" fill="none"/>
+        {[[45,220,30],[55,255,-15],[48,290,20],[60,325,-25]].map(([cx,cy,r],i) => (<ellipse key={i} cx={cx} cy={cy} rx="22" ry="10" fill="#5a7a44" opacity=".65" transform={`rotate(${r} ${cx} ${cy})`}/>))}
+      </g>
+      <g transform="translate(794,0) scale(-1,1)" opacity=".8">
+        <ellipse cx="100" cy="120" rx="35" ry="14" fill="#4a1a6a" opacity=".6" transform="rotate(40 100 120)"/>
+        <ellipse cx="140" cy="95" rx="30" ry="12" fill="#5a2a7a" opacity=".55" transform="rotate(60 140 95)"/>
+      </g>
+      <g transform="translate(794,0) scale(-1,1)" opacity=".85">
+        <circle cx="180" cy="105" r="10" fill="#e8783a" opacity=".8"/>
+        <circle cx="130" cy="78" r="5" fill="#e87030" opacity=".7"/>
+      </g>
+      <g opacity=".88" transform="translate(0,1123) scale(1,-1)"><path d="M30 60 Q100 100 80 200 Q65 250 100 300" stroke="#2d4a1e" strokeWidth="1.5" fill="none"/>
+        <ellipse cx="50" cy="185" rx="26" ry="11" fill="#5a7a4a" opacity=".65" transform="rotate(-20 50 185)"/>
+        <ellipse cx="90" cy="115" rx="34" ry="14" fill="#4a1a6a" opacity=".55" transform="rotate(-42 90 115)"/>
+        <circle cx="160" cy="80" r="9" fill="#e8783a" opacity=".75"/>
+      </g>
+      <g opacity=".88" transform="translate(794,1123) scale(-1,-1)"><path d="M30 60 Q100 100 80 200 Q65 250 100 300" stroke="#2d4a1e" strokeWidth="1.5" fill="none"/>
+        <ellipse cx="50" cy="185" rx="26" ry="11" fill="#5a7a4a" opacity=".65" transform="rotate(20 50 185)"/>
+        <ellipse cx="90" cy="115" rx="34" ry="14" fill="#4a1a6a" opacity=".55" transform="rotate(42 90 115)"/>
+        <circle cx="160" cy="80" r="9" fill="#e8783a" opacity=".75"/>
+      </g>
+      {/* Monograma */}
+      <g transform="translate(397,130)">
+        <polygon points="0,-52 45,-26 45,26 0,52 -45,26 -45,-26" fill="none" stroke="#b8860b" strokeWidth="1.8" opacity=".9"/>
+        <polygon points="0,-44 38,-22 38,22 0,44 -38,22 -38,-22" fill="none" stroke="#b8860b" strokeWidth="1" opacity=".5"/>
+        <path d="M-12,-50 Q-6,-62 0,-58 Q6,-62 12,-50" stroke="#b8860b" strokeWidth="1.2" fill="none" opacity=".8"/>
+        <text x="0" y="-8" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="24" fontStyle="italic" fill="#b8860b" opacity=".95">M</text>
+        <text x="0" y="22" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="24" fontStyle="italic" fill="#b8860b" opacity=".95">S</text>
+      </g>
+    </svg>
+    {/* Spatiu monograma */}
+    <div style={{ height:'230px', flexShrink:0 }} />
+    {/* TEXT */}
+    <div style={{ position:'relative', zIndex:3, textAlign:'center', width:'100%', padding:'0 80px', flex:1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
+      <p style={{ fontSize:'13px', fontWeight:600, letterSpacing:'.28em', textTransform:'uppercase', color:'#6b4c1e', marginBottom:'16px' }}>INVITAȚIE DE NUNTĂ</p>
+      <span style={{ fontFamily:"'Playfair Display',serif", fontSize:'84px', fontWeight:700, fontStyle:'italic', color:'#1a1208', lineHeight:1, display:'block' }}>Miruna</span>
+      <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'72px', fontWeight:400, fontStyle:'italic', color:'#b8860b', lineHeight:1 }}>&amp;</span>
+      <span style={{ fontFamily:"'Playfair Display',serif", fontSize:'84px', fontWeight:700, fontStyle:'italic', color:'#1a1208', lineHeight:1, display:'block' }}>Ștefan</span>
+      <span style={{ color:'#b8860b', fontSize:'22px', opacity:.7, margin:'6px 0 14px', display:'block' }}>❧</span>
+      <p style={{ fontSize:'18px', fontWeight:300, fontStyle:'italic', color:'#4a3a2a', marginBottom:'20px' }}>vă invită cu dragoste la nuntă</p>
+      <div style={{ border:'1.5px solid #b8860b', borderRadius:'2px', padding:'14px 32px', marginBottom:'20px', background:'rgba(255,255,255,.5)', width:'100%' }}>
+        <p style={{ fontSize:'17px', fontWeight:600, letterSpacing:'.08em', color:'#1a1208', textTransform:'uppercase', marginBottom:'6px' }}>Sâmbătă, 14 SEPTEMBRIE 2024</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'20px', fontStyle:'italic', color:'#2a1a0a', lineHeight:1.6 }}>Ora 14:00 / Biserica "Sfântul Gheorghe"</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'20px', fontStyle:'italic', color:'#2a1a0a', lineHeight:1.6 }}>Ora 18:00 / Restaurant "Vatra Boierească"</p>
+      </div>
+      <div style={{ width:'60px', height:'1px', background:'#b8860b', opacity:.4, margin:'0 auto 14px' }} />
+      <p style={{ fontSize:'11px', fontWeight:600, letterSpacing:'.22em', textTransform:'uppercase', color:'#6b4c1e', marginBottom:'4px' }}>Părinții Miresei</p>
+      <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontStyle:'italic', color:'#1a1208', marginBottom:'10px' }}>Elena și Constantin Vasiliu</p>
+      <p style={{ fontSize:'11px', fontWeight:600, letterSpacing:'.22em', textTransform:'uppercase', color:'#6b4c1e', marginBottom:'4px' }}>Părinții Mirelui</p>
+      <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontStyle:'italic', color:'#1a1208', marginBottom:'10px' }}>Ana și Gheorghe Ionescu</p>
+      <p style={{ fontSize:'11px', fontWeight:600, letterSpacing:'.22em', textTransform:'uppercase', color:'#6b4c1e', marginBottom:'4px' }}>Nașii</p>
+      <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontStyle:'italic', color:'#1a1208', marginBottom:'14px' }}>Mihaela și Florin Popescu</p>
+      <p style={{ fontSize:'13px', fontWeight:500, letterSpacing:'.14em', textTransform:'uppercase', color:'#6b4c1e', lineHeight:1.8 }}>VĂ RUGĂM SĂ CONFIRMAȚI PÂNĂ LA <strong>15 SEP 2024</strong></p>
+    </div>
+  </div>
 )
 function PreviewVara() {
   return (
@@ -622,8 +701,9 @@ const CARDS_NUNTA: Card[] = [
 { id: 2, name: 'Vară Organică', desc: 'Verde salvie, eucalipt și bandă acuarelă — minimalism cald.', category: 'nunta', available: true, slug: 'invitatie-nunta-de-vara', PreviewComp: PreviewVara }, 
 { id: 3, name: 'Ocean', desc: 'Albastru acuarelă, coroană florală și sigiliu ceară — eleganță maritimă.', category: 'nunta', available: true, slug: 'invitatii-nunta-ocean', PreviewComp: PreviewOcean },
 { id: 4, name: 'Simplă Elegantă', desc: 'Hârtie texturată, text centrat și sigiliu ceară albastru.', category: 'nunta', available: true, slug: 'invitatie-nunta-pdf-simpla', PreviewComp: PreviewSimpla }, 
-{ id: 5, name: 'Botanică Mov & Coral', desc: 'Coroană florală mov, coral și auriu cu monogramă hexagonală.', category: 'nunta', available: true, slug: 'invitatie-nunta-img-coral', PreviewComp: () => <PreviewCoral init1="M" init2="S" /> },
- { id: 6, name: 'Vintage 1920',    desc: 'Art deco, aur și nostalgie — o eră de neuitat.',             category: 'nunta', available: false, slug: null, PreviewComp: null },
+{ id: 5, name: 'Botanică Mov & Coral', desc: 'Coroană florală mov, coral și auriu cu monogramă hexagonală.', category: 'nunta', available: true, slug: 'invitatie-nunta-img-coral', PreviewComp: PreviewCoral },
+{ id: 6, name: 'Pădure de Toamnă', desc: 'Fundal forestier întunecat, monogramă elegantă și text alb.', category: 'nunta', available: true, slug: 'invitatie-nunta-poza', PreviewComp: PreviewPoza },
+
 ]
 
 const CARDS_BOTEZ: Card[] = [

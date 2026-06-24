@@ -97,6 +97,8 @@ export default function Footer() {
     '/invitatie-nunta-de-vara',
     '/invitatii-nunta-ocean',
     '/invitatie-nunta-pdf-simpla',
+    '/invitatie-nunta-poza',
+    '/invitatie-nunta-img-coral',
   ]
 
   if (hideOn.some(p => pathname.startsWith(p))) return null

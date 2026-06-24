@@ -24,8 +24,12 @@ export default function HeaderWrapper() {
 '/invitatii-online-nunta-natura',
 '/invitatii-online-nunta-romantic',
 '/invitatii-online-nunta-royal',
-'/invitatii-nunta-ocean',
-'/invitatii-nunta-pdf-simpla',
+ '/invitatie-nunta-pdf-auriu',
+ '/invitatie-nunta-de-vara',
+ '/invitatii-nunta-ocean',
+ '/invitatie-nunta-pdf-simpla',
+ '/invitatie-nunta-poza',
+ '/invitatie-nunta-img-coral',
   ]
 
 
