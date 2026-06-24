@@ -287,6 +287,181 @@ const SealSVG = () => (
     <path d="M36 20 L36 52" stroke="#3d5a3e" strokeWidth=".8" opacity=".6"/>
   </svg>
 )
+const BotanicalOcean = () => (
+  <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:1, pointerEvents:'none' }} viewBox="0 0 794 1123" fill="none">
+    <g opacity=".75">
+      <path d="M-10 200 Q60 240 40 320 Q20 400 80 450" stroke="#4a8fd4" strokeWidth="1.8" fill="none"/>
+      <path d="M10 320 Q70 350 50 420" stroke="#4a8fd4" strokeWidth="1.2" fill="none"/>
+      <ellipse cx="30" cy="250" rx="32" ry="14" fill="#5a9fd4" opacity=".55" transform="rotate(-35 30 250)"/>
+      <ellipse cx="55" cy="300" rx="28" ry="12" fill="#3a7fc4" opacity=".5" transform="rotate(20 55 300)"/>
+      <ellipse cx="20" cy="360" rx="34" ry="14" fill="#6aaad8" opacity=".5" transform="rotate(-15 20 360)"/>
+      <ellipse cx="70" cy="340" rx="24" ry="11" fill="#4a90cc" opacity=".45" transform="rotate(40 70 340)"/>
+      <ellipse cx="35" cy="420" rx="30" ry="13" fill="#5a9fd4" opacity=".5" transform="rotate(-25 35 420)"/>
+      <ellipse cx="80" cy="400" rx="20" ry="9" fill="#3a7fc4" opacity=".4" transform="rotate(30 80 400)"/>
+      <path d="M-5 280 Q25 265 38 285 Q25 305 -5 292 Z" fill="#3a6aaa" opacity=".45"/>
+      <path d="M5 390 Q40 370 55 395 Q40 418 5 405 Z" fill="#4a80bc" opacity=".4"/>
+      <circle cx="45" cy="270" r="7" fill="#8ac0e8" opacity=".6"/>
+      <circle cx="25" cy="330" r="6" fill="#6aaad8" opacity=".55"/>
+      <circle cx="60" cy="380" r="8" fill="#9acce0" opacity=".5"/>
+    </g>
+    <g opacity=".75" transform="translate(794,0) scale(-1,1)">
+      <path d="M-10 200 Q60 240 40 320 Q20 400 80 450" stroke="#4a8fd4" strokeWidth="1.8" fill="none"/>
+      <ellipse cx="30" cy="250" rx="32" ry="14" fill="#5a9fd4" opacity=".55" transform="rotate(-35 30 250)"/>
+      <ellipse cx="55" cy="300" rx="28" ry="12" fill="#3a7fc4" opacity=".5" transform="rotate(20 55 300)"/>
+      <ellipse cx="20" cy="360" rx="34" ry="14" fill="#6aaad8" opacity=".5" transform="rotate(-15 20 360)"/>
+      <ellipse cx="70" cy="340" rx="24" ry="11" fill="#4a90cc" opacity=".45" transform="rotate(40 70 340)"/>
+      <ellipse cx="35" cy="420" rx="30" ry="13" fill="#5a9fd4" opacity=".5" transform="rotate(-25 35 420)"/>
+      <path d="M-5 280 Q25 265 38 285 Q25 305 -5 292 Z" fill="#3a6aaa" opacity=".45"/>
+      <circle cx="45" cy="270" r="7" fill="#8ac0e8" opacity=".6"/>
+      <circle cx="25" cy="330" r="6" fill="#6aaad8" opacity=".55"/>
+    </g>
+    <g opacity=".65" transform="translate(0,1123) scale(1,-1)">
+      <path d="M-10 80 Q70 110 50 200 Q30 280 90 310" stroke="#4a8fd4" strokeWidth="1.5" fill="none"/>
+      <ellipse cx="30" cy="110" rx="28" ry="12" fill="#5a9fd4" opacity=".5" transform="rotate(-30 30 110)"/>
+      <ellipse cx="60" cy="160" rx="24" ry="10" fill="#3a7fc4" opacity=".45" transform="rotate(25 60 160)"/>
+      <ellipse cx="20" cy="210" rx="30" ry="12" fill="#6aaad8" opacity=".45" transform="rotate(-20 20 210)"/>
+      <circle cx="40" cy="130" r="7" fill="#8ac0e8" opacity=".5"/>
+    </g>
+    <g opacity=".65" transform="translate(794,1123) scale(-1,-1)">
+      <path d="M-10 80 Q70 110 50 200 Q30 280 90 310" stroke="#4a8fd4" strokeWidth="1.5" fill="none"/>
+      <ellipse cx="30" cy="110" rx="28" ry="12" fill="#5a9fd4" opacity=".5" transform="rotate(-30 30 110)"/>
+      <ellipse cx="60" cy="160" rx="24" ry="10" fill="#3a7fc4" opacity=".45" transform="rotate(25 60 160)"/>
+      <circle cx="40" cy="130" r="7" fill="#8ac0e8" opacity=".5"/>
+    </g>
+  </svg>
+)
+
+const CrownOcean = () => (
+  <svg viewBox="0 0 220 220" fill="none" style={{ width:'100%', height:'100%' }}>
+    <circle cx="110" cy="110" r="80" stroke="#4a8fd4" strokeWidth="1" opacity=".2" fill="none"/>
+    <path d="M50 110 Q70 70 110 60 Q150 70 170 110 Q150 150 110 160 Q70 150 50 110Z" stroke="#4a8fd4" strokeWidth="1.2" fill="none" opacity=".4"/>
+    <ellipse cx="72" cy="78" rx="18" ry="8" fill="#5a9fd4" opacity=".6" transform="rotate(-45 72 78)"/>
+    <ellipse cx="90" cy="62" rx="16" ry="7" fill="#3a7fc4" opacity=".55" transform="rotate(-20 90 62)"/>
+    <ellipse cx="110" cy="57" rx="14" ry="6" fill="#6aaad8" opacity=".5"/>
+    <ellipse cx="130" cy="62" rx="16" ry="7" fill="#4a90cc" opacity=".55" transform="rotate(20 130 62)"/>
+    <ellipse cx="148" cy="78" rx="18" ry="8" fill="#5a9fd4" opacity=".6" transform="rotate(45 148 78)"/>
+    <ellipse cx="62" cy="120" rx="16" ry="7" fill="#4a90cc" opacity=".5" transform="rotate(250 62 120)"/>
+    <ellipse cx="148" cy="142" rx="18" ry="8" fill="#6aaad8" opacity=".55" transform="rotate(135 148 142)"/>
+    <ellipse cx="110" cy="163" rx="14" ry="6" fill="#5a9fd4" opacity=".5" transform="rotate(180 110 163)"/>
+    <ellipse cx="90" cy="158" rx="16" ry="7" fill="#3a7fc4" opacity=".5" transform="rotate(200 90 158)"/>
+    <ellipse cx="72" cy="142" rx="18" ry="8" fill="#6aaad8" opacity=".55" transform="rotate(225 72 142)"/>
+    <circle cx="110" cy="57" r="5" fill="#a8d4f0" opacity=".8"/>
+    <circle cx="158" cy="110" r="4" fill="#8ac0e8" opacity=".7"/>
+    <circle cx="62" cy="110" r="4" fill="#8ac0e8" opacity=".7"/>
+    <circle cx="110" cy="163" r="5" fill="#a8d4f0" opacity=".7"/>
+    <text x="110" y="104" textAnchor="middle" fontFamily="Raleway, sans-serif" fontSize="11" fontWeight="500" letterSpacing="3" fill="#2a5fa8" opacity=".9">INVITATIE</text>
+    <text x="110" y="122" textAnchor="middle" fontFamily="Raleway, sans-serif" fontSize="11" fontWeight="500" letterSpacing="3" fill="#2a5fa8" opacity=".9">DE NUNTĂ</text>
+  </svg>
+)
+
+const SealOcean = () => (
+  <svg style={{ position:'absolute', right:'60px', bottom:'100px', zIndex:3, width:'90px', height:'90px' }} viewBox="0 0 90 90" fill="none">
+    <circle cx="45" cy="45" r="43" fill="#2a5fa8" opacity=".9"/>
+    <circle cx="45" cy="45" r="36" fill="none" stroke="#a8c8e8" strokeWidth="1" opacity=".6"/>
+    <ellipse cx="45" cy="35" rx="12" ry="18" fill="#a8c8e8" opacity=".7"/>
+    <path d="M33 45 Q45 28 57 45" stroke="#a8c8e8" strokeWidth="1" fill="none" opacity=".5"/>
+    <circle cx="45" cy="45" r="4" fill="#a8c8e8" opacity=".6"/>
+  </svg>
+)
+
+function PreviewOcean() {
+  return (
+    <div style={{ width:'794px', height:'1123px', background:'#f0f5fa', position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', alignItems:'center', padding:'0 80px 60px', fontFamily:"'Raleway',sans-serif" }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500&display=swap');`}</style>
+      <BotanicalOcean />
+      <SealOcean />
+      <div style={{ width:'220px', height:'220px', margin:'0 auto -10px', position:'relative', zIndex:2, flexShrink:0 }}>
+        <CrownOcean />
+      </div>
+      <div style={{ position:'relative', zIndex:2, textAlign:'center', width:'100%' }}>
+        <p style={{ fontSize:'20px', fontWeight:300, fontStyle:'italic', color:'#2a5fa8', marginBottom:'16px' }}>vă invită cu drag la nunta lor</p>
+        <span style={{ fontFamily:"'Playfair Display',serif", fontSize:'88px', fontWeight:400, fontStyle:'italic', color:'#1a3a6a', lineHeight:1, display:'block', marginBottom:'10px' }}>
+          Miruna <span style={{ color:'#2a5fa8' }}>&amp;</span> Ștefan
+        </span>
+        <div style={{ width:'80px', height:'1px', background:'#2a5fa8', opacity:.3, margin:'14px auto 20px' }} />
+        <p style={{ fontFamily:"'Playfair Display',serif", fontSize:'28px', fontWeight:600, color:'#1a3a6a', marginBottom:'20px' }}>Sâmbătă, 14 Septembrie 2024</p>
+        <div style={{ marginBottom:'16px' }}>
+          <p style={{ fontSize:'14px', fontWeight:500, letterSpacing:'.2em', textTransform:'uppercase', color:'#2a5fa8', marginBottom:'4px' }}>Cununia Religioasă</p>
+          <p style={{ fontFamily:"'Playfair Display',serif", fontSize:'26px', fontStyle:'italic', color:'#1a3a6a' }}>Biserica Sfântul Gheorghe</p>
+          <p style={{ fontSize:'18px', fontWeight:300, color:'#4a7ac0' }}>Ora 13:00</p>
+        </div>
+        <div style={{ marginBottom:'20px' }}>
+          <p style={{ fontSize:'14px', fontWeight:500, letterSpacing:'.2em', textTransform:'uppercase', color:'#2a5fa8', marginBottom:'4px' }}>Recepție</p>
+          <p style={{ fontFamily:"'Playfair Display',serif", fontSize:'26px', fontStyle:'italic', color:'#1a3a6a' }}>Restaurant Vatra Botoșanei</p>
+          <p style={{ fontSize:'18px', fontWeight:300, color:'#4a7ac0' }}>Ora 18:00</p>
+        </div>
+        <div style={{ width:'60px', height:'1px', background:'#2a5fa8', opacity:.25, margin:'0 auto 16px' }} />
+        <p style={{ fontSize:'13px', fontWeight:500, letterSpacing:'.2em', textTransform:'uppercase', color:'#2a5fa8', marginBottom:'5px' }}>Părinții Miresei</p>
+        <p style={{ fontFamily:"'Playfair Display',serif", fontSize:'24px', fontStyle:'italic', color:'#1a3a6a', marginBottom:'14px' }}>Elena și Constantin Vasile</p>
+        <p style={{ fontSize:'13px', fontWeight:500, letterSpacing:'.2em', textTransform:'uppercase', color:'#2a5fa8', marginBottom:'5px' }}>Părinții Mirelui</p>
+        <p style={{ fontFamily:"'Playfair Display',serif", fontSize:'24px', fontStyle:'italic', color:'#1a3a6a', marginBottom:'14px' }}>Ana și Gheorghe Ionescu</p>
+        <p style={{ fontSize:'13px', fontWeight:500, letterSpacing:'.2em', textTransform:'uppercase', color:'#2a5fa8', marginBottom:'5px' }}>Nași</p>
+        <p style={{ fontFamily:"'Playfair Display',serif", fontSize:'24px', fontStyle:'italic', color:'#1a3a6a', marginBottom:'16px' }}>Mihaela și Florin Popescu</p>
+        <p style={{ fontSize:'17px', fontWeight:300, color:'#4a7ac0', fontStyle:'italic', lineHeight:1.9 }}>
+          Confirmați până pe <span style={{ color:'#1a3a6a', fontWeight:500, fontStyle:'normal' }}>1 Septembrie 2024</span><br/>
+          Tel: <span style={{ color:'#1a3a6a', fontWeight:500, fontStyle:'normal' }}>0700 000 000</span>
+        </p>
+      </div>
+    </div>
+  )
+}
+function PreviewSimpla() {
+  return (
+    <div style={{ width:'794px', height:'1123px', background:'#f5f0e8', position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'80px 100px 100px', fontFamily:"'Raleway',sans-serif" }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Raleway:wght@300;400;500&display=swap');`}</style>
+      {/* Margini hartie */}
+      <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:1, pointerEvents:'none' }} viewBox="0 0 794 1123" preserveAspectRatio="none">
+        <rect width="794" height="1123" fill="#f5f0e8"/>
+        <rect width="794" height="1123" fill="none" stroke="#c8b89a" strokeWidth="1" opacity=".25"/>
+        <path d="M0 0 Q14 10 2 24 Q10 40 0 58 Q12 76 0 94 Q8 112 0 130 Q14 148 0 166 L0 0Z" fill="#e0d8c8" opacity=".5"/>
+        <path d="M794 0 Q780 14 792 30 Q784 48 794 64 Q780 82 794 98 Q786 116 794 134 L794 0Z" fill="#e0d8c8" opacity=".5"/>
+        <path d="M0 1123 Q14 1113 0 1099 Q10 1085 0 1071 L0 1123Z" fill="#e0d8c8" opacity=".5"/>
+        <path d="M794 1123 Q780 1110 794 1096 Q784 1082 794 1068 L794 1123Z" fill="#e0d8c8" opacity=".5"/>
+      </svg>
+      {/* Panglica */}
+      <div style={{ position:'absolute', right:'112px', bottom:'180px', zIndex:4, width:'4px', height:'120px', background:'linear-gradient(180deg,#1a3a8a 0%,#2a5fa8 50%,#1a3a8a 100%)', borderRadius:'2px', transform:'rotate(8deg)' }} />
+      {/* Sigiliu */}
+      <svg style={{ position:'absolute', right:'72px', bottom:'80px', zIndex:5, width:'100px', height:'100px' }} viewBox="0 0 100 100" fill="none">
+        <ellipse cx="52" cy="54" rx="42" ry="42" fill="#0a1a4a" opacity=".15"/>
+        <circle cx="50" cy="50" r="44" fill="#1a3a8a"/>
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#4a6ac8" strokeWidth="1.5" opacity=".6"/>
+        <circle cx="50" cy="50" r="35" fill="none" stroke="#3a5ab8" strokeWidth="1" opacity=".4"/>
+        <path d="M50 28 C38 36 34 44 50 68 C66 44 62 36 50 28Z" fill="#8ab0e8" opacity=".75"/>
+        <path d="M50 28 L50 68" stroke="#2a4a98" strokeWidth="1.2" opacity=".5"/>
+        <ellipse cx="38" cy="34" rx="8" ry="5" fill="#a8c8f0" opacity=".2" transform="rotate(-30 38 34)"/>
+      </svg>
+      {/* Text */}
+      <div style={{ position:'relative', zIndex:3, textAlign:'center', width:'100%' }}>
+        <p style={{ fontSize:'15px', fontWeight:500, letterSpacing:'.32em', textTransform:'uppercase', color:'#2a5fa8', lineHeight:1.6 }}>INVITAȚIE</p>
+        <p style={{ fontSize:'15px', fontWeight:500, letterSpacing:'.32em', textTransform:'uppercase', color:'#2a5fa8', marginBottom:'32px' }}>DE NUNTĂ</p>
+        <span style={{ fontFamily:"'Playfair Display',serif", fontSize:'96px', fontWeight:400, fontStyle:'italic', color:'#1a3a6a', lineHeight:1, display:'block', marginBottom:'12px' }}>
+          Miruna <span style={{ color:'#2a5fa8' }}>&amp;</span> Ștefan
+        </span>
+        <p style={{ fontSize:'22px', fontWeight:300, fontStyle:'italic', color:'#3a5a9a', marginBottom:'36px' }}>vă invită cu dragoste la nuntă</p>
+        <p style={{ fontSize:'26px', color:'#1a3a6a', marginBottom:'8px' }}>Sâmbătă, 14 Septembrie 2024</p>
+        <div style={{ marginBottom:'20px' }}>
+          <span style={{ fontFamily:"'Playfair Display',serif", fontSize:'28px', fontStyle:'italic', color:'#1a3a6a', display:'block' }}>Biserica Sfântul Gheorghe — Onești</span>
+          <span style={{ fontSize:'20px', fontWeight:300, color:'#3a5a9a', display:'block' }}>Ora 14:00</span>
+        </div>
+        <div style={{ marginBottom:'24px' }}>
+          <span style={{ fontFamily:"'Playfair Display',serif", fontSize:'28px', fontStyle:'italic', color:'#1a3a6a', display:'block' }}>Restaurant Vatra Botoșanei</span>
+          <span style={{ fontSize:'20px', fontWeight:300, color:'#3a5a9a', display:'block' }}>Ora 18:00</span>
+        </div>
+        <div style={{ width:'48px', height:'1px', background:'#2a5fa8', opacity:.3, margin:'0 auto 24px' }} />
+        <span style={{ fontSize:'14px', fontWeight:500, letterSpacing:'.2em', textTransform:'uppercase', color:'#2a5fa8', marginBottom:'6px', display:'block' }}>Părinții Miresei</span>
+        <span style={{ fontFamily:"'Playfair Display',serif", fontSize:'26px', fontStyle:'italic', color:'#1a3a6a', display:'block', marginBottom:'18px' }}>Elena și Constantin Vasile</span>
+        <span style={{ fontSize:'14px', fontWeight:500, letterSpacing:'.2em', textTransform:'uppercase', color:'#2a5fa8', marginBottom:'6px', display:'block' }}>Părinții Mirelui</span>
+        <span style={{ fontFamily:"'Playfair Display',serif", fontSize:'26px', fontStyle:'italic', color:'#1a3a6a', display:'block', marginBottom:'18px' }}>Ana și Gheorghe Ionescu</span>
+        <span style={{ fontSize:'14px', fontWeight:500, letterSpacing:'.2em', textTransform:'uppercase', color:'#2a5fa8', marginBottom:'6px', display:'block' }}>Nași</span>
+        <span style={{ fontFamily:"'Playfair Display',serif", fontSize:'26px', fontStyle:'italic', color:'#1a3a6a', display:'block', marginBottom:'20px' }}>Mihaela și Florin Popescu</span>
+        <p style={{ fontSize:'18px', fontWeight:300, color:'#3a5a9a', fontStyle:'italic', lineHeight:2 }}>
+          Confirmați până pe <strong style={{ fontStyle:'normal', color:'#1a3a6a', fontWeight:500 }}>1 Septembrie 2024</strong><br/>
+          Tel: <strong style={{ fontStyle:'normal', color:'#1a3a6a', fontWeight:500 }}>0700 000 000</strong>
+        </p>
+      </div>
+    </div>
+  )
+}
 function PreviewVara() {
   return (
     <div style={{ width:'794px', height:'1123px', background:'#f9f7f2', position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'60px 80px', fontFamily:"'Lato',sans-serif" }}>
@@ -346,9 +521,9 @@ function ScaledPreview({ PreviewComp }: { PreviewComp: React.FC }) {
 
 const CARDS_NUNTA: Card[] = [
   { id: 1, name: 'Aur & Lumină',    desc: 'Rafinament clasic cu accente aurii și tipografie elegantă.', category: 'nunta', available: true,  slug: 'invitatie-nunta-pdf-auriu', PreviewComp: PreviewAuriu },
-{ id: 2, name: 'Vară Organică', desc: 'Verde salvie, eucalipt și bandă acuarelă — minimalism cald.', category: 'nunta', available: true, slug: 'invitatie-nunta-de-vara', PreviewComp: PreviewVara },  { id: 3, name: 'Grădina Secretă', desc: 'Verde botanical, elegant și plin de prospețime.',             category: 'nunta', available: false, slug: null, PreviewComp: null },
-  { id: 4, name: 'Rustic Cald',     desc: 'Tonuri de portocaliu și teracotă, atmosferă de toamnă.',     category: 'nunta', available: false, slug: null, PreviewComp: null },
-  { id: 5, name: 'Boho Chic',       desc: 'Liber, creativ, cu accente de mov pastelat și flori.',       category: 'nunta', available: false, slug: null, PreviewComp: null },
+{ id: 2, name: 'Vară Organică', desc: 'Verde salvie, eucalipt și bandă acuarelă — minimalism cald.', category: 'nunta', available: true, slug: 'invitatie-nunta-de-vara', PreviewComp: PreviewVara }, 
+{ id: 3, name: 'Ocean', desc: 'Albastru acuarelă, coroană florală și sigiliu ceară — eleganță maritimă.', category: 'nunta', available: true, slug: 'invitatii-nunta-ocean', PreviewComp: PreviewOcean },
+{ id: 4, name: 'Simplă Elegantă', desc: 'Hârtie texturată, text centrat și sigiliu ceară albastru.', category: 'nunta', available: true, slug: 'invitatie-nunta-pdf-simpla', PreviewComp: PreviewSimpla },  { id: 5, name: 'Boho Chic',       desc: 'Liber, creativ, cu accente de mov pastelat și flori.',       category: 'nunta', available: false, slug: null, PreviewComp: null },
   { id: 6, name: 'Vintage 1920',    desc: 'Art deco, aur și nostalgie — o eră de neuitat.',             category: 'nunta', available: false, slug: null, PreviewComp: null },
 ]
 

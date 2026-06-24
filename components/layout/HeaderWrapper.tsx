@@ -23,8 +23,11 @@ export default function HeaderWrapper() {
 '/invitatii-online-nunta-minimal',
 '/invitatii-online-nunta-natura',
 '/invitatii-online-nunta-romantic',
-'/invitatii-online-nunta-royal'
+'/invitatii-online-nunta-royal',
+'/invitatii-nunta-ocean',
+'/invitatii-nunta-pdf-simpla',
   ]
+
 
   // Optional: am pus un semn de întrebare la pathname?.startsWith pentru siguranță
   if (HIDE_HEADER_ROUTES.some(route => pathname?.startsWith(route))) {
