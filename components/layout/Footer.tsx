@@ -94,6 +94,7 @@ export default function Footer() {
 
   const hideOn = [
     '/invitatie-nunta-pdf-auriu',
+    '/invitatie-nunta-de-vara',
   ]
 
   if (hideOn.some(p => pathname.startsWith(p))) return null

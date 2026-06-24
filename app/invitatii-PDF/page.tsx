@@ -221,81 +221,101 @@ function PreviewAuriu() {
     </div>
   )
 }
+const BotanicalSVG = () => (
+  <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:1, pointerEvents:'none' }} viewBox="0 0 794 1123" fill="none">
+    <g opacity=".85">
+      <path d="M20 20 Q80 60 60 120 Q40 180 100 200" stroke="#5a7a3a" strokeWidth="1.5" fill="none"/>
+      <path d="M60 20 Q100 80 80 150" stroke="#5a7a3a" strokeWidth="1" fill="none"/>
+      <ellipse cx="55" cy="55" rx="18" ry="9" fill="#6a8f4a" opacity=".7" transform="rotate(-30 55 55)"/>
+      <ellipse cx="40" cy="90" rx="16" ry="8" fill="#4a7a3a" opacity=".6" transform="rotate(20 40 90)"/>
+      <ellipse cx="75" cy="75" rx="14" ry="7" fill="#7a9f5a" opacity=".65" transform="rotate(-50 75 75)"/>
+      <ellipse cx="30" cy="130" rx="20" ry="9" fill="#5a8a4a" opacity=".6" transform="rotate(10 30 130)"/>
+      <ellipse cx="90" cy="115" rx="15" ry="7" fill="#6a9a4a" opacity=".55" transform="rotate(-40 90 115)"/>
+      <ellipse cx="55" cy="160" rx="18" ry="8" fill="#4a7030" opacity=".6" transform="rotate(30 55 160)"/>
+      <ellipse cx="100" cy="180" rx="22" ry="9" fill="#5a8040" opacity=".55" transform="rotate(-20 100 180)"/>
+      <path d="M15 80 Q35 70 45 85 Q35 100 15 90 Z" fill="#4a6a30" opacity=".5"/>
+      <path d="M25 110 Q50 95 58 115 Q50 130 25 120 Z" fill="#5a7a3a" opacity=".5"/>
+    </g>
+    <g opacity=".85" transform="translate(794,0) scale(-1,1)">
+      <path d="M20 20 Q80 60 60 120 Q40 180 100 200" stroke="#5a7a3a" strokeWidth="1.5" fill="none"/>
+      <ellipse cx="55" cy="55" rx="18" ry="9" fill="#6a8f4a" opacity=".7" transform="rotate(-30 55 55)"/>
+      <ellipse cx="40" cy="90" rx="16" ry="8" fill="#4a7a3a" opacity=".6" transform="rotate(20 40 90)"/>
+      <ellipse cx="75" cy="75" rx="14" ry="7" fill="#7a9f5a" opacity=".65" transform="rotate(-50 75 75)"/>
+      <ellipse cx="30" cy="130" rx="20" ry="9" fill="#5a8a4a" opacity=".6" transform="rotate(10 30 130)"/>
+      <ellipse cx="90" cy="115" rx="15" ry="7" fill="#6a9a4a" opacity=".55" transform="rotate(-40 90 115)"/>
+      <ellipse cx="55" cy="160" rx="18" ry="8" fill="#4a7030" opacity=".6" transform="rotate(30 55 160)"/>
+      <ellipse cx="100" cy="180" rx="22" ry="9" fill="#5a8040" opacity=".55" transform="rotate(-20 100 180)"/>
+      <path d="M15 80 Q35 70 45 85 Q35 100 15 90 Z" fill="#4a6a30" opacity=".5"/>
+      <path d="M25 110 Q50 95 58 115 Q50 130 25 120 Z" fill="#5a7a3a" opacity=".5"/>
+    </g>
+    <g opacity=".8" transform="translate(0,1123) scale(1,-1)">
+      <path d="M20 20 Q80 60 60 120 Q40 180 100 200" stroke="#5a7a3a" strokeWidth="1.5" fill="none"/>
+      <ellipse cx="55" cy="55" rx="18" ry="9" fill="#6a8f4a" opacity=".7" transform="rotate(-30 55 55)"/>
+      <ellipse cx="40" cy="90" rx="16" ry="8" fill="#4a7a3a" opacity=".6" transform="rotate(20 40 90)"/>
+      <ellipse cx="75" cy="75" rx="14" ry="7" fill="#7a9f5a" opacity=".65" transform="rotate(-50 75 75)"/>
+      <ellipse cx="30" cy="130" rx="20" ry="9" fill="#5a8a4a" opacity=".6" transform="rotate(10 30 130)"/>
+      <ellipse cx="90" cy="115" rx="15" ry="7" fill="#6a9a4a" opacity=".55" transform="rotate(-40 90 115)"/>
+      <ellipse cx="55" cy="160" rx="18" ry="8" fill="#4a7030" opacity=".6" transform="rotate(30 55 160)"/>
+    </g>
+    <g opacity=".8" transform="translate(794,1123) scale(-1,-1)">
+      <path d="M20 20 Q80 60 60 120 Q40 180 100 200" stroke="#5a7a3a" strokeWidth="1.5" fill="none"/>
+      <ellipse cx="55" cy="55" rx="18" ry="9" fill="#6a8f4a" opacity=".7" transform="rotate(-30 55 55)"/>
+      <ellipse cx="40" cy="90" rx="16" ry="8" fill="#4a7a3a" opacity=".6" transform="rotate(20 40 90)"/>
+      <ellipse cx="75" cy="75" rx="14" ry="7" fill="#7a9f5a" opacity=".65" transform="rotate(-50 75 75)"/>
+      <ellipse cx="30" cy="130" rx="20" ry="9" fill="#5a8a4a" opacity=".6" transform="rotate(10 30 130)"/>
+      <ellipse cx="90" cy="115" rx="15" ry="7" fill="#6a9a4a" opacity=".55" transform="rotate(-40 90 115)"/>
+      <ellipse cx="55" cy="160" rx="18" ry="8" fill="#4a7030" opacity=".6" transform="rotate(30 55 160)"/>
+    </g>
+    <path d="M160 35 Q300 20 397 28 Q494 20 634 35" stroke="#5a7a3a" strokeWidth="1" fill="none" opacity=".5"/>
+    <path d="M160 1088 Q300 1103 397 1095 Q494 1103 634 1088" stroke="#5a7a3a" strokeWidth="1" fill="none" opacity=".5"/>
+    <ellipse cx="220" cy="28" rx="12" ry="5" fill="#6a8f4a" opacity=".5" transform="rotate(-15 220 28)"/>
+    <ellipse cx="340" cy="20" rx="11" ry="5" fill="#7a9f5a" opacity=".45" transform="rotate(-5 340 20)"/>
+    <ellipse cx="460" cy="20" rx="11" ry="5" fill="#5a8040" opacity=".45" transform="rotate(5 460 20)"/>
+    <ellipse cx="580" cy="28" rx="12" ry="5" fill="#4a7a3a" opacity=".5" transform="rotate(15 580 28)"/>
+    <ellipse cx="220" cy="1095" rx="12" ry="5" fill="#6a8f4a" opacity=".5" transform="rotate(15 220 1095)"/>
+    <ellipse cx="340" cy="1103" rx="11" ry="5" fill="#5a7a3a" opacity=".45" transform="rotate(5 340 1103)"/>
+    <ellipse cx="460" cy="1103" rx="11" ry="5" fill="#5a8040" opacity=".45" transform="rotate(-5 460 1103)"/>
+    <ellipse cx="580" cy="1095" rx="12" ry="5" fill="#4a7a3a" opacity=".5" transform="rotate(-15 580 1095)"/>
+  </svg>
+)
+
+const SealSVG = () => (
+  <svg style={{ position:'absolute', right:'80px', bottom:'110px', zIndex:3, width:'72px', height:'72px' }} viewBox="0 0 72 72" fill="none">
+    <circle cx="36" cy="36" r="34" fill="#3d5a3e" opacity=".92"/>
+    <circle cx="36" cy="36" r="28" fill="none" stroke="#a8c89a" strokeWidth="1" opacity=".6"/>
+    <path d="M36 20 C28 28 26 36 36 52 C46 36 44 28 36 20Z" fill="#a8c89a" opacity=".8"/>
+    <path d="M36 20 L36 52" stroke="#3d5a3e" strokeWidth=".8" opacity=".6"/>
+  </svg>
+)
 function PreviewVara() {
   return (
-    <div style={{ width:'794px', height:'1123px', background:'#D1E2D3', position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', fontFamily:"'Montserrat',sans-serif" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400&family=Montserrat:wght@300;400;500&display=swap');`}</style>
-
-      {/* Frunza dreapta sus */}
-      <svg style={{ position:'absolute', top:'36px', right:'52px', opacity:.55 }} width="52" height="90" viewBox="0 0 52 90" fill="none">
-        <path d="M26 88 C26 88 2 60 2 34 C2 16 12 2 26 2 C40 2 50 16 50 34 C50 60 26 88 26 88Z" fill="#5F8575" opacity=".35"/>
-        <path d="M26 88 L26 2" stroke="#1B3B2B" strokeWidth=".8" opacity=".4"/>
-        <path d="M26 30 C16 24 8 20 4 16" stroke="#1B3B2B" strokeWidth=".6" opacity=".25"/>
-        <path d="M26 45 C36 38 44 34 48 30" stroke="#1B3B2B" strokeWidth=".6" opacity=".25"/>
-      </svg>
-
-      {/* Frunza stanga jos */}
-      <svg style={{ position:'absolute', bottom:'72px', left:'44px', opacity:.5, transform:'rotate(15deg)' }} width="44" height="76" viewBox="0 0 44 76" fill="none">
-        <path d="M22 74 C22 74 2 50 2 28 C2 13 10 2 22 2 C34 2 42 13 42 28 C42 50 22 74 22 74Z" fill="#5F8575" opacity=".3"/>
-        <path d="M22 74 L22 2" stroke="#1B3B2B" strokeWidth=".7" opacity=".35"/>
-        <path d="M22 25 C14 20 8 17 4 14" stroke="#1B3B2B" strokeWidth=".5" opacity=".22"/>
-        <path d="M22 38 C30 32 36 29 40 26" stroke="#1B3B2B" strokeWidth=".5" opacity=".22"/>
-      </svg>
-
-      {/* Zona superioara */}
-      <div style={{ flex:'0 0 35%', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'flex-end', padding:'48px 80px 32px' }}>
-        <p style={{ fontSize:'8px', fontWeight:300, letterSpacing:'.32em', textTransform:'uppercase', color:'#1B3B2B', opacity:.65, textAlign:'center', marginBottom:'18px' }}>Cu bucurie vă invităm la nunta noastră</p>
-        <div style={{ textAlign:'center' }}>
-          <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'14px', fontWeight:300, fontStyle:'italic', color:'#1B3B2B', lineHeight:'2' }}>Ion și Maria Popescu</p>
-          <span style={{ fontSize:'7px', letterSpacing:'.28em', textTransform:'uppercase', color:'#5F8575', margin:'2px 0', display:'block' }}>și</span>
-          <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'14px', fontWeight:300, fontStyle:'italic', color:'#1B3B2B', lineHeight:'2' }}>Gheorghe și Elena Ionescu</p>
-        </div>
-      </div>
-
-      {/* Banda acuarela */}
-      <div style={{ flex:'0 0 auto', position:'relative' }}>
-        <svg style={{ display:'block', width:'100%' }} viewBox="0 0 794 200" preserveAspectRatio="none">
-          <defs>
-            <filter id="wcp" x="-5%" y="-5%" width="110%" height="110%">
-              <feTurbulence type="fractalNoise" baseFrequency="0.035 0.06" numOctaves="4" seed="8" result="noise"/>
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
-              <feGaussianBlur in="displaced" stdDeviation="1.2" result="blurred"/>
-              <feComposite in="blurred" in2="SourceGraphic" operator="in"/>
-            </filter>
-          </defs>
-          <path d="M-10 28 Q60 18 160 24 Q280 32 400 20 Q520 8 640 22 Q720 30 804 18 L804 172 Q740 182 620 176 Q500 168 380 180 Q260 192 140 178 Q60 170 -10 180 Z" fill="#5F8575" filter="url(#wcp)" opacity=".88"/>
-          <path d="M-10 38 Q80 26 200 34 Q340 44 460 30 Q580 16 700 32 Q760 40 804 28 L804 162 Q730 174 600 166 Q470 158 350 170 Q220 182 100 168 Q40 162 -10 170 Z" fill="#5F8575" filter="url(#wcp)" opacity=".35"/>
-        </svg>
-        <div style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
-          <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'58px', fontWeight:300, fontStyle:'italic', color:'#FDFBF7', lineHeight:1.05 }}>Andreea</p>
-          <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'36px', fontWeight:300, fontStyle:'italic', color:'rgba(253,251,247,.7)', lineHeight:1, display:'block', textAlign:'center' }}>&amp;</span>
-          <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'58px', fontWeight:300, fontStyle:'italic', color:'#FDFBF7', lineHeight:1.05 }}>Alexandru</p>
-        </div>
-      </div>
-
-      {/* Zona inferioara */}
-      <div style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', padding:'28px 80px 80px' }}>
-        <p style={{ fontSize:'7.5px', fontWeight:300, letterSpacing:'.28em', textTransform:'uppercase', color:'#1B3B2B', opacity:.6, marginBottom:'24px', textAlign:'center' }}>vă invită cu drag la celebrarea căsătoriei lor</p>
-        <div style={{ width:'40px', height:'1px', background:'#5F8575', opacity:.5, margin:'0 auto 24px' }} />
-        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontWeight:300, fontStyle:'italic', color:'#1B3B2B', letterSpacing:'.06em', textAlign:'center', marginBottom:'4px' }}>Sâmbătă, 14 Iunie</p>
-        <p style={{ fontSize:'11px', fontWeight:300, letterSpacing:'.32em', textTransform:'uppercase', color:'#5F8575', textAlign:'center', marginBottom:'28px' }}>2025</p>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', width:'100%', marginBottom:'24px' }}>
-          {[['Cununie','Biserica Sf. Nicolae','13:00',true],['Recepție','Restaurant Dolce Vita','18:00',false]].map(([label,name,time,border]) => (
-            <div key={label as string} style={{ textAlign:'center', padding:'16px 12px', borderRight: border ? '1px solid rgba(95,133,117,.25)' : 'none' }}>
-              <p style={{ fontSize:'7px', fontWeight:500, letterSpacing:'.24em', textTransform:'uppercase', color:'#5F8575', marginBottom:'7px' }}>{label}</p>
-              <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'13px', fontWeight:300, fontStyle:'italic', color:'#1B3B2B', lineHeight:1.5, marginBottom:'4px' }}>{name}</p>
-              <p style={{ fontSize:'8px', fontWeight:300, letterSpacing:'.18em', color:'#5F8575' }}>ora {time}</p>
+    <div style={{ width:'794px', height:'1123px', background:'#f9f7f2', position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'60px 80px', fontFamily:"'Lato',sans-serif" }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400&family=Lato:wght@300;400&display=swap');`}</style>
+      <BotanicalSVG />
+      <SealSVG />
+      <div style={{ position:'relative', zIndex:2, textAlign:'center', width:'100%' }}>
+        <p style={{ fontSize:'13px', fontWeight:300, fontStyle:'italic', color:'#3d5a3e', marginBottom:'4px' }}>Două suflete, o promisiune sub cerul liber</p>
+        <p style={{ fontSize:'13px', fontWeight:300, fontStyle:'italic', color:'#3d5a3e', marginBottom:'28px' }}>Vă invităm cu drag la nunta noastră</p>
+        <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'62px', fontWeight:300, color:'#1a2e1a', lineHeight:1.05, display:'block' }}>Mire</span>
+        <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'48px', fontWeight:300, fontStyle:'italic', color:'#3d5a3e', display:'block', lineHeight:1.1, margin:'4px 0' }}>&amp;</span>
+        <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'62px', fontWeight:300, color:'#1a2e1a', lineHeight:1.05, display:'block', marginBottom:'28px' }}>Mireasă</span>
+        <div style={{ width:'60px', height:'1px', background:'#3d5a3e', opacity:.35, margin:'0 auto 24px' }} />
+        <p style={{ fontSize:'10px', letterSpacing:'.18em', textTransform:'uppercase', color:'#5a7a5a', marginBottom:'5px' }}>Cu binecuvântarea părinților noștri</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'18px', fontStyle:'italic', color:'#1a2e1a', lineHeight:1.5, marginBottom:'16px' }}>Familia [Părinți Mire]<br/>Familia [Părinți Mireasă]</p>
+        <p style={{ fontSize:'10px', letterSpacing:'.18em', textTransform:'uppercase', color:'#5a7a5a', marginBottom:'5px' }}>Și călăuziți de nașii noștri</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'18px', fontStyle:'italic', color:'#1a2e1a', lineHeight:1.5, marginBottom:'24px' }}>[Prenume Nași]</p>
+        <div style={{ width:'60px', height:'1px', background:'#3d5a3e', opacity:.35, margin:'0 auto 20px' }} />
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontStyle:'italic', color:'#1a2e1a', marginBottom:'16px' }}>Sâmbătă, 14 Iunie, 2025</p>
+        <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'center', gap:'32px', marginBottom:'18px' }}>
+          {[['Cununia Religioasă','[Biserică]','13:00'],['Marea Sărbătoare','[Restaurant]','18:00']].map(([label,name,time],i) => (
+            <div key={i} style={{ textAlign:'center' }}>
+              <p style={{ fontSize:'9px', letterSpacing:'.18em', textTransform:'uppercase', color:'#5a7a5a', marginBottom:'4px' }}>{label}</p>
+              <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'16px', fontStyle:'italic', color:'#1a2e1a' }}>{name}</p>
+              <p style={{ fontSize:'11px', fontWeight:300, color:'#5a7a5a', marginTop:'2px' }}>Ora {time}</p>
             </div>
           ))}
         </div>
-        <div style={{ width:'40px', height:'1px', background:'#5F8575', opacity:.4, margin:'0 auto 20px' }} />
-        <p style={{ fontSize:'7px', fontWeight:500, letterSpacing:'.24em', textTransform:'uppercase', color:'#5F8575', textAlign:'center', marginBottom:'6px' }}>Nași de cununie</p>
-        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'14px', fontWeight:300, fontStyle:'italic', color:'#1B3B2B', textAlign:'center', lineHeight:1.6 }}>Mihai și Cristina Dumitrescu</p>
-      </div>
-
-      {/* RSVP */}
-      <div style={{ position:'absolute', bottom:0, left:0, right:0, padding:'14px 48px', background:'rgba(27,59,43,.06)', borderTop:'1px solid rgba(95,133,117,.2)', textAlign:'center', fontSize:'7.5px', fontWeight:300, letterSpacing:'.18em', textTransform:'uppercase', color:'#1B3B2B', opacity:.7 }}>
-        Confirmați prezența până pe <span style={{ color:'#5F8575', fontWeight:500, opacity:1 }}>1 Iunie 2025</span> · Tel: <span style={{ color:'#5F8575', fontWeight:500, opacity:1 }}>0700 000 000</span>
+        <p style={{ fontSize:'11px', fontWeight:300, color:'#5a7a5a', fontStyle:'italic', lineHeight:1.8 }}>Confirmați prezența până pe <span style={{ color:'#3d5a3e' }}>1 Iunie 2025</span><br/>Tel: <span style={{ color:'#3d5a3e' }}>0700 000 000</span></p>
       </div>
     </div>
   )
