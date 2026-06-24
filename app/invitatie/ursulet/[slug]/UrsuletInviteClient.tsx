@@ -578,17 +578,7 @@ export default function UrsuletInviteClient(props: Props) {
             </div>
 
             {/* CTA */}
-            <div style={{ ...a(.58), ...glass, padding:'18px 22px 22px', display:'flex', flexDirection:'column', alignItems:'center', gap:11 }}>
-              <p style={{ fontFamily:"'Cormorant',serif", fontSize:15, fontStyle:'italic', color:'#A07850', margin:0, textAlign:'center' }}>Îți place această temă? Personalizează-o pentru botezul copilului tău</p>
-              <a href="/preturi?tema=botez-ursulet" style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'12px 34px', borderRadius:100, background:'linear-gradient(135deg,#7AAAC0,#4880A0)', color:'#fff', textDecoration:'none', fontFamily:"'Quicksand',sans-serif", fontSize:12, fontWeight:700, letterSpacing:'.15em', textTransform:'uppercase', boxShadow:'0 8px 26px rgba(72,128,160,.35)', transition:'transform .2s,box-shadow .2s' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.transform='translateY(-2px)'; (e.currentTarget as HTMLAnchorElement).style.boxShadow='0 16px 40px rgba(72,128,160,.5)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.transform=''; (e.currentTarget as HTMLAnchorElement).style.boxShadow='0 8px 26px rgba(72,128,160,.35)'; }}>
-                🧸 Alege Această Temă
-              </a>
-              <p style={{ fontFamily:"'Quicksand',sans-serif", fontSize:9, letterSpacing:'.2em', textTransform:'uppercase', color:'rgba(122,170,192,.55)', fontWeight:700, margin:0 }}>
-                VibeInvite © {new Date().getFullYear()} · Toate drepturile rezervate
-              </p>
-            </div>
+
 
           </div>
         </div>
