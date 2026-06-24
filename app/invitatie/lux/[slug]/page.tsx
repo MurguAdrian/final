@@ -1,5 +1,4 @@
 
-
 import { neon } from "@neondatabase/serverless";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -29,7 +28,6 @@ export async function generateMetadata(
   const title = `${s.bride_name} & ${s.groom_name} — Invitație de Nuntă`;
   const description = `Vă invităm cu drag la nunta noastră${dateStr ? `, pe ${dateStr}` : ''}${s.location_name ? `, la ${s.location_name}` : ''}. Confirmați prezența online.`;
 
-  // IMPORTANT: folosim www. consistent — site-ul face redirect non-www → www
   const baseUrl = 'https://www.vibeinvite.ro';
   const url = `${baseUrl}/invitatie/lux/${params.slug}`;
   const ogImage = `${baseUrl}/api/og/lux/${params.slug}`;
@@ -65,15 +63,15 @@ export async function generateMetadata(
     alternates: {
       canonical: url,
     },
-other: {
-  'og:image': ogImage,
-  'og:image:secure_url': ogImage,
-  'og:image:type': 'image/png',
-  'og:image:width': '1200',
-  'og:image:height': '630',
-  'og:image:alt': title,
-  'fb:app_id': '1234567890123456', // ← App ID-ul tău aici
-},
+    other: {
+      'og:image': ogImage,
+      'og:image:secure_url': ogImage,
+      'og:image:type': 'image/png',
+      'og:image:width': '1200',
+      'og:image:height': '630',
+      'og:image:alt': title,
+      'fb:app_id': '1234567890123456',
+    },
   };
 }
 
@@ -115,12 +113,14 @@ export default async function InvitationPage({ params }: { params: { slug: strin
 
   return (
     <LuxInviteClient
-     slug={params.slug}
+      slug={params.slug}
       brideName={s.bride_name || ''}
       groomName={s.groom_name || ''}
       initials={initials}
       nasiNames={s.nasi_names || ''}
       parentsNames={s.parents_names || ''}
+      parentsBride={s.parents_bride || ''}
+      parentsGroom={s.parents_groom || ''}
       weddingDateISO={weddingDateISO}
       weddingDateDisplay={weddingDateDisplay}
       weddingTime={s.wedding_time || ''}
@@ -132,6 +132,7 @@ export default async function InvitationPage({ params }: { params: { slug: strin
       religiousTime={s.religious_time || ''}
       religiousLocation={s.religious_location || ''}
       religiousWaze={s.religious_waze || ''}
+      religiousMaps={s.religious_maps_url || ''}
       ourStory={s.our_story || ''}
       isMenuActive={!!s.is_menu_active}
       menuDetails={s.menu_details || null}
@@ -140,7 +141,6 @@ export default async function InvitationPage({ params }: { params: { slug: strin
       isTransportActive={!!s.is_transport_active}
       contactPhoneBride={s.contact_phone_bride || ''}
       contactPhoneGroom={s.contact_phone_groom || ''}
-      religiousMaps={s.religious_maps_url || ''} /* <--- ADAUGĂ LINIA ASTA */
       orderId={s.order_id}
     />
   );
