@@ -1,7 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { SITE_DOMAIN } from '../constants/marketingDefaults'
 
-// Paginile tale clasice de prezentare și legale
 const publicPaths = [
   '/',
   '/preturi',
@@ -10,9 +9,11 @@ const publicPaths = [
   '/gdpr',
   '/politica',
   '/cookies',
+  '/termeni',
   '/invitatii-digitale',
   '/invitatii-PDF',
 ]
+
 const photographerPaths = [
   '/fotograf-bacau-tr-visuals',
   '/fotograf-bucuresti-razvan-ristea',
@@ -20,8 +21,9 @@ const photographerPaths = [
   '/fotograf-onesti-dragoi-george-adrian',
   '/fotograf-ploiesti-jo-photography',
   '/fotograf-targoviste-bianca-sfetcu',
+  '/fotograf-miercurea-ciuc-david-foto-video',
 ]
-// Paginile tale comerciale (Șabloanele) care TREBUIE să aducă trafic masiv din Google
+
 const templatePaths = [
   // --- BOTEZ BĂIEȚI ---
   '/invitatie-botez-online-baiat-astronaut',
@@ -45,8 +47,16 @@ const templatePaths = [
   '/invitatii-online-nunta-royal',
 ]
 
+const pdfTemplatePaths = [
+  '/invitatie-nunta-de-vara',
+  '/invitatie-nunta-img-coral',
+  '/invitatie-nunta-pdf-auriu',
+  '/invitatie-nunta-pdf-simpla',
+  '/invitatie-nunta-poza',
+  '/invitatii-nunta-ocean',
+]
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  // 1. Generăm sitemap-ul pentru paginile de bază
   const baseSitemaps = publicPaths.map((path) => ({
     url: `${SITE_DOMAIN}${path}`,
     lastModified: new Date(),
@@ -54,19 +64,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === '/' ? 1.0 : 0.7,
   }))
 
-  // 2. Generăm sitemap-ul pentru șabloane (le dăm prioritate 0.8 pentru că ele aduc conversiile și traficul)
   const templateSitemaps = templatePaths.map((path) => ({
     url: `${SITE_DOMAIN}${path}`,
     lastModified: new Date(),
     changefreq: 'weekly' as const,
-    priority: 0.8, // Prioritate ridicată pentru ca Google să le trateze ca pagini importante de produs
+    priority: 0.8,
   }))
-const photographerSitemaps = photographerPaths.map((path) => ({
-  url: `${SITE_DOMAIN}${path}`,
-  lastModified: new Date(),
-  changefreq: 'weekly' as const,
-  priority: 0.9,
-}))
-  // 3. Combinăm ambele liste într-un singur sitemap mare și complet
-  return [...baseSitemaps, ...templateSitemaps, ...photographerSitemaps]
+
+  const pdfTemplateSitemaps = pdfTemplatePaths.map((path) => ({
+    url: `${SITE_DOMAIN}${path}`,
+    lastModified: new Date(),
+    changefreq: 'weekly' as const,
+    priority: 0.8,
+  }))
+
+  const photographerSitemaps = photographerPaths.map((path) => ({
+    url: `${SITE_DOMAIN}${path}`,
+    lastModified: new Date(),
+    changefreq: 'weekly' as const,
+    priority: 0.9,
+  }))
+
+  return [...baseSitemaps, ...templateSitemaps, ...pdfTemplateSitemaps, ...photographerSitemaps]
 }
