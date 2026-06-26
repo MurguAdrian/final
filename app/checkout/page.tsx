@@ -791,7 +791,7 @@
 //                   />
 //                   <span className="pg-check-text">
 //                     Am citit și accept{' '}
-//                     <a href="/confidentialitate" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="pg-check-link">
+//                     <a href="/politica" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="pg-check-link">
 //                       Politica de Confidențialitate
 //                     </a>
 //                     {' '}și prelucrarea datelor conform GDPR.
@@ -1716,7 +1716,7 @@ export default function CheckoutPage() {
                   />
                   <span className="pg-check-text">
                     Am citit și accept{' '}
-                    <a href="/confidentialitate" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="pg-check-link">
+                    <a href="/politica" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="pg-check-link">
                       Politica de Confidențialitate
                     </a>
                     {' '}și prelucrarea datelor conform GDPR.

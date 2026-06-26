@@ -183,7 +183,7 @@ export default function TermeniPage() {
             <h1 className="vt-h1">
               Termeni și <em>Condiții</em> de Utilizare
             </h1>
-            <p className="vt-date">Versiunea 1.0 — Data intrării în vigoare: 20.05.2026</p>
+            <p className="vt-date">Versiunea 1.1 — Actualizat: 26.06.2026 · Intrare în vigoare: 11.07.2026</p>
           </header>
 
           {/* INFO BOX */}
@@ -280,6 +280,7 @@ export default function TermeniPage() {
               <Li>Să nu distribuie prin intermediul platformei conținut ilegal, obscen, defăimător, discriminatoriu sau care încalcă drepturile terților.</Li>
               <Li>Să nu utilizeze platforma în scopuri comerciale, de resale sau redistribuire neautorizată.</Li>
               <Li>Să păstreze confidențialitatea datelor de acces (email, parolă) și să notifice imediat VibeInvite în caz de acces neautorizat.</Li>
+              <Li>Să declare că au împlinit vârsta de <strong>18 ani</strong> la data creării contului. Platforma VibeInvite este destinată exclusiv persoanelor majore; minorii nu pot crea conturi fără acordul scris al unui părinte sau tutore legal, caz în care tutorele își asumă integral responsabilitățile prevăzute în prezentele condiții.</Li>
             </ul>
             <p>
               <strong>Mirii sunt singurii responsabili pentru modul în care distribuie invitațiile digitale
@@ -345,6 +346,9 @@ export default function TermeniPage() {
               fi exclusă prin lege, aceasta este limitată la suma plătită de Utilizator pentru accesul la
               serviciu, în perioada de 12 luni anterioară producerii prejudiciului.
             </p>
+            <p>
+              <strong>6.6. Forță majoră.</strong> VibeInvite nu răspunde pentru întârzierea sau imposibilitatea executării obligațiilor sale cauzate de forță majoră sau de împrejurări imprevizibile și inevitabile, incluzând, fără limitare: dezastre naturale, conflicte armate, atacuri cibernetice (DDoS, ransomware), defecțiuni ale furnizorilor de infrastructură cloud (hosting, CDN, baze de date), acte ale autorităților publice sau modificări legislative care împiedică prestarea serviciului. VibeInvite va notifica Utilizatorii afectați în cel mai scurt timp rezonabil posibil și va depune eforturi rezonabile pentru restabilirea serviciului.
+            </p>
           </Warn>
 
           {/* ART. 7 — PLATI */}
@@ -376,7 +380,7 @@ export default function TermeniPage() {
               Confidențialitate</strong>, accesibilă la www.vibeinvite.ro/politica.
             </p>
             <p>
-              <strong>Responsabilitatea Mirilor ca Operatori secundari:</strong> Prin utilizarea funcționalității
+              <strong>Responsabilitatea Mirilor ca Operatori independenți de date (GDPR Art. 28):</strong> Prin utilizarea funcționalității
               RSVP, Mirii colectează date personale ale invitaților lor (nume, preferințe dietetice, date de
               contact). În această calitate, Mirii acționează ca Operatori independenți și sunt responsabili
               exclusiv pentru conformitatea cu GDPR, inclusiv pentru obținerea consimțământului invitaților,
@@ -420,28 +424,24 @@ export default function TermeniPage() {
             </p>
             <p>
               Detaliile complete privind tipurile de cookie-uri utilizate, scopul și opțiunile de gestionare
-              sunt disponibile în <strong>Politica Cookie</strong>, accesibilă la www.vibeinvite.ro/politica.
+              sunt disponibile în <strong>Politica Cookie</strong>, accesibilă la www.vibeinvite.ro/cookies.
             </p>
           </Card>
 
           {/* ART. 11 — MODIFICARI */}
           <Card no="11" label="Modificarea Termenilor" title={<>Actualizarea <em>Documentului</em></>}>
             <p>
-              VibeInvite își rezervă dreptul de a modifica prezentele Termeni și Condiții în orice moment,
-              fără notificare prealabilă. Versiunea actualizată va fi publicată pe www.vibeinvite.ro/termeni și
-              va indica data intrării în vigoare.
+              VibeInvite își rezervă dreptul de a modifica prezentele Termeni și Condiții cu o perioadă de preaviz de cel puțin <strong>15 zile calendaristice</strong> față de data intrării în vigoare. Versiunea actualizată va fi publicată pe www.vibeinvite.ro/termeni cu data noii versiuni afișată în antet. Pentru modificări minore (corectare erori, actualizare date de contact), VibeInvite poate opera modificările fără perioadă de preaviz.
             </p>
             <p>
-              Continuarea utilizării platformei după publicarea modificărilor constituie acceptarea tacită
-              a noilor condiții. Vă recomandăm să verificați periodic acest document.
+              Continuarea utilizării platformei după data intrării în vigoare a noii versiuni constituie acceptarea tacită a modificărilor. Dacă nu ești de acord cu noile condiții, ai dreptul de a solicita ștergerea contului înainte de data intrării în vigoare. Vă recomandăm să verificați periodic acest document.
             </p>
           </Card>
 
           {/* ART. 12 — INCETARE */}
           <Card no="12" label="Suspendare și Încetare" title={<>Suspendarea <em>Accesului</em></>}>
             <p>
-              VibeInvite poate suspenda sau înceta accesul la platformă al oricărui Utilizator, fără notificare
-              prealabilă și fără obligația de restituire a tarifului plătit, în cazul în care:
+              VibeInvite poate suspenda sau înceta accesul la platformă al oricărui Utilizator, cu sau fără notificare prealabilă în funcție de gravitatea situației, și fără obligația de restituire a tarifului plătit, în cazul în care:
             </p>
             <ul className="vt-list">
               <Li>Utilizatorul încalcă prezentele Termeni și Condiții.</Li>
@@ -504,8 +504,8 @@ export default function TermeniPage() {
             <br />
             Email: office@vibeinvite.ro &nbsp;·&nbsp; Web: www.vibeinvite.ro
             <br /><br />
-            Document intrat în vigoare la data de <strong>20.05.2026</strong>.
-            Orice versiune anterioară este înlocuită integral de prezentul document.
+            Versiunea 1.0 intrată în vigoare la <strong>20.05.2026</strong>. Versiunea 1.1 actualizată la <strong>26.06.2026</strong>, intră în vigoare la <strong>11.07.2026</strong>.
+            Orice versiune anterioară este înlocuită integral de prezentul document la data intrării în vigoare.
           </div>
 
         </div>

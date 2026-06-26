@@ -190,7 +190,7 @@ export default function PoliticaPage() {
             <h1 className="vp-h1">
               Politica de <em>Confidențialitate</em> și Cookie
             </h1>
-            <p className="vp-date">Versiunea 1.0 — Data intrării în vigoare: 20.05.2026</p>
+            <p className="vp-date">Versiunea 1.1 — Actualizat: 26.06.2026 · Intrare în vigoare: 11.07.2026</p>
           </header>
 
           {/* INFO BOX */}
@@ -214,6 +214,9 @@ export default function PoliticaPage() {
             <p>
               Pentru orice întrebări legate de prelucrarea datelor tale personale, ne poți contacta
               la adresa de email de mai sus. Îți vom răspunde în cel mult 30 de zile calendaristice.
+            </p>
+            <p>
+              <strong>Distincție Controller / Processor:</strong> VibeInvite acționează ca <strong>Operator (Data Controller)</strong> pentru datele Mirilor (cont, plată, preferințe eveniment). Pentru datele invitaților colectate prin funcționalitatea RSVP și galeria foto, VibeInvite acționează ca <strong>Persoană Împuternicită (Data Processor, GDPR Art. 28)</strong>, exclusiv în numele Mirilor care sunt Operatori independenți responsabili de obținerea consimțământului invitaților lor.
             </p>
           </Card>
 
@@ -319,7 +322,7 @@ export default function PoliticaPage() {
                   </tr>
                   <tr>
                     <td>Fotografii invitați</td>
-                    <td>30 de zile de la activarea galeriei, șterse automat</td>
+                    <td>Galerie activă 30 de zile de la activare (fereastra de upload pentru invitați); fotografiile sunt accesibile mirilor pe durata contului (12 luni total) și șterse automat la expirarea contului</td>
                   </tr>
                   <tr>
                     <td>Tokens autentificare</td>
@@ -346,11 +349,10 @@ export default function PoliticaPage() {
               <Li><strong>Resend</strong> (resend.com) — trimitere emailuri tranzacționale. Date transmise: adresă email, linkuri.</Li>
               <Li><strong>Neon</strong> (neon.tech) — bază de date PostgreSQL serverless. Date transmise: toate datele platformei.</Li>
               <Li><strong>Vercel</strong> (vercel.com) — hosting și infrastructură. Date transmise: trafic, log-uri tehnice.</Li>
+              <Li><strong>Google Analytics 4</strong> (analytics.google.com) — analiză trafic cu IP anonimizat. Date transmise: IP anonimizat, sesiuni, pagini vizitate. Se activează <strong>exclusiv cu consimțământul explicit</strong> al utilizatorului, acordat prin bannerul cookie. DPA: business.safety.google/adsprocessorterms</Li>
             </ul>
             <p>
-              Toți partenerii sunt selectați în conformitate cu cerințele GDPR și oferă garanții adecvate
-              de protecție a datelor. Datele nu sunt transferate în afara Spațiului Economic European
-              fără garanții adecvate (clauze contractuale standard sau echivalent).
+              Toți partenerii sunt selectați în conformitate cu cerințele GDPR și oferă garanții adecvate de protecție a datelor. Unii sub-procesatori (Stripe, Google Analytics 4, Cloudinary, Vercel) pot procesa date pe servere din afara Spațiului Economic European (în principal SUA). Toate aceste transferuri se realizează exclusiv cu garanții adecvate: Clauze Contractuale Standard (SCC) aprobate de Comisia Europeană sau Data Processing Agreements (DPA) individuale conforme GDPR. Accesul la DPA-urile relevante este disponibil la adresele de privacy indicate pentru fiecare procesator.
             </p>
           </Card>
 
@@ -365,9 +367,7 @@ export default function PoliticaPage() {
               Nu conține date personale în clar — doar un token JWT semnat criptografic.
             </p>
             <p>
-              <strong>Cookie-uri de analiză și marketing:</strong> În prezent, platforma VibeInvite.ro
-              nu utilizează cookie-uri de analiză, tracking sau marketing de la terți. Dacă această
-              politică se va schimba, documentul va fi actualizat și vei fi notificat.
+              <strong>Cookie-uri de analiză (necesită consimțământ explicit):</strong> Platforma utilizează <strong>Google Analytics 4</strong> (_ga, _gid, _ga_*) pentru analiza statistică a traficului și îmbunătățirea serviciului, cu IP anonimizat. Aceste cookie-uri sunt activate <strong>exclusiv cu consimțământul tău explicit</strong>, acordat prin bannerul cookie afișat la prima vizită. Poți retrage consimțământul oricând accesând bannerul cookie sau contactând office@vibeinvite.ro. <strong>NU folosim cookie-uri de publicitate, Facebook Pixel sau tracking social. Zero ads.</strong>
             </p>
             <p>
               Poți gestiona cookie-urile din setările browserului tău. Dezactivarea cookie-ului de
@@ -389,8 +389,12 @@ export default function PoliticaPage() {
               <Li><strong>Dreptul de a retrage consimțământul</strong> — oricând, fără a afecta legalitatea prelucrării anterioare.</Li>
             </ul>
             <p>
+              <strong>Retragerea consimțământului</strong> poate fi exercitată oricând — din bannerul cookie pentru Google Analytics, sau prin email la office@vibeinvite.ro pentru orice altă prelucrare bazată pe consimțământ — fără a afecta legalitatea prelucrărilor efectuate anterior retragerii.
+            </p>
+            <p>
               Ai de asemenea dreptul de a depune o plângere la <strong>Autoritatea Națională de Supraveghere
               a Prelucrării Datelor cu Caracter Personal (ANSPDCP)</strong>, accesibilă la anspdcp.eu.ro.
+              Răspundem la toate cererile GDPR în maximum <strong>30 de zile calendaristice</strong> de la primire.
             </p>
           </Card>
 
@@ -436,8 +440,8 @@ export default function PoliticaPage() {
             <br />
             Email: office@vibeinvite.ro &nbsp;·&nbsp; Web: www.vibeinvite.ro
             <br /><br />
-            Document intrat în vigoare la data de <strong>20.05.2026</strong>.
-            Orice versiune anterioară este înlocuită integral de prezentul document.
+            Versiunea 1.0 intrată în vigoare la <strong>20.05.2026</strong>. Versiunea 1.1 actualizată la <strong>26.06.2026</strong>, intră în vigoare la <strong>11.07.2026</strong>.
+            Orice versiune anterioară este înlocuită integral de prezentul document la data intrării în vigoare.
           </div>
 
         </div>

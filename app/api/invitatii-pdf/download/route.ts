@@ -144,7 +144,3 @@ export async function GET(req: Request) {
     return new NextResponse(`Eroare: ${err.message}`, { status: 500 })
   }
 }
-
-function buildHTML_jinxx(fields: Record<string, string>): string {
-  throw new Error('Function not implemented.')
-}

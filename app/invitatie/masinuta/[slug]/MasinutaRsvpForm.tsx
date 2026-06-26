@@ -140,7 +140,7 @@ export default function MasinutaRsvpForm({ orderId, onClose }: Props) {
         <div style={{ background:'rgba(228,240,251,.7)', border:'1px solid rgba(110,150,190,.18)', borderRadius:12, padding:'12px 14px', marginBottom:18 }}>
           <p style={{ fontFamily:"'Cormorant',serif", fontSize:12, color:'#5E7C95', lineHeight:1.5, marginBottom:8, fontStyle:'italic' }}>
             <strong>🔒 Date Protejate:</strong> Datele tale se colectează și se șterg după 12 luni.{' '}
-            <a href="https://www.vibeinvite.ro/confidentialitate" target="_blank" rel="noopener noreferrer" style={{ color:'#2E6299', textDecoration:'underline' }}>Politica</a>
+            <a href="https://www.vibeinvite.ro/politica" target="_blank" rel="noopener noreferrer" style={{ color:'#2E6299', textDecoration:'underline' }}>Politica</a>
           </p>
           <label style={{ display:'flex', alignItems:'flex-start', gap:10, cursor:'pointer' }}>
             <input type="checkbox" checked={gdpr} onChange={e => setGdpr(e.target.checked)} style={{ marginTop:3, width:16, height:16, accentColor:'#4A8BC2', cursor:'pointer', flexShrink:0 }} />
