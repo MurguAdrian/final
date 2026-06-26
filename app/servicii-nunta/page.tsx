@@ -157,7 +157,16 @@ const CSS = `
   color: #fff; font-size: 9.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
   padding: 4px 12px; border-radius: 100px;
 }
-
+.sn-cta-link {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 4px;
+  background: linear-gradient(135deg, #FF6B00, #FF8C35);
+  color: #fff; padding: 12px 28px; border-radius: 16px; text-decoration: none;
+  box-shadow: 0 4px 20px rgba(255,107,0,0.35);
+  transition: opacity .2s, transform .15s;
+}
+.sn-cta-link:hover { opacity: .9; transform: translateY(-2px); }
+.sn-cta-main { font-size: 14px; font-weight: 600; letter-spacing: .02em; }
+.sn-cta-sub { font-size: 11px; opacity: .75; font-weight: 400; letter-spacing: .03em; }
 .sn-card-body { padding: 20px 20px 22px; display: flex; flex-direction: column; flex: 1; }
 .sn-card-name { font-size: 15.5px; font-weight: 600; color: #1A1208; line-height: 1.3; margin-bottom: 5px; }
 .sn-card-loc { display: flex; align-items: center; gap: 4px; font-size: 12px; color: rgba(26,18,8,0.38); margin-bottom: 14px; }
@@ -220,42 +229,18 @@ export default async function ServiciiNuntaPage({
   <h1>Servicii pentru <em>Nunta Ta</em></h1>
   <p className="sn-hero-sub">Fotografi · DJ · Formații · Candy Bar — contact direct, fără intermediari</p>
 
-  {/* CTA PROMOȚIONAL */}
-  <div style={{ marginBottom: '24px' }}>
-    <Link
-      href="https://forms.gle/bQtUVPzGYSWubxEJ7"
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{
-        display: 'inline-flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '4px',
-        background: 'linear-gradient(135deg, #FF6B00, #FF8C35)',
-        color: '#fff',
-        padding: '12px 28px',
-        borderRadius: '16px',
-        textDecoration: 'none',
-        boxShadow: '0 4px 20px rgba(255,107,0,0.35)',
-        transition: 'opacity .2s, transform .15s',
-      }}
-      onMouseOver={(e) => {
-        (e.currentTarget as HTMLElement).style.opacity = '0.9';
-        (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-      }}
-      onMouseOut={(e) => {
-        (e.currentTarget as HTMLElement).style.opacity = '1';
-        (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-      }}
-    >
-      <span style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '.02em' }}>
-        Alătură-te și tu! Este gratis!!!
-      </span>
-      <span style={{ fontSize: '11px', opacity: 0.75, fontWeight: 400, letterSpacing: '.03em' }}>
-        Proiect Pilot până în August 2027
-      </span>
-    </Link>
-  </div>
+{/* CTA PROMOȚIONAL */}
+<div style={{ marginBottom: '24px' }}>
+  <a
+    href="https://forms.gle/bQtUVPzGYSWubxEJ7"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="sn-cta-link"
+  >
+    <span className="sn-cta-main">Alătură-te și tu! Este gratis!!!</span>
+    <span className="sn-cta-sub">Proiect Pilot până în August 2027</span>
+  </a>
+</div>
 
   <form method="GET" action="/servicii-nunta" className="sn-search-wrap">
     <input type="hidden" name="category" value={category} />
