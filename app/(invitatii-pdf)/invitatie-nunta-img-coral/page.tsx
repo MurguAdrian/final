@@ -36,9 +36,9 @@ const DEFAULTS: Fields = {
   bride: 'Ștefan', groom: 'Miruna',
   parentsGroom: 'Elena și Constantin Vasiliu', parentsBride: 'Ana și Gheorghe Ionescu',
   nasi: 'Mihaela și Florin Popescu',
-  weddingDate: '2024-09-14', church: 'Biserica "Sfântul Gheorghe" — Onești', churchTime: '14:00',
+  weddingDate: '2026-06-14', church: 'Biserica "Sfântul Gheorghe" — Onești', churchTime: '14:00',
   restaurant: 'Restaurant "Vatra Boierească"', restTime: '18:00',
-  rsvpDate: '2024-09-15', rsvpTel: 'www.eliza&theo.wedding',
+  rsvpDate: '2026-06-15', rsvpTel: '07 xxx xxx',
 }
 
 // ── Componente SVG reutilizabile ──────────────────────────────────────────────
@@ -226,7 +226,7 @@ const CSS = `
 .cr-wm { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
 .cr-wm-grid { position: absolute; inset: -60px; display: flex; flex-direction: column; transform: rotate(-30deg); }
 .cr-wm-row { display: flex; white-space: nowrap; }
-.cr-wm-item { font-size: 14px; letter-spacing: .1em; color: #b8860b; opacity: .08; padding: 28px 30px; white-space: nowrap; user-select: none; }
+.cr-wm-item { font-size: 30px; letter-spacing: .1em; color: #ff0000; opacity: .08; padding: 28px 30px; white-space: nowrap; user-select: none; }
 .cr-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(184,134,11,.1); border-top: 1px solid rgba(184,134,11,.25); padding: 8px 10px; text-align: center; font-size: 11px; color: #6b4c1e; letter-spacing: .06em; z-index: 25; }
 
 /* FORM */

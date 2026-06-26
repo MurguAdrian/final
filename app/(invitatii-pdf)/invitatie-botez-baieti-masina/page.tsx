@@ -218,7 +218,7 @@ const CSS = `
 .rc-wm { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
 .rc-wm-grid { position: absolute; inset: -60px; display: flex; flex-direction: column; transform: rotate(-30deg); }
 .rc-wm-row { display: flex; white-space: nowrap; }
-.rc-wm-item { font-size: 24px; letter-spacing: .1em; color: #ff0000; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; font-family: 'Orbitron', monospace; }
+.rc-wm-item { font-size: 34px; letter-spacing: .1em; color: #ff0000; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; font-family: 'Orbitron', monospace; }
 .rc-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(10,10,10,.8); border-top: 2px solid #cc0000; padding: 8px 10px; text-align: center; font-size: 11px; color: #ff4444; letter-spacing: .06em; z-index: 25; font-family: 'Orbitron', monospace; }
 
 /* FORM */

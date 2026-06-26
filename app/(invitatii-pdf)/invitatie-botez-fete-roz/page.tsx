@@ -279,7 +279,7 @@ const CSS = `
 .fr-wm { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
 .fr-wm-grid { position: absolute; inset: -60px; display: flex; flex-direction: column; transform: rotate(-30deg); }
 .fr-wm-row { display: flex; white-space: nowrap; }
-.fr-wm-item { font-size: 24px; letter-spacing: .1em; color: #ff0000; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; font-family: 'Quicksand', sans-serif; }
+.fr-wm-item { font-size: 34px; letter-spacing: .1em; color: #ff0000; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; font-family: 'Quicksand', sans-serif; }
 .fr-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(90,30,56,.12); border-top: 1px solid rgba(212,170,112,.3); padding: 8px 10px; text-align: center; font-size: 11px; color: #8a4060; letter-spacing: .06em; z-index: 25; }
 
 .fr-form h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; font-style: italic; color: #5a1e38; margin-bottom: 24px; border-bottom: 1.5px solid rgba(212,170,112,.3); padding-bottom: 10px; }

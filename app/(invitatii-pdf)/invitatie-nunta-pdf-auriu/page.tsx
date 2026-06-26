@@ -196,7 +196,7 @@ const CSS = `
 .vr-wm { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
 .vr-wm-grid { position: absolute; inset: -60px; display: flex; flex-direction: column; gap: 0; transform: rotate(-30deg); }
 .vr-wm-row { display: flex; gap: 0; white-space: nowrap; }
-.vr-wm-item { font-size: 14px; letter-spacing: .1em; color: #1B3B2B; opacity: .12; padding: 28px 30px; white-space: nowrap; user-select: none; }
+.vr-wm-item { font-size: 34px; letter-spacing: .1em; color: #eb0d18; opacity: .12; padding: 28px 30px; white-space: nowrap; user-select: none; }
 .vr-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(95,133,117,.18); border-top: 1px solid rgba(95,133,117,.4); padding: 8px 10px; text-align: center; font-size: 11px; color: #1B3B2B; letter-spacing: .06em; z-index: 25; }
 
 /* FORM */

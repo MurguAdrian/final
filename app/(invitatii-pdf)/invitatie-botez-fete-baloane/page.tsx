@@ -318,7 +318,7 @@ const CSS = `
 .bl-wm { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
 .bl-wm-grid { position: absolute; inset: -60px; display: flex; flex-direction: column; transform: rotate(-30deg); }
 .bl-wm-row { display: flex; white-space: nowrap; }
-.bl-wm-item { font-size: 24px; letter-spacing: .1em; color: #ff0000; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; font-family: 'Quicksand', sans-serif; }
+.bl-wm-item { font-size: 34px; letter-spacing: .1em; color: #ff0000; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; font-family: 'Quicksand', sans-serif; }
 .bl-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(90,30,88,.12); border-top: 1px solid rgba(240,168,192,.4); padding: 8px 10px; text-align: center; font-size: 11px; color: #a050c0; letter-spacing: .06em; z-index: 25; }
 .bl-form h2 { font-family: 'Abril Fatface', cursive; font-size: 22px; color: #d03870; margin-bottom: 24px; border-bottom: 2px solid rgba(240,160,192,.3); padding-bottom: 10px; letter-spacing: .03em; }
 .bl-section { margin-bottom: 18px; }

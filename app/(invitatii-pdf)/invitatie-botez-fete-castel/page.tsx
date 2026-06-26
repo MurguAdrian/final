@@ -264,7 +264,7 @@ const CSS = `
 .cs-wm { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
 .cs-wm-grid { position: absolute; inset: -60px; display: flex; flex-direction: column; transform: rotate(-30deg); }
 .cs-wm-row { display: flex; white-space: nowrap; }
-.cs-wm-item { font-size: 24px; letter-spacing: .1em; color: #ff0000; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; font-family: 'Cinzel', serif; }
+.cs-wm-item { font-size: 34px; letter-spacing: .1em; color: #ff0000; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; font-family: 'Cinzel', serif; }
 .cs-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(200,144,10,.15); border-top: 2px solid rgba(200,144,10,.5); padding: 10px; text-align: center; font-size: 13px; color: #ffd700; letter-spacing: .08em; z-index: 25; font-family: 'Cinzel', serif; font-weight: 600; }
 .cs-form h2 { font-family: 'Cinzel', serif; font-size: 18px; font-weight: 700; color: #ffd700; margin-bottom: 24px; border-bottom: 2px solid rgba(200,144,10,.35); padding-bottom: 10px; letter-spacing: .08em; text-shadow: 0 0 16px rgba(255,215,0,.3); }
 .cs-section { margin-bottom: 18px; }

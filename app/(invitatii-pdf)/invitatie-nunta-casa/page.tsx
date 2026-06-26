@@ -151,7 +151,7 @@ const CSS = `
 .cs-wm { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
 .cs-wm-grid { position: absolute; inset: -60px; display: flex; flex-direction: column; transform: rotate(-30deg); }
 .cs-wm-row { display: flex; white-space: nowrap; }
-.cs-wm-item { font-size: 14px; letter-spacing: .1em; color: #b8a060; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; }
+.cs-wm-item { font-size: 34px; letter-spacing: .1em; color: #b8a060; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; }
 .cs-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(107,138,112,.12); border-top: 1px solid rgba(107,138,112,.25); padding: 8px 10px; text-align: center; font-size: 11px; color: #5a7a5a; letter-spacing: .06em; z-index: 25; }
 
 /* FORM */

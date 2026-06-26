@@ -177,7 +177,7 @@ const CSS = `
 .oc-wm { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
 .oc-wm-grid { position: absolute; inset: -60px; display: flex; flex-direction: column; gap: 0; transform: rotate(-30deg); }
 .oc-wm-row { display: flex; gap: 0; white-space: nowrap; }
-.oc-wm-item { font-size: 14px; letter-spacing: .1em; color: #2a5fa8; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; }
+.oc-wm-item { font-size: 34px; letter-spacing: .1em; color: #f71212; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; }
 .oc-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(42,95,168,.1); border-top: 1px solid rgba(42,95,168,.25); padding: 8px 10px; text-align: center; font-size: 11px; color: #2a5fa8; letter-spacing: .06em; z-index: 25; }
 
 /* FORM */

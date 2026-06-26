@@ -260,7 +260,7 @@ const CSS = `
 .pt-wm { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
 .pt-wm-grid { position: absolute; inset: -60px; display: flex; flex-direction: column; transform: rotate(-30deg); }
 .pt-wm-row { display: flex; white-space: nowrap; }
-.pt-wm-item { font-size: 24px; letter-spacing: .1em; color: #ff0000; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; font-family: 'Pirata One', cursive; }
+.pt-wm-item { font-size: 34px; letter-spacing: .1em; color: #ff0000; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; font-family: 'Pirata One', cursive; }
 .pt-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(58,24,8,.2); border-top: 2px solid #8b6914; padding: 8px 10px; text-align: center; font-size: 11px; color: #5a3010; letter-spacing: .06em; z-index: 25; font-family: 'Cinzel', serif; }
 
 .pt-form h2 { font-family: 'Pirata One', cursive; font-size: 22px; color: #3a1808; margin-bottom: 24px; border-bottom: 2px solid #8b6914; padding-bottom: 10px; letter-spacing: .04em; }

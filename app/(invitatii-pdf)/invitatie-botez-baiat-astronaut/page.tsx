@@ -256,7 +256,7 @@ const CSS = `
 .ab-wm { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
 .ab-wm-grid { position: absolute; inset: -60px; display: flex; flex-direction: column; transform: rotate(-30deg); }
 .ab-wm-row { display: flex; white-space: nowrap; }
-.ab-wm-item { font-size: 24px; letter-spacing: .1em; color: #ff0000; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; }
+.ab-wm-item { font-size: 34px; letter-spacing: .1em; color: #ff0000; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; }
 .ab-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(235, 12, 12, 0.1); border-top: 1px solid rgba(197, 38, 99, 0.25); padding: 8px 10px; text-align: center; font-size: 11px; color: #ee091c; letter-spacing: .06em; z-index: 25; }
 
 /* FORM */

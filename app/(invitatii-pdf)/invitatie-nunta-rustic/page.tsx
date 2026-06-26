@@ -172,7 +172,7 @@ const CSS = `
 .rk-wm { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
 .rk-wm-grid { position: absolute; inset: -60px; display: flex; flex-direction: column; transform: rotate(-30deg); }
 .rk-wm-row { display: flex; white-space: nowrap; }
-.rk-wm-item { font-size: 14px; letter-spacing: .1em; color: #3a2010; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; }
+.rk-wm-item { font-size: 34px; letter-spacing: .1em; color: #3a2010; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; }
 .rk-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(58,32,16,.2); border-top: 1px solid rgba(139,94,46,.4); padding: 8px 10px; text-align: center; font-size: 11px; color: #5a3a1a; letter-spacing: .06em; z-index: 25; }
 
 /* FORM */
