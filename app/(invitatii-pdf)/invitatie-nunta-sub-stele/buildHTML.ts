@@ -460,7 +460,7 @@ html, body { width: 794px; height: 1123px; background: #080c1a; font-family: 'Co
     </div>
 
     <span class="names">${fields.groom} <span class="amp">&amp;</span> ${fields.bride}</span>
-    <p class="invite-sub">vă invită cu drag la nunta lor</p>
+    <p class="invite-sub">vă invită cu drag la nunta noastră</p>
 
     <p class="nasi-label">Nași de cununie</p>
     <p class="nasi-val">${fields.nasi}</p>

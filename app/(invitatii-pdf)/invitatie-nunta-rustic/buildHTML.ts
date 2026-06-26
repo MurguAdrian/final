@@ -324,7 +324,7 @@ html, body { width: 794px; height: 1123px; background: #c8a96e; font-family: 'Co
       <span class="violin-f" style="transform:scaleX(-1);display:inline-block;">ƒ</span>
     </div>
 
-    <p class="invite-text">vă invită cu drag la nunta lor</p>
+    <p class="invite-text">vă invită cu drag la nunta noastră</p>
 
     <!-- Portativ separator 2 -->
     <div style="width:100%;position:relative;height:22px;margin:12px 0;">

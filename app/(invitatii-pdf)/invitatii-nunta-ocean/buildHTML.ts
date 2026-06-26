@@ -204,7 +204,7 @@ html, body { width: 794px; height: 1123px; background: #f0f5fa; font-family: 'Ra
 
   <!-- TEXT -->
   <div class="content">
-    <p class="tagline">vă invită cu drag la nunta lor</p>
+    <p class="tagline">vă invită cu drag la nunta noastră</p>
 
     <span class="names-script">${fields.groom} <span class="names-amp">&amp;</span> ${fields.bride}</span>
 

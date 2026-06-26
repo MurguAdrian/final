@@ -319,7 +319,7 @@ export default function InvitatieNuntaRustic() {
                           <span className="rk-violin-f" style={{ transform:'scaleX(-1)', display:'inline-block' }}>ƒ</span>
                         </div>
 
-                        <p className="rk-invite-text">vă invită cu drag la nunta lor</p>
+                        <p className="rk-invite-text">vă invită cu drag la nunta noastră</p>
 
                         <div className="rk-staff" style={{ marginTop:'10px' }}>
                           <StaffSVG notes={false} opacity=".3" />

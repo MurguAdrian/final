@@ -563,7 +563,7 @@ function PreviewAuriu() {
       <div style={{ width:'50%', height:'1px', margin:'14px auto', background:'linear-gradient(90deg,transparent,#C9A84C 30%,#C9A84C 70%,transparent)', opacity:.4 }} />
       <span style={{ fontSize:'20px', color:'#C9A84C', opacity:.5, display:'block', textAlign:'center', margin:'6px 0' }}>✦</span>
       <div style={{ textAlign:'center', fontSize:'15px', color:'#5C4A1E', lineHeight:2, padding:'0 60px', fontStyle:'italic' }}>
-        <strong style={{ fontStyle:'normal', fontFamily:"'Cinzel',serif", fontSize:'10px', letterSpacing:'.2em', color:'#8B6914', display:'block', marginBottom:'6px' }}>vă invită cu drag la nunta lor</strong>
+        <strong style={{ fontStyle:'normal', fontFamily:"'Cinzel',serif", fontSize:'10px', letterSpacing:'.2em', color:'#8B6914', display:'block', marginBottom:'6px' }}>vă invită cu drag la nunta noastră</strong>
         Vă așteptăm alături de noi în ziua în care ne unim destinele
       </div>
       <div style={{ width:'50%', height:'1px', margin:'14px auto', background:'linear-gradient(90deg,transparent,#C9A84C 30%,#C9A84C 70%,transparent)', opacity:.4 }} />
@@ -929,7 +929,7 @@ function PreviewSubStele() {
         <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'96px', fontWeight:300, fontStyle:'italic', color:'#f0d060', lineHeight:1, display:'block', textShadow:'0 0 40px rgba(240,208,96,.25)', marginBottom:'4px' }}>
           Adrian <span style={{ fontSize:'72px', color:'#c8b878' }}>&amp;</span> Andreea
         </span>
-        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'11px', letterSpacing:'.28em', textTransform:'uppercase', color:'#7080b0', marginBottom:'14px' }}>vă invită cu drag la nunta lor</p>
+        <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'11px', letterSpacing:'.28em', textTransform:'uppercase', color:'#7080b0', marginBottom:'14px' }}>vă invită cu drag la nunta noastră</p>
         <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'9px', letterSpacing:'.28em', textTransform:'uppercase', color:'#b8a050', marginBottom:'5px', opacity:.8 }}>Nași de cununie</p>
         <p style={{ fontSize:'24px', fontStyle:'italic', color:'#c8d4f0', marginBottom:'14px' }}>Mihai și Cristina Dumitrescu</p>
         <p style={{ fontSize:'30px', fontWeight:600, color:'#e8d080', letterSpacing:'.06em', marginBottom:'12px' }}>Duminică, 14 Septembrie 2025</p>
@@ -1099,7 +1099,7 @@ function PreviewRustic() {
           <span style={{ fontFamily:"'Playfair Display',serif", fontSize:'80px', fontWeight:400, fontStyle:'italic', color:'#1a0e06', lineHeight:1, display:'block' }}>Andreea</span>
           <span style={{ fontFamily:"'IM Fell English',serif", fontSize:'72px', color:'#8b5e2e', opacity:.55, lineHeight:1, display:'inline-block', margin:'0 12px', transform:'scaleX(-1)' }}>ƒ</span>
         </div>
-        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontWeight:300, fontStyle:'italic', color:'#3a2010', margin:'14px 0 6px' }}>vă invită cu drag la nunta lor</p>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'22px', fontWeight:300, fontStyle:'italic', color:'#3a2010', margin:'14px 0 6px' }}>vă invită cu drag la nunta noastră</p>
         <p style={{ fontFamily:"'Raleway',sans-serif", fontSize:'11px', letterSpacing:'.28em', textTransform:'uppercase', color:'#5a3a1a', opacity:.7, marginBottom:'4px' }}>Nași de cununie</p>
         <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'26px', fontStyle:'italic', color:'#1a0e06', marginBottom:'10px' }}>Mihai și Cristina Dumitrescu</p>
         <p style={{ fontSize:'28px', color:'#8b5e2e', opacity:.6, margin:'8px 0', letterSpacing:'8px' }}>✦ ♪ ✦</p>
@@ -1171,7 +1171,7 @@ function PreviewOcean() {
         <CrownOcean />
       </div>
       <div style={{ position:'relative', zIndex:2, textAlign:'center', width:'100%' }}>
-        <p style={{ fontSize:'20px', fontWeight:300, fontStyle:'italic', color:'#2a5fa8', marginBottom:'16px' }}>vă invită cu drag la nunta lor</p>
+        <p style={{ fontSize:'20px', fontWeight:300, fontStyle:'italic', color:'#2a5fa8', marginBottom:'16px' }}>vă invită cu drag la nunta noastră</p>
         <span style={{ fontFamily:"'Playfair Display',serif", fontSize:'88px', fontWeight:400, fontStyle:'italic', color:'#1a3a6a', lineHeight:1, display:'block', marginBottom:'10px' }}>
           Miruna <span style={{ color:'#2a5fa8' }}>&amp;</span> Ștefan
         </span>

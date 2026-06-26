@@ -235,7 +235,7 @@ html, body { width: 794px; height: 1123px; background: #f8f5ef; font-family: 'Ra
     <div class="sep"></div>
 
     <p class="names">${fields.groom} <span class="amp">&amp;</span> ${fields.bride}</p>
-    <p class="invite-line">VĂ INVITĂ CU DRAG LA NUNTA LOR</p>
+    <p class="invite-line">VĂ INVITĂ CU DRAG LA NUNTA NOASTRA</p>
 
     <div class="sep"></div>
 

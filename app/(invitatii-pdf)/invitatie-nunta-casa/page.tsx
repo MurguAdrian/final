@@ -306,7 +306,7 @@ export default function InvitatieNuntaCasa() {
                         <p className="cs-names">
                           {fields.groom || 'Adrian'} <span className="cs-amp">&amp;</span> {fields.bride || 'Andreea'}
                         </p>
-                        <p className="cs-invite-line">VĂ INVITĂ CU DRAG LA NUNTA LOR</p>
+                        <p className="cs-invite-line">VĂ INVITĂ CU DRAG LA NUNTA NOASTRA</p>
                         <div className="cs-sep" />
                         <p className="cs-date">{dateFormatted || 'Data nunții'}</p>
                         <p className="cs-church-name">{fields.church || 'Biserica'}</p>

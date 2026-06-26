@@ -390,7 +390,7 @@ export default function InvitatieNuntaSubStele() {
                         <span className="ss-names">
                           {fields.groom || 'Mire'} <span className="ss-amp">&amp;</span> {fields.bride || 'Mireasă'}
                         </span>
-                        <p className="ss-invite-sub">vă invită cu drag la nunta lor</p>
+                        <p className="ss-invite-sub">vă invită cu drag la nunta noastră</p>
                         <p className="ss-nasi-label">Nași de cununie</p>
                         <p className="ss-nasi">{fields.nasi}</p>
                         <OrnLine />

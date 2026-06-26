@@ -312,7 +312,7 @@ export default function InvitatiiNuntaOcean() {
                       <div className="oc-crown-wrap"><CrownOcean /></div>
 
                       <div className="oc-content">
-                        <p className="oc-tagline">vă invită cu drag la nunta lor</p>
+                        <p className="oc-tagline">vă invită cu drag la nunta noastră</p>
                         <span className="oc-names">
                           {fields.groom || 'Mire'} <span className="oc-amp">&amp;</span> {fields.bride || 'Mireasă'}
                         </span>
