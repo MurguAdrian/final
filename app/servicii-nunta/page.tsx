@@ -211,29 +211,68 @@ export default async function ServiciiNuntaPage({
       <div className="sn-page">
 
         {/* HERO */}
-        <div className="sn-hero">
-          <div className="sn-hero-badge">
-            <span className="sn-hero-dot" />
-            Furnizori Verificați · România
-          </div>
-          <h1>Servicii pentru <em>Nunta Ta</em></h1>
-          <p className="sn-hero-sub">Fotografi · DJ · Formații · Candy Bar — contact direct, fără intermediari</p>
-          <form method="GET" action="/servicii-nunta" className="sn-search-wrap">
-            <input type="hidden" name="category" value={category} />
-            <input type="hidden" name="judet" value={judet} />
-            <svg className="sn-search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input
-              className="sn-search"
-              type="text"
-              name="q"
-              defaultValue={search}
-              placeholder="Caută fotograf, DJ, oraș..."
-              autoComplete="off"
-            />
-          </form>
-        </div>
+{/* HERO */}
+<div className="sn-hero">
+  <div className="sn-hero-badge">
+    <span className="sn-hero-dot" />
+    Furnizori Verificați · România
+  </div>
+  <h1>Servicii pentru <em>Nunta Ta</em></h1>
+  <p className="sn-hero-sub">Fotografi · DJ · Formații · Candy Bar — contact direct, fără intermediari</p>
+
+  {/* CTA PROMOȚIONAL */}
+  <div style={{ marginBottom: '24px' }}>
+    <Link
+      href="https://forms.gle/bQtUVPzGYSWubxEJ7"
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: 'inline-flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '4px',
+        background: 'linear-gradient(135deg, #FF6B00, #FF8C35)',
+        color: '#fff',
+        padding: '12px 28px',
+        borderRadius: '16px',
+        textDecoration: 'none',
+        boxShadow: '0 4px 20px rgba(255,107,0,0.35)',
+        transition: 'opacity .2s, transform .15s',
+      }}
+      onMouseOver={(e) => {
+        (e.currentTarget as HTMLElement).style.opacity = '0.9';
+        (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+      }}
+      onMouseOut={(e) => {
+        (e.currentTarget as HTMLElement).style.opacity = '1';
+        (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+      }}
+    >
+      <span style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '.02em' }}>
+        Alătură-te și tu! Este gratis!!!
+      </span>
+      <span style={{ fontSize: '11px', opacity: 0.75, fontWeight: 400, letterSpacing: '.03em' }}>
+        Proiect Pilot până în August 2027
+      </span>
+    </Link>
+  </div>
+
+  <form method="GET" action="/servicii-nunta" className="sn-search-wrap">
+    <input type="hidden" name="category" value={category} />
+    <input type="hidden" name="judet" value={judet} />
+    <svg className="sn-search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+    <input
+      className="sn-search"
+      type="text"
+      name="q"
+      defaultValue={search}
+      placeholder="Caută fotograf, DJ, oraș..."
+      autoComplete="off"
+    />
+  </form>
+</div>
 
         {/* MOBILE FILTERS */}
         <MobileFilters categories={CATEGORIES} judete={judete} activeCategory={category} activeJudet={judet} search={search} />
