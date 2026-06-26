@@ -116,8 +116,8 @@ export async function GET(req: Request) {
 
     const fields = JSON.parse(session.metadata?.fields || '{}') as Record<string, string>
     const template = session.metadata?.template || ''
-    const filename = `invitatie-${fields.bride || fields.babyName || 'vibeinvite'}`
-
+const rawName = fields.bride || fields.babyName || 'vibeinvite'
+const filename = `invitatie-${rawName.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9-]/g, '-')}`
     if (format === 'pdf' || format === 'jpg') {
       const buildHTML = REGISTRY[template]
       if (!buildHTML) return new NextResponse(`Template necunoscut: ${template}`, { status: 400 })
