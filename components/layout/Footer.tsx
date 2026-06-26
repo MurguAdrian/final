@@ -92,15 +92,23 @@ export default function Footer() {
   const pathname = usePathname()
   const year = new Date().getFullYear()
 
-  const hideOn = [
-    '/invitatie-nunta-pdf-auriu',
-    '/invitatie-nunta-de-vara',
-    '/invitatii-nunta-ocean',
-    '/invitatie-nunta-pdf-simpla',
-    '/invitatie-nunta-poza',
-    '/invitatie-nunta-img-coral',
-     '/invitatie-nunta-casa',
-  ]
+const hideOn = [
+  '/invitatie-nunta-pdf-auriu',
+  '/invitatie-nunta-de-vara',
+  '/invitatii-nunta-ocean',
+  '/invitatie-nunta-pdf-simpla',
+  '/invitatie-nunta-poza',
+  '/invitatie-nunta-img-coral',
+  '/invitatie-nunta-casa',
+  '/invitatie-nunta-rustic',
+  '/invitatie-nunta-sub-stele',
+  '/invitatie-botez-baiat-astronaut',
+  '/invitatie-botez-baieti-masina',
+  '/invitatie-botez-baieti-pirat',
+  '/invitatie-botez-fete-baloane',
+  '/invitatie-botez-fete-castel',
+  '/invitatie-botez-fete-roz',
+]
 
   if (hideOn.some(p => pathname.startsWith(p))) return null
 

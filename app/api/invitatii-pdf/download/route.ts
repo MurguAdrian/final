@@ -8,8 +8,13 @@ import { buildHTML_coral } from '@/app/(invitatii-pdf)/invitatie-nunta-img-coral
 import { buildHTML_poza } from '@/app/(invitatii-pdf)/invitatie-nunta-poza/buildHTML'
 import { buildHTML_rustic } from '@/app/(invitatii-pdf)/invitatie-nunta-rustic/buildHTML'
 import { buildHTML_casa } from '@/app/(invitatii-pdf)/invitatie-nunta-casa/buildHTML'
-import { buildHTML_stele } from '@/app/(invitatii-pdf)/invitatii-nunta-sub-stele/buildHTML'
-// import { buildHTML as buildHTML_royal } from '@/app/(invitatii-pdf)/invitatie-nunta-pdf-royal/buildHTML'
+import { buildHTML_stele } from '@/app/(invitatii-pdf)/invitatie-nunta-sub-stele/buildHTML'
+import { buildHTML_astronaut } from '@/app/(invitatii-pdf)/invitatie-botez-baiat-astronaut/buildHTML'
+import { buildHTML_masinuta } from '@/app/(invitatii-pdf)/invitatie-botez-baieti-masina/buildHTML'
+import { buildHTML_pirat } from '@/app/(invitatii-pdf)/invitatie-botez-baieti-pirat/buildHTML'
+import { buildHTML_fetiRoz } from '@/app/(invitatii-pdf)/invitatie-botez-fete-roz/buildHTML'
+import { buildHTML_baloane } from '@/app/(invitatii-pdf)/invitatie-botez-fete-baloane/buildHTML'
+import { buildHTML_castel } from '@/app/(invitatii-pdf)/invitatie-botez-fete-castel/buildHTML'
 
 export const maxDuration = 60
 
@@ -27,8 +32,14 @@ const REGISTRY: Record<string, (fields: Record<string, string>) => string> = {
   'invitatie-nunta-casa': buildHTML_casa,
   'invitatie-nunta-rustic': buildHTML_rustic,
   'invitatie-nunta-sub-stele': buildHTML_stele,
+  'invitatie-nunta-jinxx': buildHTML_astronaut,
+'invitatie-botez-fete-castel': buildHTML_castel,
 
+'invitatie-botez-baieti-masina': buildHTML_masinuta,
+'invitatie-botez-fete-baloane': buildHTML_baloane,
 
+'invitatie-botez-baieti-pirat': buildHTML_pirat,
+'invitatie-botez-fete-roz': buildHTML_fetiRoz,
 
   // 'invitatie-nunta-pdf-royal': buildHTML_royal,
 }
@@ -132,4 +143,8 @@ export async function GET(req: Request) {
     console.error('Download error:', err)
     return new NextResponse(`Eroare: ${err.message}`, { status: 500 })
   }
+}
+
+function buildHTML_jinxx(fields: Record<string, string>): string {
+  throw new Error('Function not implemented.')
 }
