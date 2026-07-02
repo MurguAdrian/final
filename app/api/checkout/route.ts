@@ -1,15 +1,11 @@
-
-
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { neon } from "@neondatabase/serverless";
 
 export async function POST(req: Request) {
-  // 1. Definim cheile cu fallback-uri (ca să nu dea eroare la build local)
-  const STRIPE_KEY = process.env.STRIPE_SECRET_KEY || "sk_test_placeholder";
-  const DB_URL = process.env.DATABASE_URL || "postgres://localhost:5432/dummy";
+  const STRIPE_KEY = process.env.STRIPE_SECRET_KEY!;
+  const DB_URL = process.env.DATABASE_URL!;
 
-  // 2. Instanțiem Stripe și Neon în interiorul funcției
   const stripe = new Stripe(STRIPE_KEY, {
     apiVersion: '2026-04-22.dahlia' as any,
   });
@@ -18,7 +14,6 @@ export async function POST(req: Request) {
     const { email, priceId, themeName } = await req.json();
     const sql = neon(DB_URL);
 
-    // 1. VERIFICARE: Există deja acest email cu status 'paid'?
     const existing = await sql`
       SELECT id FROM orders WHERE email = ${email} AND status = 'paid' LIMIT 1
     `;
@@ -32,7 +27,6 @@ export async function POST(req: Request) {
 
     const baseUrl = "https://www.vibeinvite.ro";
 
-    // 2. Creare sesiune Stripe
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
@@ -43,7 +37,6 @@ export async function POST(req: Request) {
       metadata: { email, themeName },
     });
 
-    // 3. Salvare comandă pending
     await sql`
       INSERT INTO orders (email, theme_name, price_id, stripe_session_id, status)
       VALUES (${email}, ${themeName}, ${priceId}, ${session.id}, 'pending')

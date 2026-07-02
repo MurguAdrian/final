@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia' as any,
 })
 
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      line_items: [{ price: 'price_1TlThUDLRG6cKGjIZat9Jjvp', quantity: 1 }],
+      line_items: [{ price: 'price_1TojKARdGrZezAYwxrn3h4sY', quantity: 1 }],
       success_url: `${origin}/api/invitatii-pdf/download?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/${template}`,
       metadata: {

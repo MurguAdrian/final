@@ -18,7 +18,7 @@ import { buildHTML_castel } from '@/app/(invitatii-pdf)/invitatie-botez-fete-cas
 
 export const maxDuration = 60
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia' as any,
 })
 

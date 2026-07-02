@@ -1,6 +1,3 @@
-
-
-
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { neon } from "@neondatabase/serverless";
@@ -8,13 +5,11 @@ import { Resend } from "resend";
 import crypto from "crypto";
 
 export async function POST(req: Request) {
-  // 1. Definim cheile cu fallback-uri pentru a trece de build
-  const STRIPE_KEY = process.env.STRIPE_SECRET_KEY || "sk_test_placeholder";
-  const RESEND_KEY = process.env.RESEND_API_KEY || "re_placeholder";
-  const DB_URL = process.env.DATABASE_URL || "postgres://localhost:5432/dummy";
-  const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "whsec_placeholder";
+  const STRIPE_KEY = process.env.STRIPE_SECRET_KEY!;
+  const RESEND_KEY = process.env.RESEND_API_KEY!;
+  const DB_URL = process.env.DATABASE_URL!;
+  const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET!;
 
-  // 2. Instanțiem clienții în interiorul funcției
   const stripe = new Stripe(STRIPE_KEY, {
     apiVersion: '2026-04-22.dahlia' as any,
   });
@@ -25,10 +20,8 @@ export async function POST(req: Request) {
   const signature = req.headers.get("stripe-signature") || "";
 
   try {
-    // 3. Construim event-ul
     const event = stripe.webhooks.constructEvent(body, signature, WEBHOOK_SECRET);
 
-    // --- 1. IDEMPOTENCY ---
     const existingEvent = await sql`SELECT id FROM processed_stripe_events WHERE stripe_event_id = ${event.id} LIMIT 1`;
     if (existingEvent.length > 0) {
         console.log(`ℹ️ Event-ul Stripe ${event.id} a fost deja procesat.`);
@@ -43,7 +36,6 @@ export async function POST(req: Request) {
 
       console.log("--- START PROCESARE WEBHOOK ---");
 
-      // CAZUL A: PLATA INIȚIALĂ
       if (!metadata.paymentType) {
           const email = session.customer_email;
           const setupToken = crypto.randomBytes(32).toString('hex');
@@ -114,27 +106,20 @@ export async function POST(req: Request) {
           });
           if (error) console.error("❌ EROARE RESEND:", error);
       } 
+      else if (metadata.orderId && metadata.paymentType === 'reactivate') {
+        const orderId = parseInt(metadata.orderId);
 
-// CAZUL B: MODUL FOTO
-  else if (metadata.orderId && metadata.paymentType === 'reactivate') {
-    const orderId = parseInt(metadata.orderId);
-
-    // 🔥 MODIFICARE: Doar ne asigurăm că e 'active', fără să mai punem interval de 3 zile
-    await sql`
-      UPDATE wedding_settings
-      SET gallery_status = 'active'
-      WHERE order_id = ${orderId}
-    `;
-  }
-}
+        await sql`
+          UPDATE wedding_settings
+          SET gallery_status = 'active'
+          WHERE order_id = ${orderId}
+        `;
+      }
+    }
 
     return NextResponse.json({ received: true });
   } catch (err: any) {
     console.error("❌ EROARE GENERALĂ WEBHOOK:", err.message);
-    // Returnăm 400 doar dacă semnătura e greșită, altfel Next.js build s-ar putea opri
     return NextResponse.json({ error: err.message }, { status: 400 });
   }
 }
-
-
-
