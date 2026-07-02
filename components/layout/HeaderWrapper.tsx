@@ -40,7 +40,7 @@ export default function HeaderWrapper() {
   '/invitatie-botez-fete-castel',
   '/invitatie-botez-fete-roz',
 
-
+'/fotograf-ilfov-dgc-media-wedding'
   ]
 
 
