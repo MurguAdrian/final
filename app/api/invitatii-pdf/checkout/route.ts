@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      line_items: [{ price: 'price_1TojKARdGrZezAYwxrn3h4sY', quantity: 1 }],
+      line_items: [{ price: 'price_1Toj4XRdGrZezAYwiQwaoguo', quantity: 1 }],
       success_url: `${origin}/api/invitatii-pdf/download?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/${template}`,
       metadata: {

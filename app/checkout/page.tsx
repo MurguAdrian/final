@@ -8,10 +8,10 @@ const THEME_STRIPE: Record<string, { productId: string; priceId: string }> = {
   nature:   { productId: 'prod_UPFUYpfsXc7N4x',    priceId: 'price_1TQQzARdGrZezAYwBWhsj59z' },
   boho:     { productId: 'prod_UoLdZhzAQZDVrJ', priceId: 'price_1ToiwgRdGrZezAYwpCr3yVRS' },
   royal:    { productId: 'prod_UoLgxzjb3M1jj5', priceId: 'price_1ToizORdGrZezAYww53LF1AT' },
-  minimal:  { productId: 'prod_UoM2OgpVfkobQH', priceId: 'price_1TojKARdGrZezAYwxrn3h4sY' },//TEST PE BANI REALI
+  minimal:  { productId: 'prod_UoLi4ost7VW5p3', priceId: 'price_1Toj0gRdGrZezAYwk3gQh0Kd' },//TEST PE BANI REALI
   romantic: { productId: 'prod_UoLfbDgBzhMcH6', priceId: 'price_1ToixyRdGrZezAYwRXwpIOyL' },
   masinuta: { productId: 'prod_UoLtSfYKUORmMw', priceId: 'price_1TojBkRdGrZezAYwQsB6nKB0' },
-  astronaut:{ productId: 'prod_UoM2OgpVfkobQH', priceId: 'price_1TojKARdGrZezAYwxrn3h4sY' },//Test pe bani reali
+  astronaut:{ productId: 'prod_UoLp15apSKeKya', priceId: 'price_1Toj86RdGrZezAYwXMRwA6dc' },//Test pe bani reali
   fluture:  { productId: 'prod_UoM0ZpfNg8e2Zt', priceId: 'price_1TojI6RdGrZezAYwlPPwz4fq' },
   baloane:  { productId: 'prod_UoLy6eMp5qeUNu', priceId: 'price_1TojGIRdGrZezAYwAxJhuksY' },
   ursulet:  { productId: 'prod_UoM15FaHlR9QlQ', priceId: 'price_1TojJNRdGrZezAYwGeKanoDf' },
