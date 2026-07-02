@@ -1,26 +1,6 @@
-// import { DEFAULT_OG, SITE_DOMAIN, OG_WIDTH, OG_HEIGHT } from '../../constants/marketingDefaults'
-
-// export const metadata = {
-//   title: 'Invitații Digitale — VibeInvite',
-//   description: 'Invitații digitale premium pentru nunți, botezuri și evenimente speciale.',
-//   openGraph: {
-//     type: 'website',
-//     siteName: 'VibeInvite',
-//     url: SITE_DOMAIN + '/invitatii-digitale',
-//     title: 'Invitații Digitale — VibeInvite',
-//     description: 'Invitații digitale premium pentru nunți, botezuri și evenimente speciale.',
-//     images: [
-//       { url: DEFAULT_OG, width: OG_WIDTH, height: OG_HEIGHT, alt: 'VibeInvite — Invitații Digitale' },
-//     ],
-//   },
-//   alternates: { canonical: SITE_DOMAIN + '/invitatii-digitale' },
-// }
-
-// export default function InvitatiiDigitaleLayout({ children }: { children: React.ReactNode }) {
-//   return <>{children}</>
-// }
-import React from 'react' // Adăugat pentru a preveni erorile de jsx-runtime în Next.js / TS
-import { Metadata } from 'next' // Bună practică pentru tipizarea metadatelor
+// andre/app/invitatii-digitale/layout.tsx
+import React from 'react'
+import { Metadata } from 'next'
 import { DEFAULT_OG, SITE_DOMAIN, OG_WIDTH, OG_HEIGHT } from '../../constants/marketingDefaults'
 
 export const metadata: Metadata = {
@@ -32,6 +12,17 @@ export const metadata: Metadata = {
     'invitatii botez online', 'invitatie digitala nunta', 'invitatii premium romania',
     'invitatii online botez baiat', 'invitatii online botez fata', 'rsvp online nunta', 'modele invitatii digitale'
   ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   openGraph: {
     type: 'website',
     siteName: 'VibeInvite',
@@ -51,7 +42,6 @@ export const metadata: Metadata = {
   alternates: { canonical: SITE_DOMAIN + '/invitatii-digitale' },
 }
 
-// JSON-LD transformat în CollectionPage pentru a trimite Google direct către toate șabloanele tale
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
@@ -64,20 +54,13 @@ const jsonLd = {
     url: SITE_DOMAIN
   },
   hasPart: [
-    // --- TEMPLATE-URI BOTEZ BĂIEȚI ---
     { '@type': 'WebPage', name: 'Invitație Botez Online Băiat Astronaut', url: SITE_DOMAIN + '/invitatie-botez-online-baiat-astronaut' },
     { '@type': 'WebPage', name: 'Invitație Botez Online Băiat Mașinuță', url: SITE_DOMAIN + '/invitatie-botez-online-baiat-masinuta' },
     { '@type': 'WebPage', name: 'Invitație Botez Online Băiat Steluță', url: SITE_DOMAIN + '/invitatie-botez-online-baiat-steluta' },
     { '@type': 'WebPage', name: 'Invitație Botez Online Ursuțel', url: SITE_DOMAIN + '/invitatie-botez-online-ursulet' },
-    
-    // --- TEMPLATE-URI BOTEZ FETIȚE ---
     { '@type': 'WebPage', name: 'Invitație Botez Online Fată Baloane', url: SITE_DOMAIN + '/invitatie-botez-online-fata-baloane' },
     { '@type': 'WebPage', name: 'Invitație Botez Online Fată Fluture', url: SITE_DOMAIN + '/invitatie-botez-online-fata-fluture' },
-    
-    // --- MAJORAT ---
     { '@type': 'WebPage', name: 'Invitație Online Aniversare Majorat 18 Ani', url: SITE_DOMAIN + '/invitatie-online-aniversare-majorat-18-ani' },
-    
-    // --- TEMPLATE-URI NUNTĂ ---
     { '@type': 'WebPage', name: 'Invitații Online Nuntă Boho', url: SITE_DOMAIN + '/invitatii-online-nunta-boho' },
     { '@type': 'WebPage', name: 'Invitații Online Nuntă Lux / Luxury', url: SITE_DOMAIN + '/invitatii-online-nunta-lux' },
     { '@type': 'WebPage', name: 'Invitații Online Nuntă Minimalistă', url: SITE_DOMAIN + '/invitatii-online-nunta-minimal' },
