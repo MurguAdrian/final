@@ -1,6 +1,5 @@
 // andre/app/robots.ts
 import type { MetadataRoute } from 'next'
-import { SITE_DOMAIN } from '../constants/marketingDefaults'
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -8,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: `${SITE_DOMAIN}/sitemap.xml`,
-    host: SITE_DOMAIN,
+    sitemap: 'https://www.vibeinvite.ro/sitemap.xml',
+    host: 'www.vibeinvite.ro',
   }
 }
