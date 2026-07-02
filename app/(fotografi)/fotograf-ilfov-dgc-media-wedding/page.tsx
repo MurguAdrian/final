@@ -20,367 +20,414 @@ async function getProvider() {
 const CSS = `
 header, footer, .cookie-consent { display:none !important; }
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,600;1,6..96,900&family=Archivo:wght@300;400;500;600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-.dg { font-family:'Outfit',sans-serif; background:#FAFAF8; color:#1C1C1A; min-height:100vh; overflow-x:hidden; }
+.dg { font-family:'Archivo',sans-serif; background:#F7F3ED; color:#191512; min-height:100vh; overflow-x:hidden; }
+.dg ::selection { background:#191512; color:#F7F3ED; }
 
-/* NAV */
+/* ============ NAV ============ */
 .dg-nav {
   position:fixed; top:0; left:0; right:0; z-index:300;
-  padding:16px 24px; display:flex; align-items:center; justify-content:space-between;
+  padding:16px 20px; display:flex; align-items:center; justify-content:space-between;
   transition:all .4s ease;
 }
+@media(min-width:768px){ .dg-nav { padding:18px 40px; } }
 .dg-nav.scrolled {
-  background:rgba(250,250,248,0.96); backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(28,28,26,0.08);
+  background:rgba(247,243,237,0.96); backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(25,21,18,0.12);
+  padding:12px 20px;
 }
+@media(min-width:768px){ .dg-nav.scrolled { padding:12px 40px; } }
 .dg-nav-back {
-  display:flex; align-items:center; gap:6px; font-size:11px; font-weight:600;
-  letter-spacing:.1em; text-transform:uppercase; text-decoration:none;
-  color:rgba(255,255,255,0.7); transition:color .2s;
+  display:flex; align-items:center; gap:6px; font-size:10px; font-weight:600;
+  letter-spacing:.16em; text-transform:uppercase; text-decoration:none;
+  color:rgba(25,21,18,0.5); transition:color .2s;
 }
-.dg-nav.scrolled .dg-nav-back { color:rgba(28,28,26,0.5); }
-.dg-nav-back:hover { opacity:.7; }
+.dg-nav-back:hover { color:#191512; }
 .dg-nav-logo {
-  font-family:'Outfit',sans-serif; font-size:16px; font-weight:800;
-  color:#fff; letter-spacing:.04em; text-transform:uppercase;
-  transition:color .2s;
+  font-family:'Bodoni Moda',serif; font-size:17px; font-weight:700; font-style:italic;
+  color:#191512; letter-spacing:.02em;
 }
-.dg-nav.scrolled .dg-nav-logo { color:#1C1C1A; }
-.dg-nav-logo span { color:#E8C547; }
+.dg-nav-logo span { color:#A85C3F; }
 
-/* HERO — full bleed cu overlay geometric */
-.dg-hero {
-  min-height:100svh; position:relative; overflow:hidden; background:#0F0F0D;
-  display:flex; flex-direction:column;
+/* ============ MASTHEAD ============ */
+.dg-mast {
+  padding:104px 20px 0; text-align:center; position:relative;
 }
-@media(min-width:900px){ .dg-hero { flex-direction:row; } }
+@media(min-width:768px){ .dg-mast { padding:128px 40px 0; } }
 
-.dg-hero-media {
+.dg-mast-pre {
+  display:inline-flex; align-items:center; gap:14px;
+  font-size:9px; font-weight:600; letter-spacing:.34em; text-transform:uppercase;
+  color:rgba(25,21,18,0.45); margin-bottom:22px;
+  animation:dgUp .8s ease .1s both;
+}
+@media(min-width:768px){ .dg-mast-pre { font-size:10px; } }
+.dg-mast-pre::before, .dg-mast-pre::after {
+  content:''; display:block; width:36px; height:1px; background:rgba(25,21,18,0.25);
+}
+
+.dg-mast-h1 {
+  font-family:'Bodoni Moda',serif; font-weight:900;
+  font-size:clamp(56px,15vw,190px); line-height:.82; letter-spacing:-.01em;
+  color:#191512; text-transform:uppercase;
+  animation:dgUp .9s ease .25s both;
+}
+.dg-mast-h1 em {
+  display:block; font-style:italic; font-weight:400; text-transform:none;
+  font-size:clamp(30px,7vw,90px); color:#A85C3F; margin-top:2px; letter-spacing:0;
+}
+
+.dg-mast-meta {
+  margin:26px auto 0; max-width:820px;
+  display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
+  gap:8px 0;
+  border-top:1px solid #191512; border-bottom:1px solid #191512;
+  padding:12px 8px;
+  animation:dgUp .9s ease .4s both;
+}
+.dg-mast-meta-item {
+  font-size:9px; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
+  color:#191512; padding:0 14px; white-space:nowrap;
+  border-right:1px solid rgba(25,21,18,0.25);
+}
+@media(min-width:768px){ .dg-mast-meta-item { font-size:10.5px; padding:0 22px; } }
+.dg-mast-meta-item:last-child { border-right:none; }
+.dg-mast-meta-item.hot { color:#A85C3F; }
+
+@keyframes dgUp { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:translateY(0)} }
+
+/* ============ COVER ============ */
+.dg-cover-wrap {
+  padding:34px 20px 0; max-width:1240px; margin:0 auto; position:relative;
+}
+@media(min-width:768px){ .dg-cover-wrap { padding:44px 40px 0; } }
+
+.dg-cover {
   position:relative; overflow:hidden;
-  height:55svh; flex-shrink:0;
+  border:1px solid #191512;
+  box-shadow:14px 14px 0 #191512;
+  animation:dgCover 1.2s cubic-bezier(.16,1,.3,1) .5s both;
 }
-@media(min-width:900px){ .dg-hero-media { width:58%; height:100svh; } }
+@media(max-width:640px){ .dg-cover { box-shadow:8px 8px 0 #191512; } }
+@keyframes dgCover {
+  from { opacity:0; transform:translateY(40px); clip-path:inset(12% 8% 12% 8%); }
+  to { opacity:1; transform:translateY(0); clip-path:inset(0 0 0 0); }
+}
+.dg-cover img {
+  width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; display:block;
+  transition:transform 8s ease;
+}
+@media(max-width:640px){ .dg-cover img { aspect-ratio:4/3; } }
+.dg-cover:hover img { transform:scale(1.05); }
 
-.dg-hero-media img {
-  width:100%; height:100%; object-fit:cover; object-position:center top;
-  filter:brightness(.8);
-  animation:dgZoom 14s ease-in-out infinite alternate;
+.dg-cover-tag {
+  position:absolute; top:16px; left:16px;
+  background:#F7F3ED; border:1px solid #191512;
+  font-size:9px; font-weight:700; letter-spacing:.2em; text-transform:uppercase;
+  padding:7px 14px; color:#191512;
 }
-@keyframes dgZoom { from{transform:scale(1)} to{transform:scale(1.06)} }
-
-.dg-hero-media::after {
-  content:''; position:absolute; inset:0;
-  background:linear-gradient(135deg, transparent 55%, rgba(15,15,13,0.9) 100%);
+.dg-cover-caption {
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:14px 4px 0; max-width:1240px; margin:0 auto;
 }
-@media(min-width:900px){
-  .dg-hero-media::after {
-    background:linear-gradient(to right, transparent 60%, rgba(15,15,13,1) 100%);
-  }
+.dg-cover-caption-l {
+  font-family:'Bodoni Moda',serif; font-style:italic; font-size:14px; color:rgba(25,21,18,0.6);
 }
-
-/* GEOMETRIC ACCENT */
-.dg-hero-media::before {
-  content:''; position:absolute; bottom:0; left:0; right:0; height:4px; z-index:5;
-  background:linear-gradient(to right, #E8C547, #F0A500, #E8C547);
-}
-
-.dg-hero-text {
-  flex:1; display:flex; flex-direction:column; justify-content:center;
-  padding:40px 28px 60px; position:relative; z-index:10;
-}
-@media(min-width:900px){ .dg-hero-text { padding:80px 56px 80px 48px; } }
-
-.dg-hero-badge {
-  display:inline-flex; align-items:center; gap:8px; width:fit-content;
-  background:rgba(232,197,71,0.12); border:1px solid rgba(232,197,71,0.25);
-  color:#E8C547; font-size:10px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
-  padding:5px 14px; border-radius:3px; margin-bottom:24px;
-  animation:dgUp .8s ease .2s both;
-}
-.dg-badge-dot { width:5px; height:5px; background:#E8C547; border-radius:50%; animation:dgPulse 1.4s ease-in-out infinite; }
-@keyframes dgPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.7)} }
-
-.dg-hero-h1 {
-  font-family:'Outfit',sans-serif; font-weight:800;
-  font-size:clamp(40px,9vw,88px); color:#fff; line-height:.92; letter-spacing:-.02em;
-  margin-bottom:10px;
-  animation:dgUp .9s ease .35s both;
-}
-.dg-hero-h1 .dg-gold { color:#E8C547; }
-.dg-hero-h1 .dg-thin { font-weight:300; display:block; font-size:.6em; color:rgba(255,255,255,0.5); letter-spacing:.08em; text-transform:uppercase; font-size:clamp(14px,2vw,22px); margin-bottom:4px; }
-
-.dg-hero-tagline {
-  font-family:'Lora',serif; font-style:italic;
-  font-size:clamp(14px,2vw,18px); color:rgba(255,255,255,0.45);
-  line-height:1.65; max-width:380px; margin-bottom:32px;
-  animation:dgUp .9s ease .5s both;
-}
-.dg-hero-tagline strong { color:rgba(255,255,255,0.75); font-style:normal; }
-
-.dg-hero-guarantee {
-  display:flex; align-items:center; gap:10px; margin-bottom:36px;
-  animation:dgUp .9s ease .65s both;
-}
-.dg-hero-guarantee-badge {
-  background:rgba(232,197,71,0.15); border:1px solid rgba(232,197,71,0.3);
-  padding:7px 14px; border-radius:3px; font-size:11px; font-weight:700;
-  color:#E8C547; letter-spacing:.06em;
+.dg-cover-caption-r {
+  font-size:9px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:rgba(25,21,18,0.4);
+  white-space:nowrap;
 }
 
-.dg-hero-actions {
-  display:flex; gap:12px; flex-wrap:wrap;
-  animation:dgUp .9s ease .8s both;
+/* ============ CTA ROW ============ */
+.dg-cta-row {
+  display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap;
+  padding:38px 20px 30px;
+  animation:dgUp .9s ease .7s both;
 }
-.dg-hero-btn-main {
-  display:flex; align-items:center; gap:8px;
-  background:#E8C547; color:#0F0F0D; font-size:13px; font-weight:800; letter-spacing:.04em; text-transform:uppercase;
-  padding:14px 28px; border-radius:3px; text-decoration:none;
-  transition:transform .2s, box-shadow .2s;
-  box-shadow:0 8px 28px rgba(232,197,71,0.3);
+.dg-btn-main {
+  display:flex; align-items:center; gap:9px;
+  background:#191512; color:#F7F3ED; font-size:11px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase;
+  padding:16px 32px; text-decoration:none; border:1px solid #191512;
+  transition:all .25s;
 }
-.dg-hero-btn-main:hover { transform:translateY(-2px); box-shadow:0 12px 36px rgba(232,197,71,0.4); }
-.dg-hero-btn-sec {
-  display:flex; align-items:center; gap:8px;
-  background:transparent; border:1px solid rgba(255,255,255,0.2);
-  color:rgba(255,255,255,0.65); font-size:13px; font-weight:500;
-  padding:14px 24px; border-radius:3px; text-decoration:none;
-  transition:all .2s;
+.dg-btn-main:hover { background:#A85C3F; border-color:#A85C3F; }
+.dg-btn-ghost {
+  display:flex; align-items:center; gap:9px;
+  background:transparent; color:#191512; font-size:11px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase;
+  padding:16px 28px; text-decoration:none; border:1px solid rgba(25,21,18,0.3);
+  transition:all .25s;
 }
-.dg-hero-btn-sec:hover { border-color:rgba(232,197,71,0.5); color:#E8C547; }
+.dg-btn-ghost:hover { border-color:#191512; background:rgba(25,21,18,0.04); }
 
-@keyframes dgUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-
-/* GOLD BAR */
-.dg-gold-bar {
-  background:#E8C547; padding:0; overflow:hidden; height:48px;
-  display:flex; align-items:center;
-}
-.dg-gold-bar-inner {
-  display:flex; width:max-content;
-  animation:dgTick 22s linear infinite;
-}
-@keyframes dgTick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-.dg-gold-bar-item {
-  display:flex; align-items:center; gap:10px; padding:0 24px;
-  font-family:'Outfit',sans-serif; font-size:12px; font-weight:700;
-  letter-spacing:.1em; text-transform:uppercase; color:#0F0F0D; white-space:nowrap;
-}
-.dg-gold-bar-sep { opacity:.3; font-size:16px; }
-
-/* STRIP */
+/* ============ STRIP ============ */
 .dg-strip {
-  background:#fff; border-bottom:1px solid rgba(28,28,26,0.07);
-  padding:14px 24px; display:flex; align-items:center; gap:14px;
-  box-shadow:0 2px 12px rgba(0,0,0,0.04);
+  background:#191512; padding:16px 20px;
+  display:flex; align-items:center; gap:14px;
 }
-@media(min-width:640px){ .dg-strip { padding:16px 48px; } }
+@media(min-width:640px){ .dg-strip { padding:18px 40px; } }
 .dg-strip-avatar {
-  width:50px; height:50px; border-radius:3px; flex-shrink:0;
+  width:50px; height:50px; flex-shrink:0;
   object-fit:cover; object-position:center top;
-  border:2px solid rgba(232,197,71,0.4);
+  border:1px solid rgba(247,243,237,0.3);
 }
-.dg-strip-name { font-size:14px; font-weight:800; color:#1C1C1A; text-transform:uppercase; letter-spacing:.02em; }
-.dg-strip-sub { font-size:11px; color:rgba(28,28,26,0.45); margin-top:1px; }
+.dg-strip-name {
+  font-family:'Bodoni Moda',serif; font-size:16px; font-weight:700; font-style:italic;
+  color:#F7F3ED;
+}
+.dg-strip-sub { font-size:10px; color:rgba(247,243,237,0.45); margin-top:2px; letter-spacing:.14em; text-transform:uppercase; }
 .dg-strip-spacer { flex:1; }
 .dg-strip-cta {
   display:flex; align-items:center; gap:7px;
-  background:#E8C547; color:#0F0F0D; font-size:12px; font-weight:800;
-  padding:9px 18px; border-radius:3px; text-decoration:none; white-space:nowrap;
-  text-transform:uppercase; letter-spacing:.04em; transition:opacity .2s;
+  background:#F7F3ED; color:#191512; font-size:11px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:11px 20px; text-decoration:none; white-space:nowrap;
+  transition:background .2s;
 }
-.dg-strip-cta:hover { opacity:.85; }
+.dg-strip-cta:hover { background:#A85C3F; color:#F7F3ED; }
 
-/* BODY */
-.dg-body { max-width:1200px; margin:0 auto; padding:64px 20px 160px; }
-@media(min-width:640px){ .dg-body { padding:72px 40px 160px; } }
-@media(min-width:1024px){ .dg-body { display:grid; grid-template-columns:1fr 340px; gap:60px; padding:72px 48px 120px; } }
+/* ============ BODY ============ */
+.dg-body { max-width:1240px; margin:0 auto; padding:64px 20px 160px; }
+@media(min-width:640px){ .dg-body { padding:76px 40px 160px; } }
+@media(min-width:1024px){ .dg-body { display:grid; grid-template-columns:1fr 330px; gap:64px; padding:80px 40px 120px; } }
 
-.dg-sh { margin-bottom:28px; }
-.dg-sh-pre { font-size:10px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:#E8C547; margin-bottom:6px; display:flex; align-items:center; gap:8px; }
-.dg-sh-pre::before { content:''; display:block; width:16px; height:2px; background:#E8C547; }
-.dg-sh-title { font-family:'Outfit',sans-serif; font-size:clamp(24px,4vw,36px); font-weight:800; color:#1C1C1A; letter-spacing:-.02em; }
-.dg-sh-title em { font-style:italic; font-family:'Lora',serif; font-weight:400; color:rgba(28,28,26,0.45); }
+.dg-sh { display:flex; align-items:baseline; gap:16px; margin-bottom:34px; border-bottom:1px solid #191512; padding-bottom:14px; }
+.dg-sh-no {
+  font-family:'Bodoni Moda',serif; font-style:italic; font-size:15px; color:#A85C3F; white-space:nowrap;
+}
+.dg-sh-title {
+  font-family:'Bodoni Moda',serif; font-size:clamp(28px,5vw,46px); font-weight:900;
+  color:#191512; letter-spacing:-.01em; text-transform:uppercase; line-height:1;
+}
+.dg-sh-title em { font-style:italic; font-weight:400; text-transform:none; color:#A85C3F; }
+.dg-sh-fill { flex:1; }
+.dg-sh-side {
+  font-size:9px; font-weight:600; letter-spacing:.2em; text-transform:uppercase;
+  color:rgba(25,21,18,0.35); white-space:nowrap; display:none;
+}
+@media(min-width:640px){ .dg-sh-side { display:block; } }
 
-/* GALLERY */
-.dg-gallery { margin-bottom:56px; }
-.dg-gal { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
-@media(min-width:640px){ .dg-gal { grid-template-columns:repeat(4,1fr); } }
+/* ============ GALLERY ============ */
+.dg-gallery { margin-bottom:72px; }
+.dg-gal { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(min-width:768px){ .dg-gal { grid-template-columns:repeat(3,1fr); gap:18px; } }
 
-.dg-gi { position:relative; overflow:hidden; background:#e5e0d8; cursor:pointer; aspect-ratio:2/3; display:block; }
+.dg-gi {
+  position:relative; overflow:hidden; cursor:pointer; display:block;
+  aspect-ratio:2/3; background:#e8e1d6;
+  border:1px solid #191512;
+}
 .dg-gi:nth-child(1) { grid-column:1/-1; aspect-ratio:16/9; }
-@media(min-width:640px){ .dg-gi:nth-child(1) { grid-column:1/3; aspect-ratio:4/5; } }
+@media(max-width:640px){ .dg-gi:nth-child(1) { aspect-ratio:4/3; } }
+.dg-gi:nth-child(even) { transform:translateY(0); }
+@media(min-width:768px){
+  .dg-gi:nth-child(3) { transform:translateY(24px); }
+}
 
 .dg-gi img {
   width:100%; height:100%; object-fit:cover; display:block;
-  filter:brightness(.92) saturate(.95);
-  transition:transform .8s cubic-bezier(.16,1,.3,1), filter .4s ease;
+  filter:saturate(.96);
+  transition:transform .9s cubic-bezier(.16,1,.3,1), filter .4s ease;
 }
-.dg-gi:hover img { transform:scale(1.07); filter:brightness(1) saturate(1.05); }
+.dg-gi:hover img { transform:scale(1.06); filter:saturate(1.08); }
 
 .dg-gi-mask {
   position:absolute; inset:0; z-index:2;
-  background:linear-gradient(to top, rgba(15,15,13,0.92) 0%, transparent 55%);
-  opacity:0; transition:opacity .35s;
-  display:flex; flex-direction:column; justify-content:flex-end; padding:16px;
+  background:linear-gradient(to top, rgba(25,21,18,0.88) 0%, transparent 52%);
+  opacity:0; transition:opacity .4s;
+  display:flex; flex-direction:column; justify-content:flex-end; padding:18px;
 }
 .dg-gi:hover .dg-gi-mask { opacity:1; }
-.dg-gi-label { font-size:11px; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:.1em; margin-bottom:6px; font-weight:600; }
+.dg-gi-label {
+  font-family:'Bodoni Moda',serif; font-style:italic; font-size:16px;
+  color:#F7F3ED; margin-bottom:10px;
+}
 .dg-gi-cta {
-  display:inline-flex; align-items:center; gap:5px;
-  background:#E8C547; color:#0F0F0D; font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
-  padding:6px 14px; border-radius:3px; text-decoration:none; width:fit-content;
+  display:inline-flex; align-items:center; gap:6px;
+  background:#F7F3ED; color:#191512; font-size:9px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+  padding:8px 16px; text-decoration:none; width:fit-content;
 }
 
-/* ABOUT */
-.dg-about { margin-bottom:56px; }
-.dg-about-wrap { display:grid; gap:3px; }
-@media(min-width:640px){ .dg-about-wrap { grid-template-columns:1fr 1fr; } }
+/* ============ LETTER (ABOUT) ============ */
+.dg-letter { margin-bottom:72px; }
+.dg-letter-card {
+  background:#FFFDF9; border:1px solid #191512;
+  box-shadow:10px 10px 0 rgba(25,21,18,0.08);
+  padding:48px 44px; position:relative;
+}
+@media(max-width:640px){ .dg-letter-card { padding:30px 22px; box-shadow:6px 6px 0 rgba(25,21,18,0.08); } }
 
-.dg-about-left {
-  background:#1C1C1A; padding:40px 32px; position:relative; overflow:hidden;
+.dg-letter-kicker {
+  font-size:9px; font-weight:700; letter-spacing:.26em; text-transform:uppercase;
+  color:#A85C3F; margin-bottom:22px; display:flex; align-items:center; gap:12px;
 }
-@media(max-width:639px){ .dg-about-left { padding:28px 22px; } }
-.dg-about-left::before {
-  content:''; position:absolute; top:0; left:0; width:100%; height:3px;
-  background:linear-gradient(to right, #E8C547, #F0A500);
-}
-.dg-about-pre { font-size:10px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#E8C547; margin-bottom:16px; }
-.dg-about-quote {
-  font-family:'Lora',serif; font-style:italic;
-  font-size:clamp(17px,3vw,22px); color:#fff; line-height:1.55; margin-bottom:20px;
-}
-.dg-about-text { font-size:13.5px; line-height:1.9; color:rgba(255,255,255,0.45); }
-.dg-about-text + .dg-about-text { margin-top:12px; }
-.dg-about-text strong { color:rgba(255,255,255,0.8); font-weight:600; }
+.dg-letter-kicker::after { content:''; flex:1; height:1px; background:rgba(25,21,18,0.15); }
 
-.dg-about-right {
-  background:#E8C547; padding:40px 32px;
-  display:flex; flex-direction:column; gap:0;
+.dg-letter-quote {
+  font-family:'Bodoni Moda',serif; font-weight:400; font-style:italic;
+  font-size:clamp(21px,3.6vw,32px); line-height:1.4; color:#191512;
+  margin-bottom:28px;
 }
-@media(max-width:639px){ .dg-about-right { padding:28px 22px; } }
-.dg-feat { padding:18px 0; border-bottom:1px solid rgba(15,15,13,0.1); display:flex; align-items:flex-start; gap:14px; }
-.dg-feat:last-child { border-bottom:none; }
-.dg-feat-ico { font-size:22px; flex-shrink:0; margin-top:2px; }
-.dg-feat-title { font-size:14px; font-weight:800; color:#0F0F0D; margin-bottom:3px; text-transform:uppercase; letter-spacing:.02em; }
-.dg-feat-desc { font-size:12px; color:rgba(15,15,13,0.55); line-height:1.5; }
+.dg-letter-quote strong { font-weight:700; font-style:normal; color:#A85C3F; }
 
-.dg-about-sig {
-  margin-top:28px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.08);
-  display:flex; align-items:center; gap:12px;
+.dg-letter-text {
+  font-size:14px; line-height:2; color:rgba(25,21,18,0.65);
 }
-.dg-about-sig-av { width:44px; height:44px; border-radius:3px; object-fit:cover; object-position:center top; border:2px solid rgba(232,197,71,0.3); }
-.dg-about-sig-name { font-size:13px; font-weight:800; color:#fff; text-transform:uppercase; letter-spacing:.04em; }
-.dg-about-sig-role { font-size:11px; color:rgba(255,255,255,0.3); margin-top:1px; }
+.dg-letter-text + .dg-letter-text { margin-top:16px; }
+.dg-letter-text strong { color:#191512; font-weight:600; }
 
-/* SIDEBAR */
-.dg-sidebar { display:flex; flex-direction:column; gap:12px; }
+.dg-letter-text.dropcap::first-letter {
+  font-family:'Bodoni Moda',serif; font-weight:900;
+  font-size:64px; line-height:.8; color:#A85C3F;
+  float:left; padding:8px 12px 0 0;
+}
+
+.dg-letter-sig {
+  margin-top:34px; padding-top:26px; border-top:1px solid rgba(25,21,18,0.12);
+  display:flex; align-items:center; gap:16px;
+}
+.dg-letter-sig-av {
+  width:52px; height:52px; object-fit:cover; object-position:center top;
+  border:1px solid #191512;
+}
+.dg-letter-sig-name { font-family:'Bodoni Moda',serif; font-style:italic; font-size:17px; font-weight:700; color:#191512; }
+.dg-letter-sig-role { font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:rgba(25,21,18,0.4); margin-top:3px; }
+
+/* ============ INDEX (FEATURES) ============ */
+.dg-index { margin-bottom:56px; }
+.dg-index-list { border-top:1px solid #191512; }
+.dg-index-item {
+  display:flex; align-items:baseline; gap:16px;
+  padding:20px 4px; border-bottom:1px solid rgba(25,21,18,0.18);
+}
+.dg-index-no {
+  font-family:'Bodoni Moda',serif; font-style:italic; font-size:15px; color:#A85C3F;
+  flex-shrink:0; width:34px;
+}
+.dg-index-t {
+  font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#191512;
+  flex-shrink:0;
+}
+.dg-index-dots { flex:1; border-bottom:1px dotted rgba(25,21,18,0.3); transform:translateY(-4px); min-width:20px; }
+.dg-index-d { font-size:12px; color:rgba(25,21,18,0.5); text-align:right; max-width:46%; line-height:1.5; }
+@media(max-width:560px){
+  .dg-index-item { flex-wrap:wrap; gap:8px 12px; }
+  .dg-index-dots { display:none; }
+  .dg-index-d { max-width:100%; text-align:left; width:100%; padding-left:46px; }
+}
+
+/* ============ SIDEBAR ============ */
+.dg-sidebar { display:flex; flex-direction:column; gap:16px; }
 
 .dg-contact-card {
-  background:#1C1C1A; border-radius:4px; padding:26px;
-  position:relative; overflow:hidden;
-  border:1px solid rgba(232,197,71,0.15);
+  background:#191512; padding:30px 26px; position:relative;
+  border:1px solid #191512;
 }
-.dg-contact-card::before {
-  content:''; position:absolute; top:0; left:0; right:0; height:3px;
-  background:linear-gradient(to right, #E8C547, #F0A500);
+.dg-ct-label {
+  font-size:9px; font-weight:700; letter-spacing:.24em; text-transform:uppercase;
+  color:#A85C3F; margin-bottom:10px;
 }
-.dg-ct-label { font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#E8C547; margin-bottom:8px; }
-.dg-ct-title { font-family:'Outfit',sans-serif; font-size:22px; font-weight:800; color:#fff; margin-bottom:6px; letter-spacing:-.01em; }
-.dg-ct-sub { font-size:12px; color:rgba(255,255,255,0.4); margin-bottom:20px; line-height:1.7; }
+.dg-ct-title {
+  font-family:'Bodoni Moda',serif; font-style:italic; font-size:26px; font-weight:700;
+  color:#F7F3ED; margin-bottom:8px; line-height:1.1;
+}
+.dg-ct-sub { font-size:12px; color:rgba(247,243,237,0.45); margin-bottom:22px; line-height:1.7; }
 .dg-ct-btn {
   display:flex; align-items:center; justify-content:center; gap:9px;
-  background:#E8C547; color:#0F0F0D; font-size:13px; font-weight:800;
-  padding:14px; border-radius:3px; text-decoration:none; text-transform:uppercase; letter-spacing:.04em;
-  transition:opacity .2s; margin-bottom:8px;
-  box-shadow:0 6px 20px rgba(232,197,71,0.25);
+  background:#F7F3ED; color:#191512; font-size:11px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase;
+  padding:15px; text-decoration:none;
+  transition:background .2s, color .2s; margin-bottom:8px;
 }
-.dg-ct-btn:hover { opacity:.9; }
+.dg-ct-btn:hover { background:#A85C3F; color:#F7F3ED; }
 .dg-ct-wa {
   display:flex; align-items:center; justify-content:center; gap:9px;
-  background:#25D366; color:#fff; font-size:13px; font-weight:700;
-  padding:14px; border-radius:3px; text-decoration:none;
-  transition:opacity .2s; margin-bottom:10px;
+  background:#25D366; color:#fff; font-size:12px; font-weight:700;
+  padding:15px; text-decoration:none;
+  transition:opacity .2s; margin-bottom:12px;
 }
 .dg-ct-wa:hover { opacity:.9; }
-.dg-ct-note { font-size:11px; color:rgba(255,255,255,0.25); text-align:center; }
+.dg-ct-note { font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:rgba(247,243,237,0.3); text-align:center; }
 
-.dg-trust-card {
-  background:#fff; border-radius:4px; padding:18px 20px;
-  border:1px solid rgba(28,28,26,0.07);
-  display:grid; grid-template-columns:1fr 1fr; gap:2px;
+.dg-facts-card {
+  background:#FFFDF9; border:1px solid #191512;
 }
-.dg-trust-item { padding:12px; text-align:center; background:#FAFAF8; }
-.dg-trust-n { font-size:22px; font-weight:800; color:#1C1C1A; letter-spacing:-.02em; }
-.dg-trust-l { font-size:10px; color:rgba(28,28,26,0.45); margin-top:3px; letter-spacing:.06em; text-transform:uppercase; }
-
-.dg-guarantee-card {
-  background:#E8C547; border-radius:4px; padding:18px 20px;
-  display:flex; align-items:center; gap:14px;
+.dg-fact {
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:15px 20px; border-bottom:1px solid rgba(25,21,18,0.12);
 }
-.dg-guarantee-ico { font-size:28px; flex-shrink:0; }
-.dg-guarantee-title { font-size:13px; font-weight:800; color:#0F0F0D; text-transform:uppercase; letter-spacing:.04em; }
-.dg-guarantee-desc { font-size:11px; color:rgba(15,15,13,0.55); margin-top:2px; line-height:1.4; }
+.dg-fact:last-child { border-bottom:none; }
+.dg-fact-l { font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:rgba(25,21,18,0.45); }
+.dg-fact-v { font-family:'Bodoni Moda',serif; font-style:italic; font-size:15px; font-weight:700; color:#191512; text-align:right; }
+.dg-fact-v.hot { color:#A85C3F; }
 
 .dg-conn-card {
-  background:#fff; border-radius:4px; padding:20px;
-  border:1px solid rgba(28,28,26,0.07);
+  background:#FFFDF9; border:1px solid #191512; padding:20px;
+}
+.dg-conn-head {
+  font-size:9px; font-weight:700; letter-spacing:.24em; text-transform:uppercase;
+  color:#A85C3F; margin-bottom:10px;
 }
 .dg-conn-row {
   display:flex; align-items:center; justify-content:space-between;
-  padding:11px 0; border-bottom:1px solid rgba(28,28,26,0.06);
+  padding:11px 0; border-bottom:1px solid rgba(25,21,18,0.1);
   text-decoration:none; transition:opacity .2s; cursor:pointer;
 }
 .dg-conn-row:last-child { border-bottom:none; padding-bottom:0; }
 .dg-conn-row:hover { opacity:.6; }
 .dg-conn-l { display:flex; align-items:center; gap:12px; }
-.dg-conn-ico { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.dg-conn-lbl { font-size:13.5px; font-weight:600; color:#1C1C1A; }
-.dg-conn-sub { font-size:11px; color:rgba(28,28,26,0.38); }
+.dg-conn-ico { width:36px; height:36px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.dg-conn-lbl { font-size:13px; font-weight:600; color:#191512; }
+.dg-conn-sub { font-size:11px; color:rgba(25,21,18,0.4); }
 
-.dg-loc-card {
-  background:#fff; border-radius:4px; padding:16px 18px;
-  border:1px solid rgba(28,28,26,0.07);
-}
-.dg-loc-row { display:flex; align-items:center; gap:12px; text-decoration:none; color:#1C1C1A; transition:opacity .2s; }
+.dg-loc-card { background:#FFFDF9; border:1px solid #191512; padding:16px 18px; }
+.dg-loc-row { display:flex; align-items:center; gap:12px; text-decoration:none; color:#191512; transition:opacity .2s; }
 .dg-loc-row:hover { opacity:.7; }
-.dg-loc-ico { width:40px; height:40px; border-radius:8px; background:#FFF8DC; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.dg-loc-name { font-size:14px; font-weight:700; }
-.dg-loc-sub { font-size:11px; color:rgba(28,28,26,0.4); margin-top:1px; }
+.dg-loc-ico {
+  width:42px; height:42px; background:#191512;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.dg-loc-name { font-family:'Bodoni Moda',serif; font-style:italic; font-size:15px; font-weight:700; }
+.dg-loc-sub { font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:rgba(25,21,18,0.4); margin-top:2px; }
 
 .dg-share-card {
-  background:#fff; border-radius:4px; padding:14px 16px;
-  border:1px solid rgba(28,28,26,0.07);
+  background:#191512; padding:16px 18px;
   display:flex; align-items:center; justify-content:space-between; gap:10px;
 }
-.dg-share-lbl { font-size:11px; color:rgba(28,28,26,0.4); margin-bottom:2px; }
-.dg-share-url { font-size:13px; font-weight:700; color:#E8C547; }
+.dg-share-lbl { font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:rgba(247,243,237,0.4); margin-bottom:3px; }
+.dg-share-url { font-family:'Bodoni Moda',serif; font-style:italic; font-size:15px; font-weight:700; color:#F7F3ED; }
 
-/* MOBILE BAR */
+/* ============ MOBILE BAR ============ */
 .dg-bar {
   position:fixed; bottom:0; left:0; right:0; z-index:100;
-  background:rgba(250,250,248,0.97); backdrop-filter:blur(20px);
-  border-top:1px solid rgba(28,28,26,0.08);
+  background:rgba(247,243,237,0.97); backdrop-filter:blur(20px);
+  border-top:1px solid #191512;
   padding:10px 14px; padding-bottom:max(10px,env(safe-area-inset-bottom));
   display:flex; gap:8px;
 }
 @media(min-width:1024px){ .dg-bar { display:none; } }
 .dg-bar-call {
   flex:1; display:flex; align-items:center; justify-content:center; gap:8px;
-  background:#E8C547; color:#0F0F0D; font-size:13px; font-weight:800;
-  padding:13px; border-radius:3px; text-decoration:none; text-transform:uppercase; letter-spacing:.04em;
-  box-shadow:0 4px 16px rgba(232,197,71,0.3);
+  background:#191512; color:#F7F3ED; font-size:11px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase;
+  padding:14px; text-decoration:none;
 }
 .dg-bar-wa {
   flex:1; display:flex; align-items:center; justify-content:center; gap:6px;
-  background:#25D366; color:#fff; font-size:13px; font-weight:600;
-  padding:13px; border-radius:3px; text-decoration:none;
+  background:#25D366; color:#fff; font-size:12px; font-weight:700;
+  padding:14px; text-decoration:none;
 }
-@media(max-width:374px){ .dg-hero-h1 { font-size:34px; } }
 `;
 
-const GALLERY_LABELS = ['Lumină naturală', 'Portret de mireasă', 'Moment emoționant', 'Poveste vizuală'];
+const GALLERY_LABELS = [
+  'Semnătura unui început',
+  'Portret de familie',
+  'Buchetul miresei',
+  'Schimbul verighetelor',
+];
 
 export default async function DgcMediaWeddingPage() {
   const p = await getProvider();
@@ -405,64 +452,57 @@ export default async function DgcMediaWeddingPage() {
             </svg>
             Înapoi
           </a>
-          <div className="dg-nav-logo">DGC <span>MEDIA</span></div>
+          <div className="dg-nav-logo">DGC <span>Media Wedding</span></div>
           <ShareButton shortUrl={shortUrl} name={p.name} />
         </nav>
 
-        {/* HERO */}
-        <div className="dg-hero">
-          <div className="dg-hero-media">
+        {/* MASTHEAD */}
+        <div className="dg-mast">
+          <div className="dg-mast-pre">VibeInvite Prezintă · Foto &amp; Video</div>
+          <h1 className="dg-mast-h1">
+            DGC Media
+            <em>Wedding</em>
+          </h1>
+          <div className="dg-mast-meta">
+            <span className="dg-mast-meta-item">Ilfov · București</span>
+            <span className="dg-mast-meta-item">Foto &amp; Video Complet</span>
+            <span className="dg-mast-meta-item">Contract + Factură</span>
+            <span className="dg-mast-meta-item hot">Sezon 2026–2027</span>
+          </div>
+        </div>
+
+        {/* COVER */}
+        <div className="dg-cover-wrap">
+          <div className="dg-cover">
+            <div className="dg-cover-tag">Ediția Nunților</div>
             {galleryIds[0] && (
               <img
-                src={`https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_1400/${galleryIds[0]}.jpg`}
+                src={`https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_1600/${galleryIds[0]}.jpg`}
                 alt={p.name}
               />
             )}
           </div>
-          <div className="dg-hero-text">
-            <div className="dg-hero-badge">
-              <span className="dg-badge-dot" />
-              Verificat · VibeInvite
-            </div>
-            <h1 className="dg-hero-h1">
-              <span className="dg-thin">Foto-Video Premium</span>
-              DGC <span className="dg-gold">Media</span>
-            </h1>
-            <p className="dg-hero-tagline">
-              Documentăm întreaga desfășurare a evenimentului, de la pregătiri până la ultimele momente. <strong>Amintiri care contează.</strong>
-            </p>
-            <div className="dg-hero-guarantee">
-              <div className="dg-hero-guarantee-badge">✓ Contract + Factură Fiscală</div>
-              <div className="dg-hero-guarantee-badge">📅 Date 2026–2027</div>
-            </div>
-            <div className="dg-hero-actions">
-              {p.phone && (
-                <a href={`tel:${p.phone}`} className="dg-hero-btn-main">
-                  <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 7V5z" />
-                  </svg>
-                  Sună Acum
-                </a>
-              )}
-              {p.website_url && (
-                <a href={p.website_url} target="_blank" rel="noopener noreferrer" className="dg-hero-btn-sec">
-                  Website Oficial →
-                </a>
-              )}
-            </div>
+          <div className="dg-cover-caption">
+            <span className="dg-cover-caption-l">Documentăm totul — de la pregătiri până la ultimul dans.</span>
+            <span className="dg-cover-caption-r">Fig. 01 — Cununia civilă</span>
           </div>
         </div>
 
-        {/* GOLD BAR */}
-        <div className="dg-gold-bar">
-          <div className="dg-gold-bar-inner">
-            {['FOTO · VIDEO', 'ILFOV · BUCUREȘTI', 'MONTAJ MODERN', 'LIVRARE RAPIDĂ', 'CONTRACT + FACTURĂ', 'DATE 2026-2027', 'FOTO · VIDEO', 'ILFOV · BUCUREȘTI', 'MONTAJ MODERN', 'LIVRARE RAPIDĂ', 'CONTRACT + FACTURĂ', 'DATE 2026-2027'].map((item, i) => (
-              <div key={i} className="dg-gold-bar-item">
-                {item}
-                <span className="dg-gold-bar-sep">◆</span>
-              </div>
-            ))}
-          </div>
+        {/* CTA */}
+        <div className="dg-cta-row">
+          {p.phone && (
+            <a href={`tel:${p.phone}`} className="dg-btn-main">
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 7V5z" />
+              </svg>
+              Sună Acum
+            </a>
+          )}
+          {p.website_url && (
+            <a href={p.website_url} target="_blank" rel="noopener noreferrer" className="dg-btn-ghost">
+              Website Oficial →
+            </a>
+          )}
         </div>
 
         {/* STRIP */}
@@ -484,8 +524,10 @@ export default async function DgcMediaWeddingPage() {
             {galleryIds.length > 0 && (
               <div className="dg-gallery">
                 <div className="dg-sh">
-                  <div className="dg-sh-pre">Portofoliu</div>
-                  <h2 className="dg-sh-title">Munca <em>Noastră</em></h2>
+                  <span className="dg-sh-no">No. 01</span>
+                  <h2 className="dg-sh-title">Porto<em>foliu</em></h2>
+                  <div className="dg-sh-fill" />
+                  <span className="dg-sh-side">Selecție — Nunți 2025</span>
                 </div>
                 <div className="dg-gal">
                   {galleryIds.map((id, i) => (
@@ -503,64 +545,76 @@ export default async function DgcMediaWeddingPage() {
               </div>
             )}
 
-            {/* ABOUT */}
-            <div className="dg-about">
+            {/* LETTER */}
+            <div className="dg-letter">
               <div className="dg-sh">
-                <div className="dg-sh-pre">Despre noi</div>
-                <h2 className="dg-sh-title">De ce <em>DGC?</em></h2>
+                <span className="dg-sh-no">No. 02</span>
+                <h2 className="dg-sh-title">Scrisoarea <em>Editorului</em></h2>
+                <div className="dg-sh-fill" />
+                <span className="dg-sh-side">Despre DGC</span>
               </div>
-              <div className="dg-about-wrap">
-                <div className="dg-about-left">
-                  <div className="dg-about-pre">✦ Misiunea noastră</div>
-                  <p className="dg-about-quote">
-                    „Fotografii profesionale, filmări de calitate, montaj modern și livrare rapidă — totul într-un singur pachet."
-                  </p>
-                  <p className="dg-about-text">
-                    La <strong>DGC Media Wedding</strong> documentăm întreaga desfășurare a evenimentului, de la pregătiri până la ultimele momente ale petrecerii. Nu ratem nimic.
-                  </p>
-                  <p className="dg-about-text">
-                    Folosim <strong>echipamente moderne</strong> și o abordare creativă, dar adevărata noastră diferență este atenția la oameni. Ne implicăm, observăm, simțim și spunem povestea ta în imagini care rămân valabile peste ani.
-                  </p>
-                  <p className="dg-about-text">
-                    Oferim <strong>contract și factură fiscală</strong> pentru toate serviciile. Disponibili pentru sezonul <strong>2026–2027</strong>.
-                  </p>
-                  <div className="dg-about-sig">
-                    <img className="dg-about-sig-av" src={profileImg} alt={p.name} />
-                    <div>
-                      <div className="dg-about-sig-name">DGC Media Wedding SRL</div>
-                      <div className="dg-about-sig-role">{p.oras}, {p.judet}</div>
-                    </div>
+              <div className="dg-letter-card">
+                <div className="dg-letter-kicker">Misiunea noastră</div>
+                <p className="dg-letter-quote">
+                  „Fotografii profesionale, filmări de calitate, montaj modern și livrare rapidă — <strong>totul într-un singur pachet</strong> dedicat amintirilor care contează."
+                </p>
+                <p className="dg-letter-text dropcap">
+                  Alegeți <strong>DGC Media Wedding</strong> pentru servicii foto-video complete și de încredere. Documentăm întreaga desfășurare a evenimentului, de la pregătiri până la ultimele momente ale petrecerii — fără să ratăm nimic din povestea voastră.
+                </p>
+                <p className="dg-letter-text">
+                  Folosim <strong>echipamente moderne</strong> și o abordare creativă, dar adevărata noastră diferență este atenția la oameni. Ne implicăm, observăm, simțim și spunem povestea ta în imagini care rămân valabile peste ani.
+                </p>
+                <p className="dg-letter-text">
+                  Oferim <strong>contract și factură fiscală</strong> pentru toate serviciile, iar calendarul nostru are <strong>date disponibile pentru sezonul 2026–2027</strong>. Rezervă din timp.
+                </p>
+                <div className="dg-letter-sig">
+                  <img className="dg-letter-sig-av" src={profileImg} alt={p.name} />
+                  <div>
+                    <div className="dg-letter-sig-name">DGC Media Wedding SRL</div>
+                    <div className="dg-letter-sig-role">{p.oras}, {p.judet} · Foto &amp; Video</div>
                   </div>
                 </div>
-                <div className="dg-about-right">
-                  <div className="dg-feat">
-                    <div className="dg-feat-ico">📷</div>
-                    <div>
-                      <div className="dg-feat-title">Foto & Video Complet</div>
-                      <div className="dg-feat-desc">Pachet integrat de la pregătiri până la ultimul dans.</div>
-                    </div>
-                  </div>
-                  <div className="dg-feat">
-                    <div className="dg-feat-ico">🎬</div>
-                    <div>
-                      <div className="dg-feat-title">Montaj Modern</div>
-                      <div className="dg-feat-desc">Editare cinematografică, livrare rapidă în format digital.</div>
-                    </div>
-                  </div>
-                  <div className="dg-feat">
-                    <div className="dg-feat-ico">📄</div>
-                    <div>
-                      <div className="dg-feat-title">Contract + Factură</div>
-                      <div className="dg-feat-desc">Servicii oficiale cu acte fiscale pentru liniștea ta.</div>
-                    </div>
-                  </div>
-                  <div className="dg-feat">
-                    <div className="dg-feat-ico">📅</div>
-                    <div>
-                      <div className="dg-feat-title">Date 2026–2027</div>
-                      <div className="dg-feat-desc">Disponibili pentru ambele sezoane. Rezervă din timp!</div>
-                    </div>
-                  </div>
+              </div>
+            </div>
+
+            {/* INDEX */}
+            <div className="dg-index">
+              <div className="dg-sh">
+                <span className="dg-sh-no">No. 03</span>
+                <h2 className="dg-sh-title">Ce <em>Primești</em></h2>
+                <div className="dg-sh-fill" />
+                <span className="dg-sh-side">Sumar servicii</span>
+              </div>
+              <div className="dg-index-list">
+                <div className="dg-index-item">
+                  <span className="dg-index-no">I.</span>
+                  <span className="dg-index-t">Foto &amp; Video Complet</span>
+                  <span className="dg-index-dots" />
+                  <span className="dg-index-d">De la pregătiri până la ultimul dans, totul documentat</span>
+                </div>
+                <div className="dg-index-item">
+                  <span className="dg-index-no">II.</span>
+                  <span className="dg-index-t">Montaj Modern</span>
+                  <span className="dg-index-dots" />
+                  <span className="dg-index-d">Editare cinematografică, stil actual</span>
+                </div>
+                <div className="dg-index-item">
+                  <span className="dg-index-no">III.</span>
+                  <span className="dg-index-t">Livrare Rapidă</span>
+                  <span className="dg-index-dots" />
+                  <span className="dg-index-d">Amintirile tale, gata în timp record</span>
+                </div>
+                <div className="dg-index-item">
+                  <span className="dg-index-no">IV.</span>
+                  <span className="dg-index-t">Contract + Factură Fiscală</span>
+                  <span className="dg-index-dots" />
+                  <span className="dg-index-d">Servicii oficiale, siguranță totală</span>
+                </div>
+                <div className="dg-index-item">
+                  <span className="dg-index-no">V.</span>
+                  <span className="dg-index-t">Date 2026–2027</span>
+                  <span className="dg-index-dots" />
+                  <span className="dg-index-d">Calendar deschis pentru ambele sezoane</span>
                 </div>
               </div>
             </div>
@@ -571,34 +625,24 @@ export default async function DgcMediaWeddingPage() {
           <div className="dg-sidebar">
 
             <div className="dg-contact-card">
-              <div className="dg-ct-label">✦ Contact Direct</div>
-              <div className="dg-ct-title">Rezervă acum</div>
-              <p className="dg-ct-sub">Contactează-ne pentru disponibilitate și ofertă personalizată.</p>
+              <div className="dg-ct-label">Contact Direct</div>
+              <div className="dg-ct-title">Rezervă-ți data</div>
+              <p className="dg-ct-sub">Contactează-ne pentru disponibilitate și o ofertă personalizată pentru evenimentul tău.</p>
               {p.phone && <CallButton phone={p.phone} slug={p.slug} className="dg-ct-btn" />}
               {p.phone && <WaButton phone={p.phone} slug={p.slug} className="dg-ct-wa" />}
-              <p className="dg-ct-note">Răspundem rapid!</p>
+              <p className="dg-ct-note">Răspundem rapid</p>
             </div>
 
-            <div className="dg-trust-card">
-              <div className="dg-trust-item"><div className="dg-trust-n">✓</div><div className="dg-trust-l">Contract</div></div>
-              <div className="dg-trust-item"><div className="dg-trust-n">✓</div><div className="dg-trust-l">Factură</div></div>
-              <div className="dg-trust-item"><div className="dg-trust-n">2026</div><div className="dg-trust-l">Date libere</div></div>
-              <div className="dg-trust-item"><div className="dg-trust-n">2027</div><div className="dg-trust-l">Date libere</div></div>
-            </div>
-
-            <div className="dg-guarantee-card">
-              <div className="dg-guarantee-ico">🏆</div>
-              <div>
-                <div className="dg-guarantee-title">Calitate Garantată</div>
-                <div className="dg-guarantee-desc">Pachet complet foto-video cu montaj modern și livrare rapidă.</div>
-              </div>
+            <div className="dg-facts-card">
+              <div className="dg-fact"><span className="dg-fact-l">Servicii</span><span className="dg-fact-v">Foto &amp; Video</span></div>
+              <div className="dg-fact"><span className="dg-fact-l">Zonă</span><span className="dg-fact-v">Ilfov · București</span></div>
+              <div className="dg-fact"><span className="dg-fact-l">Acte</span><span className="dg-fact-v">Contract + Factură</span></div>
+              <div className="dg-fact"><span className="dg-fact-l">Disponibilitate</span><span className="dg-fact-v hot">2026–2027</span></div>
             </div>
 
             {p.website_url && (
               <div className="dg-conn-card">
-                <div className="dg-sh" style={{marginBottom:'12px'}}>
-                  <div className="dg-sh-pre">Online</div>
-                </div>
+                <div className="dg-conn-head">Online</div>
                 <SocialLinks
                   provider={p}
                   rowClass="dg-conn-row"
@@ -614,7 +658,7 @@ export default async function DgcMediaWeddingPage() {
               <div className="dg-loc-card">
                 <a href={p.maps_url} target="_blank" rel="noopener noreferrer" className="dg-loc-row">
                   <div className="dg-loc-ico">
-                    <svg width="18" height="18" fill="none" stroke="#E8C547" viewBox="0 0 24 24">
+                    <svg width="18" height="18" fill="none" stroke="#F7F3ED" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
