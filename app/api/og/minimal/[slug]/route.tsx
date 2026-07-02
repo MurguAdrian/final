@@ -10,7 +10,7 @@ export async function GET(
 ) {
   try {
     const baseUrl = new URL(request.url).origin;
-    const dmSansData = await fetch(`${baseUrl}/fonts/DMSans-Medium.ttf`)
+    const dmSansData = await fetch(`${baseUrl}/fonts/DMSans_18pt-Medium.ttf`)
       .then(r => r.arrayBuffer());
     const playfairData = await fetch(`${baseUrl}/fonts/PlayfairDisplay-Italic.ttf`)
       .then(r => r.arrayBuffer());

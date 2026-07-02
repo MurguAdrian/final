@@ -95,7 +95,7 @@ const CSS = `
 .vr-wm { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
 .vr-wm-grid { position: absolute; inset: -60px; display: flex; flex-direction: column; gap: 0; transform: rotate(-30deg); }
 .vr-wm-row { display: flex; gap: 0; white-space: nowrap; }
-.vr-wm-item { font-size: 34px; letter-spacing: .1em; color: #3d5a3e; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; }
+.vr-wm-item { font-size: 34px; letter-spacing: .1em; color: #ec0000; opacity: .1; padding: 28px 30px; white-space: nowrap; user-select: none; }
 .vr-wm-notice { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(61,90,62,.12); border-top: 1px solid rgba(61,90,62,.3); padding: 8px 10px; text-align: center; font-size: 11px; color: #3d5a3e; letter-spacing: .06em; z-index: 25; }
 
 /* FORM */
