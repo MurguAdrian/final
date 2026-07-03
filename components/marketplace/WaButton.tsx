@@ -2,14 +2,22 @@
 'use client';
 
 export default function WaButton({ phone, slug, className }: { phone: string; slug: string; className: string }) {
-  const waUrl = `https://wa.me/${phone.replace(/\D/g, '')}?text=Bună ziua! Am găsit profilul dvs. pe VibeInvite și aș dori mai multe informații.`;
+  const digits = phone.replace(/\D/g, '');
+  const intl = digits.startsWith('40') ? digits : digits.startsWith('0') ? '40' + digits.slice(1) : '40' + digits;
+  const message = 'Bună ziua! Am găsit profilul dvs. pe VibeInvite și aș dori mai multe informații.';
+  const waUrl = `https://wa.me/${intl}?text=${encodeURIComponent(message)}`;
+
   function track() {
-    fetch('/api/marketplace/track', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, type: 'call' }),
-    });
+    try {
+      fetch('/api/marketplace/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, type: 'call' }),
+        keepalive: true,
+      });
+    } catch {}
   }
+
   return (
     <a href={waUrl} target="_blank" rel="noopener noreferrer" className={className} onClick={track}>
       <svg width="17" height="17" fill="currentColor" viewBox="0 0 24 24">
