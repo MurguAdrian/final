@@ -2,8 +2,8 @@
 'use client';
 
 export default function IrGalleryItem({
-  href, slug, imgSrc, alt, frame, label, wide, eager,
-}: { href: string; slug: string; imgSrc: string; alt: string; frame: string; label: string; wide?: boolean; eager?: boolean }) {
+  href, slug, imgSrc, alt, label, num, eager, className,
+}: { href: string; slug: string; imgSrc: string; alt: string; label: string; num: string; eager?: boolean; className?: string }) {
   function track() {
     fetch('/api/marketplace/track', {
       method: 'POST',
@@ -13,19 +13,13 @@ export default function IrGalleryItem({
     });
   }
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={`ir-fr${wide ? ' ir-fr-wide' : ''}`} onClick={track}>
-      <div className="ir-fr-top">
-        <span>{frame}</span>
-        <span className="ir-fr-dot" />
-        <span>35MM</span>
+    <a href={href} target="_blank" rel="noopener noreferrer" className={`ir-gi ${className || ''}`} onClick={track}>
+      <img src={imgSrc} alt={alt} loading={eager ? 'eager' : 'lazy'} />
+      <div className="ir-gi-mask">
+        <span className="ir-gi-num">{num}</span>
+        <div className="ir-gi-label">{label}</div>
+        <span className="ir-gi-cta">Vezi portofoliul →</span>
       </div>
-      <div className="ir-fr-img">
-        <img src={imgSrc} alt={alt} loading={eager ? 'eager' : 'lazy'} />
-        <div className="ir-fr-veil">
-          <span className="ir-fr-veil-cta">Vezi portofoliul complet →</span>
-        </div>
-      </div>
-      <div className="ir-fr-cap">{label}</div>
     </a>
   );
 }

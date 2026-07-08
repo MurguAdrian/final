@@ -15,17 +15,16 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: 'Ireph_graphy – Fotograf Evenimente Brașov | VibeInvite',
-    description: 'Ireph_graphy – fotograf de evenimente în Brașov. Fotografie alb-negru și color cu suflet: nunți, botezuri, cununii, ședințe foto de familie. Contact: 0734537605.',
+    description: 'Ireph_graphy – fotograf de evenimente în Brașov. Fotografie alb-negru și color cu suflet: nunți, botezuri, cununii și ședințe foto de familie. Contact: 0734537605.',
     keywords: [
       'fotograf Brașov',
       'fotograf nuntă Brașov',
       'fotograf evenimente Brașov',
-      'Ireph_graphy',
+      'Ireph_graphy fotograf',
       'fotograf botez Brașov',
       'fotograf cununie Brașov',
       'ședință foto familie Brașov',
       'fotograf alb-negru Brașov',
-      'foto video nuntă Brașov',
     ],
     metadataBase: new URL('https://www.vibeinvite.ro'),
     alternates: { canonical: 'https://www.vibeinvite.ro/fotograf-brasov-ireph-graphy' },
@@ -41,7 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: 'Ireph_graphy – Fotograf Evenimente Brașov',
-      description: 'Fotografie cu suflet în Brașov. Nunți, botezuri, cununii, familie.',
+      description: 'Fotografie alb-negru și color cu suflet, în Brașov.',
       images: [ogImage],
     },
     robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 } },
