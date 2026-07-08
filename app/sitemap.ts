@@ -105,6 +105,7 @@ const publicPaths = [
 ]
 
 const photographerPaths = [
+  '/fotograf-brasov-ireph-graphy',
   '/fotograf-bacau-tr-visuals',
   '/fotograf-bucuresti-razvan-ristea',
   '/fotograf-craiova-fotoali',

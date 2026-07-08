@@ -39,7 +39,7 @@ export default function HeaderWrapper() {
   '/invitatie-botez-fete-baloane',
   '/invitatie-botez-fete-castel',
   '/invitatie-botez-fete-roz',
-
+'/fotograf-brasov-ireph-graphy',
 '/fotograf-ilfov-dgc-media-wedding'
   ]
 
