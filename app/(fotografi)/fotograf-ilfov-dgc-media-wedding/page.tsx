@@ -434,7 +434,7 @@ export default async function DgcMediaWeddingPage() {
   if (!p) notFound();
 
   const galleryIds: string[] = p.gallery_images ? p.gallery_images.split(',') : [];
-  const shortUrl = `https://vibeinvite.ro/${p.short_slug}`;
+  const shortUrl = `https://www.vibeinvite.ro/${p.short_slug}`;
   const profileImg = p.profile_image_url || `https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_200,h_200,c_fill,g_face/${p.profile_image}.jpg`;
   const clickTarget = p.website_url || '#';
 

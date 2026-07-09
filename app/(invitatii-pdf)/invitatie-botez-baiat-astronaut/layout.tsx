@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'VibeInvite',
-    url: 'https://vibeinvite.ro/invitatie-botez-baiat-astronaut',
+    url: 'https://www.vibeinvite.ro/invitatie-botez-baiat-astronaut',
     title: 'Invitație Botez Băiat Astronaut — VibeInvite',
     description: 'Invitație botez cu design spațial — rachete, lună, stele și astronaut. Personalizabil, descarcabil instant PDF + JPG. 30 lei, plată unică.',
-    images: [{ url: 'https://vibeinvite.ro/og-botez-astronaut.jpg', width: 1200, height: 630, alt: 'Invitație Botez Astronaut' }],
+    images: [{ url: 'https://www.vibeinvite.ro/og-botez-astronaut.jpg', width: 1200, height: 630, alt: 'Invitație Botez Astronaut' }],
   },
-  alternates: { canonical: 'https://vibeinvite.ro/invitatie-botez-baiat-astronaut' },
+  alternates: { canonical: 'https://www.vibeinvite.ro/invitatie-botez-baiat-astronaut' },
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {

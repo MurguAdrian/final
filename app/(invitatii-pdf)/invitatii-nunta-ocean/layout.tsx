@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'VibeInvite',
-    url: 'https://vibeinvite.ro/invitatii-nunta-ocean',
+    url: 'https://www.vibeinvite.ro/invitatii-nunta-ocean',
     title: 'Invitație Nuntă Ocean — VibeInvite',
     description: 'Design albastru acuarelă cu flori și frunze pentru nunta ta. Personalizabil, descarcabil instant în PDF și JPG. 30 lei, plată unică.',
-    images: [{ url: 'https://vibeinvite.ro/og-invitatie-ocean.jpg', width: 1200, height: 630, alt: 'Invitație Nuntă Ocean' }],
+    images: [{ url: 'https://www.vibeinvite.ro/og-invitatie-ocean.jpg', width: 1200, height: 630, alt: 'Invitație Nuntă Ocean' }],
   },
-  alternates: { canonical: 'https://vibeinvite.ro/invitatii-nunta-ocean' },
+  alternates: { canonical: 'https://www.vibeinvite.ro/invitatii-nunta-ocean' },
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {

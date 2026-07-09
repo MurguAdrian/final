@@ -252,7 +252,7 @@ export default async function FotografDragoiPage() {
   if (!p) notFound();
 
   const galleryIds: string[] = p.gallery_images ? p.gallery_images.split(',') : [];
-  const shortUrl = `https://vibeinvite.ro/${p.short_slug}`;
+  const shortUrl = `https://www.vibeinvite.ro/${p.short_slug}`;
 
   return (
     <>

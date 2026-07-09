@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'VibeInvite',
-    url: 'https://vibeinvite.ro/invitatie-nunta-sub-stele',
+    url: 'https://www.vibeinvite.ro/invitatie-nunta-sub-stele',
     title: 'Invitație Nuntă Sub Stele — VibeInvite',
     description: 'Design celestial midnight blue cu constelații aurii și faze ale lunii. Personalizabil, descarcabil instant PDF + JPG. 30 lei, plată unică.',
-    images: [{ url: 'https://vibeinvite.ro/og-invitatie-sub-stele.jpg', width: 1200, height: 630, alt: 'Invitație Nuntă Sub Stele' }],
+    images: [{ url: 'https://www.vibeinvite.ro/og-invitatie-sub-stele.jpg', width: 1200, height: 630, alt: 'Invitație Nuntă Sub Stele' }],
   },
-  alternates: { canonical: 'https://vibeinvite.ro/invitatie-nunta-sub-stele' },
+  alternates: { canonical: 'https://www.vibeinvite.ro/invitatie-nunta-sub-stele' },
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {

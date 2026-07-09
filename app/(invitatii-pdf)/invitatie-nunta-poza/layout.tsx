@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'VibeInvite',
-    url: 'https://vibeinvite.ro/invitatie-nunta-poza',
+    url: 'https://www.vibeinvite.ro/invitatie-nunta-poza',
     title: 'Invitație Nuntă Pădure de Toamnă — VibeInvite',
     description: 'Design forestier de toamnă cu monogramă și text alb elegant. Personalizabil, descarcabil instant PDF + JPG. 30 lei, plată unică.',
-    images: [{ url: 'https://vibeinvite.ro/og-invitatie-poza.jpg', width: 1200, height: 630, alt: 'Invitație Nuntă Pădure de Toamnă' }],
+    images: [{ url: 'https://www.vibeinvite.ro/og-invitatie-poza.jpg', width: 1200, height: 630, alt: 'Invitație Nuntă Pădure de Toamnă' }],
   },
-  alternates: { canonical: 'https://vibeinvite.ro/invitatie-nunta-poza' },
+  alternates: { canonical: 'https://www.vibeinvite.ro/invitatie-nunta-poza' },
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {

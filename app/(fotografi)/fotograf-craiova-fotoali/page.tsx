@@ -249,7 +249,7 @@ export default async function FotoAliPage() {
   if (!p) notFound();
 
   const galleryIds: string[] = p.gallery_images ? p.gallery_images.split(',') : [];
-  const shortUrl = `https://vibeinvite.ro/${p.short_slug}`;
+  const shortUrl = `https://www.vibeinvite.ro/${p.short_slug}`;
   const heroImg = galleryIds[0]
     ? `https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_1600/${galleryIds[0]}.jpg`
     : p.profile_image_url || '';
