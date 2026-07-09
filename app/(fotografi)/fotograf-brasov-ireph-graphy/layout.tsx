@@ -47,6 +47,66 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export default async function Layout({ children }: { children: React.ReactNode }) {
+  const p = await getProvider();
+  const CLOUD = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const ogImage = p?.profile_image_url || `https://res.cloudinary.com/${CLOUD}/image/upload/${p?.profile_image}.jpg`;
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'ProfessionalService',
+        '@id': 'https://www.vibeinvite.ro/fotograf-brasov-ireph-graphy#business',
+        name: 'Ireph_graphy',
+        image: ogImage,
+        url: 'https://www.vibeinvite.ro/fotograf-brasov-ireph-graphy',
+        telephone: '0734537605',
+        priceRange: '$$',
+        areaServed: { '@type': 'City', name: 'Brașov' },
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Brașov',
+          addressRegion: 'Brașov',
+          addressCountry: 'RO',
+        },
+        makesOffer: {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            serviceType: 'Fotografie evenimente',
+            name: 'Servicii foto nuntă, botez, cununie',
+          },
+        },
+      },
+      {
+        '@type': 'WebPage',
+        '@id': 'https://www.vibeinvite.ro/fotograf-brasov-ireph-graphy#webpage',
+        url: 'https://www.vibeinvite.ro/fotograf-brasov-ireph-graphy',
+        name: 'Ireph_graphy – Fotograf Evenimente Brașov',
+        isPartOf: { '@id': 'https://www.vibeinvite.ro#website' },
+        about: { '@id': 'https://www.vibeinvite.ro/fotograf-brasov-ireph-graphy#business' },
+        primaryImageOfPage: { '@type': 'ImageObject', url: ogImage },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Acasă', item: 'https://www.vibeinvite.ro' },
+          { '@type': 'ListItem', position: 2, name: 'Fotografi', item: 'https://www.vibeinvite.ro/fotograf' },
+          { '@type': 'ListItem', position: 3, name: 'Brașov', item: 'https://www.vibeinvite.ro/fotograf/brasov' },
+          { '@type': 'ListItem', position: 4, name: 'Ireph_graphy', item: 'https://www.vibeinvite.ro/fotograf-brasov-ireph-graphy' },
+        ],
+      },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  );
 }
