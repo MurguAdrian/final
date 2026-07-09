@@ -391,7 +391,7 @@ export default async function IrephGraphyPage() {
   if (!p) notFound();
 
   const galleryIds: string[] = p.gallery_images ? p.gallery_images.split(',') : [];
-  const shortUrl = `https://www.vibeinvite.ro/${p.short_slug}`;
+  const shortUrl = `https://vibeinvite.ro/${p.short_slug}`;
   const profileImg = p.profile_image_url || `https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_400,h_400,c_fill,g_face/${p.profile_image}.jpg`;
   const clickTarget = p.website_url || p.instagram_url || '#';
 

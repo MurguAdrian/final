@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'VibeInvite',
-    url: 'https://www.vibeinvite.ro/invitatie-nunta-rustic',
+    url: 'https://vibeinvite.ro/invitatie-nunta-rustic',
     title: 'Invitație Nuntă Rustic Simfonic — VibeInvite',
     description: 'Design rustic simfonic cu textură kraft, vioară minimalistă și portativ muzical. Personalizabil, descarcabil instant PDF + JPG. 30 lei, plată unică.',
-    images: [{ url: 'https://www.vibeinvite.ro/og-invitatie-rustic.jpg', width: 1200, height: 630, alt: 'Invitație Nuntă Rustic Simfonic' }],
+    images: [{ url: 'https://vibeinvite.ro/og-invitatie-rustic.jpg', width: 1200, height: 630, alt: 'Invitație Nuntă Rustic Simfonic' }],
   },
-  alternates: { canonical: 'https://www.vibeinvite.ro/invitatie-nunta-rustic' },
+  alternates: { canonical: 'https://vibeinvite.ro/invitatie-nunta-rustic' },
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {

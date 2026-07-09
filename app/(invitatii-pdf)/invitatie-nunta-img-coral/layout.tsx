@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'VibeInvite',
-    url: 'https://www.vibeinvite.ro/invitatie-nunta-img-coral',
+    url: 'https://vibeinvite.ro/invitatie-nunta-img-coral',
     title: 'Invitație Nuntă Botanică Mov-Coral — VibeInvite',
     description: 'Design botanic premium cu coroană florală mov, coral și auriu. Personalizabil, descarcabil instant PDF + JPG. 30 lei, plată unică.',
-    images: [{ url: 'https://www.vibeinvite.ro/og-invitatie-coral.jpg', width: 1200, height: 630, alt: 'Invitație Nuntă Botanică Mov-Coral' }],
+    images: [{ url: 'https://vibeinvite.ro/og-invitatie-coral.jpg', width: 1200, height: 630, alt: 'Invitație Nuntă Botanică Mov-Coral' }],
   },
-  alternates: { canonical: 'https://www.vibeinvite.ro/invitatie-nunta-img-coral' },
+  alternates: { canonical: 'https://vibeinvite.ro/invitatie-nunta-img-coral' },
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {

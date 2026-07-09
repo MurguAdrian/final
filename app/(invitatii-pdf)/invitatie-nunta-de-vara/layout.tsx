@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'VibeInvite',
-    url: 'https://www.vibeinvite.ro/invitatie-nunta-de-vara',
+    url: 'https://vibeinvite.ro/invitatie-nunta-de-vara',
     title: 'Invitație Nuntă de Vară — VibeInvite',
     description: 'Design organic de vară pentru nunta ta. Verde salvie, eucalipt și minimalism cald. Personalizabil, descarcabil instant în PDF și JPG. 30 lei, plată unică.',
-    images: [{ url: 'https://www.vibeinvite.ro/og-invitatie-vara.jpg', width: 1200, height: 630, alt: 'Invitație Nuntă de Vară' }],
+    images: [{ url: 'https://vibeinvite.ro/og-invitatie-vara.jpg', width: 1200, height: 630, alt: 'Invitație Nuntă de Vară' }],
   },
-  alternates: { canonical: 'https://www.vibeinvite.ro/invitatie-nunta-de-vara' },
+  alternates: { canonical: 'https://vibeinvite.ro/invitatie-nunta-de-vara' },
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {

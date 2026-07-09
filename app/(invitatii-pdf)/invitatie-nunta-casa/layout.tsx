@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'VibeInvite',
-    url: 'https://www.vibeinvite.ro/invitatie-nunta-casa',
+    url: 'https://vibeinvite.ro/invitatie-nunta-casa',
     title: 'Invitație Nuntă Geometric Sage — VibeInvite',
     description: 'Design geometric auriu cu monogramă și pete acuarelă verde sage. Personalizabil, descarcabil instant PDF + JPG. 30 lei, plată unică.',
-    images: [{ url: 'https://www.vibeinvite.ro/og-invitatie-casa.jpg', width: 1200, height: 630, alt: 'Invitație Nuntă Geometric Sage' }],
+    images: [{ url: 'https://vibeinvite.ro/og-invitatie-casa.jpg', width: 1200, height: 630, alt: 'Invitație Nuntă Geometric Sage' }],
   },
-  alternates: { canonical: 'https://www.vibeinvite.ro/invitatie-nunta-casa' },
+  alternates: { canonical: 'https://vibeinvite.ro/invitatie-nunta-casa' },
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
