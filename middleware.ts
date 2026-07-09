@@ -6,56 +6,30 @@ const CANONICAL_HOSTNAME = 'www.vibeinvite.ro';
 const CANONICAL_PROTOCOL = 'https:';
 
 const SKIP = new Set([
-  // Pagini de bază și utilitare
+  // Pagini de bază, utilitare și fluxuri
   'servicii-nunta', 'auth', 'checkout', 'contact', 'cookies', 'dashboard',
-  'despre', 'gdpr', 'invitatie', 'invitatii-digitale', 'invitatii-PDF',
+  'despre', 'gdpr', 'invitatie', 'invitatii-digitale', 'invitatii-PDF', 'invitatii-pdf-success',
   'login', 'pilot', 'politica', 'preturi', 'public', 'setup-password',
   'success', 'termeni', 'api', '_next', 'favicon.ico', 'robots.txt', 'sitemap.xml',
 
-  // Fotografi (Inclusiv cei noi adăugați)
-  'fotograf-bacau-tr-visuals',
-  'fotograf-brasov-ireph-graphy',
-  'fotograf-bucuresti-razvan-ristea',
-  'fotograf-craiova-fotoali',
-  'fotograf-ilfov-dgc-media-wedding',
-  'fotograf-miercurea-ciuc-david-foto-video',
-  'fotograf-onesti-dragoi-george-adrian',
-  'fotograf-ploiesti-jo-photography',
-  'fotograf-targoviste-bianca-sfetcu',
-
-  // Alte Servicii / Formații
+  // Fotografi & Formații
+  'fotograf-bacau-tr-visuals', 'fotograf-brasov-ireph-graphy', 'fotograf-bucuresti-razvan-ristea',
+  'fotograf-craiova-fotoali', 'fotograf-ilfov-dgc-media-wedding', 'fotograf-miercurea-ciuc-david-foto-video',
+  'fotograf-onesti-dragoi-george-adrian', 'fotograf-ploiesti-jo-photography', 'fotograf-targoviste-bianca-sfetcu',
   'formatie-bucuresti-iordanescu-orchestra',
 
-  // Invitații Botez & Nuntă noi din directoare
-  'invitatie-botez-baiat-astronaut',
-  'invitatie-botez-baieti-masina',
-  'invitatie-botez-baieti-pirat',
-  'invitatie-botez-fete-baloane',
-  'invitatie-botez-fete-castel',
-  'invitatie-botez-fete-roz',
-  'invitatie-nunta-casa',
-  'invitatie-nunta-de-vara',
-  'invitatie-nunta-img-coral',
-  'invitatie-nunta-pdf-auriu',
-  'invitatie-nunta-pdf-simpla',
-  'invitatie-nunta-poza',
-  'invitatie-nunta-rustic',
-  'invitatie-nunta-sub-stele',
-  'invitatii-nunta-ocean',
+  // Modele fizice/PDF (create recent)
+  'invitatie-botez-baiat-astronaut', 'invitatie-botez-baieti-masina', 'invitatie-botez-baieti-pirat',
+  'invitatie-botez-fete-baloane', 'invitatie-botez-fete-castel', 'invitatie-botez-fete-roz',
+  'invitatie-nunta-casa', 'invitatie-nunta-de-vara', 'invitatie-nunta-img-coral',
+  'invitatie-nunta-pdf-auriu', 'invitatie-nunta-pdf-simpla', 'invitatie-nunta-poza',
+  'invitatie-nunta-rustic', 'invitatie-nunta-sub-stele', 'invitatii-nunta-ocean',
 
-  // Template-uri Online vechi / existente
-  'invitatie-botez-online-baiat-astronaut',
-  'invitatie-botez-online-baiat-masinuta',
-  'invitatie-botez-online-baiat-steluta',
-  'invitatie-botez-online-ursulet',
-  'invitatie-botez-online-fata-baloane',
-  'invitatie-botez-online-fata-fluture',
-  'invitatie-online-aniversare-majorat-18-ani',
-  'invitatii-online-nunta-boho',
-  'invitatii-online-nunta-lux',
-  'invitatii-online-nunta-minimal',
-  'invitatii-online-nunta-natura',
-  'invitatii-online-nunta-romantic',
+  // Modele Online / Digitale
+  'invitatie-botez-online-baiat-astronaut', 'invitatie-botez-online-baiat-masinuta', 'invitatie-botez-online-baiat-steluta',
+  'invitatie-botez-online-ursulet', 'invitatie-botez-online-fata-baloane', 'invitatie-botez-online-fata-fluture',
+  'invitatie-online-aniversare-majorat-18-ani', 'invitatii-online-nunta-boho', 'invitatii-online-nunta-lux',
+  'invitatii-online-nunta-minimal', 'invitatii-online-nunta-natura', 'invitatii-online-nunta-romantic',
   'invitatii-online-nunta-royal'
 ]);
 
@@ -68,11 +42,10 @@ export async function middleware(request: NextRequest) {
   const host = url.hostname;
   const protocol = url.protocol;
 
-  // Forțare WWW și HTTPS (Crucial pentru SEO - evită conținutul duplicat)
   if (host !== CANONICAL_HOSTNAME || protocol !== CANONICAL_PROTOCOL) {
     url.hostname = CANONICAL_HOSTNAME;
     url.protocol = CANONICAL_PROTOCOL;
-    return NextResponse.redirect(url, 308); // 308 permanent redirect păstrează contextul rutei
+    return NextResponse.redirect(url, 308);
   }
 
   const segment = request.nextUrl.pathname.split('/')[1];
@@ -90,7 +63,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL(`/${rows[0].slug}`, request.url), 301);
       }
     } catch {
-      // Erorile de conexiune la DB nu trebuie să blocheze site-ul
+      // Fail-safe
     }
   }
 

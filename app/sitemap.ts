@@ -1,11 +1,12 @@
 import type { MetadataRoute } from 'next'
 import { SITE_DOMAIN } from '../constants/marketingDefaults'
 
-// Paginile de bază structurate pe nivele reale de importanță SEO
+// Paginile statice publice ale aplicației
 const mainPaths = [
-  { path: '/', priority: 1.0 }, // Home-page-ul este întotdeauna regele
-  { path: '/invitatii-digitale', priority: 0.7 },
-  { path: '/invitatii-PDF', priority: 0.7 },
+  { path: '/', priority: 1.0 },
+  { path: '/invitatii-digitale', priority: 0.8 },
+  { path: '/invitatii-PDF', priority: 0.8 },
+  { path: '/servicii-nunta', priority: 0.8 }, // Adăugat acum din folderele tale
   { path: '/preturi', priority: 0.7 },
   { path: '/contact', priority: 0.5 },
   { path: '/despre', priority: 0.5 },
@@ -15,7 +16,7 @@ const mainPaths = [
   { path: '/termeni', priority: 0.3 },
 ]
 
-// Furnizori (Fotografi & Formații) - Prioritate mare
+// Furnizorii din Marketplace (0.9)
 const providerPaths = [
   '/fotograf-bacau-tr-visuals',
   '/fotograf-brasov-ireph-graphy',
@@ -29,7 +30,7 @@ const providerPaths = [
   '/formatie-bucuresti-iordanescu-orchestra',
 ]
 
-// Template-uri de invitații Online / Digitale - PRIMORDIALE (0.9)
+// Modelele Digitale de Invitații (0.9)
 const templateOnlinePaths = [
   '/invitatie-botez-online-baiat-astronaut',
   '/invitatie-botez-online-baiat-masinuta',
@@ -46,7 +47,7 @@ const templateOnlinePaths = [
   '/invitatii-online-nunta-royal',
 ]
 
-// Paginile de invitații din directoarele noi (Nuntă / Botez standard) - PRIMORDIALE (0.9)
+// Modelele Fizice / Printabile / PDF (0.9)
 const newTemplatePaths = [
   '/invitatie-botez-baiat-astronaut',
   '/invitatie-botez-baieti-masina',
@@ -68,7 +69,6 @@ const newTemplatePaths = [
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
 
-  // 1. Pagini structurate (1.0, 0.7, 0.5, 0.3)
   const baseSitemaps = mainPaths.map(({ path, priority }) => ({
     url: `${SITE_DOMAIN}${path}`,
     lastModified: now,
@@ -76,7 +76,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority,
   }))
 
-  // 2. Furnizori (0.9)
   const providerSitemaps = providerPaths.map((path) => ({
     url: `${SITE_DOMAIN}${path}`,
     lastModified: now,
@@ -84,7 +83,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }))
 
-  // 3. Modele Invitații Online (0.9 - RIDICAT)
   const onlineTemplateSitemaps = templateOnlinePaths.map((path) => ({
     url: `${SITE_DOMAIN}${path}`,
     lastModified: now,
@@ -92,7 +90,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }))
 
-  // 4. Modele Noi Nuntă / Botez (0.9 - RIDICAT)
   const newTemplateSitemaps = newTemplatePaths.map((path) => ({
     url: `${SITE_DOMAIN}${path}`,
     lastModified: now,
@@ -101,9 +98,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }))
 
   return [
-    ...baseSitemaps, 
-    ...providerSitemaps, 
-    ...onlineTemplateSitemaps, 
+    ...baseSitemaps,
+    ...providerSitemaps,
+    ...onlineTemplateSitemaps,
     ...newTemplateSitemaps
   ]
 }
