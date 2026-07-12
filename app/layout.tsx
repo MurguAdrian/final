@@ -1,80 +1,4 @@
 
-// import type { Metadata, Viewport } from 'next'
-// import Script from 'next/script'
-
-// import Footer from '../components/layout/Footer'
-// import HeaderWrapper from '../components/layout/HeaderWrapper'
-// import CookieConsent from '../components/CookieConsent'
-
-// import { SITE_DOMAIN } from '../constants/marketingDefaults'
-
-// export const viewport: Viewport = {
-//   width: 'device-width',
-//   initialScale: 1,
-//   minimumScale: 1,
-//   maximumScale: 5,
-// }
-
-// export const metadata: Metadata = {
-//   title: 'VibeInvite - Invitații Digitale Premium',
-//   description:
-//     'VibeInvite.ro oferă invitații digitale moderne pentru nunți, botezuri și evenimente speciale, cu design elegant și experiență premium.',
-//   metadataBase: new URL(SITE_DOMAIN),
-// }
-
-// export default function RootLayout({
-//   children,
-// }: {
-//   children: React.ReactNode
-// }) {
-//   return (
-//     <html lang="ro">
-//       <head>
-//         <Script id="gtm-script" strategy="afterInteractive">
-//           {`
-//             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-//             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-//             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-//             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-//             })(window,document,'script','dataLayer','GTM-PXVFHG23');
-//           `}
-//         </Script>
-
-//         <Script
-//           src="https://www.googletagmanager.com/gtag/js?id=G-PRLZS5WHS8"
-//           strategy="afterInteractive"
-//         />
-
-//         <Script id="ga4-init" strategy="afterInteractive">
-//           {`
-//             window.dataLayer = window.dataLayer || [];
-//             function gtag(){dataLayer.push(arguments);}
-//             gtag('js', new Date());
-//             gtag('config', 'G-PRLZS5WHS8');
-//           `}
-//         </Script>
-
-//         <noscript>
-//           <iframe
-//             src="https://www.googletagmanager.com/ns.html?id=GTM-PXVFHG23"
-//             height="0"
-//             width="0"
-//             style={{ display: 'none', visibility: 'hidden' }}
-//           />
-//         </noscript>
-//       </head>
-
-//       <body className="min-h-screen text-charcoal">
-//         <div className="flex min-h-screen flex-col">
-//           <HeaderWrapper />
-//           <main className="flex-1">{children}</main>
-//           <Footer />
-//           <CookieConsent />
-//         </div>
-//       </body>
-//     </html>
-//   )
-// }
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 
@@ -93,17 +17,25 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: 'VibeInvite - Invitații Digitale Premium pentru Nuntă, Botez și Majorat',
+    default: 'Invitații Digitale Premium pentru Nuntă, Botez și Majorat - VibeInvite',
     template: '%s | VibeInvite',
   },
   description:
-    'Invitații digitale premium cu RSVP online, meniu personalizat, hartă GPS eveniment, album foto colectiv 25 GB, export invitați Excel și link editabil nelimitat. Acces 12 luni fără abonament.',
-  keywords: [
-    'invitatii digitale', 'invitatii online', 'invitatii nunta', 'invitatii botez',
-    'invitatii majorat', 'rsvp online', 'dashboard confirmari invitati',
-    'meniu personalizat nunta', 'album foto colectiv nunta', 'localizare gps eveniment',
-    'export lista invitati excel', 'invitatie link personalizat', 'invitatii nelimitate',
-  ],
+'Invitații digitale premium cu RSVP online, album foto colectiv, hartă GPS și export Excel. Editări nelimitate și acces 12 luni fără abonament. Creează acum!',keywords: [
+  // Cuvinte cheie principale (Core)
+  'invitatii digitale', 'invitatii online', 'invitatii electronice', 'invitatie digitala', 
+  
+  // Evenimente specifice (Niche)
+  'invitatii nunta online', 'invitatii botez digitale', 'invitatii majorat online', 'invitatii evenimente',
+  
+  // Funcționalități (Long-tail SEO)
+  'rsvp online invitatii', 'confirmari invitati online', 'dashboard confirmari',
+  'album foto colectiv nunta', 'localizare gps eveniment', 'export lista invitati excel',
+  'invitatie link personalizat', 'invitatii digitale nelimitate', 'creare invitatii online',
+  
+  // Intenție de cumpărare / Avantaje
+  'invitatii premium nunta', 'invitatii online fara abonament', 'invitatii editabile'
+],
   metadataBase: new URL(SITE_DOMAIN),
   openGraph: {
     type: 'website',
