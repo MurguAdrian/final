@@ -352,8 +352,8 @@ html { scroll-behavior:smooth; }
 const POLAROIDS = [
   { caption: 'Prima pagină a poveștii ♡', rotate: '-1.5deg' },
   { caption: 'Zâmbete mici, emoții mari', rotate: '2deg' },
-  { caption: 'Ziua botezului', rotate: '-2.4deg' },
-  { caption: 'Da-ul care schimbă tot', rotate: '1.6deg' },
+  { caption: 'Da-ul care schimbă tot', rotate: '-2.4deg' },
+  { caption: 'Ziua botezului', rotate: '1.6deg' },
   { caption: 'Împreună, pentru totdeauna', rotate: '-1deg' },
 ];
 

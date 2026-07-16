@@ -28,6 +28,8 @@ const providerPaths = [
   '/fotograf-ploiesti-jo-photography',
   '/fotograf-targoviste-bianca-sfetcu',
   '/formatie-bucuresti-iordanescu-orchestra',
+  '/fotograf-bucuresti-raluca-storylens',
+  '/foto-video-prahova-mia-frames',
 ]
 
 // Modelele Digitale de Invitații (0.9)
