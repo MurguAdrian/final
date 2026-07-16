@@ -16,7 +16,7 @@ const SKIP = new Set([
   'fotograf-bacau-tr-visuals', 'fotograf-brasov-ireph-graphy', 'fotograf-bucuresti-razvan-ristea',
   'fotograf-craiova-fotoali', 'fotograf-ilfov-dgc-media-wedding', 'fotograf-miercurea-ciuc-david-foto-video',
   'fotograf-onesti-dragoi-george-adrian', 'fotograf-ploiesti-jo-photography', 'fotograf-targoviste-bianca-sfetcu',
-  'formatie-bucuresti-iordanescu-orchestra',
+  'formatie-bucuresti-iordanescu-orchestra','fotograf-bucuresti-raluca-storylens',
 
   // Modele fizice/PDF (create recent)
   'invitatie-botez-baiat-astronaut', 'invitatie-botez-baieti-masina', 'invitatie-botez-baieti-pirat',
