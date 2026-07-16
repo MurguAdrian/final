@@ -26,16 +26,12 @@ html { scroll-behavior:smooth; }
 
 .rs { font-family:'Figtree',sans-serif; background:#FBF6F0; color:#3D2C2A; min-height:100vh; overflow-x:hidden; }
 .rs ::selection { background:#C97C8A; color:#fff; }
-
-/* dotted paper background */
 .rs-paper {
   background-image:radial-gradient(rgba(61,44,42,0.07) 1px, transparent 1px);
   background-size:22px 22px;
 }
 
-/* REVEAL */
-.rs-rv { opacity:0; transform:translateY(26px); transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
-.rs-rv.in { opacity:1; transform:translateY(0); }
+@keyframes rsUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
 
 /* ============ NAV ============ */
 .rs-nav {
@@ -57,55 +53,52 @@ html { scroll-behavior:smooth; }
 .rs-nav-logo { font-family:'Caveat',cursive; font-size:24px; font-weight:700; color:#3D2C2A; }
 .rs-nav-logo span { color:#C97C8A; }
 
-/* ============ HERO — photo stack ============ */
+/* ============ HERO ============ */
 .rs-hero {
-  min-height:100svh; display:flex; flex-direction:column; justify-content:center; align-items:center;
-  text-align:center; position:relative; padding:110px 20px 70px;
+  padding:120px 20px 56px; display:flex; flex-direction:column; align-items:center;
+  text-align:center; position:relative;
 }
-
-.rs-hero-stack {
-  position:relative; width:min(280px,70vw); aspect-ratio:1;
-  margin-bottom:34px;
-  animation:rsPop 1.1s cubic-bezier(.16,1,.3,1) .2s both;
-}
-@media(min-width:768px){ .rs-hero-stack { width:320px; } }
-@keyframes rsPop { from{opacity:0; transform:scale(.85) rotate(-4deg);} to{opacity:1; transform:scale(1) rotate(0);} }
-
-.rs-stack-card {
-  position:absolute; inset:0; background:#fff; padding:10px 10px 34px;
-  box-shadow:0 12px 34px rgba(61,44,42,0.16);
-  transition:transform .5s cubic-bezier(.16,1,.3,1);
-}
-.rs-stack-card img { width:100%; height:100%; object-fit:cover; display:block; }
-.rs-stack-card.c1 { transform:rotate(-7deg) translate(-14px,6px); z-index:1; }
-.rs-stack-card.c2 { transform:rotate(5deg) translate(12px,-4px); z-index:2; }
-.rs-stack-card.c3 { transform:rotate(-1deg); z-index:3; }
-.rs-hero-stack:hover .c1 { transform:rotate(-11deg) translate(-26px,10px); }
-.rs-hero-stack:hover .c2 { transform:rotate(9deg) translate(24px,-8px); }
-.rs-hero-stack:hover .c3 { transform:rotate(0) translateY(-8px); }
+@media(min-width:900px){ .rs-hero { padding:140px 40px 72px; } }
 
 .rs-hero-kicker {
   font-size:10px; font-weight:700; letter-spacing:.26em; text-transform:uppercase;
   color:#C97C8A; margin-bottom:14px;
-  animation:rsUp .9s ease .45s both;
+  animation:rsUp .8s ease .1s both;
 }
 .rs-hero-h1 {
   font-family:'Fraunces',serif; font-weight:600;
   font-size:clamp(40px,9vw,84px); line-height:1; color:#3D2C2A;
-  margin-bottom:6px;
-  animation:rsUp .9s ease .6s both;
+  margin-bottom:8px;
+  animation:rsUp .8s ease .25s both;
 }
-.rs-hero-h1 em { font-family:'Caveat',cursive; font-weight:700; font-style:normal; color:#C97C8A; font-size:1.15em; }
-
+.rs-hero-h1 em { font-family:'Caveat',cursive; font-weight:700; font-style:normal; color:#C97C8A; font-size:1.12em; }
 .rs-hero-sub {
   font-family:'Caveat',cursive; font-size:clamp(20px,4vw,28px); color:rgba(61,44,42,0.55);
-  margin-bottom:30px;
-  animation:rsUp .9s ease .72s both;
+  margin-bottom:34px;
+  animation:rsUp .8s ease .4s both;
 }
+
+/* photo trio — sub titlu, nu peste nav */
+.rs-hero-trio {
+  display:flex; justify-content:center; align-items:flex-end; gap:0;
+  margin-bottom:38px; width:100%; max-width:640px;
+  animation:rsUp .9s ease .55s both;
+}
+.rs-trio-card {
+  background:#fff; padding:8px 8px 26px;
+  box-shadow:0 12px 30px rgba(61,44,42,0.16);
+  width:33%; max-width:190px;
+  transition:transform .45s cubic-bezier(.16,1,.3,1);
+}
+.rs-trio-card img { width:100%; aspect-ratio:1; object-fit:cover; display:block; }
+.rs-trio-card.t1 { transform:rotate(-6deg) translateY(10px); z-index:1; }
+.rs-trio-card.t2 { transform:rotate(0) translateY(-6px) scale(1.08); z-index:3; }
+.rs-trio-card.t3 { transform:rotate(6deg) translateY(10px); z-index:2; }
+.rs-trio-card:hover { transform:rotate(0) translateY(-14px) scale(1.1); z-index:5; }
 
 .rs-hero-actions {
   display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
-  animation:rsUp .9s ease .85s both;
+  animation:rsUp .9s ease .7s both;
 }
 .rs-btn {
   display:flex; align-items:center; gap:8px;
@@ -124,20 +117,9 @@ html { scroll-behavior:smooth; }
 }
 .rs-btn-soft:hover { border-color:#C97C8A; transform:translateY(-2px); }
 
-@keyframes rsUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
-
-/* floating hearts */
-.rs-float { position:absolute; font-size:22px; opacity:.5; pointer-events:none; animation:rsFloat 6s ease-in-out infinite; }
-.rs-float.f1 { top:18%; left:10%; animation-delay:0s; }
-.rs-float.f2 { top:28%; right:12%; animation-delay:1.6s; font-size:17px; }
-.rs-float.f3 { bottom:22%; left:16%; animation-delay:3s; font-size:15px; }
-.rs-float.f4 { bottom:30%; right:9%; animation-delay:4.4s; }
-@keyframes rsFloat { 0%,100%{transform:translateY(0) rotate(-6deg)} 50%{transform:translateY(-16px) rotate(6deg)} }
-
-/* ============ WASHI RIBBON ============ */
+/* ============ RIBBON ============ */
 .rs-ribbon {
   background:#C97C8A; padding:12px 0; overflow:hidden;
-  transform:rotate(-1.2deg); margin:0 -20px;
   box-shadow:0 6px 20px rgba(201,124,138,0.3);
 }
 .rs-ribbon-inner { display:flex; width:max-content; animation:rsTick 24s linear infinite; }
@@ -151,7 +133,6 @@ html { scroll-behavior:smooth; }
 .rs-strip {
   background:#fff; border-bottom:1px solid rgba(61,44,42,0.08);
   padding:16px 20px; display:flex; align-items:center; gap:14px;
-  margin-top:14px;
 }
 @media(min-width:640px){ .rs-strip { padding:18px 40px; } }
 .rs-strip-avatar {
@@ -180,13 +161,13 @@ html { scroll-behavior:smooth; }
 .rs-sh-script { font-family:'Caveat',cursive; font-size:clamp(22px,4vw,30px); font-weight:600; color:#C97C8A; display:block; margin-bottom:2px; }
 .rs-sh-title { font-family:'Fraunces',serif; font-size:clamp(28px,5vw,44px); font-weight:600; color:#3D2C2A; line-height:1.05; }
 
-/* ============ POLAROID GALLERY ============ */
+/* ============ POLAROID BOARD ============ */
 .rs-gallery { margin-bottom:76px; }
 .rs-board {
-  display:grid; grid-template-columns:1fr 1fr; gap:22px 14px;
+  display:grid; grid-template-columns:1fr 1fr; gap:26px 14px;
   padding:8px 4px;
 }
-@media(min-width:768px){ .rs-board { grid-template-columns:repeat(3,1fr); gap:30px 22px; } }
+@media(min-width:768px){ .rs-board { grid-template-columns:repeat(3,1fr); gap:34px 22px; } }
 
 .rs-pol {
   display:block; text-decoration:none; background:#fff;
@@ -206,8 +187,7 @@ html { scroll-behavior:smooth; }
 
 .rs-pol-tape {
   position:absolute; top:-11px; left:50%; transform:translateX(-50%) rotate(-3deg);
-  width:76px; height:24px; background:rgba(201,124,138,0.4);
-  backdrop-filter:blur(1px); z-index:3;
+  width:76px; height:24px; background:rgba(201,124,138,0.4); z-index:3;
   clip-path:polygon(3% 0, 97% 6%, 100% 94%, 0 100%);
 }
 .rs-pol-img { position:relative; overflow:hidden; aspect-ratio:1; background:#f3ece5; }
@@ -263,7 +243,7 @@ html { scroll-behavior:smooth; }
 .rs-story-sig-name { font-family:'Caveat',cursive; font-size:24px; font-weight:700; color:#3D2C2A; }
 .rs-story-sig-role { font-size:11px; color:rgba(61,44,42,0.45); margin-top:1px; }
 
-/* ============ MOMENTS (services) ============ */
+/* ============ MOMENTS ============ */
 .rs-moments { margin-bottom:56px; }
 .rs-mom-grid { display:grid; gap:14px; }
 @media(min-width:640px){ .rs-mom-grid { grid-template-columns:1fr 1fr; } }
@@ -397,7 +377,6 @@ export default async function RalucaStoryLensPage() {
     address: { '@type': 'PostalAddress', addressLocality: 'București', addressCountry: 'RO' },
     image: profileImg,
     sameAs: [p.facebook_url, p.instagram_url].filter(Boolean),
-    knowsAbout: ['fotografie botez', 'fotografie cununie', 'fotografie de familie'],
     areaServed: 'București, România',
   };
 
@@ -422,34 +401,30 @@ export default async function RalucaStoryLensPage() {
 
         {/* HERO */}
         <div className="rs-hero">
-          <span className="rs-float f1">♡</span>
-          <span className="rs-float f2">✦</span>
-          <span className="rs-float f3">♡</span>
-          <span className="rs-float f4">✦</span>
-
-          <div className="rs-hero-stack">
-            {galleryIds[1] && (
-              <div className="rs-stack-card c1">
-                <img src={`https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_500/${galleryIds[1]}.jpg`} alt={`${p.name} – fotografie botez`} loading="eager" />
-              </div>
-            )}
-            {galleryIds[2] && (
-              <div className="rs-stack-card c2">
-                <img src={`https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_500/${galleryIds[2]}.jpg`} alt={`${p.name} – fotografie cununie`} loading="eager" />
-              </div>
-            )}
-            {galleryIds[0] && (
-              <div className="rs-stack-card c3">
-                <img src={`https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_500/${galleryIds[0]}.jpg`} alt={`${p.name} – fotograf evenimente București`} loading="eager" />
-              </div>
-            )}
-          </div>
-
           <div className="rs-hero-kicker">Fotograf Verificat · VibeInvite · București</div>
           <h1 className="rs-hero-h1">
             Raluca <em>StoryLens</em>
           </h1>
           <p className="rs-hero-sub">~ fiecare familie are o poveste. eu o păstrez în imagini ~</p>
+
+          <div className="rs-hero-trio">
+            {galleryIds[1] && (
+              <div className="rs-trio-card t1">
+                <img src={`https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_500/${galleryIds[1]}.jpg`} alt={`${p.name} – fotografie botez București`} loading="eager" />
+              </div>
+            )}
+            {galleryIds[0] && (
+              <div className="rs-trio-card t2">
+                <img src={`https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_500/${galleryIds[0]}.jpg`} alt={`${p.name} – fotograf evenimente București`} loading="eager" />
+              </div>
+            )}
+            {galleryIds[2] && (
+              <div className="rs-trio-card t3">
+                <img src={`https://res.cloudinary.com/${CLOUD}/image/upload/f_auto,q_auto,w_500/${galleryIds[2]}.jpg`} alt={`${p.name} – fotografie cununie București`} loading="eager" />
+              </div>
+            )}
+          </div>
+
           <div className="rs-hero-actions">
             {p.phone && (
               <a href={`tel:${p.phone}`} className="rs-btn">
@@ -462,6 +437,11 @@ export default async function RalucaStoryLensPage() {
             {p.instagram_url && (
               <a href={p.instagram_url} target="_blank" rel="noopener noreferrer" className="rs-btn-soft">
                 Instagram →
+              </a>
+            )}
+            {p.facebook_url && (
+              <a href={p.facebook_url} target="_blank" rel="noopener noreferrer" className="rs-btn-soft">
+                Facebook →
               </a>
             )}
           </div>
@@ -493,7 +473,7 @@ export default async function RalucaStoryLensPage() {
 
             {/* POLAROID BOARD */}
             {galleryIds.length > 0 && (
-              <div className="rs-gallery rs-rv">
+              <div className="rs-gallery">
                 <div className="rs-sh">
                   <span className="rs-sh-script">din albumul meu</span>
                   <h2 className="rs-sh-title">Momente Păstrate</h2>
@@ -516,7 +496,7 @@ export default async function RalucaStoryLensPage() {
             )}
 
             {/* STORY */}
-            <div className="rs-story rs-rv">
+            <div className="rs-story">
               <div className="rs-sh">
                 <span className="rs-sh-script">cine sunt</span>
                 <h2 className="rs-sh-title">Povestea Mea</h2>
@@ -552,7 +532,7 @@ export default async function RalucaStoryLensPage() {
             </div>
 
             {/* MOMENTS */}
-            <div className="rs-moments rs-rv">
+            <div className="rs-moments">
               <div className="rs-sh">
                 <span className="rs-sh-script">ce fotografiez</span>
                 <h2 className="rs-sh-title">Serviciile Mele</h2>
@@ -594,7 +574,7 @@ export default async function RalucaStoryLensPage() {
           {/* SIDEBAR */}
           <div className="rs-sidebar">
 
-            <div className="rs-ct-card rs-rv">
+            <div className="rs-ct-card">
               <div className="rs-ct-label">~ hai să vorbim</div>
               <div className="rs-ct-title">Rezervă-ți data</div>
               <p className="rs-ct-sub">Scrie-mi pe WhatsApp sau sună-mă pentru disponibilitate și o ofertă personalizată.</p>
@@ -603,7 +583,7 @@ export default async function RalucaStoryLensPage() {
               <p className="rs-ct-note">răspund rapid, promit ♡</p>
             </div>
 
-            <div className="rs-conn-card rs-rv">
+            <div className="rs-conn-card">
               <div className="rs-conn-head">~ mă găsești aici</div>
               <SocialLinks
                 provider={p}
@@ -616,7 +596,7 @@ export default async function RalucaStoryLensPage() {
             </div>
 
             {p.maps_url && (
-              <div className="rs-loc-card rs-rv">
+              <div className="rs-loc-card">
                 <a href={p.maps_url} target="_blank" rel="noopener noreferrer" className="rs-loc-row">
                   <div className="rs-loc-ico">
                     <svg width="20" height="20" fill="none" stroke="#C97C8A" viewBox="0 0 24 24">
@@ -632,7 +612,7 @@ export default async function RalucaStoryLensPage() {
               </div>
             )}
 
-            <div className="rs-share-card rs-rv">
+            <div className="rs-share-card">
               <div>
                 <div className="rs-share-lbl">~ trimite mai departe</div>
                 <div className="rs-share-url">vibeinvite.ro/{p.short_slug}</div>
@@ -657,16 +637,6 @@ export default async function RalucaStoryLensPage() {
           if(window.scrollY>80){n.classList.add('scrolled');}
           else{n.classList.remove('scrolled');}
         });
-        (function(){
-          var els=document.querySelectorAll('.rs-rv');
-          if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in');});return;}
-          var io=new IntersectionObserver(function(entries){
-            entries.forEach(function(en){
-              if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}
-            });
-          },{threshold:.1});
-          els.forEach(function(e){io.observe(e);});
-        })();
       `}} />
     </>
   );
